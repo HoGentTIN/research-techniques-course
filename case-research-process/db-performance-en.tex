@@ -1,0 +1,176 @@
+%==============================================================================
+% Case research process: Database performance
+%==============================================================================
+% Based on the LaTeX-template ‘Stylish Article’ (zie artikeltin.cls)
+% Authors: Jens Buysse, Bert Van Vreckem
+
+% Compiling this document:
+% 1) latexmk -pdf db-performance
+% 2) biber db-performance
+% 3) latexmk -pdf db-performance
+
+\documentclass[fleqn,10pt]{artikeltin}
+
+%------------------------------------------------------------------------------
+% Metadata
+%------------------------------------------------------------------------------
+
+\JournalInfo{UCG Business and Information Management} % Journal information
+\Archive{Research Techniques 2016 - 2017} % Additional notes (e.g. copyright, DOI, review/research article)
+
+%---------- Title & author ----------------------------------------------------
+
+\PaperTitle{Comparing the performance of database systems}
+\PaperType{Case research process} % Type document
+
+\Authors{Jens Buysse\textsuperscript{1}, Anita Bernard\textsuperscript{2}, Bert Van Vreckem\textsuperscript{3}} % Authors
+\affiliation{\textbf{Contact:}
+  \textsuperscript{1} \href{mailto:jens.buysse@hogent.be}{jens.buysse@hogent.be};
+  \textsuperscript{2} \href{mailto:anita.bernard@hogent.be}{anita.bernard@hogent.be};
+  \textsuperscript{3} \href{mailto:bert.vanvreckem@hogent.be}{bert.vanvreckem@hogent.be}}
+
+%---------- Abstract ----------------------------------------------------------
+
+\Abstract{ A team of students goes through the typical phases of research process starting from a specific case. The research question is given as part of the assignment: comparing the performance of different database systems. First, an overview of the state of the art in the research domain is developed through a literature review. The research questien is further specified and defined. Next, an experiment is designed in order to formulate an answer to the research question. Results are visualised and analysed. Finaly, the entire process and conclusions are written down and summarised in a paper. }
+
+%---------- Research domain and keywords --------------------------------------
+
+\newcommand{\keywordname}{Keywords} % Defines the keywords heading name
+\Keywords{Database management. Relational databases --- performance} % Keywords
+
+%---------- Title, table of contents ------------------------------------------
+\begin{document}
+
+%\flushbottom % Makes all text pages the same height
+\maketitle % Print the title and abstract box
+\tableofcontents % Print the contents section
+\thispagestyle{empty} % Removes page numbering from the first page
+
+%------------------------------------------------------------------------------
+% Body
+%------------------------------------------------------------------------------
+
+\section{Introduction} % The \section*{} command stops section numbering
+\label{sec:introduction}
+
+The goal of this case is to do a mini-research project as it should typically be executed in practice. Specifically, the idea is to do a performance comparison between a couple of database systems and to report on this. A first step is to get familiar with the literature on this subject and to try to reproduce results of previous research. Results of the experiments performed by the team is analysed in a manner that is methodologically sound and summarised in a paper written in {\LaTeX}, using the provided template.
+
+\section{Organisation}
+\label{sec:organisation}
+
+To work on this case, form teams of 4 students. You can choose the teams yourselves (e.g. the same teams as for the programming/system engineering projects). Each team is assigned a Github repository that is used to store \emph{all} results of the research project: bibliographical database, reports, results from experiments, {\LaTeX} source code for the paper, etc. Use Github Projects\footnote{See \url{https://help.github.com/articles/about-projects/}} to assign tasks and to monitor the progress of each task. Each team member should be able to prove their own contribution on the basis of their Git commits.
+
+During the seminar/exercise sessions, you can ask the teacher for advice, but apart from that, teams organise their work independently.
+
+The final paper is uploaded to Chamilo, under ``Assignments'' (or ``Opdrachten''), before the deadline.
+
+%---------- Stand van zaken ---------------------------------------------------
+
+\section{Literature review}
+\label{sec:literature-review}
+
+Read the paper by~\textcite{Bassil2012} that describes in some detail how several relational database-systems are compared w.r.t.~performance. Describe the contents of the paper and its most important conclusions in your own words in one or two sentences. Do you understand it completely? Write down all words/terms or sentences that you don't understand or that are unclear.
+
+Find other papers on this subject and register them into a bibliographical database using Jabref. Write in a few sentences what the paper is about (just like with the original one) so your team members get an idea of what you have found. Each team member should find at least one or two \emph{unique} papers.
+
+Organise a so-called \emph{reading group} with your team where you go through the papers you have found and discuss them. Each member has at least read Bassil's paper and the other one(s) they found. The goal of the meeting is to make sure that everyone understands the contents and to form an idea of how to reproduce the experiments. Ask your teacher for advice if some things remain unclear. What do you think of the other papers, compared to~\textcite{Bassil2012}? Which ones seem to be most interesting and why? Which ones aren't good at all and why not? Is there agreement on the quality of the papers? Are the experiments representative for the research question? That is, do they give a good impression of the general performance of databases? If you formulate a response to this question, ensure you can support your claims from literature. What do you think about the way results are presented by the authors. Is it clear? Are differences statistically significant? Is it possible to deduce this from the paper?
+
+Try to define ``performance'' more precisely. Is this an unambiguous concept? How is it possible to measure performance objectively so it's possible to make comparisons? Formulate partial research questions that clarify the definition in specific and measurable terms.
+
+Write a report of the reading group that touches upon all the topics enumerated above. Finally, use this report, the summaries of the papers and the result of the discussion about them in a text that will become part of your paper (specifically, the section on the state of the art/literature review). Try to adopt the writing style and structure of the papers you've read.
+
+Deliverables for this phase:
+
+\begin{itemize}
+	\item Bibliografical database (.bib) where each team member has contributed at least one unique paper;
+	\item Reading group report;
+	\item List of partial research questions;
+	\item Text for the section on the state of the art.
+\end{itemize}
+
+\section{Design and execution of experiments}
+\label{sec:experiments}
+
+The next step in starting your own research is trying to reproduce the results of earlier research. The goal of this phase is to repeat (part of) the experiment by~\textcite{Bassil2012} and see if you get similar results.
+
+Do you have all the necessary information in order to repeat the experiment? Do you think the selection of database systems is correct? How do you think an \emph{objective} selection can be made? Try to reproduce the experiment as closely as possible on two database systems. Make a motivated selection between the systems from the paper. Things that may have an effect on the results of the experiment (in this case the performance of the database system) should be avoided at all cost, or at least be kept under control. Every team member should be able to repeat the experiment. Try to automate the execution of the experiments and the collection of results as much as possible: write scripts to run the experiment, write results into a CSV file, etc. Gather a sufficient amount of experimental results (e.g.~each query at least 50 $\times$) in an identical setup.
+
+While you're trying to reproduce these experiments, it is expected that you get inspiration on how to do this better. Maybe missing information doesn't allow you to reproduce the experiment exactly. Or maybe it becomes clear that the experiment, in the way it was carried out, isn't meaningful or obsolete. In that case, you can choose to adjust the original setup and research goals. You could choose for other database systems than mentioned in the original paper, another type of databases (e.g.~NoSQL), construct queries that are more representative for practical use, measuring the effects of multicore processors, etc. \textbf{Always check with your teacher when reformulating the research goals!}
+
+Describe in as much detail as possible how the experiments were set up: hardware (CPU, RAM, \ldots), operating system, etc. How did you measure performance (execution time, processor and memory usage)? The goal is that the reader of your paper is able to reproduce the experiment independently with your description. Try at least to do better than the original paper. This text will become the methodology section of your paper.
+
+Deliverables for this phase:
+
+\begin{itemize}
+	\item All necessary code, scripts and/or procedures for executing the experiment;
+	\item Resultats of the experiments (CSV-files);
+	\item The methodology section for the research paper.
+\end{itemize}
+
+\section{Analysis of the results}
+\label{sec:analysis}
+
+The next step is to analyse the results. Take another look at the original paper. Are the results reported well? Is it clear whether the differences between the database systems are statistically significant?
+
+Visualise the results of the experiments. It is essential that the spread of data points is visible.
+
+Are the results of your experiments statistically significant? Use an appropriate statistical hypothesis test.
+
+Summarize the results in a continuous text that becomes part of your paper. Include the most important and/or interesting results as a table or graph.
+
+Deliverables for this phase:
+
+\begin{itemize}
+	\item Tables and graphs for all experimental results;
+	\item The section on experimental results for your research paper.
+\end{itemize}
+
+\section{Report}
+\label{sec:report}
+
+Finally, edit the research paper that discusses your experimental results. The most important parts are already written at this point, but can probalby at least use some copy editing.
+
+Write an \emph{introduction} that explains the context of your research and that motivates why the chosen research questions are worth exploring. The partial research questions are discussed as well.
+
+Formulate the most important \emph{conclusions} of your research and any critical comments that you may have. What would be potential next steps if you would continue this research? What new research questions emerged during the process?
+
+Reformulate the title so it reflects the conducted research and the (adjusted) research objectives.
+
+The very last task is to write the \emph{abstract} that contains all the expected components (context, need, task, object, result, conclusion, and perspective).
+
+The text should be completely self-contained, i.e.~the reader is not expected to have specific a priori knowledge on the subject. The reader should get all information necessary to understand the paper. The paper is clearly written and structured, every section follows logically on the previous one. Apply a scientific writing style\footnote{See e.g.~\url{http://abacus.bates.edu/~ganderso/biology/resources/writing/HTWgeneral.html}}.
+
+Aim for a better paper than the original, emphasising reproducability of experiments, and a correct analysis and discussion of results. All assertions in the text are verifiable, either throug your own results, or by referring to authoritative sources in literature.
+
+Deliverables for this phase:
+
+\begin{itemize}
+	\item The final version of the research paper.
+\end{itemize}
+
+\section{Directive road map}
+\label{sec:roadmap}
+
+In order to complete this case successfully, it is important to start immediately, distribute tasks efficiently among team members, and also to spend a sufficient amount of time on conducting experiments. A recommended road map follows below, it's your choice to follow it or not\ldots
+
+\begin{description}
+	\item[W1-2] Setting up the Github project; reading the paper by~\textcite{Bassil2012}; search for a second paper and add it to the bibliographical database;
+	\item[W3-4] Organise the reading group;
+	\item[W5-6-7] Design and implementation of the experiments (test setup, scripts, etc.); adjusting research goals;
+	\item[Easter break] Contucting experiments and gathering results;
+	\item[W8] Analysis of results: visualisation, applying hypothesis test, measuring statistical significane of differences;
+	\item[W9] Editing and handing in the research paper.
+\end{description}
+
+\section{Assessment}
+
+The result is assessed according to how it meets the criteria enumerated above. Normally, all team members will receive the same grade, unless Github logs show that someone is an outlier--in a good or bad sense. Students that cannot prove their contribution get 0. The score obtained for this case counts for 15\% of the total grade for this course.
+
+%------------------------------------------------------------------------------
+% Bibliography
+%------------------------------------------------------------------------------
+
+\phantomsection
+\printbibliography[heading=bibintoc]
+
+\end{document}
