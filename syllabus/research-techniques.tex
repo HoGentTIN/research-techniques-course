@@ -1,0 +1,67 @@
+% Research techniques course syllabus
+%
+% Generate PDF-version with the following commands:
+% 
+% 1) latexmk -pdf "research-techniques"
+% 2) biber "research-techniques"
+% 3) latexmk -pdf "research-techniques"
+%
+\documentclass[11pt,fleqn,a4paper]{book}
+
+\input{structure}
+
+\author{Dr. Jens Buysse, Anita Bernard, Bert Van Vreckem}
+\title{Research Techniques}
+\date{Academic year 2016-2017}
+
+\begin{document}
+
+\thetitlepage
+
+%----------------------------------------------------------------------------------------
+%	COPYRIGHT PAGE
+%----------------------------------------------------------------------------------------
+
+\newpage
+~\vfill
+\thispagestyle{empty}
+
+\noindent Copyright \copyright\ 2015-2017 Jens Buysse\\ % Copyright notice
+
+\noindent English translation by Bert Van Vreckem\\
+
+\noindent \textsc{www.hogent.be}\\ % URL
+
+\noindent \textit{Generated on \today} % Printing/edition date
+
+%----------------------------------------------------------------------------------------
+%	TABLE OF CONTENTS
+%----------------------------------------------------------------------------------------
+
+\usechapterimagefalse
+
+\tableofcontents % Print the table of contents itself
+
+\cleardoublepage % Forces the first chapter to start on an odd page so it's on the right
+
+\setlength{\parindent}{0pt}
+
+\def\R{\mathbb{R}}
+
+%\include{acknowledgements}
+\include{research-process}
+%\include{univariate-analysis}
+%\include{sampling}
+%\include{hypothesis-tests}
+%\include{bivariate-analysis}
+%\include{chi-square-test}
+%\include{time-series}
+
+\appendix
+
+%\include{notation}
+
+\printbibliography
+\addcontentsline{toc}{chapter}{\textcolor{maincolor}{\IfLanguageName{dutch}{Bibliografie}{Bibliography}}}
+
+\end{document}

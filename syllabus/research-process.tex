@@ -1,0 +1,120 @@
+\chapter{The research process}
+\section{The scientific method}
+
+There are several ways to gather knowledge:
+
+\begin{enumerate}
+	\item The non-scientific method
+	\item The scientific method
+\end{enumerate}
+
+\paragraph{Non-scientific} Several versions of non-scientific reasoning exist:
+\begin{description}
+	\item [Authoritarian] Someone is considered to be an authority on a certain subject and to be trustworthy. Every claim this person makes is regarded as the truth.
+	\item [Deductive] Given a set of assumptions, logical reasoning leads to certain conclusions. This way, correct results \emph{may} be found, but these depend solely on the truth of the assumptions. These are not researched empirically, though.
+\end{description}
+
+\paragraph{Scientific} A characteristic of the scientific method is \textbf{empiricall validation}: based on experience and direct observation. A claim is only valid if it corresponds to what is observed.
+
+\begin{exercise}
+Try to prove that pigs can fly, starting from both a non-scientific and a scientific reasoning.
+\end{exercise}
+
+Empirical research may have several goals:
+
+\begin{description}
+    \item[Exploration] Does something exist, or does a certain event occur?
+    \item[Description] What are the properties of this event?
+    \item[Prediction] Is a certain event related to another one and is it possible to predict it?
+    \item[Verification] Is it possible to completely predect a certain event based on other observations?
+\end{description}
+
+\paragraph{Research objectives}
+
+Most research objectives can be categorised into:
+
+\begin{description}
+	\item[Generalisation] Often research is conducted on a limited \emph{sample} of the group that is being studied, the \emph{population}. If conclusions for this sample also hold for the population, we have found a valid generalisation.
+    \item[Specialisation] Applying general knowledge to specific instances or domains. A lot of applied research can be classified under this category.
+\end{description}
+
+Two types of generalisation are discerned:
+
+\begin{enumerate}
+	\item About a single phenomenon;
+	\item About relations between phenomena.
+\end{enumerate}
+
+There are three reasons why relations between phenomena are so important:
+
+\begin{enumerate}
+	\item A complete understanding of the phenomenon;
+	\item Relations may enable prediction;
+	\item Revealing causal relations.
+\end{enumerate}
+
+\begin{definition}[Causal relation]
+    Two variables have a \emph{causal relation} when a change in the first variable reliably causes an associated change into the second one, provided that all other potential causes are eliminated.
+\end{definition}
+
+\section{Basic concepts in research}
+
+\paragraph{Levels of measurement}
+
+In quantitative research, we try to comprehend a phenomenon by measuring it.
+
+\begin{definition}[Variable]
+     A general property of an object that allows us to distinguish it. E.g.~length, mass, etc.
+\end{definition}
+
+\begin{definition}[Value]
+    The specific property of a specific object. The measurement assigned to a variable. E.g.~1.83m, 78kg, etc.
+\end{definition}
+
+In statistical analysis, a classification of variable types is used that helps determining which statistical methods can be applied to the variable in question. A common taxonomy of the level of measurement is:
+
+\begin{description}
+	\item [Nominal] The variable can only take a limited number of values, and there is no logical order between them. E.g.~gender, nationality, biological species, etc.
+	\item [Ordinal] The variable can take a limited number of values, but there is a logical ordering between them. E.g.~Likert scale when measuring opinion (from \emph{strongly disagree} to \emph{strongly agree}), military rank, etc.
+	\item [Interval] A numerical variable that allows for the degree of difference between items, but not the ratio between them. There is no meaningful zero value. E.g.~temperature.
+	\item [Ratio] A numerical variable with a non-arbitrary zero point, that allows for meaningful ratios between values (e.g.~``twice as long,'' ``5\% higher,'' etc.). E.g.~mass, age, etc.
+\end{description}
+
+\begin{exercise}
+	Try to come up with other examples of all levels of measurement
+\end{exercise}
+
+\paragraph{The research process}
+
+The research process can largely be subdivided into six main phases:
+
+\begin{enumerate}
+	\item Formulating the problem statement: what is the research question?
+	\item Defining the exact need for information: what are the specific questions we need to ask, what do we need to measure?
+	\item Conducting the research: surveys, simulations, experiments, \dots
+	\item Processing result data, nowadays typically using statistical software
+	\item Analysing the results: applying statistical methods
+	\item Writing conclusions and reporting on the conducted research
+\end{enumerate}
+
+A relation is not always readily apparent, and sometimes we must look further than the actual values of variables before drawing conclusions.
+
+\begin{example}[Do people have a preference for Pepsi or Coca Cola?]
+    
+    \begin{table}
+    \centering
+    \begin{tabular}{l||c|c||c}
+        & Pepsi & Coca Cola & Total \\
+        \hline \hline
+        Tasty & 56 & 24 & 80 \\
+        \hline
+        Not tasty & 14 & 6 & 20 \\
+        \hline \hline
+        Total & 70 & 30 & 100
+    \end{tabular}
+    \caption{Results of a taste test between Pepsi and Coca Cola}
+    \label{tab:pepsi-coca-cola}
+    \end{table}
+
+    Table~\ref{tab:pepsi-coca-cola} summarises the results of a taste test between Pepsi and Coca Cola. Initially, one could think that Pepsi is better because more people find it tasty. However, that would not be correct. We need to look at the relative numbers. Out of $70$ people that tasted Pepsi, $56$ found it tasty, or $80\%$ ($\frac{56}{70} = 0.8$). Out of the $30$ that tasted Coca cola, $24$ found it tasty, which also is $80\%$ ($\frac{24}{30} = 0.8$). Consequently, there is no difference between the results for Pepsi vs.~Coca Cola.
+\end{example}
