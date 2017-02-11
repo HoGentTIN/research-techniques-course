@@ -32,7 +32,7 @@
 \usepackage{pgfplots}
 \pgfplotsset{compat=1.13}
 
-\usepackage[english,dutch]{babel} % English language/hyphenation
+\usepackage[english]{babel} % English language/hyphenation
 \usepackage{iflang}
 
 \usepackage{paralist}
@@ -95,7 +95,7 @@
 
 \usepackage[style=apa,backend=biber]{biblatex}
 \usepackage{csquotes}
-\DeclareLanguageMapping{dutch}{dutch-apa}
+\DeclareLanguageMapping{english}{english-apa}
 \addbibresource{biblio.bib} % BibTeX bibliography file
 \defbibheading{bibempty}{}
 
@@ -276,11 +276,11 @@
 \RequirePackage[framemethod=default]{mdframed} % Required for creating the theorem, definition, exercise and corollary boxes
 
 \newcounter{dummy} 
-\newtheorem{theoremeT}[dummy]{Stelling}
-\newtheorem{problem}{Probleem}[chapter]
-\newtheorem{exerciseT}{Oefening}[chapter]
-\newtheorem{exampleT}{Voorbeeld}[chapter]
-\newtheorem{definitionT}{Definitie}[section]
+\newtheorem{theoremeT}[dummy]{Theorem}
+\newtheorem{problem}{Problem}[chapter]
+\newtheorem{exerciseT}{Exercise}[chapter]
+\newtheorem{exampleT}{Example}[chapter]
+\newtheorem{definitionT}{Definition}[section]
 
 % Theorem box
 \newmdenv[skipabove=7pt,
