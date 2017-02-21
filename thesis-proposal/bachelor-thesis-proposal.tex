@@ -1,0 +1,94 @@
+%==============================================================================
+% Assignment: Bachelor thesis proposal
+%==============================================================================
+% Based on the LaTeX-template ‘Stylish Article’ (zie artikeltin.cls)
+% Authors: Jens Buysse, Bert Van Vreckem
+
+% Compiling this document:
+% 1) latexmk -pdf <FILENAME>
+% 2) biber <FILENAME>
+% 3) latexmk -pdf <FILENAME>
+
+\documentclass[fleqn,10pt]{artikeltin}
+
+%------------------------------------------------------------------------------
+% Metadata
+%------------------------------------------------------------------------------
+
+\JournalInfo{UCG Business and Information Management} % Journal information
+\Archive{Research Techniques 2016 - 2017} % Additional notes (e.g. copyright, DOI, review/research article)
+
+%---------- Title & author ----------------------------------------------------
+
+\PaperTitle{Bachelor thesis proposal}
+\PaperType{Assignment Research techniques} % Type document
+
+\Authors{Jens Buysse\textsuperscript{1}, Anita Bernard\textsuperscript{2}, Bert Van Vreckem\textsuperscript{3}} % Authors
+\affiliation{\textbf{Contact:}
+  \textsuperscript{1} \href{mailto:jens.buysse@hogent.be}{jens.buysse@hogent.be};
+  \textsuperscript{2} \href{mailto:anita.bernard@hogent.be}{anita.bernard@hogent.be};
+  \textsuperscript{3} \href{mailto:bert.vanvreckem@hogent.be}{bert.vanvreckem@hogent.be}}
+
+%---------- Abstract ----------------------------------------------------------
+
+\Abstract{ Write a proposal for a bachelor thesis subject like you would have to do for the actual bachelor thesis. Introduce the subject and research question, do a literature review on the subject. Explain your methodology and expected results/conclusions. A first draft proposal is discussed with other students, who can provide feedback. The final proposal should be submitted before the deadline on March 30th. }
+
+%---------- Research domain and keywords --------------------------------------
+
+\newcommand{\keywordname}{Keywords} % Defines the keywords heading name
+\Keywords{Database management. Relational databases --- performance} % Keywords
+
+%---------- Title, table of contents ------------------------------------------
+\begin{document}
+
+%\flushbottom % Makes all text pages the same height
+\maketitle % Print the title and abstract box
+\tableofcontents % Print the contents section
+\thispagestyle{empty} % Removes page numbering from the first page
+
+%------------------------------------------------------------------------------
+% Body
+%------------------------------------------------------------------------------
+
+\section{Introduction} % The \section*{} command stops section numbering
+\label{sec:introduction}
+
+The goal of this assignment is to write a bachelor thesis proposal, so you get an idea of how to do this, and what criteria should be met in order to have it approved by your promotor. You will receive individual feedback on your proposal that you can take into account later when you're doing your bachelor thesis.
+
+You \emph{can} use this proposal for your thesis, but this is not mandatory. You may have other opportunities, e.g.~with the company where you're doing your internship, that may lead to a subject that is more valuable/interesting to you.
+
+\section{Contents}
+\label{sec:contents}
+
+Your proposal should at least have the following content:
+
+\begin{description}
+  \item[Abstract] with all the expected elements (context, need, etc.)
+  \item[Keywords] a.o.~the research domain and other keywords (see proposal template)
+  \item[Introduction] to the subject. This doesn't have to be too technical yet, but describe at least:
+  \begin{itemize}
+    \item Problem statement and context
+    \item Motivation for this research
+    \item Relevance to a specific audience
+    \item Research objectives and research question(s)
+  \end{itemize}
+  \item[Literature review] Describe the state of the art in your research subject. Has similar research been conducted? What were the conclusions? What's the difference with your research? What's the relevance for your research? Think about which sources you cite and why. Do the CRAP test. You can subdivide this section into subsections.
+  \item[Methodology] Describe how you plan to conduct this research project. Are you going to set up an experiment, surveys, simulations, interviews, proof of concept, comparative study, \ldots Also describe which tools you think you're going to use.
+  \item[Expected results] Speculate on the results that you expect out of this research. If you plan to do experiments, create a mockup graph that illustrates the results. Label the axes and include units. This helps you with determining how you will have to structure your data and how to set up the experiment (what to measure).
+  \item[Expected conclusions] Describe what you expect to conclude from your research and motivate why. It's no problem if reality proves that your prediction is way off. On the contrary, most interesting advances in knowledge originate from cases where empirical results do not match the original hypothesis.
+\end{description}
+
+\section{Road map}
+\label{sec:roadmap}
+
+In order to complete this case successfully, it is important to start immediately and set aside enough time to look up information.
+
+\begin{description}
+  \item[W1] Start looking for a possible research subject for your bachelor thesis
+  \item[W2-4] Write a draft proposal using the provided template.
+  \item[W5] Spend half an hour during the seminar session to discuss your proposal with your fellow students. Review the proposals of the other students using the evaluation form that is actually used for the bachelor thesis presentation and defence.
+  \item[W6-7] Rewrite your proposal based on the feedback from your peers.
+  \item[W7] \textbf{2017-03-31, 12:00.} Submit your final proposal on Chamilo, under ``Assignments''. The PDF is named ``\textbf{lastname\_firstname.pdf}'' (with your own name, obviously!). Submitting past the deadline results in a 0 for this assignment. The score obtained for this assignment counts for 15\% of the total grade for this course.
+\end{description}
+
+\end{document}
