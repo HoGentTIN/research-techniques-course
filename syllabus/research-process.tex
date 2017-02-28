@@ -118,3 +118,64 @@ A relation is not always readily apparent, and sometimes we must look further th
 
     Table~\ref{tab:pepsi-coca-cola} summarises the results of a taste test between Pepsi and Coca Cola. Initially, one could think that Pepsi is better because more people find it tasty. However, that would not be correct. We need to look at the relative numbers. Out of $70$ people that tasted Pepsi, $56$ found it tasty, or $80\%$ ($\frac{56}{70} = 0.8$). Out of the $30$ that tasted Coca cola, $24$ found it tasty, which also is $80\%$ ($\frac{24}{30} = 0.8$). Consequently, there is no difference between the results for Pepsi vs.~Coca Cola.
 \end{example}
+
+\section{Exercises}
+\label{sec:exercises-process}
+
+In the Bachelor thesis by ~\textcite{Akin2016}, a comparative study between several persistence methods in Android is conducted. The abstract reads:
+
+\begin{displayquote}
+  Nowadays, there are a lot of applications, but which ones are remain functional without an internet connection? At present, supporting offline operation of an application is no longer a luxury, but a must-have. In order to provide offline support in an application, a database is used. Because of this, databases are important within the it-industry.
+  
+  There are different types of databases, but which one to use? Which type is most suitable for a specific type of application? The choice of the database can have a major impact on several properties: performance, startup speed, CPU-usage, \ldots If the database negatively affects these metrics, this may have as consequence that the numver of users of the application will drop.
+  
+  To find an answer to the problem statement, the following partial questions with regards to the application were formulated:
+  
+  \begin{itemize}
+    \item What is the effect of the chosen database on startup speed? Does the database slow down the startup or does it not have any effect compared to other databases?
+    \item What is the effect of the chosen database on CPU usage? A higher CPU usage will lead to higher battery drain. Will the CPU usage be higher or lower compared to other databases?
+    \item What is the average speed of the chosen database when adding records to the database?
+  \end{itemize}
+  
+  The research was conducted on three different application profiles: a small amount of data (profile 1), a medium amount of data (profile 2), and a large amount of data (profile 3).
+  
+  The expectations were that Realm would always have been the better choice, except for application profile 1. In that case, SharedPrefecences should be the better choice, since it was specifically designed for small amounts of simple data.
+  
+  However, experiments yielded the following results:
+  
+  \begin{enumerate}
+    \item Small amount of data: Realm
+    \item Medium amount of data: Realm
+    \item Large amount of data: SQLite
+  \end{enumerate}
+
+\end{displayquote}
+
+\begin{exercise}
+  After reading the abstract, try to answer to the following questions as well as possible:
+  
+  \begin{enumerate}
+    \item What is the objective of this research?
+    \item Who is the intended target audience?
+    \item Are conclusions stated explicitly? 
+    \item How is the text structured? Does this match the prescribed structure discussed in class?
+  \end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+  Find the following components of an abstract in the text:
+  
+  \begin{itemize}
+    \item Context
+    \item Need
+    \item Task
+    \item Object
+    \item Result
+    \item Conclusion
+    \item Perspective
+  \end{itemize}
+\end{exercise}
+
+\begin{exercise}
+  If you were unable to answer some of the questions above, try to formulate an answer if you were to be conducting this research yourself.
+\end{exercise}
