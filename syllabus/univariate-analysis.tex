@@ -2,7 +2,7 @@
 \label{ch:univariate-analysis}
 
 \begin{definition}[Descriptive statistics]
-  Descriptive statistics\index{descriptive statistics} are techniques that quantitatively describe or summarise features of a collection of information.
+  Descriptive statistics\index{statistics!descriptive} are techniques that quantitatively describe or summarise features of a collection of information.
 \end{definition}
 
 \section{Example: super heroes}
@@ -85,7 +85,9 @@ We'll use this case throughout the chapter as an example.
 \label{ssec:arithmetic-mean}
 
 \begin{definition}[Arithmetic mean]
-  The \emph{arithmetic mean}\index{mean, arithmetic} or \emph{average} (notation $\overline{x}$, x-bar) of a set of values is the sum of all values divided by the number of values.
+  \label{def:mean}
+  
+  The \emph{arithmetic mean}\index{mean!arithmetic} or \emph{average} (notation $\overline{x}$, x-bar) of a set of values is the sum of all values divided by the number of values.
   \begin{equation}
     \overline{x} = \frac{1}{n} \times \sum_{i=1}^{n} x_{i}
     \label{eq:Mean}
@@ -169,7 +171,7 @@ The variance of a data set will be 0 if and only if all values are exactly equal
 \end{example}
 
 \begin{definition}[Standard deviation]
-  The \emph{standard deviation}\index{deviation, standard}\index{standard deviation} is the square root of the variance.
+  The \emph{standard deviation}\index{standard deviation} is the square root of the variance.
   \begin{equation}
   \sigma = \sqrt{\sigma^{2}}
   \label{eq:stdev}
@@ -216,7 +218,7 @@ An interesting property of the standard deviation is that it is expressed in the
 The concept of quartiles can be generalised to percentages. The $P$-th \emph{percentile} of a list of ordered values is the smallest value in the list such that $P$ percent of the data is less than or equal to that value.
 
 \begin{definition}[Interquartile range]
-  The \emph{interquartile range}\index{range, interquartile} (IQR) is the difference between the higher and lower quartile.
+  The \emph{interquartile range}\index{range!interquartile} (IQR) is the difference between the higher and lower quartile.
   \begin{equation}
     \mathrm{IQR} = Q_3 - Q_1
     \label{eq:iqr@}
