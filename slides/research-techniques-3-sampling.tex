@@ -35,7 +35,7 @@
 
 \usetikzlibrary{arrows,shapes,backgrounds,positioning,shadows}
 \usetikzlibrary{pgfplots.statistics}
-
+\pgfplotsset{compat=1.13}
 
 \lstset{ %
   language=R,                     % the language of the code
@@ -285,11 +285,12 @@
   \hfill \includegraphics[width=.2\textwidth]{img/les04-dobbelsteen}
 \end{frame}
 
+%
 \begin{frame}
   \frametitle{Probability distribution for a single die}
-
+  
   What is the probability to throw a specific number with a single die?
-
+  
   \begin{center}
     \begin{tabular}{|c|c|c|c|c|c|}
       \hline
@@ -297,58 +298,57 @@
       \hline
       \onslide<2->{$\frac{1}{6}}$ &\onslide<2->{$\frac{1}{6}}$ &\onslide<2->{$\frac{1}{6}}$ &\onslide<2->{$\frac{1}{6}}$ &\onslide<2->{$\frac{1}{6}}$ &     \onslide<2->{$\frac{1}{6}}$ \\
       \hline
-
+      
     \end{tabular}
   \end{center}
-
   \onslide<2->{%
+  \begin{center}
   \begin{tikzpicture}
-    \begin{axis}[ybar,ytick=data, anchor=north, yscale=.5]
-      \addplot
-      coordinates {
-        (1, 1/6)
-        (2, 1/6)
-        (3, 1/6)
-        (4, 1/6)
-        (5, 1/6)
-        (6, 1/6)};
-    \end{axis}
-  \end{tikzpicture}}
+  \begin{axis}[ybar,ytick=data, anchor=north, bar width=1, yscale=.5]
+  \addplot[fill=HoGentBlue]
+  coordinates {
+    (1, 1/6)
+    (2, 1/6)
+    (3, 1/6)
+    (4, 1/6)
+    (5, 1/6)
+    (6, 1/6)};
+  \end{axis}
+  \end{tikzpicture}
+\end{center}
+}
 \end{frame}
 
 \begin{frame}
   \frametitle{Probability distribution for two dice}
 
   \begin{center}
-    \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|}
-      \hline
-      2&3&4&5&6&7&8&9&10&11&12\\
-      \hline
-      \onslide<2->{$\frac{1}{36}}$ &\onslide<2->{$\frac{2}{36}}$ &\onslide<2->{$\frac{3}{36}}$ &\onslide<2->{$\frac{4}{36}}$ &\onslide<2->{$\frac{5}{36}}$ & \onslide<2->{$\frac{6}{36}}$ & \onslide<2->{$\frac{5}{36}}$ &\onslide<2->{$\frac{4}{36}}$ & \onslide<2->{$\frac{3}{36}}$ &\onslide<2->{$\frac{2}{36}}$ &\onslide<2->{$\frac{1}{36}}$ \\
-      \hline
-
+    \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
+    	\hline
+    	             2               &              3               &              4               &              5               &              6               &              7               &              8               &              9               &              10              &              11              &              12              \\ \hline
+    	\onslide<2->{$\frac{1}{36}}$ & \onslide<2->{$\frac{2}{36}}$ & \onslide<2->{$\frac{3}{36}}$ & \onslide<2->{$\frac{4}{36}}$ & \onslide<2->{$\frac{5}{36}}$ & \onslide<2->{$\frac{6}{36}}$ & \onslide<2->{$\frac{5}{36}}$ & \onslide<2->{$\frac{4}{36}}$ & \onslide<2->{$\frac{3}{36}}$ & \onslide<2->{$\frac{2}{36}}$ & \onslide<2->{$\frac{1}{36}}$ \\ \hline
     \end{tabular}
   \end{center}
 
   \onslide<2->{%
-  \begin{tikzpicture}
-    \begin{axis}[ybar,ytick=data, anchor=north, yscale=.5]
-      \addplot
-      coordinates {
-        (2, 1/36)
-        (3, 2/36)
-        (4, 3/36)
-        (5, 4/36)
-        (6, 5/36)
-        (7, 6/36)
-        (8, 5/36)
-        (9, 4/36)
-        (10, 3/36)
-        (11, 2/36)
-        (12, 1/36)
-      };
-
-    \end{axis}
+    \begin{tikzpicture}
+  \begin{axis}[ybar,ytick=data, anchor=north, bar width=1, yscale=.5]
+  \addplot[fill=HoGentBlue]
+  coordinates {
+    (2, 1/36)
+    (3, 2/36)
+    (4, 3/36)
+    (5, 4/36)
+    (6, 5/36)
+    (7, 6/36)
+    (8, 5/36)
+    (9, 4/36)
+    (10, 3/36)
+    (11, 2/36)
+    (12, 1/36)
+  };
+  
+  \end{axis}
   \end{tikzpicture}}
 
 \end{frame}
@@ -509,7 +509,6 @@
 \section{The central limit theorem}
 \sectionframelogo{}
 
-
 \begin{frame}
   \frametitle{The central limit theorem}
 
@@ -583,6 +582,7 @@
 \end{frame}
 
 \subsection{Confidence interval for small samples}
+
 \begin{frame}
   \frametitle{Confidence interval for small samples}
   Instead of
@@ -606,7 +606,6 @@ we use
   with $t_{\frac{\alpha}{2}}$ is based on $(n-1)$ degrees of freedom. We assume that the sample is random and the population is approximately randomly distributed.
 \end{frame}
 
-
 \begin{frame}[fragile]
 \frametitle{Student's $t$-distribution in R}
 
@@ -625,6 +624,7 @@ For a $t$-distribution with \texttt{df} degrees of freedom:
 \end{frame}
 
 \subsection{Confidence interval for a fraction}
+
 \begin{frame}
   \frametitle{Confidence interval for a fraction}
   \[ \overline{p} = \frac{\textnormal{number of successes}}{n} \]
