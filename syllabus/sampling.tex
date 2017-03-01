@@ -461,7 +461,7 @@ Because of the desirable properties of the normal distribution, it's often good 
 
 \begin{definition}[Q-Q plot or normality plot]
   \label{def:qq-plot}
-  A normality plot, or \emph{Q-Q plot}\index{Q-Q plot}\footnote{Q stands for quantile} for a set of observations is a probability plot with the sorted observations on one axis and the associated expected $z$-values on the other axis. See Figure~\ref{fig:qqplot} for some examples. If the data is normally distributed, the observations will be plotted on or near the line $y = x$.
+  A normality plot, or \emph{Q-Q plot}\index{Q-Q plot}\footnote{Q stands for quantile} for a set of observations is a probability plot with the sorted observations on one axis and the associated expected $z$-values on the other axis. See Figure~\ref{fig:qqplot} for some examples. The code in R used for generating the images is given below. If the data is normally distributed, the observations will be plotted on or near the line $y = x$.
 \end{definition}
 
 \begin{figure}
@@ -474,7 +474,9 @@ Because of the desirable properties of the normal distribution, it's often good 
   \label{fig:qqplot}
 \end{figure}
 
-\subsection[The chi-square distribution]{The $\chi^{2}$ verdeling}
+\lstinputlisting{data/qqplot.R}
+
+\subsection[The chi-square distribution]{The $\chi^{2}$ distribution}
 \label{ssec:chi-square-distribution}
 
 Let $X_{1}, X_{2}, \dots X_{v}$ be independent stochastic variables that are standard normally distributed ($\sim N(0,1)$). The $\chi^{2}$ (chi-square) variable is defined as:
