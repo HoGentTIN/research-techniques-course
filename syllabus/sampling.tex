@@ -653,3 +653,182 @@ Since $\overline{p}$ is the sample mean of the number of successes, this allows 
   with $\overline{p} = \frac{x}{n}$ and $\overline{q} = 1- \overline{p}$
 \end{definition}
 
+\section{Exercises}
+\label{sec:sampling-exercises}
+
+%\begin{exercise}
+%  Een onderzoeker wil zo correct mogelijk de consumptiegewoontes van de inwoners van 18 jaar en ouder in een bepaalde gemeente, met 3 woonkernen, onderzoeken.  Hij onderscheidt 4 leeftijdsgroepen zodat hij uiteindelijk aan 12 deelgroepen komt. Hij vraagt de procentuele samenstelling van de bevolking op in de gemeente en berekent daaruit hoeveel bevragingen hij per deelgroep moet uitvoeren.  Dit noemen we een \emph{quotasteekproef}.
+%  
+%  Vragen:
+%  \begin{enumerate}[label=\alph*.]
+%    \item Wat zijn de voor- en nadelen?
+%    \item Welke soort fouten kunnen hier gemaakt worden?
+%    \item Welke andere parameters zouden kunnen gebruikt worden bij het opsplitsen in deelgroepen?
+%  \end{enumerate}
+%\end{exercise}
+%
+%\begin{exercise}
+%  Een onderzoeksbureau wil het aankoopgedrag van wasprodukten nagaan. Men beslist een aantal vragen te stellen aan vrouwen tussen de 25 en 55 jaar omdat men ervan uitgaat dat de relevante populatie uit deze categorie consumenten bestaat. 
+%  
+%  Vraag:
+%  
+%  \begin{enumerate}[label=\alph*.]
+%    \item Welke fout wordt hier gemaakt? 
+%    \item Hoe groot is de impact van deze fout?
+%  \end{enumerate}
+%\end{exercise}
+%
+%\begin{exercise}
+%  De vakbonden willen een onderzoek doen naar de werkomstandigheden van de werknemers van een IT-bedrijf. Dat bedrijf heeft in totaal 3200 werknemers die verdeeld zijn over 
+%  12 vestigingen. Omdat het aantal werknemers groot is worden aselect 40 werknemers gekozen per vestiging. De steekproefomvang is dus $n = 480$.	
+%  \begin{enumerate}[label=\alph*.]
+%    \item Welk bezwaar kan tegen deze steekproefprocedure worden gebracht?
+%    \item Wanneer zou dit geen bezwaar zijn?
+%  \end{enumerate}
+%\end{exercise}
+%
+%\begin{exercise}
+%  We willen een onderzoek voeren naar onze studenten aan de Hogeschool Gent, faculteit Bedrijf en Organisatie. Hiervoor worden de aanwezige studenten in een bepaald opleidingsonderdeel bevraagd.
+%  
+%  \begin{enumerate}[label=\alph*.]
+%    \item Welke kritiek kan je op deze methode geven?
+%    \item Stel dat de aanwezige docent een kernvak geeft, zeer streng is en tijdens de bevraging rondloopt. Welk bezwaar kan hier gegeven worden?
+%    \item Stel dat de bevraging niet tijdens een les, maar na een examen gehouden wordt. Welke kritiek kan je op deze methode geven?
+%  \end{enumerate}
+%\end{exercise}
+
+\begin{exercise}
+  Calculate the given probabilities, either using a $z$ table, or using the appropriate R function. Draw a sketch of the area.
+  
+  \begin{enumerate}[label=\alph*.]
+    \item $P(Z < 1.33)$
+    \item $P(Z > 1.33)$
+    \item $P(Z < -1.33)$
+    \item $P(Z > -1.33)$
+    \item $P(Z < 0.45)$
+    \item $P(Z > -1.05)$
+    \item $P(Z < 0.65)$
+    \item $P(-0.45 < Z < 1.20)$
+    \item $P(-1.35 < Z < -0.10)$
+    \item $P(-2.10 < Z < -0.90)$
+  \end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+  The course of research techniques at a college is organised in two separate classes. Students were distributed at random over the two classes, A and B, so we can assume that one class is not significantly better than the other. Class A is teached by Mrs. X, class B by Mr. Y.
+  
+  X is rather strict and her group gets grades with an average of 54/100 with a standard deviation of 11.
+  
+  Y is less strict and is known to stimulate his students with an extra point here and there\ldots At the end of the academic year, the grades for his group have an average of 62/100 with a standard deviation of 7.
+  
+  Wouter in class A got a grade of $\frac{63}{100}$, Stijn from class B got $\frac{67}{100}$. Who has the best result?
+\end{exercise}
+
+\begin{exercise}
+  A survey between 1988 and 1994 indicated that the average cholesterol value for females between 20 and 29 years old was 183 mg/dl, with a standard deviation of 36. The sample size was 81, we assume the sample was random.
+  
+  \begin{enumerate}[label=\alph*.]
+    \item Plot the probability distribution for the sample mean $\overline{x}$.
+    \item What is the probability that $\overline{x}$ is smaller than 185?
+    \item What is the probability that $\overline{x}$ is between 175 and 185?
+    \item What is the probability that $\overline{x}$ is larger than 190? 
+  \end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+  A random sample of 64 observations is drawn from a population with an unknown distribution. The population mean and standard deviation are known to be $\mu = 20$ and $\sigma=16$.
+  
+  \begin{enumerate}[label=\alph*.]
+    \item What are the mean and standard deviation of the sample mean?
+    \item Describe the shape of the probability distribution of the sample mean. Does this depend on the sample size?
+    \item Calculate the $z$ score for $\overline{x_{1}} = 15.5$ and $\overline{x_{2}} = 23$.
+    \item Calculate the probability that $\overline{x} <16$.
+    \item Calculate the probability that $\overline{x} > 23$.
+    \item Calculate the probability that $16< \overline{x}< 22$.
+  \end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+  Speed bumps are meant to affect the speed of drivers. Depending on the desired speed in a street, the speed bumps can be made steeper or more gradual.
+  
+  Speed bump A is designed that 85\% of drivers pass over with a speed of less than 50 km/h. This speed appears to be normally distributed. A sample indicates that the average speed is 43.1 km/h with a standard deviation of 6.6 km/h.
+  
+  \begin{enumerate}[label=\alph*.]
+    \item Show that 85\% of drivers actually do not drive faster than 50 km/h.
+    \item If the sample size was 1200, what is the expected probability of speeds of at least 55 km/h?
+  \end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+  Tabel~\ref{tab:examen} contains the grades of 20 students. From results over the last few years, the standard deviation is determined as $\sigma = 2.45$.
+  
+  \begin{enumerate}[label=\alph*.]
+    \item What is the standard deviation of the sample mean?
+    \item Calculate the 92\% confidence interval for $\mu$.
+    \item Can we be certain that the average result is less than 12.5?
+  \end{enumerate}
+\end{exercise}
+
+\begin{table}
+  \centering
+  \begin{tabular}{llllllllll}
+    11.5 & 16.5 & 11 & 17.3 & 10.8 & 5.6  & 13.1 & 11.5 & 14.2 & 12.9 \\
+    8.7  & 9.2  & 15 & 14.4 & 10   & 10.3 & 18.3 & 12.9 & 14.2 & 8.7 
+  \end{tabular}
+  \caption{Exam grades.}
+  \label{tab:examen}
+\end{table}
+
+\begin{exercise}
+  A shoe shop conducts market research with 500 customers. 30\% of them buy a new pair of shoes at least once each year. Based on other information, they know that the national average is 20\%. Is the result for the shoe shop significantly different than the nation wide norm? Use $\alpha = 0.05$.
+\end{exercise}
+
+\begin{exercise}
+  Lately, a canned goods manufacturer receives complaints about the net contents of their carrots and peas cans. According to the label, they should contain 1 liter. The QA department draws a random sample of 40 cans and checks the contents. The results are shown in Table~\ref{tab:Steekproefwaarden}.
+  
+  Add the following data to the table:
+  \begin{itemize}
+    \item the cumulative absolute frequency
+    \item the relative frequency
+    \item the cumulative relative frequency
+  \end{itemize}
+
+  Calculate:
+  
+  \begin{itemize}
+    \item The sample mean and standard deviation
+    \item The percentage of cans of whicht the contents are too low
+    \item Plot a histogram of the absolute frequency
+    \item Are the observations normally distributed? How can you determine this?
+  \end{itemize}
+  
+\end{exercise}
+
+\begin{table}
+  \centering
+  \begin{tabular}{lr}
+    \toprule
+    Inhoud & $n_{i}$ \\
+    \midrule
+    $[970,980[$ & 3 \\
+    $[980,990[$ & 5 \\
+    $[990,1000[$ & 13 \\
+    $[1000,1010[$ & 11 \\ 
+    $[1010,1020[$ & 5 \\
+    $[1020,1030[$ & 3 \\
+    \bottomrule
+  \end{tabular}
+  \caption{Summary of content measurements in 40 cans of carrots and peas (in liter).}
+  \label{tab:Steekproefwaarden}
+\end{table}
+
+\begin{exercise}
+  A web hosting company has a Service Level Agreement with a customer that guarantees an uptime of ``five nines'' (99.999\%). This is checked at the end of each year and if the minimal uptime is not met, a fine is imposed.
+  
+  In order to measure uptime, a monitoring system queries the web server each minute with a \texttt{HTTP GET /} request and checks the result according to the HTTP return code. In january, a single HTTP request was unsuccesful.
+  
+  \begin{itemize}
+    \item If the current trend continues, what is the probability that the SLA is not met at the end of the year? Use the formula for the probability distribution of a fraction.
+    \item In this particular case, the formula isn't actually suitable, and gives a slightly distorted result. What could be the reason?
+  \end{itemize}
+\end{exercise}
