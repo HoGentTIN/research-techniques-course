@@ -240,7 +240,7 @@ If we continue with the example of throwing a die (see Example~\ref{ex:die}), th
 \begin{figure}
   \centering
   \begin{tikzpicture}
-  \begin{axis}[ybar,ytick=data, anchor=north, bar width=1, yscale=.5]
+  \begin{axis}[ybar,ytick=data,ymin=0, ymax=.2, anchor=north, bar width=1, yscale=.5]
   \addplot[fill=HoGentBlue]
   coordinates {
     (1, 1/6)
