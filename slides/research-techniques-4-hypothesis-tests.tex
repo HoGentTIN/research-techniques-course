@@ -1,0 +1,541 @@
+%%----------------------------------------------------------------------------
+%% Presentatie HoGent Bedrijf en Organisatie
+%%----------------------------------------------------------------------------
+%% Auteur: Bert Van Vreckem [bert.vanvreckem@hogent.be]
+
+\documentclass{beamer}
+
+%==============================================================================
+% Aanloop
+%==============================================================================
+
+%---------- Packages ----------------------------------------------------------
+\usepackage{etex}
+\usepackage{graphicx,multicol}
+\usepackage{comment,enumerate,hyperref}
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{tikz}
+\usepackage[dutch]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{multirow}
+\usepackage{eurosym}
+\usepackage{listings}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{textcomp}
+\usepackage{framed}
+\usepackage{wrapfig}
+\usepackage{pgf-pie}
+\usepackage{pgfplots}
+\usepackage{booktabs}
+\usepackage{pgfplotstable}
+\usepackage{changepage}
+
+%---------- Configuratie ------------------------------------------------------
+
+\usetikzlibrary{arrows,shapes,backgrounds,positioning,shadows}
+\usetikzlibrary{pgfplots.statistics}
+
+
+\usetheme{hogent}
+\setbeameroption{show notes}
+
+%---------- Commando-definities -----------------------------------------------
+
+\newcommand{\tabitem}{~~\llap{\textbullet}~~}
+\renewcommand{\arraystretch}{1.2}
+
+%---------- Info over de presentatie ------------------------------------------
+
+\title[Hypothesis tests]{Research techniques\\Hypothesis tests}
+\author{Anita Bernard, Jens Buysse, Bert {Van Vreckem}}
+\date{AY 2016-2017}
+
+%==============================================================================
+% Inhoud presentatie
+%==============================================================================
+
+\begin{document}
+
+%---------- Front matter ------------------------------------------------------
+
+% Dia met het HoGent logo
+\HoGentLogo
+
+% Titeldia met faculteitslogo
+\titleframe
+
+%---------- Inhoud ------------------------------------------------------------
+
+\pgfmathdeclarefunction{gauss}{2}{%
+  \pgfmathparse{1/(#2*sqrt(2*pi))*exp(-((x-#1)^2)/(2*#2^2))}%
+}
+
+\begin{frame}
+  \frametitle{What's on the menu today?}
+
+  \tableofcontents
+\end{frame}
+
+\section{Statistical hypothesis testing}
+\sectionframelogo{}
+
+\begin{frame}
+  \frametitle{Statistical hypothesis testing}
+
+  \begin{description}
+    \item[Hypothesis] A presumption that still needs to be proven. A statement about the numerical value of a population parameter
+    \item[Hypothesis test] Procedure to validate a hypothesis on one or more population parameters
+  \end{description}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Elements of hypothesis testing}
+
+  \begin{description}
+    \item[Null hypothesis ($H_0$)] a hypothesis that we'll be trying to invalidate by a proof by contradiction.
+    \item[Alternative hypothesis ($H_1$, $H_a$)] The actual hypothesis we want to prove
+    \item[Test statistic] A value that is calculated from the sample
+    \item[Region of acceptance] The set of values of the test statistic for which we fail to reject the null hypothesis
+    \item[Critical region] The set of values of the test statistic for which we can reject the null hypothesis
+    \item[Significance level] The maximum probability the researcher is willing to accept that the $H_0$ is falsely rejected
+  \end{description}
+\end{frame}
+
+\section{Procedure}
+\sectionframelogo{}
+
+\begin{frame}
+  \frametitle{Procedure}
+
+  \begin{enumerate}
+    \item Determine the hypotheses ($H_0$ and $H_a$)
+    \item Define the significance level ($\alpha$ and $n$)
+    \item Calculate the test statistic
+    \item Determine the region of acceptance and the critical region
+    \item Draw conclusions
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Hypotheses about super heroes}
+
+  \includegraphics[width=\textwidth]{img/les5-heroes}
+\end{frame}
+
+\begin{frame}
+  \frametitle{A super hero saves more than 3.3 people per day}
+
+  \begin{columns}
+    \column{.5\textwidth}
+    \centering
+    \includegraphics[width=4cm]{img/les5-gered1}
+
+    \includegraphics[width=4cm]{img/les5-gered2}
+    \column{.5\textwidth}
+    \centering
+    \includegraphics[width=4cm]{img/les5-gered3}
+
+    \includegraphics[width=4cm]{img/les5-gered4}
+  \end{columns}
+
+  \vfill
+  \centering
+  \small{Bron: \url{http://www.cracked.com/quick-fixes/4-people-who-saved-day-while-dressed-as-superheroes/}}
+\end{frame}
+
+\begin{frame}
+  \begin{enumerate}
+    \item Hypothesis:
+    
+    $H_0: \mu = 3.3$; $H_1: \mu > 3.3$
+    
+    \item Significance level $\alpha = 0.05$, sample size $n = 30$
+    
+    \item Sample statistic: $\overline{x} = 3.483$
+    
+    Population standard deviation (assumed to be known): $\sigma = 0.55$
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Calculate test statistic}
+  
+  From the central limit theorem follows: $M \sim Nor(\mu = 3.3; \sigma = \frac{0.55}{\sqrt{30}})$
+
+  \centering
+  \begin{tikzpicture}
+    \begin{axis}[domain=3.0:3.6, ymax=4.2, samples=100, enlargelimits=false ]
+      \addplot [very thick,smooth,draw=HoGentFBO] {gauss(3.3, 0.10041580220928045413)};
+      \node [coordinate, pin={\small{3.483}}] at (axis cs: 3.483, 0){};
+    \end{axis}
+  \end{tikzpicture}
+\end{frame}
+
+\section{\texorpdfstring{$p$}{p}-value}
+\sectionframelogo{}
+
+\begin{frame}
+  \frametitle{$p$-value}
+  \brightbox{The \textcolor{HoGentAccent6}{$p$-value} is the probability, given the null hypothesis is true, the test statistic has a value that is at least as extreme as the observed value.}
+
+  \begin{itemize}
+    \item $p$-value $< \alpha \Rightarrow$ reject $H_{0}$: the observed value for $\overline{x}$ is too extreme to be explained by chance.
+    \item $p$-value $\geq \alpha \Rightarrow$ don't reject $H_{0}$: the observed value for $\overline{x}$ can be explained by chance.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{$p$-value}
+
+  \centering
+  \begin{tikzpicture}[scale=0.8]
+    \begin{axis}[domain=-3.5:3.5, ymax=0.42, samples=100, enlargelimits=false, clip=false ]
+      \addplot [smooth, fill=black!20, domain=1.822:3.5] {gauss(0,1)} \closedcycle;
+      \addplot [very thick,smooth,draw=HoGentFBO] {gauss(0, 1)};
+      \node  at (axis cs: 1.822, -.04){\small 1.822};
+    \end{axis}
+  \end{tikzpicture}
+  
+  \[ P(M > 3,483) = P \left(Z> \frac{3,483 - 3,3}{\frac{\sigma}{\sqrt{n}}}\right) = P (Z > 1,822) = 0,0344 \]
+\end{frame}
+
+\section{Critical region}
+\sectionframelogo{}
+
+\begin{frame}
+  \frametitle{Critical region}
+  
+  \brightbox{The \textcolor{HoGentAccent6}{critical region} is the set of values of the test statistic for which we can reject the null hypothesis.}
+  
+  Delimited by the \emph{critical value} $g$ for which:
+  
+  \begin{equation*}
+  \begin{split}
+  P(M > g) = \alpha & \Leftrightarrow P\left(Z> z=\frac{g-\mu}{\sigma/\sqrt{n}}\right) = \alpha\\
+  & \Leftrightarrow P\left(Z < z = \frac{g-\mu}{\sigma/\sqrt{n}}\right) = 1-\alpha\\
+  & \Leftrightarrow g = \mu + z \frac{\sigma}{\sqrt{n}}
+  \end{split}
+  \end{equation*}
+  
+  \begin{itemize}
+    \item Left of $g$: region of acceptance (don't reject $H_0$)
+    \item Right of $g$: critical region (reject $H_0$)
+  \end{itemize}
+  
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{Critical region normal distribution}
+
+  \centering
+  \begin{tikzpicture}
+    \begin{axis}[domain=-3.5:3.5, ymax=0.42, samples=100, enlargelimits=false, clip=false ]
+      \addplot [smooth, fill=black!20, domain=1.645:3.5] {gauss(0,1)} \closedcycle;
+      \addplot [very thick,smooth,draw=HoGentFBO] {gauss(0, 1)};
+      \node  at (axis cs: 1.645, -.04){\small 1.645};
+    \end{axis}
+  \end{tikzpicture}
+  
+  The $z$-score that determines a critical value for a significance level of $\alpha = 0.05$
+\end{frame}
+
+\begin{frame}
+  \frametitle{Left tailed test}
+  
+  What should be changed in the equation in order to get the critical value for a \emph{left tailed} test?
+  
+  \pause
+
+  \begin{equation*}
+\begin{split}
+P(M < g) = \alpha & \Leftrightarrow P\left(Z< z=\frac{g-\mu}{\sigma/\sqrt{n}}\right) = \alpha\\
+& \Leftrightarrow P\left(Z < z = \alert{-}\frac{g-\mu}{\sigma/\sqrt{n}}\right) = 1-\alpha\\
+& \Leftrightarrow g = \mu \alert{-} z \frac{\sigma}{\sqrt{n}}
+\end{split}
+\end{equation*}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Two tailed tests}
+  
+  Sometimes it is necessary to test on \emph{both} sides. In that case, we need to calculate two critical values
+
+\begin{equation}
+  g = \mu \pm z \frac{\sigma}{\sqrt{n}}
+  \label{eq:kritiekeGrenswaarde}
+\end{equation}
+
+The difference is that we now need to use the $z$-score for significance $\frac{\alpha}{2}$ (why?)
+\end{frame}
+
+\begin{frame}
+  \frametitle{Summary}
+
+\begin{table}
+  \centering
+  \begin{tabular}{l|ccc}
+    \toprule
+    $z$-test              & \multicolumn{3}{l}{\parbox{.7\textwidth}{Test on the population mean $\mu$ based on a sample of $n$ independent observations.}} \\
+    \midrule
+    Conditions        & \multicolumn{3}{l}{\parbox{.7\textwidth}{Population stdev $\sigma$ is known, $n>30$}} \\
+    \midrule
+    Test type         & Two tailed           & Left tailed & Right tailed \\
+    \midrule
+    $H_{0}$           & $\mu = \mu_{0}$      & $\mu = \mu_{0}$ & $\mu = \mu_{0}$  \\
+    $H_{1}$           & $\mu \neq \mu_{0}$   & $\mu < \mu_{0}$ & $\mu > \mu_{0}$  \\
+    Critical region   & $\left|z\right| > g$ & $z< -g $        & $z>g$            \\
+    Test statistic    & \multicolumn{3}{c}{$z = \frac{\overline{x} - \mu_{0}}{\frac{\sigma}{\sqrt{n}}}$} \\
+    \bottomrule
+  \end{tabular}
+  \caption{Summary of the $z$-test}
+  \label{tab:toetsingsprocedures}
+\end{table}
+\end{frame}
+
+\section{Examples}
+\sectionframelogo{}
+
+\begin{frame}
+  \frametitle{Example 1}
+  A random sample of 50 observations has following properties: sample mean $\overline{x} = 25$ and standard deviation s = $\sqrt{55} = 7.41$
+  
+  We want to know if there are indications to assume that the population mean is smaller than 27.
+\end{frame}
+
+\begin{frame}
+  \frametitle{Example 1}
+  \begin{block}{Determine the hypotheses ($H_0$ and $H_a$)}
+    $H_{0} : \mu = 27$ and $H_{1}: \mu < 27$.
+  \end{block}
+
+
+  \begin{block}{Define the significance level}
+  $\alpha = 0.05$ and $n=50$.
+  \end{block}
+
+
+  \begin{block}{Calculate the test statistic}
+    We will be looking at the distribution of the sample mean $M$. From the central limit theorem follows that:
+
+    \[ M \sim Nor(\mu = 27, \sigma = \sqrt{\frac{55}{50}}) \]
+    
+    How extreme is $\overline{x}= 25$ in this probability distribution?
+  \end{block}
+\end{frame}
+
+\begin{frame}
+  \begin{block}{$p$-value}
+    \[ P(M < 25) = P \left(Z < \frac{25 - 27}{\sqrt{\frac{55}{50}}} = -1.9069 \right) \approx 0.0283  \]
+    
+    The $p = 0.0283 < \alpha = 0.05$ which indicates we can reject  $H_{0}$
+    \end{block}
+  
+    \begin{block}{Calculate the critical area}
+    
+    \[ g = \mu - z \frac{\sigma}{\sqrt{n}} \]
+    \[ g = 27 - 1.645 \times \sqrt{\frac{55}{50}} \]
+    \[ g \approx 25.2749 \]
+  
+    We find that $\overline{x} < g$, so we can reject $H_{0}$
+  \end{block}
+
+\end{frame}
+
+\begin{frame}
+    \centering
+  \begin{tikzpicture}
+    \begin{axis}[domain=24:30, samples=100, enlargelimits=false, clip=false ]
+      \addplot [smooth, fill=HoGentFBO!20, domain=24:25.27] {gauss(27,1.048808848)} \closedcycle;
+      \addplot [very thick,smooth,draw=HoGentFBO] {gauss(27, 1.048808848)};
+      \node  at (axis cs: 25.2749, -.04){\small 25.2749};
+    \end{axis}
+  \end{tikzpicture}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Example 2}
+  While doing research into the small change in our super heroes' pockets, the base assumption is that the average amount is \$25.
+  
+  We assume that the standard deviation is known to be $\sigma = 7$. A random sample with $n=64$ observations has a sample mean $\overline{x}$ of \$23. The significance level $\alpha = 0.05$.
+\end{frame}
+
+\begin{frame}
+  \frametitle{Example 2}
+  \begin{block}{Determine the hypotheses}
+  $H_{0} : \mu = 25$ and $H_{1}: \mu \neq 25$ (two tailed test)
+  \end{block}
+
+  \begin{block}{Define the significance level}
+  $\alpha = 0.05$ and $n=64$.
+  \end{block}
+
+  \begin{block}{Calculate the test statistic}
+    $M \sim Nor(\mu = 25, \sigma = \frac{7}{\sqrt{64}})$ , $\overline{x} = 23$
+  \end{block}
+\end{frame}
+
+\begin{frame}
+  \begin{block}{Calculate the critical area}
+    \[ \mu - z \frac{\sigma}{\sqrt{n}} = 25 - 1.959964 \times \frac{7}{\sqrt{64}} \approx 23.28503 \]
+    
+    \[ \mu + z \frac{\sigma}{\sqrt{n}} = 25 + 1.959964 \times \frac{7}{\sqrt{64}} \approx 26.71497 \]
+    
+    We find that $\overline{x}$ is inside the critical region (since $23 < 23.28$), so we can reject $H_{0}$.
+  \end{block}
+
+\end{frame}
+
+\section{The $t$-test}
+\sectionframelogo{}
+
+\begin{frame}
+  \frametitle{Assumptions $z$-test}
+  
+  
+  \begin{itemize}
+    \item The sample should be random
+    \item The sample must be sufficiently large ($n > 30$)
+    \item The variation of the test statistic should be normally distributed
+    \item The standard deviation of the populatie, $\sigma$, is known
+  \end{itemize}
+
+  \brightbox{If these assumptions do not hold, you \textcolor{HoGentYellow}{may not} use the $z$ test!}
+\end{frame}
+
+\begin{frame}
+  \frametitle{The $t$-test}
+  
+  Determine critical value:
+  
+  \[ g = \mu \pm t \frac{s}{\sqrt{n}} \]
+  
+  \begin{itemize}
+    \item $t$-value is derived from Student's $t$ distribution, depends on \emph{degrees of freedom}, $n-1$
+    \item Look this up in $t$-table or with R-function \texttt{pt}
+  \end{itemize}
+  
+\end{frame}
+
+\begin{frame}
+  \frametitle{Comparing two samples}
+  
+  Is the mean of two samples significantly different?
+  
+  \begin{itemize}
+    \item Independent samples
+    \item Paired sample
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Example}
+  \framesubtitle{Independent samples}
+  
+  In a clinical trial, researchers want to determine whether a new drug has a decreased reaction time as a side effect.
+  
+  \begin{itemize}
+    \item Treatment group: 6 participants receive the drug
+    \item Control group: 6 participants receive a placebo
+  \end{itemize}
+  
+  Next, their reaction time to a stimulus was measured:
+  
+  \begin{itemize}
+    \item Treatment group: 101, 110, 103, 93, 99, 104
+    \item Control group: 91, 87, 99, 77, 88, 91
+  \end{itemize}
+  
+  Is there a significant difference between the two groups?
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Voorbeeld}
+  \framesubtitle{Onafhankelijke steekproeven}
+
+\footnotesize
+\begin{verbatim}
+> control <-  c(91, 87, 99, 77, 88, 91)
+> treatment <- c(101, 110, 103, 93, 99, 104)
+> t.test(controe, treatment, alternative="less", mu=0)
+
+Welch Two Sample t-test
+
+data:  control and treatment
+t = -3.4456, df = 9.4797, p-value =
+0.003391
+alternative hypothesis: true difference in means is less than 0
+95 percent confidence interval:
+-Inf -6.044949
+sample estimates:
+mean of x mean of y 
+88.83333 101.66667
+\end{verbatim}
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{Example}
+  \framesubtitle{Paired $t$-test}
+  
+  A study was performed to test whether cars get better mileage on premium gas than on regular gas. 
+  
+  The mileage per gallon was recorded for each of the two types of gas for ten cars.
+  
+  \vspace{.5cm}
+  \centering
+  \begin{tabular}{|l|c|c|c|c|c|c|c|c|c|c|}
+  	\hline
+  	Car     & 1  & 2  & 3  & 4  & 5  & 6  & 7  & 8  & 9  & 10 \\ \hline
+  	Regular & 16 & 20 & 21 & 22 & 23 & 22 & 27 & 25 & 27 & 28 \\ \hline
+  	Premium & 19 & 22 & 24 & 24 & 25 & 25 & 25 & 26 & 28 & 32 \\ \hline
+  \end{tabular} 
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Example}
+\framesubtitle{Paired $t$-test}
+  
+\footnotesize
+\begin{verbatim}
+> regular <- c(16, 20, 21, 22, 23, 22, 27, 25, 27, 28)
+> premium <- c(19, 22, 24, 24, 25, 25, 26, 26, 28, 32)
+> t.test(premium, regular, alternative="greater", paired=TRUE)
+
+Paired t-test
+
+data:  premium and regular
+t = 4.4721, df = 9, p-value = 0.0007749
+alternative hypothesis: true difference in means is greater than 0
+95 percent confidence interval:
+1.180207      Inf
+sample estimates:
+mean of the differences 
+2
+\end{verbatim}
+\end{frame}
+
+\section{Errors in hypothesis tests}
+\sectionframelogo{}
+
+\begin{frame}
+  \frametitle{Errors in hypothesis tests}
+
+  \begin{table}
+    \centering
+    \resizebox{\textwidth}{!}{%
+      \begin{tabular}{@{}l|cc@{}}
+        \toprule
+        & \multicolumn{2}{c}{\textbf{Actual situation}} \\
+        \textbf{Conclusions}          & \textbf{$H_{0}$ is true} & \textbf{$H_{1}$ is true}     \\
+        \midrule
+        \textbf{$H_{0}$ accepted}& Correct decision                    & Type II error \\
+        \textbf{$H_{0}$ rejected}   & Type I error          & Correct decision            \\
+        \bottomrule
+      \end{tabular}
+    }
+  \end{table}
+\end{frame}
+\end{document}
