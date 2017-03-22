@@ -1,0 +1,697 @@
+\chapter{Hypothesis tests}
+\label{ch:hypothesis-tests}
+
+%In de voorbije hoofdstukken hebben we gezien hoe we aan de hand van steekproefonderzoek bepaalde kerngetallen over een populatie kunnen berekenen, bijvoorbeeld aan de hand van puntschatters of betrouwbaarheidsintervallen. We kunnen deze informatie ook gebruiken om bepaalde hypothesen over een populatie te toetsen. Een hypothese is een veronderstelling waarvan nog bewezen moet worden dat ze correct is. Het doel van een toetsingsprocedure is het testen van een hypothese omtrent de waarden van 1 of meerdere populatieparameters.
+%
+%\begin{definition}[Statistische hypothese.]
+%  Een statische hypothese\index{hypothese!statistische} is een uitspraak over de numerieke waarde van een populatieparameter.
+%\end{definition}
+%
+%Voorbeelden van hypothesen:
+%
+%\begin{itemize}
+%  \item Gemiddeld redt een superheld minstens 3,3 mensen per dag.
+%  \item De gemiddelde lengte van een superheld is minstens 120 cm.
+%  \item \dots
+%\end{itemize}
+%
+%In dit hoofdstuk gaan we de algemene theorie over toetsen formuleren aan de hand van het testen van hypothesen over het populatiegemiddelde $\mu$, de $z$-toets. Naast de $z$-toets bestaan er echter nog vele andere statistische hypothesetoetsen die in specifieke situaties gebruikt kunnen worden. De meest geschikte statistische toets hang o.a.~af van de populatiegrootheid in kwestie (gemiddelde, standaardafwijking, enz.), en veronderstellingen over de onderliggende stochastische verdeling van de populatie (normaal verdeeld of niet, enz,).
+%
+%\section{Elementen van een hypothesetoets}
+%\label{sec:elementen-hypothesetoets}
+%
+%Algemeen gezien bestaat een toetsingsprocedure uit 4 elementen:
+%\begin{enumerate}
+%  \item \textbf{Nulhypothese}\index{nulhypothese}\index{hypothese!nul-} $H_{0}$: Deze hypothese proberen we te ontkrachten door een redenering in het ongerijmde. We gaan deze hypothese accepteren, tenzij de observaties uit de steekproef overtuigend wijzen op het tegendeel.
+%  \item \textbf{Alternatieve hypothese}\index{hypothese!alternatieve} $H_{1}$: Dit is meestal de hypothese die de onderzoeker wil bewijzen. Deze hypothese zal echter alleen worden geaccepteerd als de observaties uit de steekproef overtuigend wijzen op de juistheid ervan.
+%  \item \textbf{Teststatistiek}: De veranderlijke die berekend wordt uit de steekproef
+%  \item Aanvaardings- en kritiek gebied:
+%  \begin{itemize}
+%    \item  \textbf{Aanvaardingsgebied\index{aanvaardingsgebied}\index{gebied!aanvaardings-}}: Het gebied van waarden die de nulhypothese $H_{0}$ ondersteunt
+%    \item \textbf{Verwerpingsgbied\index{verwerpingsgebied}\index{gebied!verwerpings-}}: gebied dat waarden bevat die de nulhypothese verwerpen. Ook kritiek gebied\index{gebied!kritiek} genoemd.
+%  \end{itemize}
+%\end{enumerate}
+%
+%Een alternatief voor de laatste stap is het berekenen van de \emph{overschrijdingskans} (zie verder).
+%
+%De beslissing om de nulhypothese $H_{0}$ te verwerpen of te aanvaarden is gebaseerd op informatie uit een steekproef, getrokken uit de populatie waarover de hypothese is geformuleerd. De steekproefwaarden worden gebruikt om 1 enkele waarde van een teststatistiek te berekenen die de beslissing zal bepalen. Daartoe worden alle waarden die de teststatistiek kan aannemen, verdeeld in twee gebieden, \begin{inparaenum}[(i)] \item het aanvaardingsgebied en \item het verwerpingsgebied\end{inparaenum}. Indien de waarde van de teststatistiek ligt in het verwerpingsgebied, dan wordt de nulhypothese verworpen en de alternatieve hypothese aanvaard. Indien de waarde van de teststatistiek in het aanvaardingsgebied valt dan wordt de nulhypothese aanvaard.
+%
+%\section{Toetsingsprocedure voor de \texorpdfstring{$z$}{z}-toets}
+%\label{sec:toetsingsprocedure-z-toets}
+%
+%In de eerste toetsingsprocedure die we in deze cursus uitwerken, gaan we een uitspraak over het populatiegemiddelde $\mu$ verifiëren. Deze is algemeen bekend als de $z$-toets\index{$z$-toets}\index{toets!$z$-}.
+%
+%\begin{enumerate}
+%  \item De vermoedens over de populatie worden vastgelegd in twee hypothesen $H_{0}$ en $H_{1}$. Voor de (rechtszijdige) $z$-toets is de nulhypothese dat het populatiegemiddelde $\mu$ een bepaalde waarde heeft, en de alternatieve hypotehese dat $\mu$ \emph{groter} is.
+%  \item Het significantieniveau\index{significantieniveau}\index{niveau!significantie-} $\alpha$ en steekproefomvang $n$ worden vastelegd. Je kan $\alpha$ in principe zelf kiezen (bv. 0,05)\footnote{Merk op dat het significantieniveau gerelateerd is aan het betrouwbaarheidsniveau $1-\alpha$. Zie Sectie~\ref{ssec:betrouwbaarheidsinterval-grote-steekproef}}. Hoe dichter het significantieniveau bij 0 ligt, hoe minder twijfel er is over het resultaat van de toets. Maar langs de andere kant wordt het ook moeilijker om de nulhypothese te verwerpen.
+%  \item De waarde van de toetsingsgrootheid in de steekproef wordt berekend. De uitkomst is bepalend voor de beslissing of we de nulhypothese $H_{0}$ kunnen verwerpen of niet. We weten dankzij de centrale limietstelling dat de kansverdeling van het steekproefgemiddelde $M \sim Nor( \mu, \frac{\sigma}{\sqrt{n}})$.
+%  \item Het kritieke gebied bepalen, of meer bepaald de grens tussen het aanvaardings- en het verwerpingsgebied. We zoeken een grenswaarde\index{kritieke grenswaarde} $g$ zodat:
+%  
+%  \begin{equation}
+%  \begin{split}
+%  P(M > g) = \alpha & \Leftrightarrow P\left(Z> z=\frac{g-\mu}{\sigma/\sqrt{n}}\right) = \alpha & (normalisatie)\\
+%  & \Leftrightarrow P\left(Z < z = \frac{g-\mu}{\sigma/\sqrt{n}}\right) = 1-\alpha & (100\%-regel)
+%  \end{split}
+%  \end{equation}
+%  
+%  De $z$-waarde hangt af van het gekozen significantieniveau en kan worden opgezocht in een $z$-tabel of berekend worden met de R-functie \texttt{qnorm(1-alpha)}. Daaruit kunnen we dan $g$ afleiden:
+%  
+%  \begin{equation}
+%  z = \frac{g-\mu}{\sigma/\sqrt{n}} \Leftrightarrow g = \mu + z \frac{\sigma}{\sqrt{n}}
+%  \label{eq:kritieke-grenswaarde-z-toets}
+%  \end{equation}
+%
+%  Alle waarden \emph{links} van $g$ vormen het aanvaardingsgebied. Waarden rechts, die dus ver van het $H_0$ veronderstelde populatiegemiddelde liggen, zijn het verwerpingsgebied. Zie ook Sectie~\ref{sec:kritieke-gebied}.
+%\end{enumerate}
+%
+%\begin{example}
+%  \label{ex:hypothesetoets-dagelijkse-reddingen}
+%  Algemeen wordt aangenomen dat superhelden stellen gemiddeld 3,3 mensen per dag redt. De onderzoekers krijgen echter gevoel dat dat niet zo is: ze hebben de indruk dat een superheld \emph{meer} dan $3,3$ mensen per dag redt.
+%  
+%  Ze gaan dit onderzoeken en voeren een steekproef uit bij $n = 30$ superhelden. In deze steekproef is het gemiddelde $\overline{x} = 3,483$ is. De standaardafwijking in de populatie is verondersteld gekend en is $\sigma = 0,55$.
+%  
+%  Kan hieruit besloten worden dat superhelden gemiddeld meer dan 3,3 mensen per dag redt?
+%
+%  \begin{enumerate}
+%    \item We veronderstellen dat het aantal mensen dat een superheld redt normaal verdeeld  is en formuleren twee hypothesen omtrent de parameter $\mu$.
+%    \begin{itemize}
+%      \item $H_{0}$ = de nulhypothese (hetgeen we willen weerleggen). In dit geval \[ H_{0} : \mu = 3,3 \]
+%      \item $H_{1}$ = alternatieve hypothese (vermoeden dat we willen aantonen). In dit geval \[H_{1}= \mu > 3,3 \]
+%    \end{itemize}
+%  
+%    We veronderstellen in de redenering initieel dat de nulhypothese $H_{0}$ waar is. Indien het gemiddelde aantal mensen gered per dag $\overline{x}$ van de steekproef sterk afwijkt van de veronderstelde waarde, verwerpen we de nulhypothese $H_{0}$ en aanvaarden we de alternatieve hypothese $H_{1}$.
+%    
+%    Wat betekent nu ``sterk afwijken''? Zou je uit een populatie met gemiddelde van $3,3$ gemakkelijk een steekproef kunnen trekken met gemiddelde $3,483$? De centrale limietstelling (zie Sectie~\ref{sec:centrale-limietstelling}) laat ons toe de kans hiertoe te berekenen.
+%    
+%    \item Vastleggen significantieniveau $\alpha$ en steekproefomvang $n$. We willen een significantieniveau van 5\% kiezen, dus $\alpha = 0,05$. De steekproefomgang is gegeven en is hier $n = 30$.
+%    
+%    \item De waarde van de toetsingsgrootheid in de steekproef bepalen. We nemen hier het steekproefgemiddelde: $\overline{x} = 3,483$
+%    
+%    We veronderstellen in de redenering dat de nulhypothese $H_{0}$ waar is en dat we $\sigma$ goed kunnen schatten hebben ($\sigma = 0,55$). Dan geldt voor het steekproefgemiddelde $M$ volgens de centrale limietstelling dat:
+%    
+%    \[M \sim  Nor(\mu = 3,3; \sigma = \frac{0,55}{\sqrt{30}})\]
+%    
+%    De waarde $\overline{x} = 3,483$ bevindt zich erg rechts (zie Figuur~\ref{fig:hypothesetoets-reddingen-per-dag}). $\overline{x}$ ligt zelfs zo ver naar rechts dat de kans (indien $H_{0}$ waar is) om dergelijke geobserveerde waarde te krijgen of groter, zeer klein is. Een dergelijke geobserveerde waarde onder de nulhypothese kan dus moeilijk verklaard worden door louter toeval. Intu\"itief voelen we dus aan dat hoe verder de geobserveerde waarde $\overline{x}$ zich bevindt in de rechtse richting, hoe meer we geneigd zijn om de nulhypothese te verwerpen. Maar wat is te ver en wat niet?
+%    
+%    \item De kritieke grenswaarde berekenen. De $z$-waarde voor een significantieniveau van $0,05$ is 1,645\footnote{In R kan je dit berekenen met \texttt{qnorm(1 - 0.05)}}.
+%    
+%    \[ g = \mu + z \times \frac{\sigma}{\sqrt{n}} = 3,3 + 1,645 \times \frac{0,5}{\sqrt{30}} \approx 3,45 \]
+%    
+%    Het steekproefgemiddelde $\overline{x} = 3,483$ ligt nog verder van $\mu = 3,3$ dan de grenswaarde $g = 3,45$. De kans is heel klein dat zo'n steekproef getrokken wordt uit een populatie met dit gemiddelde. Slechts in 34 steekproeven op 1000 zal een dergelijke gebeurtenis optreden. Met andere woorden, de steekproefwaarde ligt in het verwerpingsgebied. We kunnen dus $H_0$ verwerpen en besluiten met dat superhelden inderdaad \emph{meer} dan 3,3 mensen per dag redden.
+%  \end{enumerate}
+%
+%\end{example}
+%
+%\begin{exercise}
+%  Kunnen we in Voorbeeld~\ref{ex:hypothesetoets-dagelijkse-reddingen} zomaar veronderstellen dat het gemiddelde normaal verdeeld is? Waarom (niet)?
+%\end{exercise}
+%
+%\begin{figure}
+%  \centering
+%  \begin{tikzpicture}
+%    \begin{axis}[
+%        domain=3:3.6, samples=100,
+%        axis lines*=left, xlabel=$z$,
+%        every axis y label/.style={at=(current axis.above origin),anchor=south},
+%        every axis x label/.style={at=(current axis.right of origin),anchor=west},
+%        height=5cm, width=12cm,
+%        xtick={3.3,3.483}, ytick=\empty,
+%        enlargelimits=false, clip=false, axis on top,
+%        grid = major
+%      ]
+%      \addplot [fill=cyan!20, draw=none, domain=3:3.6] {gauss(3.3,0.101328673)} \closedcycle;
+%    \end{axis}
+%  \end{tikzpicture}
+%  \caption{Verdeling van het aantal mensen dat gemiddeld per dag gered wordt door een superheld (Voorbeeld~\ref{ex:hypothesetoets-dagelijkse-reddingen}). De kansverdeling voor het steekproefgemiddelde is normaal verdeeld met $\mu = 3,3$ en $\sigma = 0,5$. Het steekproefgemiddelde $\overline{x} =3,483$.}
+%  \label{fig:hypothesetoets-reddingen-per-dag}
+%\end{figure}
+%
+%\section{Kritieke gebied}
+%\label{sec:kritieke-gebied}
+%
+%De formule voor de berekening van de grenswaarde (zie Formule~\ref{eq:kritieke-grenswaarde-z-toets}) is gebaseerd op de centrale limietstelling, en meer bepaald betrouwbaarheidsintervallen.
+%
+%De kritieke grenswaarde vormt een betrouwbaarheidsinterval rond $\mu$ met een gekozen zekerheidsniveau. Als we bijvoorbeeld stellen dat $\alpha = 0.05$, weten we vanuit de centrale limietstelling dat we kunnen verwachten dat als we herhaaldelijk voldoende steekproeven uit deze populatie nemen, in 95\% van de gevallen het steekproefgemiddelde binnen dit betrouwbaarheidsgeval zal liggen.
+%
+%Als we de redenering omkeren, en een steekproef genomen hebben waar het gemiddelde $\overline{x}$ \emph{niet} binnen dit betrouwbaarheidsinterval ligt, dan is de kans heel klein (kleiner dan 5\%) dat deze uit een populatie getrokken is met het veronderstelde gemiddelde $\mu$. In dat geval kunnen we de nulhypothese dus verwerpen.
+%
+%In Voorbeeld~\ref{ex:hypothesetoets-dagelijkse-reddingen} is de kritieke grenswaarde het getal $g$ waarvoor geldt dat
+%
+%\[ P(M > g) = \alpha \]
+%
+%wat dan wordt verder uitgewerkt als:
+%
+%\[ P(Z > \frac{g - \mu}{\frac{\sigma}{\sqrt{n}}}) = \alpha \]
+%
+%waaruit volgt dat:
+%
+%\begin{equation}
+%  \label{eq:kritieke-waarde-rechtszijdig}
+%  g = \mu + z \times \frac{\sigma}{\sqrt{n}}
+%\end{equation}
+%
+%\section{Overschrijdingskans}
+%\label{sec:overschrijdingskans}
+%
+%Een karakteristiek die gebruikt wordt om weer te geven hoe sterk de geobserveerde waarde afwijkt van $H_{0}$, is de overschrijdingskans (probability value of ook $p$-waarde\index{$p$-waarde}). Dit vormt een alternatieve manier om te bepalen of de nulhypothese al dan niet verworpen kan worden.
+%
+%\begin{definition}[overschrijdingskans]
+%  De \emph{overschrijdingskans}\index{overschrijdingskans} is de kans, indien de nulhypothese waar is, om een waarde te verkrijgen van de toetsingsgrootheid die minstens even extreem is als de geobserveerde waarde.
+%\end{definition}
+%
+%\begin{definition}[statistische significantie]
+%  In een statistische hypothesetoets heeft men een \emph{statistisch significant}\index{significant} resultaat behaald waneer de geobserveerde overschrijdingskans $p$ van de teststatistiek lager is dan het significantieniveau $\alpha$. De $p$-waarde wordt onder het gekozen significantieniveau beschouwd als te extreem om de veronderstelling dat de nulhypothese waar is aan te houden.
+%\end{definition}
+%
+%\begin{example}
+%  In het onderzoek naar het aantal dagelijkse reddingen door superhelden (Voorbeeld~\ref{ex:hypothesetoets-dagelijkse-reddingen}) kan de overschrijdingskans als volgt berekend worden:
+%  
+%\[ P(M > 3,483) = P \left(Z> \frac{3,483 - 3,3}{\frac{\sigma}{\sqrt{n}}}\right) = P (Z > 1,822) = 0,0344 \]
+%\end{example}
+%
+%Als de overschrijdingskans of $p$-waarde kleiner is dan de onbetrouwbaarheidsdrempel dan moet $H_{0}$ verworpen worden, is de $p$-waarde gelijk of groter dan $\alpha$ dan mag je $H_{0}$ niet verwerpen. In ons geval is de $p$-waarde $0,0344$ en die is kleiner dan $\alpha = 0,05$ dus moeten we $H_{0}$ verwerpen.
+%
+%\begin{itemize}
+%  \item $p$-waarde $< \alpha \Rightarrow$ $H_{0}$, verwerpen want de gevonden waarde voor $\overline{x}$ is te extreem;
+%  \item $p$-waarde $\geq \alpha \Rightarrow$ $H_{0}$ niet verwerpen, want de gevonden waarde voor $\overline{x}$ kan nog verklaard worden door toeval.
+%\end{itemize}
+%
+%\section{Eenzijdig of tweezijdig toetsen}
+%\label{sec:eenzijdig-of-tweezijdig}
+%
+%In Voorbeeld~\ref{ex:hypothesetoets-dagelijkse-reddingen} gaat het om een hypothese waar we vermoeden dat het populatiegemiddelde \emph{hoger} ligt dan een bepaalde waarde. We twijfelen dus aan de de nulhypothese als ons steekproefgemiddelde significant boven het vooropgestelde gemiddelde $\mu = 3,3; \alpha = 0,05$ ligt. Het kritieke gebied om $H_{0}$ te verwerpen ligt dus aan de rechterzijde van de curve en we noemen deze toets dan ook rechtszijdig.
+%
+%We zouden ook een toets kunnen maken waar we denken dat de superhelden gemiddeld \emph{minder} mensen redden per dag. Dan ligt het kritieke gebied aan de linkerzijde en noemen we de toets linkszijdig.
+%
+%\begin{exercise}
+%  \label{ex:critical-value-left-tail}
+%  Wat zou je in vergelijking \ref{eq:kritieke-waarde-rechtszijdig} moeten veranderen opdat je de correcte kritieke waarde zou berekenen voor een linkszijdige $z$-toets?
+%\end{exercise}
+%
+%Soms kan het ook zijn dat er tweezijdig moet getoetst worden. De alternatieve hypothese wordt dan geformuleerd als zijnde dat het populatiegemiddelde verschillend is van de opgegeven waarde. Er moeten dan twee kritieke grenswaarden berekend worden namelijk de linker- en de rechter grenswaarden.
+%
+%\begin{equation}
+%  g = \mu \pm z \times \frac{\sigma}{\sqrt{n}}
+%  \label{eq:kritieke-waarde-tweezijdig}
+%\end{equation}
+%
+%De totale oppervlakte van het kritieke gebied moet $1 - \alpha$ zijn, en je moet er rekening mee houden dat zowel links als rechts een gebied met telkens oppervlakte $\alpha / 2$ samen het aanvaardingsgebied vormen. Je moet dan ook de overeenkomstige $z$-waarde kiezen. Als we opnieuw significantieniveau $\alpha = 0,05$ nemen, zoeken we dus de $z$ waarde waarvoor geldt dat;
+%
+%\[P(Z < -z) + P(Z > z) = \alpha \Leftrightarrow 2 P(Z>z) = \alpha \Leftrightarrow P(Z < z) = 1-\frac{\alpha}{2} = 0,975\]
+%
+%De overeenkomstige $z$-waarde is dan ongeveer 1.96 (op te zoeken in de $z$-tabel of in R met \texttt{qnorm(.975)}).
+%
+%De drie vormen van de $z$-toets worden samengevat in tabel~\ref{tab:toetsingsprocedures}.
+%
+%\begin{table}
+%  \centering
+%  \begin{tabular}{l|ccc}
+%    \toprule
+%    Doel              & \multicolumn{3}{l}{\parbox{.5\textwidth}{Test op gemiddelde waarde $\mu$ van de populatie aan de hand van een steekproef van $n$ onafhankelijke steekproefwaarden}} \\
+%    \midrule
+%    Voorwaarde        & \multicolumn{3}{l}{\parbox{.5\textwidth}{De populatie is willekeurig verdeeld, $n$ voldoende groot}} \\
+%    \midrule
+%    Type test         & Tweezijdig           & Eenzijdig links & Eenzijdig rechts \\
+%    \midrule
+%    $H_{0}$           & $\mu = \mu_{0}$      & $\mu = \mu_{0}$ & $\mu = \mu_{0}$  \\
+%    $H_{1}$           & $\mu \neq \mu_{0}$   & $\mu < \mu_{0}$ & $\mu > \mu_{0}$  \\
+%    Verwerpingsgebied & $\left|z\right| > g$ & $z< -g $        & $z>g$            \\
+%    Teststatistiek    & \multicolumn{3}{c}{$z = \frac{\overline{x} - \mu_{0}}{\frac{\sigma}{\sqrt{n}}}$} \\
+%    \bottomrule
+%  \end{tabular}
+%  \caption{Samenvatting verschillende vormen van de $z$-toets}
+%  \label{tab:toetsingsprocedures}
+%\end{table}
+%
+%\section{De \texorpdfstring{$z$}{z}-toets in R}
+%\label{sec:z-toets-R}
+%
+%Het codevoorbeeld hieronder is de uitwerking van Voorbeeld~\ref{ex:hypothesetoets-dagelijkse-reddingen} in R.
+%
+%\lstinputlisting{data/z-toets.R}
+%
+%\begin{figure}
+%  \centering
+%  \includegraphics[width=\textwidth]{z-toets-reddingen}
+%  \caption{Plot in R van de situatie van Voorbeeld~\ref{ex:hypothesetoets-dagelijkse-reddingen}}
+%\end{figure}
+%
+%\section{Voorbeelden}
+%
+%\begin{example}
+%  Bij een aselecte steekproef van 50 waarnemingen vinden we we volgende grootheden:
+%  \begin{itemize}
+%    \item $\overline{x} = 25$
+%    \item $s = \sqrt{55} = 7,41$
+%  \end{itemize}
+%  
+%  We willen weten of er reden is om aan te nemen dat $\mu$ van de populatie kleiner is dan 27.
+%  
+%  \begin{enumerate}
+%    \item Bepalen van de hypothesen: 
+%    
+%    $H_{0} : \mu = 27$ en $H_{1}: \mu < 27$.
+%    
+%    \item Vastleggen significantieniveau $\alpha$ en steekproefomvang $n$:
+%    
+%    $\alpha = 0,05$ en $n=50$.
+%    
+%    \item Waarde toetsingsgrootheid bepalen. 
+%    
+%    We kiezen hiervoor het steekproefgemiddelde $M$. Volgens de centrale limietstelling geldt:
+%    
+%    \[ M \sim Nor(\mu = 27, \frac{\sigma}{\sqrt{n}}) \]
+%    De toetsingsgrootheid is
+%    \[ Z = \frac{\overline{x} - \mu}{\frac{\sigma}{\sqrt{n}}} = \frac{25-27}{\sqrt\frac{55}{50}} \approx -1,91\]
+%    
+%    \item Overschrijdingskans berekenen.
+%    
+%    We vinden een overschrijdingskans van het gemiddelde van \texttt{pnorm(-1.91)} of ongeveer $0,0281$. Bij een significantieniveau van 0,05 duidt dit er op dat we $H_{0}$ mogen verwerpen.
+%    
+%    \item Bereken en teken kritiek gebied.
+%    
+%    \[ g = \mu - z \times \frac{\sigma}{\sqrt{n}} \]
+%    en dus
+%    
+%    \[ g = 27 - 1,645 \times \sqrt{\frac{\sigma}{n}} \]
+%    \[ g =  25,27470944 \]
+%    
+%    We vinden dus dat $\overline{x} < g$ komen tot hetzelfde besluit, nl.~dat we $H_{0}$ kunnen verwerpen.
+%    
+%  \end{enumerate}
+%\end{example}
+%
+%\begin{example}
+%  In een onderzoek naar het kleingeld dat in de zakken van van onze superhelden zit, stellen de onderzoekers dat zij gemiddeld 25 euro op zak hebben. Ze gaan ervan uit de spreiding $\sigma = 7$ is. Verder zijn de gegevens van de aselecte steekproef van omvang $n=64$ beschikbaar met gemiddeld zakgeld $\overline{x}$ van 23 euro. Voor het significantieniveau kiezen ze $\alpha = 0,05$.
+%  
+%  \begin{enumerate}
+%    \item Bepalen van de hypothesen.
+%    
+%    $H_{0} : \mu = 25$ en $H_{1}: \mu \neq 25$.
+%    
+%    \item Vastleggen significantieniveau $\alpha$ en steekproefomvang $n$.
+%    
+%    $\alpha = 0,05$ en $n=64$.
+%    
+%    \item Bepalen van de kritieke grenzen.
+%    
+%    \[ g_{1} = \mu - z \times \frac{\sigma}{\sqrt{n}} = 23,28 \]
+%    
+%    \[ g_{2} = \mu + z \times \frac{\sigma}{\sqrt{n}} = 26,72 \]
+%    
+%    \item Kritiek gebied.
+%    
+%    We vinden dat $\overline{x}$ in het kritieke gebied ligt (want $\overline{x} = 23 < g_1 = 23,25$), dus mogen we $H_{0}$ verwerpen.
+%    
+%  \end{enumerate}
+%\end{example}
+%
+%\section{De \texorpdfstring{$t$}{t}-toets}
+%\label{sec:t-toets}
+%
+%Bij de $z$-toets gaan we uit van een aantal veronderstellingen waar we rekening moeten mee houden:
+%
+%\begin{itemize}
+%  \item De steekproef moet voldoende groot zijn ($n \ge 30$);
+%  \item De variatie van de toetsingsgrootheid moet normaal verdeeld zijn;
+%  \item We veronderstellen dat de standaardafwijking van de populatie, $\sigma$, gekend is.
+%\end{itemize}
+%
+%De eerste drie voorwaarden maken dat de centrale limietstelling kan toegepast worden.
+%
+%Soms zijn deze veronderstellingen niet geldig en mogen we dan ook de $z$-toets \emph{niet} gebruiken! In deze gevallen kunnen we wel gebruik maken van de Student-$t$ verdeling. In de $t$-toets\index{$t$-toets}\index{toets!$t$-} wordt er wel van uit gegaan dat de onderzochte variabele normaal verdeeld is.
+%
+%De formule voor de kritieke grenswaarde wordt dan aangepast als:
+%
+%\begin{equation}
+%g = \mu \pm t \times \frac{s}{\sqrt{n}}
+%\label{eq:kritieke-waarde-t-toets}
+%\end{equation}
+%
+%Voor het bepalen van de $t$-waarde hebben we het aantal vrijheidsgraden nodig, $n-1$. Om de standaardafwijking te schatten, gebruiken we de steekproefstandaardafwijking, $s$.
+%
+%\begin{example}
+%  \label{ex:t-toets-dagelijkse-reddingen}
+%  Stel dat de onderzoekers van de superhelden uit Voorbeeld~\ref{ex:hypothesetoets-dagelijkse-reddingen} door tijdsdruk niet in staat waren om een voldoende grote steekproef te nemen en slechts $n = 20$ observaties gedaan hebben, met hetzelfde steekproefgemiddelde $\overline{x} = 3,483$. De standaardafwijking in deze steekproef bleek $s = 0,55$.
+%  
+%  Kunnen we in deze omstandigheden, met eenzelfde significantieniveau $\alpha = 0,05$, het besluit dat superhelden dagelijks \emph{meer} dan 3,3 mensen redden aanhouden?
+%  
+%  \begin{enumerate}
+%    \item Bepalen van de hypothesen.
+%    
+%      $H_{0} : \mu = 3,3$ en $H_{1}: \mu > 25$.
+%    
+%    \item Vastleggen significantieniveau $\alpha$ en steekproefomvang $n$.
+%    
+%    $\alpha = 0,05$ en $n=25$.
+%    
+%    \item Bepalen van de kritieke grenswaarde.
+%    
+%    \[ g_{2} = \mu + t \times \frac{s}{\sqrt{n}} \approx 3,3 + 1,711 \times \frac{0,55}{\sqrt{25}} \approx 3.488 \]
+%    
+%    De waarde voor $t$ wordt in R berekend met \texttt{qt(1-a, df = n - 1)} (met \texttt{a} het significantieniveau en \texttt{df} het aantal vrijheidsgraden.)
+%    
+%    \item Conclusie.
+%    
+%    We vinden dat $\overline{x} = 3,483$ kleiner is dan de kritieke grenswaarde en dus in het aanvaardingsgebied ligt. Met andere woorden, we mogen $H_{0}$ \emph{niet} verwerpen.
+%  \end{enumerate}
+%
+%  Met andere woorden, ook al krijgen we gelijkaardige resultaten in onze steekproef, kunnen we niet hetzelfde besluit trekken. Omdat onze steekproef te klein is, is er grotere onzekerheid of de waarde van het steekproefgemiddelde extreem genoeg is om de nulhypothese te verwerpen.
+%  
+%  Hieronder vind je de uitwerking van dit voorbeeld in R.
+%\end{example}
+%
+%\lstinputlisting{data/t-toets.R}
+%
+%\begin{figure}
+%  \centering
+%  \includegraphics[width=\textwidth]{t-toets-reddingen}
+%  \caption{Plot in R van de situatie van Voorbeeld~\ref{ex:t-toets-dagelijkse-reddingen}}
+%\end{figure}
+%
+%\begin{example}
+%  Een uitbraak van een door Salmonella veroorzaakte ziekte werd toegeschreven aan vanille-ijs van een bepaalde fabriek~\autocite{Lindquist}. Wetenschappers hebben het niveau van Salmonella gemeten in 9 willekeurig genomen steekproeven.
+%  
+%  De niveaus (in MPN/g\footnote{Most Probable Number. Zie bv.~\url{http://www.microbiologie.info/mpn-methode.html} voor meer uitleg over deze methode.}) zijn de volgende:
+%  
+%    \begin{center}
+%    \begin{tabular}{|l|l|l|l|l|}
+%      \hline
+%      0,593 & 0,142 & 0,329 & 0,691 & 0,231 \\ \hline
+%      0,793 & 0,519 & 0,392 & 0,418 &       \\ \hline
+%    \end{tabular}
+%  \end{center}
+%
+%  Is er reden om aan te nemen dat het Salmonella-niveau in het ijs significant groter is dan 0,3 MPN/g? We zullen gebruik maken van de R-functie \texttt{t.test} om deze vraag te beantwoorden. Lees zelf de help-pagina van deze functie om de mogelijke opties te leren kennen.
+%  
+%  \begin{enumerate}
+%    \item Bepalen van de hypothesen
+%    
+%    $H_0: \mu = 0.3, H_1: \mu > 0,3$
+%    
+%    \item Vastleggen significantieniveau $\alpha = 0.05$ (in R moet je het betrouwbaarheidsniveau $1-\alpha$ opgeven, dus 0,95) en steekproefomvang $n = 9$
+%    
+%    \item Bepalen overschrijdingskans. Het gaat hier over een rechtszijdige toets, wat aangegeven wordt met de optie \texttt{alternative="greater"}. Het gekozen betrouwbaarheidsniveau is de standaardwaarde voor deze functie en moet niet expliciet meegegeven worden.
+%    
+%\begin{lstlisting}
+%x <- c(0.593, 0.142, 0.329, 0.691, 0.231, 0.793, 0.519, 0.392, 0.418)
+%t.test(x, alternative = "greater", mu = 0.3)
+%\end{lstlisting}
+%    
+%    Het resultaat is:
+%    
+%\begin{verbatim}
+%One Sample t-test
+%
+%data:  x
+%t = 2.2051, df = 8, p-value = 0.02927
+%alternative hypothesis: true mean is greater than 0.3
+%95 percent confidence interval:
+%0.3245133       Inf
+%sample estimates:
+%mean of x 
+%0.4564444 
+%\end{verbatim}
+%    
+%    \item Conclusie. De overschrijdingskans $p = 0,029 < \alpha = 0,05$. We kunnen dus de nulhypothese verwerpen; er is met ander worden en vrij sterke aanwijzing dat het gemiddelde Salmonella-niveau in het ijs groter is dan 0,3 MPN/g.
+%    
+%    Je kan uit de uitvoer van de \texttt{t.test}-functie ook het kritieke gebied aflezen: $[0,3245133; +\infty[$. Het steekproefgemiddelde $0,4564444$ ligt in het kritieke gebied, wat eveneens leidt tot de conclusie dat de nulhypothese kan verworpen worden.
+%  \end{enumerate}
+%\end{example}
+%
+%\section{De \texorpdfstring{$t$}{t}-toets voor twee steekproeven}
+%\label{sec:t-toets-twee-steekproeven}
+%
+%De $t$-toets kan ook gebruikt worden om twee steekproeven met elkaar te vergelijken. Je kan er dan mee nagaan of het steekproefgemiddelde van beide steekproeven \emph{significant} verschillend is.
+%
+%Men maakt onderscheid tussen twee gevallen:
+%
+%\begin{itemize}
+%  \item Beide steekproeven zijn onafhankelijk, zijn afzonderlijk genomen. Een voorbeeld is een onderzoek naar een medische behandelingsmethode waar een contolegroep de behandeling \emph{niet} krijgt en een testgroep de behandeling wel krijgt.
+%  \item De steekproeven zijn afhankelijk, of gepaard. Een voorbeeld is twee metingen uitvoeren op hetzelfde lid van de populatie, zoals de koorts nemen voor en na het innemen van een medicijn om het effect ervan te meten.
+%\end{itemize}
+%
+%In R kan je eveneens de functie \texttt{t.test} gebruiken voor het uitvoeren van een toets met twee steekproeven. We geven hieronder twee voorbeelden, één voor elk geval.
+%
+%\begin{example}
+%  In een klinisch onderzoek wil men nagaan of een nieuw medicijn als bijwerking een verminderde reactiesnelheid heeft~\autocite{Lindquist}.
+%  
+%  Zes deelnemers kregen een medicijn toegekend (interventiegroep) en zes anderen een placebo (controlegroep). Vervolgens werd hun reactietijd op een stimulus gementen (in ms). We willen nagaan of er significante verschillen zijn tussen de interventie- en controlegroep.
+%  
+%  \begin{itemize}
+%    \item Controlegroep: 91, 87, 99, 77, 88, 91
+%    \item Interventiegroep: 101, 110, 103, 93, 99, 104
+%  \end{itemize}
+%  
+%  We noteren $\mu_1$ voor het populatiegemiddelde van de patiënten die het medicijn nemen en $\mu_2$ voor het gemiddelde van de niet behandelde populatie.
+%  
+%  De hypothesen worden formeel als volgt genoteerd:
+%  
+%  $H_0: \mu_1 - \mu_2 = 0$ en $H_1: \mu_1 - \mu_2 < 0$
+%  
+%  Het gaat hier dus over een linkszijdige test, wat weergegeven wordt door de optie \texttt{alternative = "less"}. In de nulhypothese veronderstellen we dat het verschil tussen de populatiegemiddelden 0 is, wat met de optie \texttt{mu = 0} wordt aangeduid. Merk op dat dit de standaardwaarde is voor deze parameter en dus in principe niet moet worden opgegeven.
+%  
+%\begin{lstlisting}
+%controle <-  c(91, 87, 99, 77, 88, 91)
+%interventie <- c(101, 110, 103, 93, 99, 104)
+%t.test(controle, interventie, alternative="less", mu=0)
+%\end{lstlisting}
+%
+%  Het resultaat van de toets:
+%  
+%\begin{verbatim}
+%t.test(controle, interventie, alternative="less")
+%
+%Welch Two Sample t-test
+%
+%data:  controle and interventie
+%t = -3.4456, df = 9.4797, p-value = 0.003391
+%alternative hypothesis: true difference in means is less than 0
+%95 percent confidence interval:
+%-Inf -6.044949
+%sample estimates:
+%mean of x mean of y 
+%88.83333 101.66667
+%\end{verbatim}
+%
+%  De $p$ waarde, 0,003391, ligt duidelijk onder het significantieniveau (niet expliciet opgegeven, dus werd de standaardwaarde $\alpha = 0,05$ gebruikt.)
+%  
+%  De teststatistiek $t = -3,4456$ ligt binnen het verwerpingsgebied $]-\infty; -6,044949]$.
+%  
+%  We mogen dus de nulhypothese verwerpen en besluiten dat volgens de resultaten van deze steekproef het medicijn inderdaad een significant effect heeft op de reactiesnelheid van patiënten.
+%\end{example}
+%
+%\begin{example}
+%  In een studie werd nagegaan of auto's die rijden op benzine met additieven ook een lager verbruik hebben. Tien auto's werden eerst volgetankt met ofwel gewone benzine, ofwel benzine met additieven (bepaald door opgooien van een munt), waarna het verbruik werd gemeten (uitgedrukt in mijl per gallon). Vervolgens werden de auto's opnieuw volgetankt met de andere soort benzine en werd opnieuw het verbruik gemeten. De resultaten worden gegeven in Tabel~\ref{tab:benzineverbruik-additieven}.
+%  
+%  \begin{table}
+%    \centering
+%    \begin{tabular}{|l|c|c|c|c|c|c|c|c|c|c|}
+%      \hline 
+%      Auto & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 \\ 
+%      \hline 
+%      Gewone benzine & 16 & 20 & 21 & 22 & 23 & 22 & 27 & 25 & 27 & 28 \\ 
+%      \hline 
+%      Additieven & 19 & 22 & 24 & 24 & 25 & 25 & 25 & 26 & 28 & 32 \\ 
+%      \hline 
+%    \end{tabular} 
+%  \caption{Verbruik in mijl per gallon met 2 soorten benzine.}
+%  \label{tab:benzineverbruik-additieven}
+%  \end{table}
+%  
+%  We gaan door middel van een \emph{gepaarde $t$-test} na of auto's significant zuiniger rijden met benzine met additieven.
+%  
+%  De optie \texttt{paired=TRUE} geeft aan dat het hier om een gepaarde $t$-toets gaat.
+%  
+%\begin{lstlisting}
+%gewone    <- c(16, 20, 21, 22, 23, 22, 27, 25, 27, 28)
+%additieven <-c(19, 22, 24, 24, 25, 25, 26, 26, 28, 32)
+%t.test(additieven, gewone, alternative="greater", paired=TRUE)
+%\end{lstlisting}
+%
+%  Resultaat:
+%  
+%\begin{verbatim}
+% Paired t-test
+%
+%data:  additieven and gewone
+%t = 4.4721, df = 9, p-value = 0.0007749
+%alternative hypothesis: true difference in means is greater than 0
+%95 percent confidence interval:
+% 1.180207      Inf
+%sample estimates:
+%mean of the differences 
+%                      2 
+%\end{verbatim}
+%
+%  De $p$-waarde, 0,0007749, ligt onder het significantieniveau, dus we kunnen de nulhypothese verwerpen. Volgens deze steekproef rijden auto's inderdaad zuiniger met benzine met additieven.
+%  
+%  De teststatistiek $t = 4,4721$ ligt binnen het verwerpingsgebied $[1,180207; +\infty]$.
+%\end{example}
+%
+%% TODO: later evt. toevoegen
+%% - ANOVA, variantie-analyse
+%% - Kolmogorov-Smirnov test
+%
+%\section{Fouten in hypothesetoetsen}
+%
+%Bij het uitvoeren van een hypothesetoets kunnen altijd nog fouten optreden. Indien we $H_{0}$ verwerpen wanneer ze in werkelijkheid juist is, spreken we van een fout van type I en wanneer we $H_{0}$ ten onrechte aanvaarden van een fout van type II.
+%
+%Het significatieniveau $\alpha$ bepaalt bij het uitvoeren van een hypothesetoets wanneer de nulhypothese precies verworpen kan worden. Stel dat we een significatieniveau van 5\% kiezen. Als de nulhypothese waar is, dan is de kans dat we een steekproef trekken met een toetsingswaarde die in het verwerpingsgebied terecht komt 5\%. M.a.w. de kans om de nulhypothese te verwerpen terwijl ze waar is, is 5 \% of in het algemeen: het significantieniveau van een toets is gelijk aan de kans op het maken van een fout van type I.
+%
+%Het is vanzelfsprekend dat we de kans op een fout van type I zo klein mogelijk willen houden. Jammer genoeg is dit ten koste van de kans op een type II fout, aangeduid met $\beta$, die hierdoor groter wordt. Het verband tussen $\alpha$ en $\beta$ is niet triviaal en we gaan hier in deze cursus niet verder op in.
+%
+%In vele gevallen is het maken van een fout van type I erger dan een van type II. Denk maar aan een rechtszaak waarbij de nulhypothese is dat de persoon onschuldig is. Indien we toetsen op een 5\% significantieniveau is de kans op een type I fout 5 op 100. M.a.w. er is een betrouwbaarheid van 95\% dat de juiste beslissing wordt genomen indien $H_{0}$ correct is. Daarom vermijden we liever de conclusie dat $H_{0}$ geaccepteerd wordt, maar eerder dat de steekproef onvoldoende bewijs bevat om $H_{0}$ bij een bepaald significantieniveau te verwerpen.
+%
+%\begin{table}
+%  \centering
+%  \begin{tabular}{@{}l|cc@{}}
+%    \toprule
+%    & \multicolumn{2}{c}{\textbf{Werkelijke stand van zaken}} \\
+%    \textbf{Conclusies}          & \textbf{$H_{0}$ correct} & \textbf{$H_{1}$ correct}     \\
+%    \midrule
+%    \textbf{$H_{0}$ geaccepteerd}& Juist                    & Fout van type II \\
+%    \textbf{$H_{0}$ verworpen}   & Fout van type I          & Juist            \\
+%    \bottomrule
+%  \end{tabular}
+%  \caption{Conclusies en consequenties bij toetsen van een hypothese; types van fouten.}
+%  \label{tab:hypfouten}
+%\end{table}
+
+\section{Exercises}
+\label{sec:hypothesis-tests-exercises}
+
+\begin{exercise}
+  Confidence intervals.
+  
+  \begin{enumerate}
+    \item What is the lower and upper bound of a 99\% confidence interval?
+    \item A confidence interval of 99\% is wider than one fo 95\%. Why is this the case?
+    \item What would be the confidence interval for a confidence level of 100\%?
+  \end{enumerate}
+  
+\end{exercise}
+
+\begin{exercise}
+  \label{ex:binding-recommendation}
+  
+  It is being said that introducing a ``binding recommendation on continuation of studies'' (refusing enrollment in the next academic year if a student did not complete a certain level of credits) has a positive effect on the study efficiency and success rate. Before the introduction of binding recommendations, the number of completed credits per student per year was 44 with a standard deviation of 6.2. After the introduction, a sample of 72 random students has an average number of completed credits of 46.2.
+  
+  \begin{enumerate}
+    \item Test whether there is evidence that the introduction of binding recommendations has improved the success rate among students. Calculate the critical value for a significance level of $\alpha = 2.5\%$.
+    \item Do the same by calculating the $p$-value.
+    \item Explain what $\alpha = 2.5 \%$ means.
+  \end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+  \label{ex:price-difference-cars}
+  
+  One of the motives for choosing a car dealership is the residual value of their previous car, specifically the price a dealer wants to pay for the old car when the customer buys a new one. The importer of Ford wants that all dealers implement the same price policy. The importer is of the opinion that the average price difference between the closest Ford dealer and the dealer where the old car was purchased should be at most \euro{300}. It is assumed that, if the difference is larger, potential customers will be more inclined to stay with their previous dealer.
+  
+  In a random sample, the following price differences are recorded:
+  
+  \begin{center}
+    \begin{tabular}{|l|l|l|l|l|l|l|}
+      \hline
+      400 & 350 & 400 & 500 & 300 & 350 & 200 \\ \hline
+      500 & 200 & 250 & 250 & 500 & 350 & 100 \\ \hline
+    \end{tabular}
+  \end{center}
+
+  Test whether there is reason to assume that the average price difference in reality is significantly greater than \euro{300}.
+  
+\end{exercise}
+
+\begin{exercise}
+  \label{ex:casus-akin2016-test}
+  
+  In Exercise~\ref{ex:casus-akin2016-test} and following, we analysed the results of performance measurements for persistence types in Android~\autocite{Akin2016}. Experiments were set up for different combinations of the amount of data (small, average, large) and persistence type (GreenDAO, Realm, SharedPreferences, SQLite). For each amount of data, we determined what persistence type had the best result.
+  
+  Now, we're going to investigate whether the at first sight best persistence type is also \emph{significantly} better than the others.
+  
+  Specifically: use a two sample test for each data amount whether the average of the best performing persistence type is significantly lower than the average of \begin{inparaenum}[(i)] \item the \emph{second} best, and \item the worst performing type.\end{inparaenum}.
+  
+  Can we maintain the conclusion that, for a given data amount, one persistence type is the best, i.e.~significantly better than any other persistence type?
+\end{exercise}
+
+\begin{exercise}
+  A large number of students has participated in a test that was organised in several consecutive sessions. Because composing a different assignment for each session was practically infeasible, the same assignment was reused. Consequently, there is some danger that after a session, participating students pass on information to the next groups. The later groups would then have a significant advantage w.r.t.~the first ones. Is this also reflected in the results?
+  
+  The file \texttt{test-results.csv} contains all results of the test. Every session is indicated with a letter, in the order of the session:
+  
+  \begin{itemize}
+    \item Day 1: sessions A, B
+    \item Day 2: sessions C, D, E
+    \item Day 3: sessions F, G, H
+  \end{itemize}
+
+  Sessions A and B took place on a different campus, so one can assume that there is less opportunity for communication with students of the other sessions.
+  
+  If information was passed on successfully, we expect that the results of the later sessions are significantly better than the earlier ones.
+  
+  Remark that inversing this reasoning is not necessarily valid: if the result of later sessions is indeed significantly better, that does not necessarily mean that the cause is in fact (only) the passing on of questions and/or solutions. There may be other causes (e.g.~``weaker'' groups were scheduled earlier at random).
+  
+  \begin{enumerate}
+    \item Explore the data set. Calculate measures of centre and dispersion for the dataset as a whole, and for each session separately.
+    
+    \item Plot a bar chart of the average result per session. Is this sufficient to draw conclusions about the results? Why (not)?
+    
+    \item Draw a box plot of the results per session. Compare the sessions enumerated below. Do you expect a significant difference between the results? Does this confirm our suspicion that information is passed on between students of consecutive sessions?
+    
+    \begin{itemize}
+      \item A, B
+      \item C, D, E
+      \item F, G, H
+      \item C, H
+      \item A, H
+    \end{itemize}
+  
+    \item Use a suitable statistical test to investigate whether the differences between the sessions enumerated above is also statistically \emph{significant}. Can we conclude that the later sessions have better results or not?
+  \end{enumerate}
+\end{exercise}
+
+\section{Responses to selected exercises}
+\label{sec:hypothesis-tests-responses}
+
+%\paragraph{Oefening~\ref{ex:critical-value-left-tail}:}
+%
+%\begin{equation}
+%g = \mu - z \times \frac{\sigma}{\sqrt{n}}
+%\label{eq:kritiekeRechtseWaarde2}
+%\end{equation}
+%
+%want
+%
+%\[ P(M < g) = P\left(Z < \frac{g - \mu}{\frac{\sigma}{\sqrt{n}}}\right) = 0,05 \]
+%Wegens de symmetrieregel kunnen we zeggen
+%\[ P\left(Z > - \left( \frac{g - \mu}{\frac{\sigma}{\sqrt{n}}} \right) \right) = 0,05 \]
+%De z-waarde die ermee overeen komt is 1,645 dus hebben we
+%\[ z = \frac{-g + \mu}{\frac{\sigma}{\sqrt{n}}} \]
+%\[ \Leftrightarrow -g = \frac{\sigma}{\sqrt{n}} z - \mu \]
+%\[ \Leftrightarrow g = -\frac{\sigma}{\sqrt{n}} z + \mu \]
+
+\paragraph{Exercise~\ref{ex:binding-recommendation}}
+
+\begin{enumerate}
+  \item $g \approx 45,4 < \overline{x} = 46,2$.
+  
+  $\overline{x}$ is within the critical area, so we can reject the null hypothesis. We have reasons to assume that binding recommendations actually do increase study efficiency. 
+  
+  \item $P(M > 46.2) \approx 0,01 < \alpha = 0,025$. The $p$-value is smaller than the significance level, so we can reject the null hypothesis.
+  
+  \item  $\alpha$ is the probability of rejecting $H_{0}$ falsely. There is in other words a probability of 2.5\% that our conclusion that study efficiency increased is actually false, caused by a random sample that is exceptionally extreme.
+\end{enumerate}
+
+\paragraph{Exercise~\ref{ex:price-difference-cars}}
+
+In this situation ($n = 14 < 30$) the $z$-test cannot be used. Instead, we use Student's $t$-test.
+
+\begin{itemize}
+  \item $\overline{x} \approx 332,143$
+  \item $s \approx 123,424$
+  \item $g \approx 358,42$
+  \item The sample mean is outside of the critical region, so we cannot reject $H_0$.
+\end{itemize}
+
+There is no reason to assume that the average price difference on the residual value of old cars is significantly greater than the amount recommended by the importer.
