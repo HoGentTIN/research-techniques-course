@@ -1,0 +1,765 @@
+%%----------------------------------------------------------------------------
+%% Presentatie HoGent Bedrijf en Organisatie
+%%----------------------------------------------------------------------------
+%% Auteur: Bert Van Vreckem [bert.vanvreckem@hogent.be]
+
+\documentclass{beamer}
+
+%==============================================================================
+% Aanloop
+%==============================================================================
+
+%---------- Packages ----------------------------------------------------------
+\usepackage{etex}
+\usepackage{graphicx,multicol}
+\usepackage{comment,enumerate,hyperref}
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{tikz}
+\usepackage[dutch]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{multirow}
+\usepackage{eurosym}
+\usepackage{listings}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{textcomp}
+\usepackage{framed}
+\usepackage{wrapfig}
+\usepackage{pgf-pie}
+\usepackage{pgfplots}
+\usepackage{booktabs}
+\usepackage{pgfplotstable}
+\usepackage{changepage}
+
+%---------- Configuratie ------------------------------------------------------
+
+\usetikzlibrary{arrows,shapes,backgrounds,positioning,shadows}
+\usetikzlibrary{pgfplots.statistics}
+
+\usetheme{hogent}
+\setbeameroption{show notes}
+
+%---------- Command-definitions -----------------------------------------------
+
+\newcommand{\tabitem}{~~\llap{\textbullet}~~}
+\renewcommand{\arraystretch}{1.2}
+
+%---------- Document metadata ------------------------------------------
+
+\title[Bivariate Analysis]{Research Techniques\\5. Bivariate Analysis}
+\author{Anita Bernard, Jens Buysse, Bert {Van Vreckem}}
+\date{AY 2016-2017}
+
+\begin{document}
+
+%---------- Front matter ------------------------------------------------------
+
+% Dia met het HoGent logo
+\HoGentLogo
+
+% Titeldia met faculteitslogo
+\titleframe
+
+%---------- Inhoud ------------------------------------------------------------
+
+\begin{frame}
+  \frametitle{What's on the menu today?}
+
+  \tableofcontents
+\end{frame}
+
+\section{Plotting two variables}
+\sectionframelogo{}
+
+\begin{frame}
+  \frametitle{Example case: survey college restaurant visitors}
+
+  \begin{figure}
+    \centering
+    \includegraphics[width=0.8\textwidth] {img/students.jpg}
+    \label{fig:students}
+  \end{figure}
+
+  \begin{itemize}
+    \item What's the number of days per week that people go to the restaurant?
+    \item Is there a difference in spending between students and staff?
+    \item Is there a link between the number of visits and the total amount spent?
+  \end{itemize}
+
+  R Code: see \texttt{syllabus/data/catering\_college.R}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{What's the number of days per week that people go to the restaurant?}
+  
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+      \begin{table}[h]
+        \begin{tabular}{|l|l|}
+        	\hline
+        	{\textbf{Statistic}} & \textbf{Value} \\ \hline
+        	Mean                 & 2.96           \\ \hline
+        	Median               & 3              \\ \hline
+        	Mode                 & 2              \\ \hline
+        	Stdev                & 1.484          \\ \hline
+        	Variance             & 2.202          \\ \hline
+        	Range                & 4              \\ \hline
+        	$Q_{1}$              & 2              \\ \hline
+        	$Q_{2}$              & 3              \\ \hline
+        	$Q_{3}$              & 5              \\ \hline
+        \end{tabular}
+      \end{table}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+
+      \begin{figure}
+        \centering
+        \includegraphics[width=1.00\textwidth]{img/2var-boxplot-aantalbezoeken}
+      \end{figure}
+
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}
+  \frametitle{What's the number of days per week that people go to the restaurant?}
+  \begin{columns}
+    
+    \begin{column}{0.5\textwidth}
+      \begin{figure}
+        \centering
+        \includegraphics[width=1.00\textwidth]{img/2var-barplot-aantalbezoeken}
+      \end{figure}
+    \end{column}
+  
+    \begin{column}{0.5\textwidth}
+      \begin{figure}
+        \centering
+        \includegraphics[width=1.00\textwidth]{img/2var-boxplot-aantalbezoeken}
+      \end{figure}
+    \end{column}
+  
+  \end{columns}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Is there a difference in spending between students and staff?}
+  \begin{itemize}
+    \item \alert<1>{Bar chart} (of averages per category)
+    \item \alert<2>{Boxplot}
+  \end{itemize}
+
+  \begin{figure}
+    \centering
+    \only<1>{\includegraphics[width=0.5\textwidth]{img/2var-barplot-gemiddeld-bedrag}}
+    \only<2>{\includegraphics[width=0.7\textwidth]{img/2var-boxplot-klanttype-bedrag}}
+  \end{figure}
+
+  \only<1>{\textbf{Remark!} Not sufficient to prove a significant difference!}
+\end{frame}
+
+\section{Contingency tables and Cramér's V}
+\sectionframelogo{}
+
+\begin{frame}
+  \frametitle{Contingency tables}
+  
+  (also: cross tabulation, crosstab, Nl: \emph{kruistabel})
+  
+  Is there a difference in the appreciation of the basic product range between men and women?
+  
+  \begin{table}[h]
+    \begin{tabular}{l||l|l||l}
+                   & Women & Men & Total \\ \hline\hline
+      Good         & 9     & 8   & 17    \\
+      Sufficient   & 8     & 10  & 18    \\
+      Insufficient & 5     & 5   & 10    \\
+      Bad          & 0     & 4   & 4     \\ \hline\hline
+      Total        & 22    & 27  & 49
+    \end{tabular}
+  \end{table}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Contingency tables}
+  
+  Estimating association between two nominal variables: $\chi^2$ (chi squared)
+  
+  \[ \chi^2 = \sum_i \frac{(a_i - e_i)^2}{e_i} \]
+  
+  \begin{itemize}
+    \item $i$ iterates over all cells in the table
+    \item $a$ is the observed value
+    \item $e$ is the expected value if there is no difference between categories being compared
+  \end{itemize}
+  
+\end{frame}
+
+\begin{frame}
+  \frametitle{Contingency tables: percentages}
+  Is there a difference in the appreciation of the basic product range between men and women?
+  \begin{adjustwidth}{-1.5em}{-1.5em}
+    \begin{table}[h] \centering
+      \begin{tabular}{@{}rrrrrrr@{}}
+        \toprule
+                     & Women &  Men & Total & Women \% &   Men\% &   Total \\ \midrule
+                Good &   $9$ &  $8$ &  $17$ &   $41$\% &  $30$\% &  $35$\% \\
+          Sufficient &   $8$ & $10$ &  $18$ &   $36$\% &  $37$\% &  $37$\% \\
+        Insufficient &   $5$ &  $5$ &  $10$ &   $23$\% &  $18$\% &  $20$\% \\
+                 Bad &   $0$ &  $4$ &   $4$ &    $0$\% &  $15$\% &   $8$\% \\
+               Total &  $22$ & $27$ &  $49$ &  $100$\% & $100$\% & $100$\% \\ \bottomrule
+      \end{tabular}
+    \end{table}
+  \end{adjustwidth}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Contingency tables: differences}
+  Is there a difference in the appreciation of the basic product range between men and women?
+  \begin{adjustwidth}{-1.5em}{-1.5em}
+    \begin{table}[h] \centering
+      \begin{tabular}{@{}rrrrrrr@{}}
+        \toprule
+                     &                       Women &                          Men & Total & Women \% &   Men\% &   Total \\ \midrule
+                Good &  $9 -\textcolor{red}{7.63}$ &  $8 - \textcolor{red}{9.36}$ &  $17$ &   $41$\% &  $30$\% &  $35$\% \\
+          Sufficient & $8 - \textcolor{red}{8.08}$ & $10 - \textcolor{red}{9.91}$ &  $18$ &   $36$\% &  $37$\% &  $37$\% \\
+        InSufficient & $5 - \textcolor{red}{4.48}$ &  $5 - \textcolor{red}{5.51}$ &  $10$ &   $23$\% &  $18$\% &  $20$\% \\
+                 Bad & $0 - \textcolor{red}{1.79}$ &  $4 - \textcolor{red}{2.20}$ &   $4$ &    $0$\% &  $15$\% &   $8$\% \\
+               Total &                        $22$ &                         $27$ &  $49$ &  $100$\% & $100$\% & $100$\% \\ \bottomrule
+      \end{tabular}
+    \end{table}
+  \end{adjustwidth}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Contingency tables: squared difference, normalisation}
+  Is there a difference in the appreciation of the basic product range between men and women?
+  \begin{table}[h] \centering
+    \begin{tabular}{@{}rrrrrrr@{}}
+      \toprule
+                   &                   Women &                     Men & Total & Women \% &   Men\% &   Total \\ \midrule
+              Good & $\textcolor{blue}{0.2}$ & $\textcolor{blue}{0.2}$ &  $17$ &   $41$\% &  $30$\% &  $35$\% \\
+        Sufficient &   $\textcolor{blue}{0}$ &   $\textcolor{blue}{0}$ &  $18$ &   $36$\% &  $37$\% &  $37$\% \\
+      InSufficient & $\textcolor{blue}{0.1}$ &   $\textcolor{blue}{0}$ &  $10$ &   $23$\% &  $18$\% &  $20$\% \\
+               Bad & $\textcolor{blue}{1.8}$ & $\textcolor{blue}{1.5}$ &   $4$ &    $0$\% &  $15$\% &   $8$\% \\
+             Total &                    $22$ &                    $27$ &  $49$ &  $100$\% & $100$\% & $100$\% \\ \bottomrule
+    \end{tabular}
+  \end{table}
+  \[ \chi^{2} = 3.811, V= 0.279 \]
+\end{frame}
+
+\begin{frame}
+  \frametitle{Cramér's V}
+  \brightbox{\textcolor{HoGentAccent6}{Cramér's V} is a measure (between 0 and 1) that indicates how strong the association between two nominal variables is.}
+  
+  \[ V = \sqrt{\frac{\chi^2}{n \times \mathrm{min}(k - 1, l - 1)}} \]
+  
+  \begin{table}[h] \centering
+    \begin{tabular}{@{}rr@{}}
+    	\toprule
+    	 Value &            Interpretation \\ \midrule
+    	   $0$ &            no association \\
+    	 $0.1$ &          weak association \\
+    	$0.25$ & fairly strong association \\
+    	 $0.5$ &        strong association \\
+    	$0.75$ &   very strong association \\
+    	   $1$ &      complete association \\ \bottomrule
+    \end{tabular}
+  \end{table}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Example: link between gender and car brand preferences}
+  \begin{table}[h] \centering
+    \begin{tabular}{@{}rrrrrr@{}}
+    	\toprule
+    	      & Mercedes &  BMW & Porsche & Alfa Romeo & Total \\ \midrule
+    	  Men &     $10$ & $10$ &    $20$ &       $20$ &  $60$ \\
+    	Women &     $20$ &  $5$ &    $15$ &        $0$ &  $40$ \\
+    	Total &     $30$ & $15$ &    $35$ &       $20$ & $100$ \\ \bottomrule
+    \end{tabular}
+  \end{table}
+
+  It seems that car brands are not preferred equally by men and women.
+  \[ \chi^{2} = 22.619 \]
+  \[ V = \sqrt{\frac{22.169}{100 . (2-1)}}  = 0.476\]
+\end{frame}
+
+\begin{frame}
+  \frametitle{Example: link between gender and car brand preferences}
+
+  \begin{figure}
+    \centering
+    \includegraphics[width=1.00\textwidth]{img/les3-spssCars.png}
+    \label{fig:les3-spssCars}
+  \end{figure}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Visual representation of contingency tables}
+  
+  \begin{figure}
+    \centering
+    \includegraphics[width=0.80\textwidth]{img/2var-xtab-plot-waardering}
+  \end{figure}
+  
+\end{frame}
+
+\begin{frame}
+  \frametitle{Visual representation of contingency tables}
+  \framesubtitle{Clustered bar chart}
+
+  \begin{figure}
+    \centering
+    \includegraphics[width=0.80\textwidth]{img/2var-staafgrafiek-geclusterd}
+  \end{figure}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Visual representation of contingency tables}
+  \framesubtitle{Stacked percentage bar chart}
+  
+  \begin{figure}
+    \centering
+    \includegraphics[width=0.80\textwidth]{img/2var-rependiagram-waardering-mv}
+  \end{figure}
+
+\end{frame}
+
+\section{Linear Regression}
+\sectionframelogo{}
+
+\begin{frame}
+  \frametitle{Linear Regression}
+  
+  \brightbox{\textcolor{HoGentAccent6}{Regression} is searching for a \textcolor{HoGentAccent6}{consistent} and \textcolor{HoGentAccent6}{systematic} association between variables.}
+
+
+  \begin{enumerate}
+    \item \textbf{Monotonous:} there is a general direction in the association between two variables (rising/falling)
+    \item \textbf{Non-monotonous:} there is a systematic association, but it is not consistently rising/falling
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Linear regression}
+  The association between the dependent and independent variable is approximated with a line.
+  
+  \begin{itemize}
+    \item Is the association linear at all?
+    \item Direction: rising/falling?
+    \item How strong is the association? Strong or even non-existent?
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Linear regression}
+  \centering
+  \begin{tikzpicture}
+    \begin{axis}[
+        axis x line=middle,
+        axis y line=middle,
+        enlarge y limits=true,
+        width=\textwidth, height=8cm,     % size of the image
+        grid = major,
+        grid style={dashed, gray!30},
+        ylabel=$y$,
+        xlabel=$x$,
+        legend style={at={(0.1,-0.1)}, anchor=north}
+      ]
+      \addplot[only marks] table  {data/regressie.dat};
+    %\addplot [no markers, thick, red] table [y={create col/linear regression={y=y}}] {data/regressie.dat};
+    \end{axis}
+  \end{tikzpicture}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Linear regression}
+  \centering
+  \begin{tikzpicture}
+    \begin{axis}[
+        axis x line=middle,
+        axis y line=middle,
+        enlarge y limits=true,
+        width=\textwidth, height=8cm,     % size of the image
+        grid = major,
+        grid style={dashed, gray!30},
+        ylabel=$y$,
+        xlabel=$x$,
+        legend style={at={(0.1,-0.1)}, anchor=north}
+      ]
+      \addplot[only marks] table  {data/regressie.dat};
+      \addplot [no markers, thick, red] table [y={create col/linear regression={y=y}}] {data/regressie.dat};
+    \end{axis}
+  \end{tikzpicture}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Least squares method: example}
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+
+      \begin{figure}
+        \centering
+        \includegraphics[width=1.00\textwidth]{img/les3-santa.png}
+        \label{fig:les3-santa}
+      \end{figure}
+
+    \end{column}
+    \begin{column}{0.5\textwidth}
+
+      \begin{figure}
+        \centering
+        \includegraphics[width=1.00\textwidth]{img/les3-reindeer.jpg}
+        \label{fig:les3-reindeer}
+      \end{figure}
+
+    \end{column}
+  \end{columns}
+
+  Father Christmas wants to fatten his reindeers. Is there an association
+  between the amount of proteins in the reindeers' diet and their weight gain?
+\end{frame}
+
+\begin{frame}
+  \frametitle{Least squares method: example}
+  \begin{table}[h] \centering
+    \begin{tabular}{@{}rr@{}} \toprule
+      Proteins\%& Weight gain (g)  \\
+      \midrule
+      0   & 177 \\
+      10  & 231 \\
+      20  & 249 \\
+      30  & 348 \\
+      40  & 361 \\
+      50  & 384 \\
+      60  & 404 \\
+      \bottomrule
+    \end{tabular}
+  \end{table}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Least squares method: example}
+  \centering
+  \begin{tikzpicture}
+    \begin{axis}[
+        axis x line=middle,
+        axis y line=middle,
+        enlarge y limits=true,
+        width=\textwidth, height=8cm,     % size of the image
+        grid = major,
+        grid style={dashed, gray!30},
+        ylabel=weight gain (g),
+        xlabel=proteins (\%),
+        legend style={at={(0.1,-0.1)}, anchor=north}
+      ]
+      \addplot[only marks] table  {data/santa.txt};
+   % \addplot [no markers, thick, red] table [y={create col/linear regression={y=y}}] {data/santa.txt};
+    \end{axis}
+  \end{tikzpicture}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Least squares method: example}
+  \begin{table}[h] \centering
+    \begin{tabular}{@{}llllll@{}}
+    	\toprule
+    	$x$ & $y$ & $x-\overline{x}$ & $y - \overline{y}$ & $(x-\overline{x})(y - \overline{y})$ & $(x-\overline{x})^{2}$ \\ \midrule
+    	0   & 177 & -30              & -130,71            & 3921,3                               & 900                    \\
+    	10  & 231 & -20              & -76,71             & 1534,2                               & 400                    \\
+    	20  & 249 & -10              & -58,71             & 587,1                                & 100                    \\
+    	30  & 348 & 0                & 40,29              & 0                                    & 0                      \\
+    	40  & 361 & 10               & 53,29              & 532,9                                & 100                    \\
+    	50  & 384 & 20               & 76,29              & 1525,8                               & 400                    \\
+    	60  & 404 & 30               & 96,29              & 2888,7                               & 900                    \\
+    	    &     &                  &                    & 10990                                & 2800                   \\ \bottomrule
+    \end{tabular}
+    \caption{Calculations for the least squares method.}
+    \label{tab:rendieren2}
+  \end{table}
+  \[ \beta_{1} = \frac{\sum_{i=1}^{n} (x_{i}-\overline{x})(y_{i} - \overline{y})}{\sum_{i=1}^{n} (x-\overline{x})^{2}} = \frac{10990}{2800} = 3.925 \]
+  \[ \beta_{0} = \overline{y} - \beta_{1} \overline{x} = 307.7143 - 3.925 \times 30 = 189.96 \]
+\end{frame}
+
+\begin{frame}
+  \frametitle{Least squares method: example}
+  \centering
+  \begin{tikzpicture}
+    \begin{axis}[
+        axis x line=middle,
+        axis y line=middle,
+        enlarge y limits=true,
+        width=\textwidth, height=8cm,     % size of the image
+        grid = major,
+        grid style={dashed, gray!30},
+        ylabel=weight gain (g),
+        xlabel=proteins (\%),
+        legend style={at={(0.1,-0.1)}, anchor=north}
+      ]
+      \addplot[only marks] table  {data/santa.txt};
+      \addplot [no markers, thick, red] table [y={create col/linear regression={y=y}}] {data/santa.txt};
+    \end{axis}
+  \end{tikzpicture}
+\end{frame}
+
+\section{Correlation coefficient and coefficient of determination}
+
+\sectionframelogo{}
+
+\begin{frame}
+  \frametitle{Pearson's correlation coefficient and coefficient of determination}
+  
+  \brightbox{\textcolor{HoGentAccent6}{Pearson's correlation coefficient} is a measure for the linear correlation between two variables $X$ and $Y$}
+
+  \brightbox{The \textcolor{HoGentAccent6}{coefficient of determination} indicates the proportion of the variance in the dependent variable that is predictable from the independent variable(s).}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Covariance}
+  
+  Plot of the family size of 15 families in relation to the family size of the mother.
+  
+  \centering
+  \begin{tikzpicture}
+    \begin{axis}[
+        axis x line=middle,
+        axis y line=middle,
+        enlarge y limits=true,
+        width=\textwidth, height=8cm,     % size of the image
+        grid = major,
+        grid style={dashed, gray!30},
+        ylabel=family size mother,
+        xlabel=family size,
+        legend style={at={(0.1,-0.1)}, anchor=north}
+      ]
+      \addplot[only marks] table  {data/families.txt};
+      \addplot [no markers, thick, red] table [y={create col/linear regression={y=y}}] {data/families.txt};
+    \end{axis}
+  \end{tikzpicture}
+  We find that $\overline{x} = 2$ and $\overline{y} = 4.3$.
+\end{frame}
+
+\tikzset{small dot/.style={fill=black, circle,scale=0.2}}
+\tikzset{every pin/.style={draw=black,fill=yellow!10}}
+
+\begin{frame}
+  \frametitle{Covariance in the case of linear association}
+  \centering
+  \begin{tikzpicture}
+    \begin{axis}[
+        axis x line=middle,
+        axis y line=middle,
+        enlarge y limits=true,
+        width=\textwidth, height=8cm,     % size of the image
+        grid = major,
+        grid style={dashed, gray!30},
+        ylabel=family size mother,
+        xlabel=family size,
+        legend style={at={(0.1,-0.1)}, anchor=north}
+      ]
+      \draw (axis cs:3,0)--(axis cs:3,8);
+      \draw (axis cs:0,4.3)--(axis cs:6,4.3);
+      \node[small dot, pin=120:{$III$}] at (axis cs:1.6,7) {};
+      \node[small dot, pin=120:{$I$}] at (axis cs:5.5,7) {};
+      \node[small dot, pin=120:{$II$}] at (axis cs:1.6,2) {};
+      \node[small dot, pin=120:{$IV$}] at (axis cs:5.5,2) {};
+      \addplot[only marks] table  {data/families.txt};
+    \end{axis}
+  \end{tikzpicture}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Covariance in the case of randomness}
+  \centering
+  \begin{tikzpicture}
+    \begin{axis}[
+        axis x line=middle,
+        axis y line=middle,
+        enlarge y limits=true,
+        width=\textwidth, height=8cm,     % size of the image
+        grid = major,
+        grid style={dashed, gray!30},
+        ylabel=family size mother,
+        xlabel=family size,
+        legend style={at={(0.1,-0.1)}, anchor=north}
+      ]
+      \draw (axis cs:1942.625,0)--(axis cs:1942.625,6);
+      \draw (axis cs:1930,3.4375)--(axis cs:1955,3.4375);
+      \node[small dot, pin=120:{$III$}] at (axis cs:1935,5) {};
+      \node[small dot, pin=120:{$I$}] at (axis cs:1955,5) {};
+      \node[small dot, pin=120:{$II$}] at (axis cs:1935,2) {};
+      \node[small dot, pin=120:{$IV$}] at (axis cs:1955,2) {};
+      \addplot[only marks] table  {data/families2.txt};
+    \end{axis}
+  \end{tikzpicture}
+  We find that $\overline{x} = 1942.625$ and $\overline{y} = 3.4375$.
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{Coefficient of determination}
+  \begin{figure}[t]
+    \begin{tikzpicture}
+      \begin{axis}[
+          axis x line=middle,
+          axis y line=middle,
+          enlarge y limits=true,
+          width=\textwidth, height=8cm,     % size of the image
+          grid = major,
+          grid style={dashed, gray!30},
+          ylabel=weight gain (g),
+          xlabel=proteins (\%),
+          legend style={at={(0.1,-0.1)}, anchor=north}
+        ]
+        \addplot[only marks] table  {data/santa.txt};
+        \addplot [no markers, thick, red] table [y={create col/linear regression={y=y}}] {data/santa.txt};
+        \addplot [mark=none, color=red] coordinates {
+          (0,177) (0,189.9643)
+        };
+        \addplot [mark=none, color=red] coordinates {
+          (10,231) (10,229.2143)
+        };
+        \addplot [mark=none, color=red] coordinates {
+          (20,249) (20,268.4643)
+        };
+        \addplot [mark=none, color=red] coordinates {
+          (30,348) (30,307.7143)
+        };
+        \addplot [mark=none, color=red] coordinates {
+          (40,361) (40,346.9643)
+        };
+        \addplot [mark=none, color=red] coordinates {
+          (50,384) (50,386.2143)
+        };
+        \addplot [mark=none, color=red] coordinates {
+          (60,404) (60,425.4643)
+        };
+
+      \end{axis}
+    \end{tikzpicture}
+    \label{fig:rendierenFiguur2}
+    \caption{Deviations w.r.t. the regression line. Value of $y$ can be predicted from $x$.}
+  \end{figure}
+\end{frame}
+
+\begin{frame}
+  \begin{figure}[t]
+    \begin{tikzpicture}
+      \begin{axis}[
+          axis x line=middle,
+          axis y line=middle,
+          enlarge y limits=true,
+          width=\textwidth, height=8cm,     % size of the image
+          grid = major,
+          grid style={dashed, gray!30},
+          ylabel=weight gain (g),
+          xlabel=proteins (\%),
+        ]
+        \addplot[only marks] table  {data/santa.txt};
+        \addplot [mark=none, color=black] coordinates {
+          (0,307.71) (60,307.71)
+        };
+        \addplot [mark=none, color=red] coordinates {
+          (0,177) (0,307.71)
+        };
+        \addplot [mark=none, color=red] coordinates {
+          (10,231) (10,307.71)
+        };
+        \addplot [mark=none, color=red] coordinates {
+          (20,249) (20,307.71)
+        };
+        \addplot [mark=none, color=red] coordinates {
+          (30,348) (30,307.71)
+        };
+        \addplot [mark=none, color=red] coordinates {
+          (40,361) (40,307.71)
+        };
+        \addplot [mark=none, color=red] coordinates {
+          (50,384) (50,307.71)
+        };
+        \addplot [mark=none, color=red] coordinates {
+          (60,404) (60,307.71)
+        };
+
+      \end{axis}
+    \end{tikzpicture}
+    \label{fig:rendierenFiguur3}
+    \caption{Deviations w.r.t. the mean of y ($\overline{y} = 307.71$). Value of $y$ can not be predicted from $x$.}
+  \end{figure}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Correlation coefficient and coefficient of determination}
+  \begin{table}[h] \centering
+    \begin{tabular}{@{}|r|r|r|r|@{}}
+    	\toprule
+    	          $R$ &       $R^{2}$ & Explained variance &   Interpretation \\ \midrule
+    	      $< 0,3$ &       $< 0,1$ &           $< 10\%$ &        very weak \\
+    	  $0,3 - 0,5$ & $0,1 - 0,25r$ &        $10 - 25\%$ &             weak \\
+    	  $0,5 - 0,7$ &  $0,25 - 0,5$ &        $25 - 50\%$ &          average \\
+    	 $0,7 - 0,85$ &  $0,5 - 0,75$ &        $50 - 75\%$ &           strong \\
+    	$0,85 - 0,95$ &  $0,75 - 0,9$ &        $75 - 90\%$ &      very strong \\
+    	     $> 0,95$ &       $> 0,9$ &            $>90\%$ & exceptional(!) \\ \bottomrule
+    \end{tabular}
+  \end{table}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Strength association reindeers}
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+      \begin{table}[h] \centering
+        \begin{tabular}{@{}rrr@{}} \toprule
+          $(x-\overline{x})$ & $(y - \overline{y})$ & $(x-\overline{x})(y - \overline{y})$ \\
+          \midrule
+          $-30$ & $-130.714$ & $3921.429$ \\
+          $-20$ & $-76.7143$ & $1534.286$ \\
+          $-10$ & $-58.7143$ & $587.1429$\\
+          $0$   & $40.28571$ & $0$\\
+          $10$  & $53.28571$ & $532.8571$\\
+          $20$  & $76.28571$ & $1525.714$\\
+          $30$  & $96.28571$ & $2888.571$\\
+          \bottomrule
+        \end{tabular}
+      \end{table}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \[ \sum_{i}^{n} (x-\overline{x})(y - \overline{y}) = 10990 \]
+      \[ Cov = \frac{10990}{7} = 1570 \]
+      \[ \sigma_{x} = 20 \]
+      \[ \sigma_{y} = 81.03 \]
+      \[ R = \frac{1570}{20 \times 81.03} = 0.96 \]
+      \[ R^{2} = 0.93 \]
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Considerations}
+  
+  \begin{itemize}
+    \item The correlation coefficient only measures the association between \emph{two} variables. Interactions with other variables are not considered.
+    \item The correlation coefficient only expresses \emph{linear} associations.
+    \item Correlation does not imply causation!
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Regression line vs. correlation coefficient}
+
+  \begin{figure}
+    \centering
+    \includegraphics[width=0.90\textwidth]{img/les3-regressie.png}
+    \label{fig:les3-regressie}
+  \end{figure}
+
+\end{frame}
+
+%---------- Back matter -------------------------------------------------------
+
+\end{document}
