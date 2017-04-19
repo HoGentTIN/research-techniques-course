@@ -16,6 +16,6 @@ abline(regr, col = 'red') # Plot regression line
 xm <- mean(x)
 ym <- mean(y)
 beta1 <- sum((x - xm) * (y - ym)) / sum((x - xm) ^ 2)
-beta2 <- ym - beta1 * xm
+beta0 <- ym - beta1 * xm
 
-abline(a = beta2, b = beta1, col = 'green')
+abline(a = beta0, b = beta1, col = 'green')
