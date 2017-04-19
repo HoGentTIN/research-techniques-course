@@ -350,7 +350,7 @@
   
   \begin{itemize}
     \item Is the association linear at all?
-    \item Direction: rising/falling?
+    \item Direction: increasing/decreasing?
     \item How strong is the association? Strong or even non-existent?
   \end{itemize}
 \end{frame}
@@ -511,7 +511,9 @@
 \sectionframelogo{}
 
 \begin{frame}
-  \frametitle{Pearson's correlation coefficient and coefficient of determination}
+  \frametitle{Covariance and correlation}
+  
+  \brightbox{\textcolor{HoGentAccent6}{Covariance} is the average deviation of all observations from the mean $(\overline{x}, \overline{y})$.}
   
   \brightbox{\textcolor{HoGentAccent6}{Pearson's correlation coefficient} is a measure for the linear correlation between two variables $X$ and $Y$}
 
@@ -573,6 +575,38 @@
 \end{frame}
 
 \begin{frame}
+  \frametitle{Covariance}
+  
+  \brightbox{\textcolor{HoGentAccent6}{Covariance} is the average deviation of all observations from the mean $(\overline{x}, \overline{y})$.}
+  
+  \[\mathrm{Cov}(X,Y) = \frac{1}{n} \sum_{i=1}^{n} (x_i - \overline{x}) (y_i - \overline{y})\]
+
+  Sign of covariance shows \emph{tendency} in the linear relationship between variables
+\end{frame}
+
+\begin{frame}
+\frametitle{Covariance}
+
+ 
+  \begin{center}
+    \begin{tabular}{cccc}
+      Quadrant & $(x_i - \overline{x})$ & $(y_i - \overline{y})$ & $(x_i - \overline{x}) (y_i - \overline{y})$ \\ \hline
+      I        & $>0$                   & $>0$                   & $>0$                                        \\
+      II       & $<0$                   & $<0$                   & $>0$                                        \\
+      III      & $<0$                   & $>0$                   & $<0$ \\
+      IV       & $>0$                   & $<0$                   & $<0$ \\
+    \end{tabular}
+  \end{center}
+
+\begin{itemize}
+    \item Cov > 0: increasing/direct relationship
+    \item Cov < 0: decreasing/inverse relationship
+    \item Cov $\approx$ 0: uncorrelated
+  \end{itemize}
+
+\end{frame}
+
+\begin{frame}
   \frametitle{Covariance in the case of randomness}
   \centering
   \begin{tikzpicture}
@@ -596,12 +630,46 @@
       \addplot[only marks] table  {data/families2.txt};
     \end{axis}
   \end{tikzpicture}
-  We find that $\overline{x} = 1942.625$ and $\overline{y} = 3.4375$.
+  
+  We find that $\overline{x} = 1942.625$ and $\overline{y} = 3.4375$; $\mathrm{Cov}(X,Y) = -3.225$
 \end{frame}
 
 
 \begin{frame}
-  \frametitle{Coefficient of determination}
+  \frametitle{Pearson's correlation coefficient ($R$)}
+
+  Magnitude of covariance is hard to interpret
+  
+  Correlation coefficient is a normalised version of covariance:
+  
+  \[R = \frac{\mathrm{Cov}(X,Y)}{\sigma_{X}\sigma_{Y}}\]
+  
+%  \begin{center}
+%    \begin{tabular}{rl}
+%    	        $R$ & Interpretation                       \\ \hline
+%    	         -1 & perfect negative linear relationship \\
+%    	       -0.5 & negative linear relationship         \\
+%    	$\approx 0$ & no linear relationship               \\
+%    	        0.5 & positive linear relationship         \\
+%    	          1 & perfect positive linear relationship
+%    \end{tabular}
+%  \end{center}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Coefficient of determination ($R^2$)}
+
+  \brightbox{The \textcolor{HoGentAccent6}{coefficient of determination} indicates the proportion of the variance in the dependent variable that is predictable from the independent variable(s).}
+  
+  \begin{itemize}
+    \item If $X$ and $Y$ are unrelated, the best prediction for $y$ is $\overline{y}$
+    \item If $X$ and $Y$ are linearly related, the best prediction for $y$ is the regression line $\hat{y} = \beta_0 + \beta_1 x$
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Coefficient of determination}
   \begin{figure}[t]
     \begin{tikzpicture}
       \begin{axis}[
@@ -693,13 +761,30 @@
 \end{frame}
 
 \begin{frame}
+\frametitle{Coefficient of determination ($R^2$)}
+
+Let
+
+\[SS_y = \sum_{i=1}^{n} (y_i - \overline{y})^2 \textrm{ (total sample variance)}\]
+\[SSE_y = \sum_{i=1}^{n} (y_i - \hat{y})^2 \textrm{ (unexplained variance)}\]
+
+\begin{itemize}
+  \item If $x$ doesn't contribute to $y$, then $SSE_y \approx SS_y$
+  \item If $x$ does contribute to $y$, then $SSE_y < SS_y$
+\end{itemize}
+
+\[R^2 = \frac{SS_y - SSE_y}{SS_y} = \frac{\textrm{explained variance}}{\textrm{total sample variance}}\]
+
+\end{frame}
+
+\begin{frame}
   \frametitle{Correlation coefficient and coefficient of determination}
   \begin{table}[h] \centering
     \begin{tabular}{@{}|r|r|r|r|@{}}
     	\toprule
     	          $R$ &       $R^{2}$ & Explained variance &   Interpretation \\ \midrule
     	      $< 0,3$ &       $< 0,1$ &           $< 10\%$ &        very weak \\
-    	  $0,3 - 0,5$ & $0,1 - 0,25r$ &        $10 - 25\%$ &             weak \\
+    	  $0,3 - 0,5$ & $0,1 - 0,25$ &        $10 - 25\%$ &             weak \\
     	  $0,5 - 0,7$ &  $0,25 - 0,5$ &        $25 - 50\%$ &          average \\
     	 $0,7 - 0,85$ &  $0,5 - 0,75$ &        $50 - 75\%$ &           strong \\
     	$0,85 - 0,95$ &  $0,75 - 0,9$ &        $75 - 90\%$ &      very strong \\
@@ -710,7 +795,7 @@
 \end{frame}
 
 \begin{frame}
-  \frametitle{Strength association reindeers}
+  \frametitle{Application (reindeers)}
   \begin{columns}
     \begin{column}{0.5\textwidth}
       \begin{table}[h] \centering
