@@ -31,7 +31,7 @@ differences <- (appreciations - expected) ^ 2 / expected
 # Chi-square:
 sum(differences)
 
-# Rechtstreekse berekening chi-kwadraatwaarde
+# Direct calculation chi-square
 summ <- summary(appreciations)
 chi_sq <- summ$statistic
 
