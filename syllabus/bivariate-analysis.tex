@@ -712,124 +712,133 @@
 %
 %Het feit dat twee variabelen gecorreleerd zijn betekent niet dat de ene de oorzaak is van de andere.
 %
-%\section{Oefeningen}
-%\label{sec:analyse op 2 variabelen-oefeningen}
-%
-%De databestanden voor deze oefeningen zijn te vinden, zowel op Chamilo (onder \emph{Documenten > Oefenles Analyse 2 variabelen}) als op Github (onder (\emph{oefeningen/data/oef\_2variabelen})).
-%
+\section{Exercises}
+\label{sec:bivariate-analysis-exercises}
+
+The data files for these exercises can be found on Github under emph{exercises/data/bivariate-analysis}
+
+\begin{exercise}
+  \label{ex:contingency-tables-manual} % $\chi^{2}$ - handmatig}
+
+  Market research suggests that background music in a supermarket has an influence on the behaviour of customers. In research by~\textcite{Ryan1998}, three situations were compared: no music, French chansons, and Italian hits. In every case, the sales of French, Italian and other wine was recorded.
+
+  The results of the experiments can be found in \emph{musicwine.csv}. 
+  
+  Questions:
+  
+  \begin{enumerate}
+    \item Generate a contingency (frequency) table for the research data using R's \texttt{table} function.
+    \item Calculate marginal tables (column and row sums)
+    \item Determine the expected values (e).
+    \item Calculate the value of $\chi^{2}$ including all intermediate values. Check your result by comparing with the result of the appropriate R-function for calculating $\chi^{2}$.
+    \item Calculate Cramér's V. What can be concluded from its value?
+  \end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+  Visualise the data from exercise~\ref{ex:contingency-tables-manual} using appropriate charts:
+  
+  \begin{enumerate}
+  \item Plot percentages of sold wines in observations where \emph{Music} equals \emph{None}.
+  \item Plot a clustered bar chart for the data.
+  \item Plot a stacked percentage bar chart for the data.
+  \end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+  Read data file \emph{earthquakes.csv}.
+  
+  \begin{enumerate}
+  \item Plot a histogram and a box plot of the variable \emph{Magnitudes}.
+  \item Plot a line graph with the number of recorded earthquakes per month.
+  \item Determine whether there is a relation between variables \emph{Type} and \emph{Source}. Calculate Cramér's V. What is your conclusion?
+  \end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+  \label{ex:regression-manual}
+  
+  In table~\ref{tab:test-exam}, each row is the score a student received for an intermediate test and the final exam of some course.
+  \begin{enumerate}
+    \item Calculate the parameters of the regression line $\hat{y}\beta_{0} + \beta_{1} x$, including all intermediate values. Check your result by using R's most appropriate function for calculating a regression line.
+    \item Calculate the covariance using the formula given in this course, including all intermediate results. Check your results using the appropriate R function. Explain why the results are different.
+    \item Calculate Pearson's correlation coefficient from the previous step, and using the appropriate R function.
+    \item Calculate the determination coefficient from the previous step, and using the alternative definition:
+    \[R^2 = \frac{SS_y - SSE_y}{SS_y}\]
+    \item Interpret the values of the metrics calculated in the previous steps.
+  \end{enumerate}
+\end{exercise}
+
+\begin{table}
+  \centering
+  \begin{tabular}{@{}rr@{}} \toprule
+    Test ($X$) & Final exam ($Y$) \\
+    \midrule
+    10 & 11 \\
+    12 & 14 \\
+    8 & 9 \\
+    13 & 13 \\
+    9 & 9 \\
+    10 &  9 \\
+    7 & 8 \\
+    14 & 14 \\
+    11 & 10 \\
+    6 & 6  \\
+    \bottomrule
+  \end{tabular}
+  \captionof{table}{Student scores for an intermediate test and the final exam of a certain course.}
+  \label{tab:test-exam}
+\end{table}
+
+\begin{exercise}
+  Observe the six scatter plots in Figure~\ref{fig:correlations}. Match the correlation coefficients below with the scatter plots. Remark that there is one plot that has no associated correlation coefficient.
+  
+  \begin{itemize}
+    \item $r_{1}$ = 0.6
+    \item $r_{2}$ = 0
+    \item $r_{3}$ = -0.9
+    \item $r_{4}$ = 0.9
+    \item $r_{5}$ = 0.3
+  \end{itemize}
+\end{exercise}
+
+\begin{figure}
+  \centering
+  \includegraphics[width=\textwidth]{images/correlaties.png}
+  \caption{Scatter plots of six data sets.}
+\label{fig:correlations}
+\end{figure}
+
+\begin{exercise}
+  \label{ex:cats-regression-correlation}
+  Read data file \emph{cats.csv}. Perform a linear regression analysis on variables body weight (\emph{Bwt}) and heart weight (\emph{Hwt}).
+  
+  \begin{enumerate}
+  \item Draw a scatter plot of these variables.
+  \item Calculate and draw the regression line.
+  \item Calculate the covariance, correlation and determination coefficients.
+  \item Interpret the values from the previous steps.
+  \end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+  Using the same data as in Exercise~\ref{ex:cats-regression-correlation}, perform a linear regression analysis on variables body weight (\emph{Bwt}) and heart weight (\emph{Hwt}) \emph{subdivided by gender} (\emph{Sex})
+  
+  \begin{enumerate}
+  \item Draw scatter plots for the data.
+  \item Calculate the regression lines.
+  \item Calculate the covariance, correlation and determination coefficients.
+  \item Interpret the values from the previous steps.
+  \end{enumerate}
+\end{exercise}
+
 %\begin{exercise}
-%  \label{oef:Kruistabellen, Cramér's V en chi-kwadraat - handmatig} % $\chi^{2}$ - handmatig}
-%
-%  Marktonderzoek toont aan dat achtergrondmuziek in een supermarkt invloed kan hebben op het aankoopgedrag van de klanten. In een onderzoek werden drie methoden met elkaar vergeleken: geen muziek, Franse chansons en Italiaanse hits. Telkens werd het aantal verkochte flessen Franse, Italiaanse en andere wijnen geteld~\autocite{Ryan1998}.
+%  Read data file \emph{pizza.csv}. 
 %  
-%  De onderzoeksdata bevindt zich in het csv-bestand MuziekWijn.
-%
-%  Vragen:
 %  \begin{enumerate}
-%    \item Stel de correcte kruistabel op. Gebruik hiervoor het R-commando \textit{table} om de frequentietabel te bekomen.
-%    \item Bepaal de marginalen.
-%    \item Bepaal de verwachte resultaten.
-%    \item Bereken manueel de $\chi^{2}$ toetsingsgrootheid.  
-%    \item Bereken manueel de Cramér's V. Wat kan je hieruit besluiten?
+%  \item Perform a complete regression analysis on variables \emph{Rating} and \emph{CostPerSlice}. Draw conclusions and check them by visualising the data.
+%  \item Check whether there is a relation between \emph{Rating} and \emph{Neighbourhood}. What method can be used for this? Can you use the values of \emph{Rating} in their ``raw'' form?
+%  \item Interpret your results.
+%  \item Plot a graphical representation of the contingency table with a clustered bar chart.
 %  \end{enumerate}
-%\end{exercise}
-%
-%\begin{exercise}
-%	Gebruik dezelfde data.
-%		\begin{enumerate}
-%		\item Stel de percentages verkochte wijnen voor in een staafdiagram met de  muziekconditie= Geen.
-%		\item Stel de percentages verkochte wijnen voor in een geclusterd staafdiagram (clustered bar chart).
-%		\item Stel de percentages verkochte wijnen voor in rependiagram (stacked bar chart).
-%	\end{enumerate}
-%\end{exercise}
-%
-%\begin{exercise}
-%	\label{oef:Kruistabellen, Cramér's V en chi-kwadraat met R } %$\chi^{2}$ met R}
-%Lees het databestand ``Aardbevingen.csv'' in. 	
-%		\begin{enumerate}
-%		\item Maak een histogram en een boxplot van de variabele ``Magnitudes''.
-%		\item Maak een lijngrafiek met het aantal aardbevingen per maand.
-%		\item Onderzoek of er een verband bestaat tussen de variabelen ``Type'' en ``Source''. Bereken ook de Cramér's V-waarde. Wat is de conclusie?
-%	\end{enumerate}
-%\end{exercise}
-%
-%\begin{exercise}
-%	\label{oef:Lineaire regressie, correlatie en determinatiecoëfficiënt - handmatig}
-%	In onderstaande tabel vindt men voor elke rij (= persoon) het resultaat van een test en zijn examenscore. Gevraagd:
-%\begin{itemize}
-%	\item Bepaal handmatig de regressierechte $\beta_{0} + \beta_{1} x$. 
-%	\item Bepaal handmatig de correlatie- en determinatieco\"effici\"ent ($R^{2}, R$) 
-%	\item Geef uitleg bij de gevonden statistieken.
-%\end{itemize}
-%
-%% \begin{table}
-%	\centering
-%	\begin{tabular}{@{}rr@{}} \toprule
-%	Resultaat Test ($X$) & Examenresultaat ($Y$) \\
-%		\midrule
-%		10 & 11 \\
-%		12 & 14 \\
-%		8 & 9 \\
-%		13 & 13 \\
-%		9 & 9 \\
-%		10 &  9 \\
-%		7 & 8 \\
-%		14 & 14 \\
-%		11 & 10 \\
-%		6 & 6  \\
-%		\bottomrule
-%	\end{tabular}
-%	\captionof{table}{Scores test en examen voor aantal personen}
-%	\label{tab:testExamen}
-%% \end{table}	
-%\end{exercise}
-%
-%\begin{exercise}
-%	Gegeven 6 scatterplots in volgende figuur en onderstaande correlatieco\"effici\"enten. Match de co\"effici\"enten met de scatterplots. Er is dus één scatterplot waarvan geen correlatie gegeven staat hieronder.
-%\begin{itemize}
-%	\item $r_{1}$ = 0.6
-%	\item $r_{2}$ = 0
-%	\item $r_{3}$ = -0.9
-%	\item $r_{4}$ = 0.9
-%	\item $r_{5}$ = 0.3
-%\end{itemize}
-%%\begin{figure}[h!]
-%%	\centering
-%	\includegraphics[width=1.10\textwidth]{images/correlaties.png}
-%	\captionof{figure}{Correlaties}
-%	\label{fig:correlaties}
-%%\end{figure}
-%\end{exercise}
-%
-%\begin{exercise}
-%	\label{oef:Lineaire regressie, correlatie en determinatiecoëfficiënt met R}
-%	Lees het databestand ``Cats.csv'' in. 
-%		\begin{enumerate}
-%		\item Voer een lineaire regressieanalyse uit op de variabelen Lichaamsgewicht (Bwt) en Gewicht hart (Hwt).
-%		\item Maak een spreidingsdiagram van beide variabelen.
-%		\item Bereken en teken de regressielijn.
-%		\item Bereken de correlatie- en de determinatiecoëfficiënt.
-%		\item Geef een interpretatie van deze resultaten.
-%	\end{enumerate}
-%\end{exercise}
-%
-%\begin{exercise}
-%	Gebruik dezelfde data als in vorige oefening.
-%		\begin{enumerate}
-%		\item Voer een lineaire regressieanalyse uit op de variabelen Lichaamsgewicht (Bwt) en Gewicht hart (Hwt) per geslacht.
-%		\item Maak een spreidingsdiagram van beide variabelen voor elk van de geslachten.
-%		\item Bereken en teken telkens de regressielijn.
-%		\item Bereken de correlatie- en de determinatiecoëfficiënt.
-%		\item Geef een interpretatie aan deze resultaten.
-%	\end{enumerate}
-%\end{exercise}
-%
-%\begin{exercise}
-%	Lees het databestand ``Pizza.csv'' in.
-%		\begin{enumerate}
-%		\item Voer een volledige lineaire regressieanalyse uit op de variabelen Rating en CostPerSlice. Trek hieruit de juiste conclusies en ga deze ook grafisch na.
-%		\item Onderzoek een mogelijk verband tussen Rating en Neighbourhood. Welke methode kan je hiervoor gebruiken? Kan je de gegevens van Rating hiervoor in dezelfde vorm gebruiken?
-%		\item Geef een interpretatie aan deze resultaten.
-%		\item Stel de kruistabel grafisch voor met een staafdiagram.  Voorzie een legende.
-%	\end{enumerate}
 %\end{exercise}
