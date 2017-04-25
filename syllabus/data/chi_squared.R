@@ -65,11 +65,17 @@ polygon(c(g, x[i]),     # Plot the critical area (where H0 is rejected)
 # The smoking doctors (Doll & Hill, 1954)
 #
 doll_hill <- read.csv("doll_hill.csv")
-contingency_table <- table(doll_hill)
-n <- sum(contingency_table)
+observations <- table(doll_hill)
+expected <- as.array(margin.table(observations,1)) %*%
+  t(as.array(margin.table(observations,2))) / 
+  margin.table(observations)
+n <- sum(observations)
+normalized_residuals <- 
+  (observations - expected) /
+  sqrt(expected * (1 - expected / n))
 alpha <- 0.05
 
-X2_doctors <- chisq.test(contingency_table, correct = FALSE)
+X2_doctors <- chisq.test(observations, correct = FALSE)
 g <- qchisq(1 - alpha, df = 1)
 
 # Plot critical area
@@ -82,3 +88,4 @@ i <- x >= g
 polygon(c(g, x[i]),     # Plot the critical area (where H0 is rejected)
         c(0, y[i]),
         col='red')
+
