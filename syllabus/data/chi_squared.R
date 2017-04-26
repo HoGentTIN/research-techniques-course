@@ -7,6 +7,7 @@ hero_sample <- data.frame(
   num_sample = c( 127,      75,     98,      27,    73),
   row.names  = c("Mutant", "Mens", "Alien", "God", "Demon"))
 expect_frqs <- c(.35,      .17,    .23,     .08,   .17)
+expected_values = 400 * expect_frqs
 result <- chisq.test(hero_sample$num_sample, p = expect_frqs)
 df_heroes <- length(hero_sample$num_sample) - 1
 
@@ -49,6 +50,7 @@ df_children <- length(obs) -1
 results_children <- chisq.test(obs, p = exp)
 # Which categories are most extreme? (i.e. standardised residuals outside of [-2, 2])
 results_children$stdres
+
 
 # Plot critical area
 x <- seq(0,30,length.out=200)

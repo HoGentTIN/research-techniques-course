@@ -228,7 +228,7 @@
 %
 %Het codevoorbeeld hieronder is de uitwerking van Voorbeeld~\ref{ex:hypothesetoets-dagelijkse-reddingen} in R.
 %
-%\lstinputlisting{data/z-toets.R}
+%\lstinputlisting{data/z-test.R}
 %
 %\begin{figure}
 %  \centering
@@ -361,7 +361,7 @@
 %  Hieronder vind je de uitwerking van dit voorbeeld in R.
 %\end{example}
 %
-%\lstinputlisting{data/t-toets.R}
+%\lstinputlisting{data/t-test.R}
 %
 %\begin{figure}
 %  \centering
@@ -654,22 +654,22 @@
 \section{Responses to selected exercises}
 \label{sec:hypothesis-tests-responses}
 
-%\paragraph{Oefening~\ref{ex:critical-value-left-tail}:}
-%
-%\begin{equation}
-%g = \mu - z \times \frac{\sigma}{\sqrt{n}}
-%\label{eq:kritiekeRechtseWaarde2}
-%\end{equation}
-%
-%want
-%
-%\[ P(M < g) = P\left(Z < \frac{g - \mu}{\frac{\sigma}{\sqrt{n}}}\right) = 0,05 \]
-%Wegens de symmetrieregel kunnen we zeggen
-%\[ P\left(Z > - \left( \frac{g - \mu}{\frac{\sigma}{\sqrt{n}}} \right) \right) = 0,05 \]
-%De z-waarde die ermee overeen komt is 1,645 dus hebben we
-%\[ z = \frac{-g + \mu}{\frac{\sigma}{\sqrt{n}}} \]
-%\[ \Leftrightarrow -g = \frac{\sigma}{\sqrt{n}} z - \mu \]
-%\[ \Leftrightarrow g = -\frac{\sigma}{\sqrt{n}} z + \mu \]
+\paragraph{Oefening~\ref{ex:critical-value-left-tail}:}
+
+\begin{equation}
+g = \mu - z \times \frac{\sigma}{\sqrt{n}}
+\label{eq:kritiekeRechtseWaarde2}
+\end{equation}
+
+want
+
+\[ P(M < g) = P\left(Z < \frac{g - \mu}{\frac{\sigma}{\sqrt{n}}}\right) = 0,05 \]
+Wegens de symmetrieregel kunnen we zeggen
+\[ P\left(Z > - \left( \frac{g - \mu}{\frac{\sigma}{\sqrt{n}}} \right) \right) = 0,05 \]
+De z-waarde die ermee overeen komt is 1,645 dus hebben we
+\[ z = \frac{-g + \mu}{\frac{\sigma}{\sqrt{n}}} \]
+\[ \Leftrightarrow -g = \frac{\sigma}{\sqrt{n}} z - \mu \]
+\[ \Leftrightarrow g = -\frac{\sigma}{\sqrt{n}} z + \mu \]
 
 \paragraph{Exercise~\ref{ex:binding-recommendation}}
 

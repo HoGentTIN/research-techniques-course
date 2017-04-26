@@ -231,7 +231,7 @@
 %
 %Hieronder vind je de uitwerking van Voorbeeld~\ref{vb:kruistabel} in R.
 %
-%\lstinputlisting{data/kruistabellen.R}
+%\lstinputlisting{data/crosstab.R}
 %
 %\begin{example}
 %  In Tabel~\ref{tab:autovoorkeur} worden de voorkeuren van vrouwen en mannen voor de gegeven automerken opgesomd. We zien dat nog steeds dertig van de honderd respondenten een voorkeur hebben voor de Mercedes, maar dat tweederde van deze dertig vrouwen zijn. We zouden  ook kunnen zeggen dat de helft van de vrouwen een voorkeur heeft voor de Mercedes. Evenzo blijkt dat een derde van de mannen een voorkeur heeft voor een Alfa Romeo, tegenover geen van de vrouwen. Het lijkt alsof de onderscheiden automerken niet gelijkelijk gewaardeerd worden door mannen en vrouwen. Om dit te staven bepalen we $\chi^{2}$ en Cramér's V. Probeer dit zelf, hetzij in R, hetzij met een rekenblad (Excel, Numbers, LibreOffice Calc)! We vinden:
@@ -287,8 +287,8 @@
 %        xlabel=$x$,
 %        legend style={at={(0.1,-0.1)}, anchor=north}
 %      ]
-%      \addplot[only marks] table  {data/regressie.dat};
-%      \addplot [no markers, thick, red] table [y={create col/linear regression={y=y}}] {data/regressie.dat};
+%      \addplot[only marks] table  {data/regression.dat};
+%      \addplot [no markers, thick, red] table [y={create col/linear regression={y=y}}] {data/regression.dat};
 %    \end{axis}
 %  \end{tikzpicture}
 %  \caption{Een voorbeeld van een lineair verband}
@@ -459,7 +459,7 @@
 %
 %Voorbeeld~\ref{vb:rendieren} uitgewerkt in R (met plot van de regressierechte):
 %
-%\lstinputlisting{data/regressie.R}
+%\lstinputlisting{data/regression.R}
 %
 %% TODO: Klopt dit??? Dit lijkt Van een ander voorbeeld te komen,
 %% de waarden komen niet overeen met cov(x, y) in R.
@@ -711,7 +711,7 @@
 %Er bestaan verschillende soorten verbanden tussen variabelen. Wij zijn ge\"intereesseerd in monotone en lineaire verbanden. We beschikken hier over een correlatieco\"effici\"ent en lineaire regressie. Deze technieken mogen niet met nominale en ordinale variabelen gebruikt worden. Een kleine waarde $(=0)$ voor een maat voor verband betekent alleen dat het overeenkomend verband afwezig is: er kan een ander soort verband aanwezig zijn. Het gebruik van een spreidingsdiagram is dus altijd aan te raden.
 %
 %Het feit dat twee variabelen gecorreleerd zijn betekent niet dat de ene de oorzaak is van de andere.
-%
+
 \section{Exercises}
 \label{sec:bivariate-analysis-exercises}
 
