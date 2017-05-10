@@ -162,3 +162,131 @@
 %	\item in ten hoogste 20\% van de cellen mag de verwachte waarde $e$ kleiner zijn dan 5.
 %\end{enumerate}
 %
+
+
+\section{Exercises}
+\label{sec:chi-squared-exercises}
+
+\begin{exercise}
+  \label{ex:chisq-survey}
+  This exercise makes use of the dataset \texttt{survey} that is included in R. The set contains results of a survey among students. In order to load the dataset, issue the following commands:
+  
+  \begin{lstlisting}
+  library(MASS)
+  View(survey)  # Show the "survey" dataset
+  ?survey       # Help-page for the dataset, explains the contents
+  \end{lstlisting}
+  
+  If you get an error message when loading the library (first line), this means that the package \texttt{MASS} is not yet instsalled. You can do this with Tools > Install Packages; fill out the package name in the text field.
+  
+  We want to know whether there is a relation between some discrete (i.e.~nominal or ordinal) variables in this dataset. For each of the pairs of variables, perform the following steps:
+  
+\begin{enumerate}[label=(\alph*)]
+    \item First, reflect on the outcome you expect for the given set of variables.
+    \item Determine a contingency table for the two variables. The (suspected) independent variable comes first.
+    \item Plot a graph of the data, e.g.~a clustered bar chart, stacked percentage bar chart, or a ``mosaic chart'' (simply with \texttt{plot(table(data\$col1, data\$col2))}).
+    \item If you look at the chart, do you expect a high or low value of the $\chi^2$-statistic? Why?
+    \item Calculate the $\chi^2$-statistic and the critical value $g$ (for significance level $\alpha = 0.05$)
+    \item Calculate the $p$-value
+    \item Do we need to accept the null hypothesis, or can we reject it? What does that exactly mean for the relation between the two variables?
+  \end{enumerate}
+  
+  The variables to be researched are given below. The suspected independent variable is the first.
+  
+  \begin{enumerate}
+    \item \texttt{Exer} (sport habit) and \texttt{Smoke} (smoking habit)
+    \item \texttt{W.Hnd} (writing hand) and \texttt{Fold} (the hand on top when folding arms)
+    \item \texttt{Sex} and \texttt{Smoke}
+    \item \texttt{Sex} and \texttt{W.Hnd}
+  \end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+  \label{ex:chisq-aids2}
+  Load the dataset \texttt{Aids2} from the package \texttt{MASS} (see Exercise~\ref{ex:chisq-survey}) that contains data about 2843 patients diagnosed with AIDS in Australia before 1991. This dataset was discussed in detail by ~\textcite{Ripley2007}. Determine whether there is a relation between the variables (\texttt{Sex}) and the way the disease was transmitted (\texttt{T.categ}).
+  
+  \begin{enumerate}
+    \item Follow the usual steps: calculate contingency table, visualise the data, calculate the $\chi^2$, $g$ and $p$-value ($\alpha = 0,05$), and formulate a conclusion.
+    \item Determine the standardised residuals in order to determine which categories contain extreme values.
+  \end{enumerate}
+  
+\end{exercise}
+
+\begin{exercise}
+  \label{ex:chisq-digimeter}
+  
+  Every year, Imec (formerly iMinds) performs a study on the use of digital technologies in Flanders, the Digimeter~\autocite{Vanhaelewyn2016}. In this exercise, we're going to check whether the sample of the Digimeter 2016 ($n = 2164$) is representative for the Flemish population with regards to the age categories of the participants.
+  
+  Table~\ref{tab:digimeter2016} gives the relative frequencies of the participants. The absolute frequencies for the different age categories of the Flemish population is summarised in Table~\ref{tab:leeftijd-vlaanderen}, and is also included in CSV-file \texttt{exercises/data/bestat-vl-ages.csv}.
+  
+  \begin{enumerate}
+    \item The table with age categories of the Flemish population has more categories than those used in the Digimeter. Recalculate the frequencies so you get the same categories as used in the Digimeter. Tip: this will probably be easier in a spreadsheet than in R.
+    \item In order to apply a goodness-of-fit test, you need the absolute frequencies of the observed values in the sample. Calculate those.
+    \item Also calculate the expected percentages ($\pi_{i}$) from the population frequencies.
+    \item Perform a goodness-of-fit test over the distribution of age categories in the sample of the Digimeter 2016. Is the sample representative for the Flemish population?
+  \end{enumerate}
+\end{exercise}
+
+\begin{table}
+  \caption{Relative frequencies of age categories of the participants in the iMec Digimeter 2016 and the Flemish population.}
+  \label{tab:frequenties-leeftijden}
+  \centering
+  \begin{tabular}{cc}
+    \textbf{Age group} & \textbf{Percentage} \\ \midrule
+    15-19 & 6,6\% \\
+    20-29 & 14,2\% \\
+    30-39 & 15,0\% \\
+    40-49 & 16,3\% \\
+    50-59 & 17,3\% \\
+    60-64 & 7,3\% \\
+    64+   & 23,2\% \\
+  \end{tabular}
+  \subcaption{Percentage of participants in the iMec Digimeter 2016 ($n = 2164$), per age category. \autocite{Vanhaelewyn2016}}
+  \label{tab:digimeter2016}
+  
+  \centering
+  \begin{tabular}{cc}
+    \textbf{Age group} & \textbf{Frequency} \\ \midrule
+    –5            &     352017      \\
+    5-9           &     330320      \\
+    10-14          &     341303      \\
+    15-19          &     366648      \\
+    20-24          &     375469      \\
+    25-29          &     387131      \\
+    30-34          &     401285      \\
+    35-39          &     409587      \\
+    40-44          &     458485      \\
+    45-49          &     493720      \\
+    50-54          &     463668      \\
+    55-59          &     413315      \\
+    60-64          &     379301      \\
+    65-69          &     299152      \\
+    70-74          &     279789      \\
+    75-79          &     249260      \\
+    80-84          &     182352      \\
+    85-89          &     104449      \\
+    90-94          &      29888      \\
+    95-99          &      7678       \\
+    100+           &       923
+  \end{tabular}
+  \subcaption{Absolute frequencies of the Flemish population per age category. Source: BelStat (\url{https://bestat.economie.fgov.be/bestat/}, C01.1: Bevolking volgens verblijfplaats (provincie), geslacht, positie in het huishouden (C), burgerlijke staat en leeftijd (B)).}
+  \label{tab:leeftijd-vlaanderen}
+  
+  
+\end{table}
+
+\section{Solutions to selected exercises}
+\label{sec:chi-squared-solutions}
+
+\paragraph{Exercise~\ref{ex:chisq-survey}}
+
+\begin{enumerate}
+  \item \texttt{Exer}/\texttt{Smoke}: $\chi^2 = 5.49$, $g = 12.5916$, $p = 0.35$
+  \item \texttt{W.Hnd}/\texttt{Fold}: $\chi^2 = 1.581399$, $g = 5.9915$, $p = 0.454$
+  \item \texttt{Sex}/\texttt{Smoke}: $\chi^2 = 3.554$, $g = 7.8147$, $p = 0.314$
+  \item \texttt{Sex}/\texttt{W.Hnd}: $\chi^2 = 0.236$, $g = 3.8415$, $p = 0.627$
+\end{enumerate}
+
+\paragraph{Exercise~\ref{ex:chisq-aids2}} $\chi^2 = 1083.372914$, $g = 14.067140$, $p \approx 1.157 \times 10^{-229}$
+
+\paragraph{Exercise~\ref{ex:chisq-digimeter}} $\chi^2 = 6.6997$, $g = 12.5916$, $p = 0.35$
