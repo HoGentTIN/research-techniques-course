@@ -78,7 +78,7 @@ sudo dnf install R https://download1.rstudio.org/rstudio-1.1.419-x86_64.rpm
 
 Probably you have configured Git already before for some other courses.
 
-**It is preferable to use Git via the command line.** This way you will get the best understanding about how git works. `git status` gives a good overview of the status of your local repository and it will give you hint about the next step to take.
+**It is preferred to use Git on the command line.** This way you will get the best understanding about how git works. `git status` gives a good overview of the status of your local repository and it will give you hints about the next step to take.
 
 First a few tips:
 
