@@ -1,6 +1,6 @@
 # Research Techniques
 
-This repository contains all the course material for Research Techniques. Most of the content is pretty recently translated into English. It will most probably contain several spelling errors and grammatical mistakes. Feel free to suggest any improvements or even better; update your clone and create a *pull request*. If you offer a substantial contribution, I'll mention you in the aknowledgments.
+This repository contains all the course material for Research Techniques. Most of the content is pretty recently translated into English. It will most probably contain several spelling errors and grammatical mistakes. Feel free to suggest any improvements or even better; update your clone and create a *pull request*. If you offer a substantial contribution, we will mention you in the aknowledgments.
 
 ## Software Installation
 
