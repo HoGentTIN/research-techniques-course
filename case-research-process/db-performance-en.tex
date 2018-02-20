@@ -15,23 +15,30 @@
 % Metadata
 %------------------------------------------------------------------------------
 
-\JournalInfo{UCG Business and Information Management} % Journal information
-\Archive{Research Techniques 2016 - 2017} % Additional notes (e.g. copyright, DOI, review/research article)
+\JournalInfo{HoGent (University College Ghent), Business and Information Management} % Journal information
+\Archive{Research Techniques 2017 - 2018} % Additional notes (e.g. copyright, DOI, review/research article)
 
 %---------- Title & author ----------------------------------------------------
 
 \PaperTitle{Comparing the performance of database systems}
 \PaperType{Case research process} % Type document
 
-\Authors{Jens Buysse\textsuperscript{1}, Anita Bernard\textsuperscript{2}, Bert Van Vreckem\textsuperscript{3}} % Authors
+\Authors{
+    Wim Goedertier\textsuperscript{1},
+    Jens Buysse\textsuperscript{2},
+    Bert Van Vreckem\textsuperscript{3},
+Wim De Bruyn\textsuperscript{4}
+}
+
 \affiliation{\textbf{Contact:}
-  \textsuperscript{1} \href{mailto:jens.buysse@hogent.be}{jens.buysse@hogent.be};
-  \textsuperscript{2} \href{mailto:anita.bernard@hogent.be}{anita.bernard@hogent.be};
-  \textsuperscript{3} \href{mailto:bert.vanvreckem@hogent.be}{bert.vanvreckem@hogent.be}}
+    \textsuperscript{1} \href{mailto:wim.goedertier@hogent.be}{wim.goedertier@hogent.be};
+    \textsuperscript{2} \href{mailto:jens.buysse@hogent.be}{jens.buysse@hogent.be};
+    \textsuperscript{3} \href{mailto:bert.vanvreckem@hogent.be}{bert.vanvreckem@hogent.be};
+    \textsuperscript{4} \href{mailto:wim.debruyn@hogent.be}{wim.debruyn@hogent.be}}
 
 %---------- Abstract ----------------------------------------------------------
 
-\Abstract{ A team of students goes through the typical phases of research process starting from a specific case. The research question is given as part of the assignment: comparing the performance of different database systems. First, an overview of the state of the art in the research domain is developed through a literature review. The research questien is further specified and defined. Next, an experiment is designed in order to formulate an answer to the research question. Results are visualised and analysed. Finaly, the entire process and conclusions are written down and summarised in a paper. }
+\Abstract{ A team of students goes through the typical phases of a research process starting from a specific case. The research question is given as part of the assignment: comparing the performance of different database systems. First, an overview of the state of the art in the research domain is developed through a literature review. The research questien is further specified and defined. Next, a reproducable experiment is designed in order to formulate an answer to the research question. Results are visualised and analysed. Finaly, the entire process and conclusions are written down and summarised in a paper. }
 
 %---------- Research domain and keywords --------------------------------------
 
@@ -53,14 +60,16 @@
 \section{Introduction} % The \section*{} command stops section numbering
 \label{sec:introduction}
 
-The goal of this case is to do a mini-research project as it should typically be executed in practice. Specifically, the idea is to do a performance comparison between a couple of database systems and to report on this. A first step is to get familiar with the literature on this subject and to try to reproduce results of previous research. Results of the experiments performed by the team is analysed in a manner that is methodologically sound and summarised in a paper written in {\LaTeX}, using the provided template.
+The goal of this case study is to do a mini-research project as it should typically be executed in practice. Specifically, the idea is to do a performance comparison between a couple of database systems and to report on this. A first step is to get familiar with the literature on this subject and to try to reproduce results of previous research. Results of the experiments performed by the team is analysed in a manner that is methodologically sound and summarised in a paper written in {\LaTeX}, using the provided template.
 
 \section{Organisation}
 \label{sec:organisation}
 
-To work on this case, form teams of 4 students. You can choose the teams yourselves (e.g. the same teams as for the programming/system engineering projects). Each team is assigned a Github repository that is used to store \emph{all} results of the research project: bibliographical database, reports, results from experiments, {\LaTeX} source code for the paper, etc. Use Github Projects\footnote{See \url{https://help.github.com/articles/about-projects/}} to assign tasks and to monitor the progress of each task. Each team member should be able to prove their own contribution on the basis of their Git commits.
+To work on this case, form teams of 3 to 4 students. You can choose the teams yourself. Students that doesn't join any team in time, will be classified by the lector.
 
-During the seminar/exercise sessions, you can ask the teacher for advice, but apart from that, teams organise their work independently.
+Each team is assigned a Github repository that is used to store \emph{all} results of the research project: bibliographical database, reports, scripts for executing the experiments, raw results, R code for statistical analysis, {\LaTeX} source code for the paper, etc. Use Github Projects\footnote{See \url{https://help.github.com/articles/about-projects/}} to assign tasks and to monitor the progress of each task. Each team member should be able to prove their own contribution on the basis of their Git commits.
+
+During the seminar/exercise sessions, you can ask the teacher for advice, but apart from that, teams organise their work independently. The course research techniques will provide some guidelines as well as the instruction manual for bachelor thesises \autocite{VanVreckem}.  )
 
 The final paper is uploaded to Chamilo, under ``Assignments'' (or ``Opdrachten''), before the deadline.
 
@@ -164,7 +173,9 @@ In order to complete this case successfully, it is important to start immediatel
 
 \section{Assessment}
 
-The result is assessed according to how it meets the criteria enumerated above. Normally, all team members will receive the same grade, unless Github logs show that someone is an outlier--in a good or bad sense. Students that cannot prove their contribution get 0. The score obtained for this case counts for 15\% of the total grade for this course.
+The result is assessed according to how it meets the criteria enumerated above. Normally, all team members will receive the same grade, unless Github logs show that someone is an outlier--in a good or bad sense. Students that cannot prove their contribution get 0.
+
+The score obtained for this case counts for 30\% of the total grade for this course, and there is no second chance in August/September. So, it's worth to make an effort!
 
 %------------------------------------------------------------------------------
 % Bibliography
