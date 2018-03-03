@@ -38,7 +38,7 @@ Wim De Bruyn\textsuperscript{4}
 
 %---------- Abstract ----------------------------------------------------------
 
-\Abstract{ A team of students goes through the typical phases of a research process starting from a specific case. The research question is given as part of the assignment: comparing the performance of different database systems. First, an overview of the state of the art in the research domain is developed through a literature review. The research questien is further specified and defined. Next, a reproducable experiment is designed in order to formulate an answer to the research question. Results are visualised and analysed. Finaly, the entire process and conclusions are written down and summarised in a paper. }
+\Abstract{ A team of students goes through the typical phases of a research process starting from a specific case. The research question is given as part of the assignment: comparing the performance of different database systems. First, an overview of the state of the art in the research domain is developed through a literature review. The research questien is further specified and defined. Next, a reproducable experiment is set up in order to formulate an answer to the research question. Results are analysed and visualised. Finaly, the entire process and conclusions are written down and summarised in a paper. }
 
 %---------- Research domain and keywords --------------------------------------
 
@@ -67,11 +67,11 @@ The goal of this case study is to do a mini-research project as it should typica
 
 To work on this case, form teams of 3 to 4 students. You can choose the teams yourself. Students that doesn't join any team in time, will be classified by the lector.
 
-Each team is assigned a Github repository that is used to store \emph{all} results of the research project: bibliographical database, reports, scripts for executing the experiments, raw results, R code for statistical analysis, {\LaTeX} source code for the paper, etc. Use Github Projects\footnote{See \url{https://help.github.com/articles/about-projects/}} to assign tasks and to monitor the progress of each task. Each team member should be able to prove their own contribution on the basis of their Git commits.
+Each team is assigned a Github repository that is used to store \emph{all} results of the research project: bibliographical database, reports, scripts for executing the experiments, raw results, R code for statistical analysis, {\LaTeX} source code for the paper, etc. Optionally you can use Github Projects\footnote{See \url{https://help.github.com/articles/about-projects/}} to assign tasks and to monitor the progress of each task. Each team member should be able to prove their own contribution on the basis of their Git commits.
 
-During the seminar/exercise sessions, you can ask the teacher for advice, but apart from that, teams organise their work independently. The course research techniques will provide some guidelines as well as the instruction manual for bachelor thesises \autocite{VanVreckem}.  )
+During the seminars/exercise sessions, you can ask the teacher for advice, but apart from that, teams organise their work independently. The course research techniques will provide some guidelines as well as the instruction manual for bachelor thesises \autocite{VanVreckem2017}.
 
-The final paper is uploaded to Chamilo, under ``Assignments'' (or ``Opdrachten''), before the deadline.
+The final paper is uploaded to Chamilo, under ``Opdrachten'' (Assignments), before the deadline.
 
 %---------- Stand van zaken ---------------------------------------------------
 
@@ -96,30 +96,34 @@ Deliverables for this phase:
 	\item List of partial research questions;
 	\item Text for the section on the state of the art.
 \end{itemize}
+The deliverables must be uploaded (pushed) to Github.
 
 \section{Design and execution of experiments}
 \label{sec:experiments}
 
 The next step in starting your own research is trying to reproduce the results of earlier research. The goal of this phase is to repeat (part of) the experiment by~\textcite{Bassil2012} and see if you get similar results.
 
-Do you have all the necessary information in order to repeat the experiment? Do you think the selection of database systems is correct? How do you think an \emph{objective} selection can be made? Try to reproduce the experiment as closely as possible on two database systems. Make a motivated selection between the systems from the paper. Things that may have an effect on the results of the experiment (in this case the performance of the database system) should be avoided at all cost, or at least be kept under control. Every team member should be able to repeat the experiment. Try to automate the execution of the experiments and the collection of results as much as possible: write scripts to run the experiment, write results into a CSV file, etc. Gather a sufficient amount of experimental results (e.g.~each query at least 50 $\times$) in an identical setup.
+Do you have all the necessary information in order to repeat the experiment? Do you think the selection of database systems is correct? How do you think an \emph{objective} selection can be made? If necessary, you can make your own selection based on authoritative sources.
+
+Try to reproduce the experiment as closely as possible on two database systems. Make a motivated selection between the systems from the paper. Things that may have an effect on the results of the experiment (in this case the performance of the database system) should be avoided at all cost, or at least be kept under control. Every team member should be able to repeat the experiment. Try to automate the execution of the experiments and the collection of results as much as possible: write scripts to run the experiment, write results into a CSV file, etc. Gather a sufficient amount of experimental results (e.g.~each query at least 50$\times$) in an identical setup.
 
 While you're trying to reproduce these experiments, it is expected that you get inspiration on how to do this better. Maybe missing information doesn't allow you to reproduce the experiment exactly. Or maybe it becomes clear that the experiment, in the way it was carried out, isn't meaningful or obsolete. In that case, you can choose to adjust the original setup and research goals. You could choose for other database systems than mentioned in the original paper, another type of databases (e.g.~NoSQL), construct queries that are more representative for practical use, measuring the effects of multicore processors, etc. \textbf{Always check with your teacher when reformulating the research goals!}
 
 Describe in as much detail as possible how the experiments were set up: hardware (CPU, RAM, \ldots), operating system, etc. How did you measure performance (execution time, processor and memory usage)? The goal is that the reader of your paper is able to reproduce the experiment independently with your description. Try at least to do better than the original paper. This text will become the methodology section of your paper.
 
-Deliverables for this phase:
+Deliverables for this phase (on Github):
 
 \begin{itemize}
-	\item All necessary code, scripts and/or procedures for executing the experiment;
+	\item All necessary code, scripts and/or procedures for executing the experiment. Add a README with instructions, so that anyone can repeat the experiments, using all the provided information;
 	\item Resultats of the experiments (CSV-files);
 	\item The methodology section for the research paper.
 \end{itemize}
 
+
 \section{Analysis of the results}
 \label{sec:analysis}
 
-The next step is to analyse the results. Take another look at the original paper. Are the results reported well? Is it clear whether the differences between the database systems are statistically significant?
+The next step is to analyse the results using R. Take another look at the original paper. Are the results reported well? Is it clear whether the differences between the database systems are statistically significant?
 
 Visualise the results of the experiments. It is essential that the spread of data points is visible.
 
@@ -127,9 +131,10 @@ Are the results of your experiments statistically significant? Use an appropriat
 
 Summarize the results in a continuous text that becomes part of your paper. Include the most important and/or interesting results as a table or graph.
 
-Deliverables for this phase:
+Deliverables (on Github again):
 
 \begin{itemize}
+    \item R source code used to analyse the results;
 	\item Tables and graphs for all experimental results;
 	\item The section on experimental results for your research paper.
 \end{itemize}
@@ -137,7 +142,7 @@ Deliverables for this phase:
 \section{Report}
 \label{sec:report}
 
-Finally, edit the research paper that discusses your experimental results. The most important parts are already written at this point, but can probalby at least use some copy editing.
+Finally, edit the research paper that discusses your experimental results. The most important parts are in principle already written, but they can probably be further refined.
 
 Write an \emph{introduction} that explains the context of your research and that motivates why the chosen research questions are worth exploring. The partial research questions are discussed as well.
 
@@ -154,7 +159,7 @@ Aim for a better paper than the original, emphasising reproducability of experim
 Deliverables for this phase:
 
 \begin{itemize}
-	\item The final version of the research paper.
+	\item The final version of the research paper. The source code (TeX file) on Github, the final PDF on Chamilo (under ``opdrachten'') before the dead line. 
 \end{itemize}
 
 \section{Directive road map}
@@ -170,12 +175,20 @@ In order to complete this case successfully, it is important to start immediatel
 	\item[W8] Analysis of results: visualisation, applying hypothesis test, measuring statistical significane of differences;
 	\item[W9] Editing and handing in the research paper.
 \end{description}
-
+The deadline is strict. After the deadline has expired
+it is no longer possible to submit applications
 \section{Assessment}
 
-The result is assessed according to how it meets the criteria enumerated above. Normally, all team members will receive the same grade, unless Github logs show that someone is an outlier--in a good or bad sense. Students that cannot prove their contribution get 0.
+The result is assessed according to how it meets the criteria enumerated above. Normally, all team members will receive the same grade, unless it turns out that someone stands out, in the good or bad sense. 
 
-The score obtained for this case counts for 30\% of the total grade for this course, and there is no second chance in August/September. So, it's worth to make an effort!
+Article 37 of the Faculty Education and Examination Regulations on "Involvement in group work" is applicable to this group work: Those who do not participate in the group work or make an insufficient contribution run the risk of being considered absent. 
+
+In case of doubt, students must be able to demonstrate their contribution at the end of the journey. The logs on Github and the content of the commits will be an important indicator. Lack of involvement in the group will lead to a zero for this assignment.
+
+The score obtained for this case counts for 30\% of the total grade for this course, and there is no second chance in August/September. For those that need a second chance for the course Research Techniques, the score of this case will be copied. So, it's worth to make an effort!
+
+\section{Acknowlegment}
+This document is based on a similar document in Dutch. Some of the translation work was produced with the help of DeepL Translator\footnote{https://www.deepl.com/translator}.
 
 %------------------------------------------------------------------------------
 % Bibliography
