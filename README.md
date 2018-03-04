@@ -8,14 +8,16 @@ For the course Research Techniques you will need a few software packages. Here y
 
 ### Windows
 
-First install the Chocolatey package manager (<https://chocolatey.org/>) in a "Windows PowerShell (**Admin**)" terminal (or in a CMD terminal).
-Next type the commands below, again in a "Windows PowerShell (**Admin**)" terminal (or in a CMD terminal).
+First install the Chocolatey package manager (<https://chocolatey.org/>)
+in a "Windows PowerShell (**Admin**)" terminal (or in a CMD **Admin** terminal).
+Next type the commands below, again in a "Windows PowerShell (**Admin**)" terminal (or in a CMD **Admin** terminal).
 
 ```
 choco install git
 choco install miktex
 choco install texstudio
 choco install JabRef
+choco install ghostwriter
 choco install r.project
 choco install r.studio
 ```
@@ -26,6 +28,7 @@ Alternatively you can install the software in a *traditional* way, by downloadin
 - MikTeX: <https://miktex.org/download>
 - TeXStudio: <http://www.texstudio.org/>
 - JabRef: <https://www.fosshub.com/JabRef.html>
+- Ghostwriter: <https://wereturtle.github.io/ghostwriter/>
 - R: <https://lib.ugent.be/CRAN/>
 - Rstudio: <https://www.rstudio.com/products/rstudio/download/#download>
 
@@ -54,6 +57,8 @@ brew install --with-x11 r
 brew cask install --appdir=/Applications rstudio
 ```
 
+Also, it is worth to install a Markdown text editor.
+
 ### Linux:
 
 **Ubuntu/Debian.** First check the link to the latest version of RStudio via <https://www.rstudio.com/products/rstudio/download/#download>. You might want or need to replace "rstudio-1.1.419-amd64" in the commands below by something else:
@@ -65,10 +70,13 @@ wget https://download1.rstudio.org/rstudio-1.1.419-amd64.deb
 sudo dpkg -i ./rstudio-1.1.419-amd64.deb
 ```
 
+Also, it is worth to install a Markdown text editor such as retext or ghostWriter
+
 **Fedora.** First check the link to the latest version of RStudio via <https://www.rstudio.com/products/rstudio/download/#download>. You might want or need to replace "rstudio-1.1.419-x86_64.rpm" in the commands below by something else:
 
 ```
 sudo dnf install git texstudio texlive-collection-latex texlive-babel-dutch jabref
+sudo dnf install retext
 sudo dnf install R https://download1.rstudio.org/rstudio-1.1.419-x86_64.rpm
 ```
 
