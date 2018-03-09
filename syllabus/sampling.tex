@@ -316,7 +316,7 @@ The properties of probability distributions mentioned above still hold. The surf
   grid = major
   ]
   \addplot [fill=HoGentBlue!20, draw=none, domain=0:9] {gauss(5,1.5)} \closedcycle;
-  \draw [yshift=-0.6cm, latex-latex](axis cs:3.5,0) -- node [fill=white] {$\sigma$} (axis cs:6.5,0);
+  \draw [yshift=-0.6cm, latex-latex](axis cs:3.5,0) -- node [fill=white] {$\sigma$} (axis cs:5.0,0);
 \end{axis}
 \end{tikzpicture}
 \caption{The probability of Superman's reaction speed. This curve illustrates the normal distribution with mean $\mu = 5$ ms and standard deviation $\sigma = 1.5 ms.$}
@@ -370,8 +370,8 @@ If the distribution of stochastic variable $X$ is $X \sim N(\mu, \sigma)$, then 
         \addplot[<->] coordinates {(-1,0.4) (1,0.4)};
         \addplot[<->] coordinates {(-2,0.3) (2,0.3)};
         \addplot[<->] coordinates {(-3,0.2) (3,0.2)};
-        \node[coordinate, pin={68.2\%}] at (axis cs: 0, 0.35){};
-        \node[coordinate, pin={95\%}] at (axis cs: 0, 0.25){};
+        \node[coordinate, pin={68.3\%}] at (axis cs: 0, 0.35){};
+        \node[coordinate, pin={95.4\%}] at (axis cs: 0, 0.25){};
         \node[coordinate, pin={99.7\%}] at (axis cs: 0, 0.15){};
         \node[coordinate, pin={34.1\%}] at (axis cs: -0.5, 0){};
         \node[coordinate, pin={34.1\%}] at (axis cs: 0.5, 0){};
