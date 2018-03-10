@@ -417,36 +417,64 @@
   \end{center}
 \end{frame}
 
+\begin{frame}[fragile]
+\frametitle{Most important R functions}
+
+A normal distribution with mean \texttt{m} and standard deviation \texttt{s}:
+\vfill
+\centering
+\begin{tabular}{ll}
+    \textbf{Function}     & \textbf{Return value}                       \\ \hline
+    \verb|pnorm(x, m, s)| & Left tail probability, $P(X<\mathtt{x})$         \\
+    \verb|dnorm(x, m, s)| & Height of the Gauss curve at \texttt{x} \\
+    \verb|qnorm(p, m, s)| & Under what limit will \texttt{p}\% of the   \\
+    & observations be situated?                        \\
+    \verb|rnorm(n, m, s)| & Generate \texttt{n} normally distributed randon numbers
+\end{tabular}
+\vfill
+Default value for \texttt{m} is 1, for \texttt{s} is 0 (standard normal distribution)
+\end{frame}
+
+\begin{frame}
+  \frametitle{The $z$-score}
+  \begin{itemize}
+    \item Given $x \in X \sim Nor(\mu, \sigma)$,\\
+    which $z \in Z \sim Nor(0, 1)$\\
+    has the same position on the Gauss-curve?
+    \pause
+    \vspace{1cm}
+    \item Answer: $z = \frac{x - \mu}{\sigma}$
+  \end{itemize}
+\end{frame}
+
 \begin{frame}
   \frametitle{What is the probability that\dots}
 
   Superman's reaction speed is longer than 6.5 milliseconds?
+  Math. notation: $P( X > 6.5 )$
 
-  \vspace{2cm}
-
-  \begin{itemize}
-    \item $z$-table with left tail probabilities, e.g.~\url{http://sixsigmastudyguide.com/wp-content/uploads/2014/04/z-table.jpg}
-    \item Rule of symmetry
-    \item 100\% probability rule
-  \end{itemize}
-\end{frame}
-
-\begin{frame}[fragile]
-  \frametitle{Most important R functions}
-  
-  A normal distribution with mean \texttt{m} and standard deviation \texttt{s}:
-  \vfill
-  \centering
-  \begin{tabular}{ll}
-  	\textbf{Function}     & \textbf{Return value}                       \\ \hline
-  	\verb|pnorm(x, m, s)| & Left tail probability, $P(X<\mathtt{x})$         \\
-  	\verb|dnorm(x, m, s)| & Height of the Gauss curve at \texttt{x} \\
-  	\verb|qnorm(p, m, s)| & Under what limit will \texttt{p}\% of the   \\
-  	                      & observations be situated?                        \\
-  	\verb|rnorm(n, m, s)| & Generate \texttt{n} normally distributed randon numbers
-  \end{tabular}
-  \vfill
-  Default value for \texttt{m} is 1, for \texttt{s} is 0 (standard normal distribution)
+  \begin{enumerate}
+  \item Old school
+    \begin{itemize}
+    \item convert to a \emph{left} tail probability, lower than 50\%,\\
+    using symmetry and/or 100\% probability rule\\
+    (e.g. symmetry: $P(X>6.5)=P(X<3.5)$)\\
+    \pause
+    \item calculate the $z$-score ($z=\frac{3.5-5.0}{1.5}=-1$)
+    \pause
+    \item lookup $z$ in a $z$-table with left tail probabilities\\
+    e.g.~\url{http://sixsigmastudyguide.com/wp-content/uploads/2014/04/z-table.jpg}
+    \end{itemize}
+  \pause
+  \item Modern approach
+    \begin{itemize}
+    \item convert to a \emph{left} tail probability, using 100\% prob. rule\\
+    e.g. $P(X>6.5)=1-P(X<6.5)$
+    \pause
+    \item calculate with R:\\
+    e.g. $1-P(X<6.5)=\texttt{1-pnorm(6.5,5,1.5)}$
+    \end{itemize}
+  \end{enumerate}
 \end{frame}
 
 \begin{frame}
