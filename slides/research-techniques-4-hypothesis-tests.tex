@@ -167,7 +167,7 @@
   \begin{tikzpicture}
     \begin{axis}[domain=3.0:3.6, ymax=4.2, samples=100, enlargelimits=false ]
       \addplot [very thick,smooth,draw=HoGentFBO] {gauss(3.3, 0.10041580220928045413)};
-      \node [coordinate, pin={\small{3.483}}] at (axis cs: 3.483, 0){};
+      \node [coordinate, pin={$\overline{x}= 3.483$}] at (axis cs: 3.483, 0){};
     \end{axis}
   \end{tikzpicture}
 \end{frame}
@@ -194,6 +194,8 @@
       \addplot [smooth, fill=black!20, domain=1.822:3.5] {gauss(0,1)} \closedcycle;
       \addplot [very thick,smooth,draw=HoGentFBO] {gauss(0, 1)};
       \node  at (axis cs: 1.822, -.04){\small 1.822};
+      \draw [-latex](axis cs:2.1,0.02) -- (axis cs:2.35,0.06);
+      \node [text width=0.5cm] at (axis cs: 2.5, .095){$p= 0.0344$};
     \end{axis}
   \end{tikzpicture}
   
@@ -234,11 +236,15 @@
     \begin{axis}[domain=-3.5:3.5, ymax=0.42, samples=100, enlargelimits=false, clip=false ]
       \addplot [smooth, fill=black!20, domain=1.645:3.5] {gauss(0,1)} \closedcycle;
       \addplot [very thick,smooth,draw=HoGentFBO] {gauss(0, 1)};
-      \node  at (axis cs: 1.645, -.04){\small 1.645};
+      \draw [-](axis cs:1.645,0) -- (axis cs:1.645,-0.04);
+      \node  at (axis cs: 1.645, -.06){$z_{\alpha}=1.645$};
+      \draw [-latex](axis cs:2.1,0.02) -- (axis cs:2.35,0.06);
+      \node [text width=0.5cm] at (axis cs: 2.5, .095){$\alpha= 0.05$};
     \end{axis}
   \end{tikzpicture}
   
-  The $z$-score that determines a critical value for a significance level of $\alpha = 0.05$
+significance level $\alpha = 0.05$ $\Rightarrow$ critical value $z_{\alpha}$=1.645\\
+($z_{\alpha} = $\texttt{1-qnorm(0.05)})
 \end{frame}
 
 \begin{frame}
