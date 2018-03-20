@@ -30,6 +30,7 @@
 \usepackage{booktabs}
 \usepackage{pgfplotstable}
 \usepackage{changepage}
+\usepackage{tabu} %needed for \tabulinesep
 
 %---------- Configuratie ------------------------------------------------------
 
@@ -183,45 +184,46 @@
 \end{frame}
 
 \begin{frame}
+\frametitle{Stratified samples}
+
+\begin{center}
+    \begin{tabular}{l|cccc|c}
+        & \multicolumn{4}{c|}{\textbf{Age}} & \\
+        Gender & $\le 18$ & $]18,25]$ & $]25, 40]$ & $> 40$ & Total\\
+        \hline
+        Female & 500 & 1500 & 1000 & 250 & 3250 \\
+        Male   & 400 & 1200 & 800 & 160 & 2560\\
+        \hline
+        Total  & 900 & 2700 & 1800 & 410 & 5810
+    \end{tabular}
+    
+    \vspace{1cm}
+    
+    \pause
+    \begin{tabular}{l|cccc|c}
+        & \multicolumn{4}{c|}{\textbf{Age}} & \\
+        Gender & $\le 18$ & $]18,25]$ & $]25, 40]$ & $> 40$ & Total\\
+        \hline
+        Female & 50 & 150 & 100 & 25 & 325 \\
+        Male   & 40 & 120 & 80 & 16 & 256\\
+        \hline
+        Total & 90 & 270 & 180 & 41 & 581
+    \end{tabular}
+    
+\end{center}
+\end{frame}
+
+\begin{frame}
   \frametitle{Sampling methods}
 
   \begin{description}
-    \item[Random sample] each element from the population has an equal probability of being selected into the sample (probability sampling)
-    \item[Non-probability sampling] the sample is selected according to some other methodology that is usually more convenient
+    \item[Probability (or random) sampling]: each element from the population has an equal probability of being selected into the sample
+    \item[Non-probability sampling]: 
+    samples are \textit{not} randomly selected. Objects that can be easily collected are more likely to be included in the sample. (convenience sampling)
   \end{description}
 
   \begin{center}
     \includegraphics[width=.5\textwidth]{img/les4-aselect}
-  \end{center}
-\end{frame}
-
-\begin{frame}
-  \frametitle{Stratified samples}
-
-  \begin{center}
-    \begin{tabular}{l|cccc|c}
-      & \multicolumn{4}{c|}{\textbf{Age}} & \\
-      Gender & $\le 18$ & $]18,25]$ & $]25, 40]$ & $> 40$ & Total\\
-      \hline
-      Female & 500 & 1500 & 1000 & 250 & 3250 \\
-      Male   & 400 & 1200 & 800 & 160 & 2560\\
-      \hline
-      Total  & 900 & 2700 & 1800 & 410 & 5810
-    \end{tabular}
-
-    \vspace{1cm}
-
-    \pause
-    \begin{tabular}{l|cccc|c}
-      & \multicolumn{4}{c|}{\textbf{Age}} & \\
-      Gender & $\le 18$ & $]18,25]$ & $]25, 40]$ & $> 40$ & Total\\
-      \hline
-      Female & 50 & 150 & 100 & 25 & 325 \\
-      Male   & 40 & 120 & 80 & 16 & 256\\
-      \hline
-      Total & 90 & 270 & 180 & 41 & 581
-    \end{tabular}
-
   \end{center}
 \end{frame}
 
@@ -233,9 +235,11 @@
       \begin{itemize}
         \item Random variations in the sampling due to random selection
       \end{itemize}
-    \item<+-> Selection bias
+    \item<+-> Systematic sampling errors / Selection bias
       \begin{itemize}
-        \item e.g.~online survey will not reach people without internet access
+        \item Online survey will not reach people without internet access
+        \item Street survey is limited to the people that accidentally pass by
+        \item Voluntary survey will select only people interested in the subject
       \end{itemize}
     \item<+-> Random non-sampling errors
       \begin{itemize}
@@ -243,7 +247,9 @@
       \end{itemize}
     \item<+-> Systematic non-sampling errors
       \begin{itemize}
-        \item E.g.~respondents that have positive affinity with the subject are more likely to participate.
+\item Poor or non-calibrated measuring equipment (eg. poor balance)
+\item Value can be influenced by the fact that you are measuring
+\item Respondents may lie (number of cigarettes per day)
       \end{itemize}
   \end{itemize}
 \end{frame}
@@ -258,14 +264,35 @@
     s^2 = \frac{1}{\alert{n-1}} \sum_{i=1}^{n} (\overline{x} - x_i)^2
     \end{equation*}
 
-    It is possible to prove mathematically why this is better, but we will study this empirically.
+    It is possible to prove mathematically why this is better,\\
+    but we will study this empirically.
 
-    \vfill
+% applet no longer works
+%    \vfill
+%    Java applet: \url{http://www.uvm.edu/~dhowell/SeeingStatisticsApplets/N-1.html}
 
-    Java applet: \url{http://www.uvm.edu/~dhowell/SeeingStatisticsApplets/N-1.html}
     \vfill
     R-script: \href{https://github.com/HoGentTIN/research-techniques-course/blob/master/syllabus/data/sample-variance.R}{syllabus/data/sample-variance.R}
   \end{center}
+\end{frame}
+
+\begin{frame}
+\frametitle{Overview symbols}
+
+{\tabulinesep=1.2mm
+    \begin{tabu}{|r|c|c|}
+        \hline
+        & population & sample \\
+        \hline
+        number of objects & $N$ & $n$ \\
+        \hline
+        mean/average & $\mu$ & $\overline{x}$ \\
+        \hline
+        variance & $\sigma^2 = \frac{\sum (\mu-x_i)^2}{N}$ & $s^2  = \frac{\sum (\overline{x}-x_i)^2}{n-1}$ \\
+        \hline
+        standaarddeviation & $\sigma$ & $s$ \\
+        \hline
+\end{tabu}}
 \end{frame}
 
 \section{Probability distribution of a sample}
@@ -360,26 +387,92 @@
 \begin{frame}
   \frametitle{Continuous probability distribution}
 
-  The probability distribution of Superman's reaction time:
+  The probability distribution of Superman's reaction time $x$ in milliseconds:
 
   \vspace{1cm}
 
   \begin{tikzpicture}
 \begin{axis}[
   domain=0:10, samples=100,
-  axis lines*=left, xlabel=$x$, ylabel=$y$,
+  axis lines*=left, xlabel=$x$ (ms), ylabel=$y$,
   every axis y label/.style={at=(current axis.above origin),anchor=south},
   every axis x label/.style={at=(current axis.right of origin),anchor=west},
-  height=5cm, width=12cm,
+  height=5cm, width=11cm,
   xtick={5,3.5,6.5}, ytick=\empty,
   enlargelimits=false, clip=false, axis on top,
   grid = major
   ]
   \addplot [fill=cyan!20, draw=none, domain=0:9] {gauss(5,1.5)} \closedcycle;
-  \draw [yshift=-0.6cm, latex-latex](axis cs:3.5,0) -- node [fill=white] {$\sigma$} (axis cs:5.0,0);
+  \draw [yshift=-0.6cm, latex-latex](axis cs:3.5,0) -- node [fill=white] {$\sigma$} (axis cs:4.99,0);
+  \draw [yshift=-0.6cm, latex-latex](axis cs:5.01,0) -- node [fill=white] {$\sigma$} (axis cs:6.5,0);
+  \draw [-](axis cs:5,-0.035) -- (axis cs:5,-0.06);
+  \node at (axis cs:5,-0.075) {$\mu$};
   \end{axis}
   \end{tikzpicture}
   \hfill\includegraphics[width=1.5cm]{img/les2-hero-3}
+\end{frame}
+
+\begin{frame}
+\frametitle{\textit{Standard} normal distribution and the $z$-score}
+\centering
+\begin{columns}[c]
+    \column{.5\textwidth}
+Normal distribution\\
+$x \in X \sim Nor(\mu, \sigma)$\\
+    \begin{tikzpicture}
+    \begin{axis}[
+    domain=-2.5:2.5,
+    axis lines*=left,
+    xmin=-2.5, xmax=2.5,
+    ymin=0, ymax=0.39,
+    xlabel=$X$,
+    every axis x label/.style={at=(current axis.right of origin),anchor=west},
+    every axis y label/.style={at=(current axis.above origin),anchor=south},
+    height=4cm, width=6cm,
+    xtick={-1.4,0,1.4},
+    xticklabels={$\mu-\sigma$,$\mu$,$\mu+\sigma$},
+    ytick=\empty,
+    enlargelimits=false,
+    axis on top,
+    clip=false,
+    ]
+    \addplot[very thick,smooth,draw=HoGentFBO]{gauss(0,1.4)};
+    \draw [-](axis cs:0.4,0) -- (axis cs:0.4,0.274); %vertical line
+    \node at (axis cs: 0.56,0.1) {$x$}; %label x
+    \draw [latex-latex](axis cs:2.2,0.22) -- (axis cs:3.5,0.22);
+    \end{axis}
+    \end{tikzpicture}
+    \column{.5\textwidth}
+\textbf{\textit{Standard}} normal distribution\\
+$z \in Z \sim Nor(0, 1)$\\
+    \begin{tikzpicture}
+    \begin{axis}[
+    domain=-2.5:2.5,
+    axis lines*=left,
+    xmin=-2.5, xmax=2.5,
+    ymin=0, ymax=0.39,
+    xlabel=$Z$,
+    every axis x label/.style={at=(current axis.right of origin),anchor=west},
+    every axis y label/.style={at=(current axis.above origin),anchor=south},
+    height=4cm, width=6cm,
+    xtick={-1,0,1},
+    enlargelimits=false,
+    axis on top,
+    clip=false,
+    ]
+    \addplot[very thick,smooth,draw=HoGentFBO]{gauss(0,1)};
+    \draw [-](axis cs:0.286,0) -- (axis cs:0.286,0.383); %vertical line
+    \node at (axis cs: 0.42,0.12 ) {$z$}; %label z
+    \end{axis}
+    \end{tikzpicture}
+\end{columns}
+
+\vfill
+$x$ and $z$ have an equivalent position on the Gauss-curve.\\
+What is the mathematical relation between $x$ and $z$?
+\vfill
+\pause
+{\Large $x = \mu + z . \sigma$} ~~~ and ~~~ {\Large $z = \frac{x - \mu}{\sigma}$}
 \end{frame}
 
 \begin{frame}
@@ -432,48 +525,67 @@ A normal distribution with mean \texttt{m} and standard deviation \texttt{s}:
     \verb|rnorm(n, m, s)| & Generate \texttt{n} normally distributed randon numbers
 \end{tabular}
 \vfill
-Default value for \texttt{m} is 1, for \texttt{s} is 0 (standard normal distribution)
+\texttt{pnorm(x) = pnorm(x,0,1)} : \textit{\textbf{standard}} normal distribution is the default
 \end{frame}
 
 \begin{frame}
-  \frametitle{The $z$-score}
-  \begin{itemize}
-    \item Given $x \in X \sim Nor(\mu, \sigma)$,\\
-    which $z \in Z \sim Nor(0, 1)$\\
-    has the same position on the Gauss-curve?
-    \pause
-    \vspace{1cm}
-    \item Answer: $z = \frac{x - \mu}{\sigma}$
-  \end{itemize}
+\frametitle{Calculating probabilities}
+What is the probability that \dots\\
+\ldots Superman's response time is more than 6 milliseconds?
+\vfill
+Math. notation:\\
+\hspace{1cm}$P( X > 6)$ = ?\hspace{1cm}with $X \sim Nor(\mu=5,\sigma=1,5)$
+\vfill
+\begin{tikzpicture}
+\begin{axis}[
+domain=0:10,
+axis lines*=left,
+xlabel=$x$,
+every axis x label/.style={at=(current axis.right of origin),anchor=west},
+every axis y label/.style={at=(current axis.above origin),anchor=south},
+height=5cm, width=8cm,
+xtick={3.5,5,6.5},
+ytick=\empty,
+enlargelimits=false,
+axis on top,
+clip=false,
+]
+\addplot[fill=cyan!20, draw=black, domain=6:10] {gauss(5,1.5)} \closedcycle;
+\addplot[very thick,smooth,draw=HoGentFBO]{gauss(5,1.5)};
+\draw [-latex](axis cs:7,0.05) -- (axis cs:8.5,0.1);
+\node at (axis cs: 10, 0.1) {$P(X>6)$};
+\draw [-](axis cs:6,-0.005) -- (axis cs:6,-0.040);
+\node at (axis cs: 6, -0.055) {$6$};
+\end{axis}
+\end{tikzpicture}
 \end{frame}
 
 \begin{frame}
-  \frametitle{What is the probability that\dots}
-
-  Superman's reaction speed is longer than 6.5 milliseconds?
-  Math. notation: $P( X > 6.5 )$
-
+  \frametitle{Calculating probabilities}
+  $P( X > 6)$ = ?\hspace{1cm}with $X \sim Nor(\mu=5,\sigma=1,5)$
+  \vfill
   \begin{enumerate}
-  \item Old school
+  \item Old school, with $z$-score
     \begin{itemize}
-    \item convert to a \emph{left} tail probability, lower than 50\%,\\
-    using symmetry and/or 100\% probability rule\\
-    (e.g. symmetry: $P(X>6.5)=P(X<3.5)$)\\
-    \pause
-    \item calculate the $z$-score ($z=\frac{3.5-5.0}{1.5}=-1$)
-    \pause
-    \item lookup $z$ in a $z$-table with left tail probabilities\\
-    e.g.~\url{http://sixsigmastudyguide.com/wp-content/uploads/2014/04/z-table.jpg}
-    \end{itemize}
-  \pause
-  \item Modern approach
-    \begin{itemize}
-    \item convert to a \emph{left} tail probability, using 100\% prob. rule\\
-    e.g. $P(X>6.5)=1-P(X<6.5)$
-    \pause
-    \item calculate with R:\\
-    e.g. $1-P(X<6.5)=\texttt{1-pnorm(6.5,5,1.5)}$
-    \end{itemize}
+      \pause
+      \item convert to $z$-score\\
+      $z=\frac{6-5}{1.5}=0.667$ dus $P(X>6) = P(Z>0.667)$
+      \item convert to a \textbf{\textit{left}} tail probability
+      \begin{itemize}
+          \item 100\% probability rule: $P(Z>0.667)=1-P(Z<0.667)$
+          \item or symmetry rule: $P(Z>0.667)=P(Z<-0.667)$
+      \end{itemize}
+      \item look up $z$ in a $z$-table\\
+      \url{http://sixsigmastudyguide.com/wp-content/uploads/2014/04/z-table.jpg}
+  \end{itemize}
+  \vfill
+  \item Direct calculation with R (or calculator)
+  \begin{itemize}
+      \pause
+      \item first convert to a \textbf{\textit{left}} tail probability:\\
+      with the 100\% probability rule: $P(X>6)=1-P(X<6)$
+      \item calculate with R: $1-P(X<6)=$\texttt{1-pnorm(6,5,1.5)}
+  \end{itemize}
   \end{enumerate}
 \end{frame}
 
@@ -540,7 +652,7 @@ Default value for \texttt{m} is 1, for \texttt{s} is 0 (standard normal distribu
 \begin{frame}
   \frametitle{The central limit theorem}
 
-  \brightbox{If the sample size is sufficiently large, then the probability distribution of the arithmetic mean will be approximately normally distributed, regardless of the underlying distribution.}
+  \brightbox{If the sample size is sufficiently large, then the probability distribution of the arithmetic mean will be approximately normally distributed, regardless of the underlying distribution of the population.}
 
   \vfill
 
@@ -557,12 +669,18 @@ Default value for \texttt{m} is 1, for \texttt{s} is 0 (standard normal distribu
     \includegraphics[width=2cm]{img/les2-hero-3}
   \end{columns}
 
+\vfill
+Demo: \url{https://students.brown.edu/seeing-theory/probability-distributions/index.html}
+
 \end{frame}
 
 \begin{frame}
   \frametitle{The central limit theorem}
 
-  Consider a random sample of $n$ observations from a population with expected value $\mu$ and standard deviation $\sigma$. If $n$ is sufficiently large, the probability of $\overline{x}$ will approximate a normal distribution with mean $\mu_{\overline{x}} = \mu$ and standard deviation $\sigma_{\overline{x}} = \frac{\sigma}{\sqrt{n}}$. The larger the sample, the better the approximation of $\overline{x}$ will be.
+  Consider a random sample of $n$ observations from an arbitrary distributed population with expected value $\mu$ and standard deviation $\sigma$. If $n$ is sufficiently large, the probability of $\overline{x}$ will approximate a normal distribution with mean $\mu_{\overline{x}} = \mu$ and standard deviation $\sigma_{\overline{x}} = \frac{\sigma}{\sqrt{n}}$.
+
+\vspace{0.4cm}
+  The larger the sample, the better the distribution of $\overline{x}$ will match a normal distribution.
 \end{frame}
 
 \section{From sample to population}
@@ -587,67 +705,187 @@ Default value for \texttt{m} is 1, for \texttt{s} is 0 (standard normal distribu
 
 \begin{frame}
   \frametitle{Confidence interval for large samples}
-  \begin{figure}[t]
-\centering
+Given a sample with mean $\overline{x}$.\\
+We are looking for an interval $\left[ ~\overline{x}-b~,~\overline{x}+b~\right]$ for which we can say with a confidence level $(1-\alpha)$ of for example 95\% that $\mu$ is inside this interval.
+\vfill
+\[ P\left( \overline{x}-b < \mu < \overline{x}+b \right) = 1-\alpha = 0,95 \]
+\vfill
 \begin{tikzpicture}
 \begin{axis}[
-  domain=-3:3, samples=100,
-  axis lines*=left, xlabel=$z$,
-  every axis y label/.style={at=(current axis.above origin),anchor=south},
-  every axis x label/.style={at=(current axis.right of origin),anchor=west},
-  height=5cm, width=12cm,
-  xtick={-1.96,0,1.96}, ytick=\empty,
-  enlargelimits=false, clip=false, axis on top,
-  grid = major
-  ]
-  \addplot [fill=cyan!20, draw=none, domain=-3:3] {gauss(0,1)} \closedcycle;
-  \draw [yshift=-0.6cm, latex-latex](axis cs:-1.96,0) -- node [fill=white] {$\sigma$} (axis cs:1.96,0);
+domain=-3:3,
+axis lines*=left,
+height=5cm, width=12cm,
+xtick={-1.96,0,1.96},
+xticklabels={$\overline{x}-b$,$\overline{x}$,$\overline{x}+b$},
+ytick=\empty,
+enlargelimits=false,
+axis on top,
+clip=false,
+]
+\addplot[fill=cyan!20, draw=black, domain=-1.96:1.96] {gauss(0,1)} \closedcycle;
+\addplot[very thick,smooth,draw=HoGentFBO]{gauss(0,1)};
+%\addplot[smooth,dashed,draw=HoGentFBO]{gauss(0.8,1)};
+\node [text width=1.5cm,fill=cyan!20,align=center] at (axis cs: 0, 0.17) {95\%\\($1-\alpha$)};
+\draw [-latex](axis cs:2.15,0.02) -- (axis cs:2.4,0.07);
+\node [text width=1cm,fill=white,align=center] at (axis cs: 2.5,0.14) {2,5\%\\($\frac{\alpha}{2}$)};
+\draw [-latex](axis cs:-2.15,0.02) -- (axis cs:-2.3,0.07);
+\node [text width=1cm,align=center] at (axis cs: -2.3,0.14) {2,5\%\\($\frac{\alpha}{2}$)};
+\draw [-](axis cs:0.6,0.02) -- (axis cs:0.6,-0.06);
+\node [align=center] at (axis cs: 0.6,-0.09) {$\mu$};
 \end{axis}
 \end{tikzpicture}
-\caption{Standard normal distribution with a confidence interval for a confidence level of 95\%.}
-\label{fig:verdelingStandaardnormaal}
-\end{figure}
 \end{frame}
+
+\begin{frame}
+\frametitle{Confidence interval for large samples}
+Because of the central limit theorem we know:
+\[ \overline{x} \in \overline{X} \sim Nor(\mu,\frac{\sigma}{\sqrt{n}}) \]
+
+\vfill
+And because of the symmetry we can say:
+\[ P\left( \overline{x}-b < \mu < \overline{x}+b \right) = P\left( \mu-b < \overline{x} < \mu+b \right) \]
+
+\vfill
+\begin{tikzpicture}
+
+\begin{axis}[
+domain=-3:3,
+axis lines*=left,
+height=5cm, width=12cm,
+xlabel=$\overline{X}$,
+every axis x label/.style={at=(current axis.right of origin),anchor=west},
+every axis y label/.style={at=(current axis.above origin),anchor=south},
+xtick={-1.36,-0.4,0.6,1.6,2.56},
+xticklabels={$\mu-b$,,$\mu$,,$\mu+b$},
+ytick=\empty,
+enlargelimits=false,
+axis on top,
+clip=false,
+]
+\addplot[fill=cyan!20, draw=black, domain=-1.36:2.56] {gauss(0.6,1)} \closedcycle;
+\addplot[very thick,smooth,draw=HoGentFBO]{gauss(0.6,1)};
+\addplot[smooth,dashed,draw=HoGentFBO]{gauss(0,1)};
+\node [text width=1.5cm,align=center] at (axis cs: 0.6, 0.17) {95\%\\($1-\alpha$)};
+\draw [-latex](axis cs:2.75,0.02) -- (axis cs:3.0,0.07);
+\node [text width=1cm,fill=white,align=center] at (axis cs: 3.1,0.14) {2,5\%\\($\frac{\alpha}{2}$)};
+\draw [-latex](axis cs:-1.55,0.02) -- (axis cs:-1.7,0.07);
+\node [text width=0.8cm,fill=white,align=center] at (axis cs: -1.8,0.14) {2,5\%\\($\frac{\alpha}{2}$)};
+\draw [-,dashed](axis cs:0,0.4) -- (axis cs:0,-0.07);
+\node [align=center] at (axis cs: 0,-0.1) {$\overline{x}$};
+\draw [latex-latex](axis cs:0.6,-0.07) -- node [fill=white] {$\frac{\sigma}{\sqrt{n}}$} (axis cs:1.6,-0.07);
+\end{axis}
+\end{tikzpicture}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Confidence interval for large samples}
+
+We will now calculate the $z$-score for $\overline{x}$:
+\[ z = \frac{\overline{x} - \mu}{\frac{\sigma}{\sqrt{n}}} \]
+
+\vfill
+We lookup (or calculate) the value $z_\frac{\alpha}{2}$ for which:
+\[ P\left(-z_{\frac{\alpha}{2}} < z < z_{\frac{\alpha}{2}}\right) = 1 - \alpha = 0.95 \]
+\[ P\left(z < z_{\frac{\alpha}{2}}\right) = 1 - \frac{\alpha}{2} = 0.975 \]
+\[ z_{\frac{\alpha}{2}} = \texttt{qnorm(0.975)} \approx 1.96 \]
+
+\vfill
+\begin{tikzpicture}
+\begin{axis}[
+domain=-3:3,
+axis lines*=left,
+xlabel=$Z$,
+every axis x label/.style={at=(current axis.right of origin),anchor=west},
+every axis y label/.style={at=(current axis.above origin),anchor=south},
+height=4cm, width=10cm,
+xtick={-1.96,-1,0,1,1.96},
+xticklabels={-$z_\frac{\alpha}{2}$,-1,0,1,$z_\frac{\alpha}{2}$},
+ytick=\empty,
+enlargelimits=false,
+axis on top,
+clip=false,
+]
+\addplot[fill=cyan!20, draw=black, domain=-1.96:1.96] {gauss(0,1)} \closedcycle;
+\addplot[very thick,smooth,draw=HoGentFBO]{gauss(0,1)};
+\node [text width=1.5cm,align=center] at (axis cs: 0, 0.15) {95\%\\($1-\alpha$)};
+\draw [-latex](axis cs:2.15,0.02) -- (axis cs:2.4,0.07);
+\node [text width=1cm,align=center] at (axis cs: 2.5,0.16) {2,5\%\\($\frac{\alpha}{2}$)};
+\draw [-latex](axis cs:-2.15,0.02) -- (axis cs:-2.3,0.07);
+\node [text width=1cm,align=center] at (axis cs: -2.3,0.16) {2,5\%\\($\frac{\alpha}{2}$)};
+
+\end{axis}
+\end{tikzpicture}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Confidence interval for large samples}
+
+We now get:
+\[ P\left(-1,96 < \frac{\overline{x} - \mu}{\frac{\sigma}{\sqrt{n}}} < 1,96 \right) = 0,95 \]
+\[ P\left( \mu-1,96 \frac{\sigma}{\sqrt{n}} < \overline{x} < \mu+1,96 \frac{\sigma}{\sqrt{n}} \right)  = 0,95 \]
+
+Because of symmetry we can swap $\mu$ and $\overline{x}$:
+\[ P\left( \overline{x}-1,96 \frac{\sigma}{\sqrt{n}} < \mu < \overline{x}+1,96 \frac{\sigma}{\sqrt{n}} \right)  = 0,95 \]
+
+Now we can say with 95\% confidence that:
+\[ \mu \in \left[~\overline{x}-1,96.\frac{\sigma}{\sqrt{n}}~,~\overline{x}+1,96. \frac{\sigma}{\sqrt{n}}~\right] \]
+
+\small (in practice we will use $s_{sample}$ as an estimate for $\sigma_{population}$)
+
+\end{frame}
+
 
 \subsection{Confidence interval for small samples}
 
 \begin{frame}
-  \frametitle{Confidence interval for small samples}
-  Instead of
-
-\[ z = \frac{\overline{x} - \mu}{\frac{\sigma}{\sqrt{n}}} \]
-
-we use
-
+\frametitle{Student t-distribution for \textit{small} samples}
+For a \textit{\textbf{small}} sample the central limit theorem is \textbf{no longer} valid.
+\vfill
+Instead we can say:\\
+\vfill
+If a population $X$ has a normal distribution $(X \sim Nor(\mu,\sigma))$\\
+and you take a \textit{small} sample with mean $\overline{x}$ and standaarddeviation $s$,\\
+then
 \[ t = \frac{\overline{x} - \mu}{\frac{s}{\sqrt{n}}} \]
-
-  with $t$ the $t$-score from Student's $t$-distribution.
+will behave as a t-distribution with ~$n-1$~ degrees of freedom
 \end{frame}
 
 \begin{frame}
-  \frametitle{Confidence interval for small samples}
-
-  To determine the confidence interval for the mean based on a small sample, we calculate:
-
-  \[ \overline{x} \pm t_{\frac{\alpha}{2}}(\frac{s}{\sqrt{n}}) \]
-
-  with $t_{\frac{\alpha}{2}}$ is based on $(n-1)$ degrees of freedom. We assume that the sample is random and the population is approximately randomly distributed.
+\frametitle{Student t-distribution for \textit{small} samples}
+\includegraphics[width=\linewidth]{img/les04-t-distrib}
 \end{frame}
 
-\begin{frame}[fragile]
-\frametitle{Student's $t$-distribution in R}
 
-For a $t$-distribution with \texttt{df} degrees of freedom:
+\begin{frame}[fragile]
+\frametitle{Student $t$-distribution in R}
+
+For a $t$-distribution with ~\texttt{df}~ degrees of freedom:\\
 \vfill
 \centering
 \begin{tabular}{ll}
-	\textbf{Function} & \textbf{Return value}                                    \\ \hline
-	\verb|pt(x, df)| & Left tail probability, $P(X<\mathtt{x})$                  \\
-	\verb|dt(x, df)| & Height of the curve at \texttt{x}                     \\
-	\verb|qt(p, df)| & Under what limit will \texttt{p}\% of the     \\
-	                 & obsevations be situated?                             \\
-	\verb|rt(n, df)| & Generate \texttt{n} random numbers with this distribution
+    \textbf{Function} & \textbf{Return value}                                    \\ \hline
+    \verb|pt(x, df)| & Left tail probability, $P(X<\mathtt{x})$                  \\
+    \verb|dt(x, df)| & Height of the curve at \texttt{x}                     \\
+    \verb|qt(p, df)| & Under what limit will \texttt{p}\% of the     \\
+    & obsevations be situated?                             \\
+    \verb|rt(n, df)| & Generate \texttt{n} random numbers with this distribution
 \end{tabular}
+\end{frame}
+
+\begin{frame}
+\frametitle{Confidence interval for \textit{small} samples}
+To determine the confidence interval for the mean $\mu$ of a population, based on a \textit{small} sample, we first calculate $t_ {\frac{\alpha}{2},df}$.
+
+\vfill
+With a confidence level of 95\% we have $\frac{\alpha}{2}=0,025$\\
+Assume for example $n=5$ (so \texttt{df=4}), then we have
+\[ t_ {\frac{\alpha}{2},df} = \texttt{qt(0.975,4)} = 2.776 \]
+
+\vfill
+We can say with a certainty of 95\% that:
+\[ \mu \in \left[~ \overline{x} - t_{\frac{\alpha}{2},df}.\frac{s}{\sqrt{n}} ~,~ \overline{x} + t_{\frac{\alpha}{2},df}.\frac{s}{\sqrt{n}} ~\right] \]
 
 \end{frame}
 
