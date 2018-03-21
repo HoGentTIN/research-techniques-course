@@ -84,7 +84,7 @@
   \frametitle{Statistical hypothesis testing}
 
   \begin{description}
-    \item[Hypothesis] A presumption that still needs to be proven. A statement about the numerical value of a population parameter
+    \item[Hypothesis] A statement about the numerical value of a population parameter that still needs to be proven.
     \item[Hypothesis test] Procedure to validate a hypothesis on one or more population parameters
   \end{description}
 \end{frame}
@@ -96,9 +96,9 @@
     \item[Null hypothesis ($H_0$)] a hypothesis that we'll be trying to invalidate by a proof by contradiction.
     \item[Alternative hypothesis ($H_1$, $H_a$)] The actual hypothesis we want to prove
     \item[Test statistic] A value that is calculated from the sample
-    \item[Region of acceptance] The set of values of the test statistic for which we fail to reject the null hypothesis
-    \item[Critical region] The set of values of the test statistic for which we can reject the null hypothesis
-    \item[Significance level] The maximum probability the researcher is willing to accept that the $H_0$ is falsely rejected
+    \item[Region of acceptance] The range of values of the test statistic that \textit{support} the null hypothesis
+    \item[Critical region] The range of values of the test statistic for which we can \textit{reject} the null hypothesis
+    \item[Significance level] The maximum probability the researcher is willing to accept that $H_0$ is \textit{falsely} rejected
   \end{description}
 \end{frame}
 
@@ -109,8 +109,8 @@
   \frametitle{Procedure}
 
   \begin{enumerate}
-    \item Determine the hypotheses ($H_0$ and $H_a$)
-    \item Define the significance level ($\alpha$ and $n$)
+    \item Determine the hypotheses ($H_0$ and $H_1$)
+    \item Define the significance level ($\alpha$)
     \item Calculate the test statistic
     \item Determine the region of acceptance and the critical region
     \item Draw conclusions
@@ -145,23 +145,21 @@
 \end{frame}
 
 \begin{frame}
+Assume, during a period of 30 days, on average, there were 3.483 people saved per day ($\overline{x}=3.483$, $n=30$)
+\vfill
   \begin{enumerate}
-    \item Hypothesis:
-    
-    $H_0: \mu = 3.3$; $H_1: \mu > 3.3$
-    
-    \item Significance level $\alpha = 0.05$, sample size $n = 30$
-    
+    \item Hypothesis: $H_0: \mu = 3.3$; $H_1: \mu > 3.3$
+    \item Significance level: $\alpha = 0.05$
     \item Sample statistic: $\overline{x} = 3.483$
-    
-    Population standard deviation (assumed to be known): $\sigma = 0.55$
   \end{enumerate}
+\vfill
+Population standard deviation (assumed to be known): $\sigma = 0.55$
 \end{frame}
 
 \begin{frame}
   \frametitle{Calculate test statistic}
   
-  From the central limit theorem follows: $M \sim Nor(\mu = 3.3; \sigma = \frac{0.55}{\sqrt{30}})$
+  From the central limit theorem follows: $M \sim Nor(\mu = 3.3; \sigma = \frac{0.55}{\sqrt{30}}=0.1)$
 
   \centering
   \begin{tikzpicture}
@@ -199,7 +197,7 @@
     \end{axis}
   \end{tikzpicture}
   
-  \[ P(M > 3,483) = P \left(Z> \frac{3,483 - 3,3}{\frac{\sigma}{\sqrt{n}}}\right) = P (Z > 1,822) = 0,0344 \]
+  \[ P(M > 3.483) = P \left(Z> \frac{3.483 - 3,3}{\frac{\sigma}{\sqrt{n}}}\right) = P (Z > 1.822) = 0.0344 \]
 \end{frame}
 
 \section{Critical region}
@@ -210,19 +208,16 @@
   
   \brightbox{The \textcolor{HoGentAccent6}{critical region} is the set of values of the test statistic for which we can reject the null hypothesis.}
   
-  Delimited by the \emph{critical value} $g$ for which:
-  
-  \begin{equation*}
-  \begin{split}
-  P(M > g) = \alpha & \Leftrightarrow P\left(Z> z=\frac{g-\mu}{\sigma/\sqrt{n}}\right) = \alpha\\
-  & \Leftrightarrow P\left(Z < z = \frac{g-\mu}{\sigma/\sqrt{n}}\right) = 1-\alpha\\
-  & \Leftrightarrow g = \mu + z \frac{\sigma}{\sqrt{n}}
-  \end{split}
-  \end{equation*}
-  
+  We are looking for a \emph{critical value} $g$ for which:
+\[ P(M > g) = \alpha \]
+
+Find a $z_\alpha$ for which:
+\[ P(Z > z_\alpha) = \alpha \]
+\[ \Rightarrow g = \mu + z_\alpha \cdot \frac{\sigma}{\sqrt{n}} \]
+ 
   \begin{itemize}
-    \item Left of $g$: region of acceptance (don't reject $H_0$)
-    \item Right of $g$: critical region (reject $H_0$)
+    \item $\overline{x}<g$: region of acceptance (don't reject $H_0$)
+    \item $\overline{x}>g$: critical region (reject $H_0$)
   \end{itemize}
   
 \end{frame}
@@ -234,47 +229,36 @@
   \centering
   \begin{tikzpicture}
     \begin{axis}[domain=-3.5:3.5, ymax=0.42, samples=100, enlargelimits=false, clip=false ]
-      \addplot [smooth, fill=black!20, domain=1.645:3.5] {gauss(0,1)} \closedcycle;
-      \addplot [very thick,smooth,draw=HoGentFBO] {gauss(0, 1)};
-      \draw [-](axis cs:1.645,0) -- (axis cs:1.645,-0.04);
-      \node  at (axis cs: 1.645, -.06){$z_{\alpha}=1.645$};
-      \draw [-latex](axis cs:2.1,0.02) -- (axis cs:2.35,0.06);
-      \node [text width=0.5cm] at (axis cs: 2.5, .095){$\alpha= 0.05$};
+    \draw [-](axis cs:1.645,-0.03) -- (axis cs:1.645,0.06);
+    \addplot [smooth, fill=black!20, domain=1.645:3.5] {gauss(0,1)} \closedcycle;
+    \addplot [very thick,smooth,draw=HoGentFBO] {gauss(0, 1)};
+    \node [text width=0.8cm] at (axis cs: 1.645, -.06){$z_{\alpha}= 1.645$};
+    \draw [-latex](axis cs:2.1,0.02) -- (axis cs:2.35,0.06);
+    \node [text width=0.5cm] at (axis cs: 2.5, .095){$\alpha= 0.05$};
     \end{axis}
   \end{tikzpicture}
   
 significance level $\alpha = 0.05$ $\Rightarrow$ critical value $z_{\alpha}$=1.645\\
-($z_{\alpha} = $\texttt{1-qnorm(0.05)})
+($z_{\alpha} = $\texttt{qnorm($1-\alpha$)=qnorm(0.95)})
 \end{frame}
 
 \begin{frame}
   \frametitle{Left tailed test}
-  
-  What should be changed in the equation in order to get the critical value for a \emph{left tailed} test?
-  
-  \pause
-
-  \begin{equation*}
-\begin{split}
-P(M < g) = \alpha & \Leftrightarrow P\left(Z< z=\frac{g-\mu}{\sigma/\sqrt{n}}\right) = \alpha\\
-& \Leftrightarrow P\left(Z < z = \alert{-}\frac{g-\mu}{\sigma/\sqrt{n}}\right) = 1-\alpha\\
-& \Leftrightarrow g = \mu \alert{-} z \frac{\sigma}{\sqrt{n}}
-\end{split}
-\end{equation*}
-
+  In case of a \emph{left tailed} test, the critical value $g$ becomes:
+  \[ g = \mu - z_\alpha \cdot \frac{\sigma}{\sqrt{n}} \]
+  and $H_0$ will be rejected if $\overline{x}<g$
 \end{frame}
 
 \begin{frame}
   \frametitle{Two tailed tests}
-  
-  Sometimes it is necessary to test on \emph{both} sides. In that case, we need to calculate two critical values
+  In case of a \emph{two tailed} test, we use the $z$-score for $\frac{\alpha}{2}$:
+  \[ z_{\frac{\alpha}{2}} = qnorm(1-\frac{\alpha}{2})=qnorm(0.975) \]
 
-\begin{equation}
-  g = \mu \pm z \frac{\sigma}{\sqrt{n}}
-  \label{eq:kritiekeGrenswaarde}
-\end{equation}
+  We will use 2 critical values $g_1$ and $g_2$:
+  \[ g_1 = \mu - z_\frac{\alpha}{2} \cdot \frac{\sigma}{\sqrt{n}} \]
+  \[ g_2 = \mu + z_\frac{\alpha}{2} \cdot \frac{\sigma}{\sqrt{n}} \]
 
-The difference is that we now need to use the $z$-score for significance $\frac{\alpha}{2}$ (why?)
+  And $H_0$ will now be rejected if $\overline{x}<g_1$ or $\overline{x}>g_2$
 \end{frame}
 
 \begin{frame}
@@ -284,7 +268,7 @@ The difference is that we now need to use the $z$-score for significance $\frac{
   \centering
   \begin{tabular}{l|ccc}
     \toprule
-    $z$-test              & \multicolumn{3}{l}{\parbox{.7\textwidth}{Test on the population mean $\mu$ based on a sample of $n$ independent observations.}} \\
+    $z$-test              & \multicolumn{3}{l}{\parbox{.7\textwidth}{Test on the population mean $\mu$ based on a sample of $n$ \textbf{independent} observations.}} \\
     \midrule
     Conditions        & \multicolumn{3}{l}{\parbox{.7\textwidth}{Population stdev $\sigma$ is known, $n>30$}} \\
     \midrule
@@ -292,7 +276,7 @@ The difference is that we now need to use the $z$-score for significance $\frac{
     \midrule
     $H_{0}$           & $\mu = \mu_{0}$      & $\mu = \mu_{0}$ & $\mu = \mu_{0}$  \\
     $H_{1}$           & $\mu \neq \mu_{0}$   & $\mu < \mu_{0}$ & $\mu > \mu_{0}$  \\
-    Critical region   & $\left|z\right| > g$ & $z< -g $        & $z>g$            \\
+    Critical region   & $\left|z\right| > z_\frac{\alpha}{2}$ & $z< -z_\alpha $        & $z>z_\alpha$            \\
     Test statistic    & \multicolumn{3}{c}{$z = \frac{\overline{x} - \mu_{0}}{\frac{\sigma}{\sqrt{n}}}$} \\
     \bottomrule
   \end{tabular}
@@ -313,13 +297,13 @@ The difference is that we now need to use the $z$-score for significance $\frac{
 
 \begin{frame}
   \frametitle{Example 1}
-  \begin{block}{Determine the hypotheses ($H_0$ and $H_a$)}
-    $H_{0} : \mu = 27$ and $H_{1}: \mu < 27$.
+  \begin{block}{Determine the hypotheses ($H_0$ and $H_1$)}
+    $H_{0} : \mu = 27$ and $H_{1}: \mu < 27$
   \end{block}
 
 
   \begin{block}{Define the significance level}
-  $\alpha = 0.05$ and $n=50$.
+  $\alpha = 0.05$ (and $n=50$)
   \end{block}
 
 
@@ -341,8 +325,8 @@ The difference is that we now need to use the $z$-score for significance $\frac{
   
     \begin{block}{Calculate the critical area}
     
-    \[ g = \mu - z \frac{\sigma}{\sqrt{n}} \]
-    \[ g = 27 - 1.645 \times \sqrt{\frac{55}{50}} \]
+    \[ g = \mu - z \cdot \frac{\sigma}{\sqrt{n}} \]
+    \[ g = 27 - 1.645 \cdot \sqrt{\frac{55}{50}} \]
     \[ g \approx 25.2749 \]
   
     We find that $\overline{x} < g$, so we can reject $H_{0}$
@@ -385,9 +369,9 @@ The difference is that we now need to use the $z$-score for significance $\frac{
 
 \begin{frame}
   \begin{block}{Calculate the critical area}
-    \[ \mu - z \frac{\sigma}{\sqrt{n}} = 25 - 1.959964 \times \frac{7}{\sqrt{64}} \approx 23.28503 \]
+    \[ \mu - z \frac{\sigma}{\sqrt{n}} = 25 - 1.959964 \cdot \frac{7}{\sqrt{64}} \approx 23.28503 \]
     
-    \[ \mu + z \frac{\sigma}{\sqrt{n}} = 25 + 1.959964 \times \frac{7}{\sqrt{64}} \approx 26.71497 \]
+    \[ \mu + z \frac{\sigma}{\sqrt{n}} = 25 + 1.959964 \cdot \frac{7}{\sqrt{64}} \approx 26.71497 \]
     
     We find that $\overline{x}$ is inside the critical region (since $23 < 23.28$), so we can reject $H_{0}$.
   \end{block}
@@ -404,8 +388,8 @@ The difference is that we now need to use the $z$-score for significance $\frac{
   \begin{itemize}
     \item The sample should be random
     \item The sample must be sufficiently large ($n > 30$)
-    \item The variation of the test statistic should be normally distributed
     \item The standard deviation of the populatie, $\sigma$, is known
+    \item The variation of the test statistic should be normally distributed (this is always the case if the test statistic is the sample mean, because of the central limit theorem)
   \end{itemize}
 
   \brightbox{If these assumptions do not hold, you \textcolor{HoGentYellow}{may not} use the $z$ test!}
@@ -416,11 +400,11 @@ The difference is that we now need to use the $z$-score for significance $\frac{
   
   Determine critical value:
   
-  \[ g = \mu \pm t \frac{s}{\sqrt{n}} \]
+  \[ g = \mu \pm t_\alpha \cdot \frac{s}{\sqrt{n}} \]
   
   \begin{itemize}
     \item $t$-value is derived from Student's $t$ distribution, depends on \emph{degrees of freedom}, $n-1$
-    \item Look this up in $t$-table or with R-function \texttt{pt}
+    \item Look this up in $t$-table or with R-function \texttt{qt($1-\alpha$,$n-1$)}
   \end{itemize}
   
 \end{frame}
@@ -465,19 +449,18 @@ The difference is that we now need to use the $z$-score for significance $\frac{
 \begin{verbatim}
 > control <-  c(91, 87, 99, 77, 88, 91)
 > treatment <- c(101, 110, 103, 93, 99, 104)
-> t.test(controe, treatment, alternative="less", mu=0)
+> t.test(treatment, control, alternative="greater")
 
-Welch Two Sample t-test
+	Welch Two Sample t-test
 
-data:  control and treatment
-t = -3.4456, df = 9.4797, p-value =
-0.003391
-alternative hypothesis: true difference in means is less than 0
+data:  treatment and control
+t = 3.4456, df = 9.4797, p-value = 0.003391
+alternative hypothesis: true difference in means is greater than 0
 95 percent confidence interval:
--Inf -6.044949
+6.044949      Inf
 sample estimates:
 mean of x mean of y 
-88.83333 101.66667
+101.66667  88.83333 
 \end{verbatim}
 \end{frame}
 
