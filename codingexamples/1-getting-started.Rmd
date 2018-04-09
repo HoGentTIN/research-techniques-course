@@ -1,0 +1,161 @@
+---
+title: "1 -- Getting started"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Calculating
+
+```{r}
+1 + 2
+3 * 4 + 5
+3 * (4 - 5)
+2^4
+(1 + 7) / (3 + 8)
+```
+
+## Variables
+
+To assign variables in R, we use `<-`.
+
+```{r}
+x <- 2
+y <- 3
+x + y
+```
+
+The `=` can also be used.
+It is typically used when specifying parameters of a function.
+
+Below you'll find 3 times the same command: We want rnorm() to generate 5 random values with a mean of 170 and a standard deviation of 15
+
+```{r}
+# 1st time: parameters in the correct order
+rnorm(5, 170, 15)
+# 2nd time: the names of the parameters are mentioned
+rnorm(5, mean = 170, sd = 15)
+# 3rd time: the order of the paramaters is no longer relevant
+#           (because the names are mentioned)
+rnorm(5, sd = 15, mean = 170)
+```
+
+The 2nd and 3rd notation is more readable.
+Rstudio has autocompletion for the names of the parameters.
+
+## Lists/vectors
+
+Create lists ("c" stands for "collection")
+```{r}
+a <- c(1, 2, 3, 4) # assign a
+b <- c(5, 6, 7, 8) # assign b
+a; b # print a and b
+```
+
+You can also specify a *range* of values:
+```{r}
+c <- 0:5
+c
+```
+
+Operations on a list: the operation is executed on every single element:
+```{r}
+
+a + 5 # every single element in list "a" is incremented with 5
+a - 9
+a * 4
+a / 3
+a ^ 2
+```
+
+Operations with 2 lists: executed one by one
+```{r}
+a + b
+a - b
+a * b
+a / b
+a ^ b
+```
+
+Selecting an element from a list:
+_Remark_: the index starts at 1 (**not** at 0)!
+
+```{r}
+b[1]   # 1st element
+b[2:3] # 2nd till 3rd element
+```
+
+## Functions for lists
+
+```{r}
+length(a) # number of elements, count
+min(a)
+max(a)
+sum(a)
+```
+
+## Matrices
+
+Below we create a 2 dimensional array or a *matrix*. You just give a list of values and the number of rows and columns.
+_Remark_: the matrix is filled column by column (**not** row by row)!
+```{r}
+mat <- matrix(
+      c(1, 2, 3,
+        4, 5, 6), 
+      nrow = 3,
+      ncol = 2)
+mat
+```
+
+Selecting from a matrix:
+
+```{r}
+mat[3,2]  # element on 3rd row, 2nd column
+mat[,2]   # 2nd column
+mat[1,]   # 1st row
+mat[2:3,] # 2nd till 3rd row
+```
+
+## Data frames
+
+Data frames typically consist of a series of columns, with the name of the column in the top row. Every column corresponds with a statistical variable. Variables can be qualitative (in R we call it a *factor*, *category* or *enumerated type*) or they can be quantitative.
+
+We will use `mtcars`. It's a database that is available in R by default.
+
+```{r}
+?mtcars      # Shows the "man-page" for this dataset
+View(mtcars)
+nrow(mtcars) # number of rows
+ncol(mtcars) # number of columns
+```
+
+Selecting elements from a frame:
+
+```{r}
+mtcars[1,2]  # element on 1st row, 2nd column
+mtcars[3,]   # the entire 3rd row
+mtcars[3:5,] # rows 3 till 5
+mtcars[,2]   # 2nd column
+mtcars[,2:4] # column 2 till 4
+mtcars$cyl   # column with the name "cyl"
+mtcars[c("mpg","hp")] # select only the columns 'mpg' and 'hp', returned as a table
+```
+
+You can also select a subset based on a kind of query. For example: "Return the number of cylinders (`cyl`) of the cars without an automatic gear (`am`)"
+
+```{r}
+mtcars$cyl[mtcars$am == 0]  
+```
+
+Or return all info of the subset with the syntax below. Remark the "comma" at the end!
+
+```{r}
+mtcars[mtcars$am == 0,]  
+```
+
+These "queries" can be combined with the logical operators *and* (`&`), *or* (`|`) and *not* (`!`):
+```{r}
+mtcars[mtcars$mpg >= 20 & mtcars$mpg <= 25,]
+```
