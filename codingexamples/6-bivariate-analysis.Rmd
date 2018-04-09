@@ -11,7 +11,7 @@ Als casus lezen we resultaten in van een enquête uitgevoerd onder de klanten va
 
 ```{r}
 library(foreign)
-resto <- read.spss("../cursus/data/catering_hogeschool.sav",
+resto <- read.spss("../syllabus/data/catering_college.sav",
                    to.data.frame = TRUE)
 ```
 
@@ -103,7 +103,7 @@ Deze functie geeft zowel de waarde van "Pearson's $\chi^2$" (derde regel, eerste
 Als voorbeeld voor het berekenen van de regressierechte nemen we de dataset die ook in de slides gebruikt wordt:
 
 ```{r}
-weight_gain <- read.csv("../cursus/data/santa.txt",
+weight_gain <- read.csv("../syllabus/data/santa.txt",
                         sep = "")
 ```
 
@@ -158,7 +158,7 @@ abline(regression,
 ## Covariantie en correlatie
 
 ```{r}
-families <- read.csv("../cursus/data/families.txt", sep ="")
+families <- read.csv("../syllabus/data/families.txt", sep ="")
 mx <- mean(families$x)
 my <- mean(families$y)
 
