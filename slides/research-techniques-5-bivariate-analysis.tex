@@ -68,7 +68,7 @@
   \tableofcontents
 \end{frame}
 
-\section{Plotting two variables}
+\section{Recap: Plotting variables / Presenting data}
 \sectionframelogo{}
 
 \begin{frame}
@@ -81,9 +81,9 @@
   \end{figure}
 
   \begin{itemize}
-    \item What's the number of days per week that people go to the restaurant?
-    \item Is there a difference in spending between students and staff?
-    \item Is there a link between the number of visits and the total amount spent?
+    \item What's the number of days per week that people go to the restaurant? (1 variable)
+    \item Is there a difference in spending between students and staff? (comparing nominal vs. quantitative variable)
+%    \item Is there a link between the number of visits and the total amount spent?
   \end{itemize}
 
   R Code: see \texttt{syllabus/data/catering\_college.R}
@@ -91,7 +91,7 @@
 \end{frame}
 
 \begin{frame}
-  \frametitle{What's the number of days per week that people go to the restaurant?}
+  \frametitle{What's the number of days per week that people go to the restaurant? (1 variable)}
   
   \begin{columns}
     \begin{column}{0.5\textwidth}
@@ -123,7 +123,7 @@
 \end{frame}
 
 \begin{frame}
-  \frametitle{What's the number of days per week that people go to the restaurant?}
+  \frametitle{What's the number of days per week that people go to the restaurant? (1 variable)}
   \begin{columns}
     
     \begin{column}{0.5\textwidth}
@@ -144,7 +144,7 @@
 \end{frame}
 
 \begin{frame}
-  \frametitle{Is there a difference in spending between students and staff?}
+  \frametitle{Is there a difference in spending between students and staff? (comparing nominal vs. quantitative variable)}
   \begin{itemize}
     \item \alert<1>{Bar chart} (of averages per category)
     \item \alert<2>{Boxplot}
@@ -164,11 +164,12 @@
 
 \begin{frame}
   \frametitle{Contingency tables}
-  
-  (also: cross tabulation, crosstab, Nl: \emph{kruistabel})
-  
+  (also: cross tabulation, crosstab, Dutch: \emph{kruistabel})
+  \vfill
+  This is used for \textbf{categorical data},\\
+  i.e. to compare 2 qualitative (nominal or ordinal) variables.
+  \vfill
   Is there a difference in the appreciation of the basic product range between men and women?
-  
   \begin{table}[h]
     \begin{tabular}{l||l|l||l}
                    & Women & Men & Total \\ \hline\hline
@@ -212,6 +213,8 @@
       \end{tabular}
     \end{table}
   \end{adjustwidth}
+  \vfill
+  See also codingexamples/6-bivariate-analysis-CramersV.xlsx
 \end{frame}
 
 \begin{frame}
@@ -253,7 +256,9 @@
   \frametitle{Cramér's V}
   \brightbox{\textcolor{HoGentAccent6}{Cramér's V} is a measure (between 0 and 1) that indicates how strong the association between two nominal variables is.}
   
-  \[ V = \sqrt{\frac{\chi^2}{n \times \mathrm{min}(k - 1, l - 1)}} \]
+  \[ V = \sqrt{\frac{\chi^2}{n \cdot \mathrm{min}(k - 1, l - 1)}} \]
+  
+  with $k$ and $l$ the number of categories for each variable
   
   \begin{table}[h] \centering
     \begin{tabular}{@{}rr@{}}
@@ -270,7 +275,7 @@
 \end{frame}
 
 \begin{frame}
-  \frametitle{Example: link between gender and car brand preferences}
+  \frametitle{Example 2: link between gender and car brand preferences}
   \begin{table}[h] \centering
     \begin{tabular}{@{}rrrrrr@{}}
     	\toprule
@@ -287,7 +292,7 @@
 \end{frame}
 
 \begin{frame}
-  \frametitle{Example: link between gender and car brand preferences}
+  \frametitle{Example 2: link between gender and car brand preferences}
 
   \begin{figure}
     \centering
@@ -299,6 +304,7 @@
 
 \begin{frame}
   \frametitle{Visual representation of contingency tables}
+  \framesubtitle{Mosaic plot}
   
   \begin{figure}
     \centering
@@ -336,23 +342,18 @@
   \frametitle{Linear Regression}
   
   \brightbox{\textcolor{HoGentAccent6}{Regression} is searching for a \textcolor{HoGentAccent6}{consistent} and \textcolor{HoGentAccent6}{systematic} association between variables.}
-
-
+\vfill
+  The association can be:
   \begin{enumerate}
-    \item \textbf{Monotonous:} there is a general direction in the association between two variables (increasing/decreasing)
-    \item \textbf{Non-monotonous:} there is a systematic association, but it is not consistently increasing/decreasing
+    \item \textbf{Monotonous:} consistently increasing or consistently decreasing
+    \item \textbf{Non-monotonous:} going up and down
   \end{enumerate}
-\end{frame}
-
-\begin{frame}
-  \frametitle{Linear regression}
-  The association between the dependent and independent variable is approximated with a line.
-  
-  \begin{itemize}
-    \item Is the association linear at all?
-    \item Direction: increasing/decreasing?
-    \item How strong is the association? Strong or even non-existent?
-  \end{itemize}
+\vfill
+  The association can also be:
+  \begin{enumerate}
+    \item \textbf{Linear:} it can be describe by a line
+    \item \textbf{Non-linear:} e.g. quadratic, logaritmic, ...
+  \end{enumerate}
 \end{frame}
 
 \begin{frame}
@@ -396,6 +397,34 @@
     \end{axis}
   \end{tikzpicture}
 \end{frame}
+
+\begin{frame}
+\frametitle{Linear regression}
+\brightbox{\textcolor{HoGentAccent6}{Linear regression} is searching for a 
+    \textcolor{HoGentAccent6}{linear} association between variables.}
+\vfill
+The \textbf{regression line} is a line that fits the data points as good as possible.
+\vfill
+With the regression line we can predict the value of the depent variable (y) based on the independent variable (x).
+\vfill
+\textbf{Remark:} you can always draw a \textbf{\textit{best fitting}} regression line, even if the association is \textit{\textbf{not}} linear at all
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Least squares method:}
+The regression line is found by minimizing the sum of the squares of the (vertical) distances
+between the regression line and the data points ($\rightarrow$ least squares method).
+\vfill
+The equation for the regression line is:
+\[ y = \beta_0 + \beta_1 \cdot x \]
+with
+\[ \beta_1 = \frac{\sum_{i=1}^{n}(x_i - \overline{x})(y_i - \overline{y})}{\sum_{i=1}^{n}(x_i - x)^2} \]
+and
+\[ \beta_0 = \overline{y} - \beta_1 \overline{x} \]
+
+\end{frame}
+
 
 \begin{frame}
   \frametitle{Least squares method: example}
@@ -512,11 +541,11 @@
 
 \begin{frame}
   \frametitle{Covariance and correlation}
-  
   \brightbox{\textcolor{HoGentAccent6}{Covariance} is the average deviation of all observations from the mean $(\overline{x}, \overline{y})$.}
-  
+  \[\mathrm{Cov}(X,Y) = \frac{1}{n} \sum_{i=1}^{n} (x_i - \overline{x}) (y_i - \overline{y})\]
+\vfill
   \brightbox{\textcolor{HoGentAccent6}{Pearson's correlation coefficient} is a measure for the linear correlation between two variables $X$ and $Y$}
-
+\vfill
   \brightbox{The \textcolor{HoGentAccent6}{coefficient of determination} indicates the proportion of the variance in the dependent variable that is predictable from the independent variable(s).}
 \end{frame}
 
@@ -534,8 +563,8 @@
         width=\textwidth, height=8cm,     % size of the image
         grid = major,
         grid style={dashed, gray!30},
-        ylabel=family size mother,
-        xlabel=family size,
+        ylabel=family size,
+        xlabel=family size mother,
         legend style={at={(0.1,-0.1)}, anchor=north}
       ]
       \addplot[only marks] table  {data/families.txt};
@@ -559,8 +588,8 @@
         width=\textwidth, height=8cm,     % size of the image
         grid = major,
         grid style={dashed, gray!30},
-        ylabel=family size mother,
-        xlabel=family size,
+        ylabel=family size,
+        xlabel=family size mother,
         legend style={at={(0.1,-0.1)}, anchor=north}
       ]
       \draw (axis cs:3,0)--(axis cs:3,8);
@@ -617,8 +646,8 @@
         width=\textwidth, height=8cm,     % size of the image
         grid = major,
         grid style={dashed, gray!30},
-        ylabel=family size mother,
-        xlabel=family size,
+        ylabel=family size,
+        xlabel=year of birth mother,
         legend style={at={(0.1,-0.1)}, anchor=north}
       ]
       \draw (axis cs:1942.625,0)--(axis cs:1942.625,6);
@@ -638,24 +667,44 @@
 \begin{frame}
   \frametitle{Pearson's correlation coefficient ($R$)}
 
-  Magnitude of covariance is hard to interpret
-  
-  Correlation coefficient is a normalised version of covariance:
-  
+  Magnitude of covariance is hard to interpret.\\
+  Correlation coefficient (R) is a normalised version of covariance:
+\vfill  
   \[R = \frac{\mathrm{Cov}(X,Y)}{\sigma_{X}\sigma_{Y}}\]
-  
-%  \begin{center}
-%    \begin{tabular}{rl}
-%    	        $R$ & Interpretation                       \\ \hline
-%    	         -1 & perfect negative linear relationship \\
-%    	       -0.5 & negative linear relationship         \\
-%    	$\approx 0$ & no linear relationship               \\
-%    	        0.5 & positive linear relationship         \\
-%    	          1 & perfect positive linear relationship
-%    \end{tabular}
-%  \end{center}
+\vfill  
+  R is a number between -1 and 1
+\vfill  
+  \begin{center}
+    \begin{tabular}{rl}
+    	$R$ & Interpretation                       \\ \hline
+    	-1 & perfect negative linear relationship (decreasing regression line) \\
+    	0 & no relationship (horizontal regression line)              \\
+    	1 & perfect positive linear relationship (increasing regression line)
+    \end{tabular}
+  \end{center}
 
 \end{frame}
+
+\begin{frame}
+\frametitle{Correlation coefficient}
+\begin{figure}
+    \centering
+    \includegraphics[width=0.90\textwidth]{img/correlationCoef.png}
+    \label{fig:les3-regressie}
+\end{figure}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Regression line vs. correlation coefficient}
+\begin{figure}
+    \centering
+    \includegraphics[width=0.90\textwidth]{img/les3-regressie.png}
+    \label{fig:les3-regressie}
+\end{figure}
+
+\end{frame}
+
 
 \begin{frame}
   \frametitle{Coefficient of determination ($R^2$)}
@@ -669,52 +718,7 @@
 \end{frame}
 
 \begin{frame}
-\frametitle{Coefficient of determination}
-  \begin{figure}[t]
-    \begin{tikzpicture}
-      \begin{axis}[
-          axis x line=middle,
-          axis y line=middle,
-          enlarge y limits=true,
-          width=\textwidth, height=8cm,     % size of the image
-          grid = major,
-          grid style={dashed, gray!30},
-          ylabel=weight gain (g),
-          xlabel=proteins (\%),
-          legend style={at={(0.1,-0.1)}, anchor=north}
-        ]
-        \addplot[only marks] table  {data/santa.txt};
-        \addplot [no markers, thick, red] table [y={create col/linear regression={y=y}}] {data/santa.txt};
-        \addplot [mark=none, color=red] coordinates {
-          (0,177) (0,189.9643)
-        };
-        \addplot [mark=none, color=red] coordinates {
-          (10,231) (10,229.2143)
-        };
-        \addplot [mark=none, color=red] coordinates {
-          (20,249) (20,268.4643)
-        };
-        \addplot [mark=none, color=red] coordinates {
-          (30,348) (30,307.7143)
-        };
-        \addplot [mark=none, color=red] coordinates {
-          (40,361) (40,346.9643)
-        };
-        \addplot [mark=none, color=red] coordinates {
-          (50,384) (50,386.2143)
-        };
-        \addplot [mark=none, color=red] coordinates {
-          (60,404) (60,425.4643)
-        };
-
-      \end{axis}
-    \end{tikzpicture}
-    \label{fig:rendierenFiguur2}
-    \caption{Deviations w.r.t. the regression line. Value of $y$ can be predicted from $x$.}
-  \end{figure}
-\end{frame}
-
-\begin{frame}
+\frametitle{Coefficient of determination ($R^2$)}
   \begin{figure}[t]
     \begin{tikzpicture}
       \begin{axis}[
@@ -758,6 +762,52 @@
     \label{fig:rendierenFiguur3}
     \caption{Deviations w.r.t. the mean of y ($\overline{y} = 307.71$). Value of $y$ can not be predicted from $x$.}
   \end{figure}
+\end{frame}
+
+\begin{frame}
+\frametitle{Coefficient of determination ($R^2$)}
+\begin{figure}[t]
+    \begin{tikzpicture}
+    \begin{axis}[
+    axis x line=middle,
+    axis y line=middle,
+    enlarge y limits=true,
+    width=\textwidth, height=8cm,     % size of the image
+    grid = major,
+    grid style={dashed, gray!30},
+    ylabel=weight gain (g),
+    xlabel=proteins (\%),
+    legend style={at={(0.1,-0.1)}, anchor=north}
+    ]
+    \addplot[only marks] table  {data/santa.txt};
+    \addplot [no markers, thick, red] table [y={create col/linear regression={y=y}}] {data/santa.txt};
+    \addplot [mark=none, color=red] coordinates {
+        (0,177) (0,189.9643)
+    };
+    \addplot [mark=none, color=red] coordinates {
+        (10,231) (10,229.2143)
+    };
+    \addplot [mark=none, color=red] coordinates {
+        (20,249) (20,268.4643)
+    };
+    \addplot [mark=none, color=red] coordinates {
+        (30,348) (30,307.7143)
+    };
+    \addplot [mark=none, color=red] coordinates {
+        (40,361) (40,346.9643)
+    };
+    \addplot [mark=none, color=red] coordinates {
+        (50,384) (50,386.2143)
+    };
+    \addplot [mark=none, color=red] coordinates {
+        (60,404) (60,425.4643)
+    };
+    
+    \end{axis}
+    \end{tikzpicture}
+    \label{fig:rendierenFiguur2}
+    \caption{Deviations w.r.t. the regression line. Value of $y$ can be predicted from $x$.}
+\end{figure}
 \end{frame}
 
 \begin{frame}
@@ -834,16 +884,6 @@ Let
   \end{itemize}
 \end{frame}
 
-\begin{frame}
-  \frametitle{Regression line vs. correlation coefficient}
-
-  \begin{figure}
-    \centering
-    \includegraphics[width=0.90\textwidth]{img/les3-regressie.png}
-    \label{fig:les3-regressie}
-  \end{figure}
-
-\end{frame}
 
 %---------- Back matter -------------------------------------------------------
 
