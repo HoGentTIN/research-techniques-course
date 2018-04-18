@@ -1,5 +1,5 @@
 ---
-title: "6 -- Analyse van 2 variabelen"
+title: "6 -- Bivariate analysis"
 output: html_document
 ---
 
@@ -7,7 +7,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-Als casus lezen we resultaten in van een enquête uitgevoerd onder de klanten van een restaurant aan een hogeschool. Vergeet in R niet de werkdirectory aan te passen met "Session > Set Working Directory > To Source File Location", anders zal het bestand niet teruggevonden worden.
+We are using the result of a survey amongst the customers of a restaurant of a university college. Don't forget to set the working directory with "Session > Set Working Directory > To Source File Location", otherwise the data file won't be found.
 
 ```{r}
 library(foreign)
@@ -15,42 +15,42 @@ resto <- read.spss("../syllabus/data/catering_college.sav",
                    to.data.frame = TRUE)
 ```
 
-## Chi-kwadraat en Cramér's V
+## Chi-square and Cramérs V
 
-Chi-kwadraat en Cramér's V zijn maten om te bepalen of er een verband bestaat tussen twee kwalitatieve variabelen (in R: factors).
+Chi-square and Cramér's V are measures to check if there is a relation between 2 qualitative variables (in R: "factors").
 
-Stel, we wensen te bepalen of vrouwen en mannen (variabele `Geslacht`) een andere mening hebben over de keuzemogelijkheden in het basisassortiment (variabele `Keuze_basis`). Als dat zo is, dan zeggen we dat er een verband is tussen de variabelen `Geslacht` en `Keuze_basis`. Als de antwoorden tussen beide groepen (ongeveer) gelijk zijn, dan zeggen we dat er *geen* verband is.
-
-De resultaten van de enquête zijn:
+Let's check if there is a relation between the sex (Geslacht) and the appreciation of the base menu (Keuze_basis).
+If the answers from men and women are (more or less) similar, then we will say that there is *no* relation between sex and appreciation.
 
 ```{r}
-# Bereken een frequentietabel. Eerst de afhankelijke, vervolgens
-# de onafhankelijke variabele.
+# Calculate frequency table.
+# First the dependent variable, second the independent variable
 observed <- table(resto$Keuze_basis,
                   resto$Geslacht)
-# Voeg rij- en kolomtotalen toe aan de tabel
+# Add maginal totals
 addmargins(observed)
 ```
+(vrouw=woman, man=man, Goed=good, Voldoende=sufficient, Onvoldoende=insufficient, Slecht=bad)
 
-### Uitgewerkte berekening
+### Calculations
 
-Een eerste stap om na te gaan of er verschillen zijn is om eerst na te gaan wat de waarden in deze frequentietabel zouden moeten zijn als vrouwen en mannen op een gelijkaardige manier antwoorden op de vraag. In dat geval zou je een tabel moeten krijgen met dezelfde rij- en kolomtotalen, maar gelijkmatig verdeeld. Deze aantallen verkrijg je door in elke cel het product te nemen van het rij- en kolomtotaal en te delen door het totaal aantal respondenten. Bijvoorbeeld voor de cel linksboven (vrouwen die "Goed" antwoordden) krijg je `22 * 17 / 49`. De gehele tabel bereken je dan zo:
+First we calculate the values we would expect if there was no relation between sex and appreciation.
+These values will be similar for men and women.
+You can calculate these values by multiplying the row total with the column total and dividing by the total amount of answers.
+For the first cel, for example, you get `22 * 17 / 49`.
 
 ```{r}
 row_sums <- rowSums(observed)              # rijtotalen
 col_sums <- colSums(observed)              # kolomtotalen
-n <- sum(observed)                         # totaal hele tabel
-expected <- outer(row_sums, col_sums) / n  # verwachte waarden
-addmargins(expected)                       # voeg totalen toe
+n <- sum(observed)                         # total entire table (= number of answers)
+expected <- outer(row_sums, col_sums) / n  # expected values
+addmargins(expected)                       # add margin totals
 ```
 
-Zoals je kan zien zijn de rij- en kolomtotalen inderdaad gelijk aan deze van de geobserveerde waarden. Wat is nu het verschil tussen beide?
+The margin totals are exactly the same as in the first table.
+The frequencies for every cell is slightly deviating.
 
-```{r}
-expected - observed
-```
-
-Sommige waarden lijken sterker af te wijken (bv. "Goed"), anderen veel minder (bv. "Voldoende"). Een maat om de totale afwijking in een frequentietabel te bepalen, bestaat er uit om de verschillen tussen verwachte en geobserveerde waarden te kwadrateren (net zoals men bij variantie/standaardafwijking doet) en te delen door de verwachte waarde:
+A good measure for this deviation is to take the difference between the expected and the observed values, to square (to get positive values) and to divide by the expected values:
 
 ```{r}
 diffs <- (expected - observed)^2 / expected
