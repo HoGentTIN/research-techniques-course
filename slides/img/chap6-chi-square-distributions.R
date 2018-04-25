@@ -1,0 +1,5 @@
+plot(x,dchisq(x,df=2),type="l",main = "Chi-square distributions", xlab="Chi square value", ylab="distribution",col="black",ylim = c(0,0.4))
+lines(x,dchisq(x,df=5),col="red",type="l")
+lines(x,dchisq(x,df=10),col="green",type="l")
+lines(x,dchisq(x,df=15),col="blue",type="l")
+legend("topright", inset=.05, c("df=2","df=5","df=10","df=15"), lwd=2, lty=1, col=c("black","red","green","blue"),cex = 1)
