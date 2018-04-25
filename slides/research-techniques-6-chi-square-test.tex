@@ -48,7 +48,7 @@
 
 %---------- Info over de presentatie ------------------------------------------
 
-\title[Intro]{Onderzoekstechnieken\\$\chi^{2}$ test}
+\title[Intro]{Research Techniques\\$\chi^{2}$ test}
 \author{Wim Goedertier, Jens Buyse, Bert {Van Vreckem}, Wim {De Bruyn}}
 \date{AY 2017-2018}
 
@@ -215,28 +215,36 @@ Human                    & 75           & 17\%           & 68           & 7     
 Alien                   & 98           & 23\%           & 92           & 6               & 0.39                           \\
 God                     & 27           & 8\%            & 32           & -5              & 0.78                           \\
 Demon                   & 73           & 17\%           & 68           & 5               & 0.37                           \\ \bottomrule
+ & 400 & & 400 & & 3.47 \\
 \end{tabular}
 \end{table}
     \end{column}
   \end{columns}
+  \[ \chi^{2} = \sum_{i=1}^{n} \frac{(o_{i} - e_{i})^{2}}{e_{i}} = 3.47\]
 \end{frame}
 
 
 \begin{frame}
   \frametitle{Goodness of fit test}
+    The test statistic $\chi^{2}$ follows the $\chi^{2}$ distribution\\
+    The shape of the $\chi^{2}$ distribution depends on the $df$ parameter
+\vfill
+    \includegraphics[width=0.8\textwidth]{img/chap6-chi-square-distributions.png}
+\end{frame}
 
-  \begin{itemize}
-    \item The test statistic $\chi^{2}$ follows the $\chi^{2}$ distribution
-    \item The critical value $g$ in the $\chi^{2}$ distribution is affected by the degrees of freedom ($df$):
-      
-      \[ df = k -1 \]
-      
-      with $k$ the number of categories
-    \item $df = 5-1 = 4$.
-    \item The critical value for a specified significance level $\alpha$ and degrees of freedom $df$ can be looked up in a table, or calculated in R with function \texttt{qchisq}.
-  \end{itemize}
+\begin{frame}
+\frametitle{Goodness of fit test}
 
-  In our example, $\chi^{2} = 3.47$ with critical value $g = 9.49$. Because $3.47 < 9.49$, we conclude that the sample is representative.
+\begin{itemize}
+    \item The critical value $b$ for a specified significance level $\alpha$ and a specific degrees of freedom $df$ can be looked up in a table, or calculated in R.
+\vfill
+    \item The degrees of freedom ($df$) are defined by:
+    \[ df = k -1 \]
+    with $k$ the number of categories
+\vfill 
+    \item $b = \texttt{qchisq}(1-\alpha,k-1)$
+    \item $\alpha = 1-\texttt{pchisq}(b,k-1)$
+\end{itemize}
 \end{frame}
 
 \subsection{Test procedure goodness of fit test}
@@ -249,11 +257,37 @@ Demon                   & 73           & 17\%           & 68           & 5      
       \item $H_{0}$: sample is representative for the population
       \item $H_{1}$: sample is \emph{not} representative for the population
     \end{itemize}
-  \item \textbf{Determine $\alpha$ en $n$} : $\alpha = 0.05$, $n = 400$.
-  \item \textbf{Calculate test statistic}:
+  \item \textbf{Determine $\alpha$, $n$ and $df$}
+  \item \textbf{Calculate test statistic}
   \[ \chi^{2} = \sum_{i=1}^{n} \frac{(o_{i} - e_{i})^{2}}{e_{i}} \]
-  \item \textbf{Calculate critical value or $p$-value}: the test is \emph{always} right-tailed.
-  \item \textbf{Conclusion} If $\chi^2 < g$, \emph{do not} reject $H_{0}$, else reject $H_{0}$ and accept $H_{1}$.
+  \item \textbf{Calculate critical value $b$ or $p$-value}\\
+  Remark: $\chi^2$ tests are \emph{always} right-tailed.
+  \item \textbf{Conclusion}\\
+   If $\chi^2 < g$ (or $p > \alpha$) : accept $H_{0}$\\
+   If $\chi^2 > g$ (or $p < \alpha$) : reject $H_{0}$ and accept $H_{1}$.
+\end{enumerate}
+\end{frame}
+
+\begin{frame}
+\frametitle{Test procedure goodness of fit test (example)}
+\begin{enumerate}
+    \item \textbf{Formulate hypotheses}
+      \begin{itemize}
+        \item $H_{0}$: sample is representative for the superhero population
+        \item $H_{1}$: sample is \textbf{\emph{not}} representative for the population
+      \end{itemize}
+    \item \textbf{Determine $\alpha$, $n$ and $df$}
+        \[ \alpha = 0.05 , n = 400, df = 5-1 = 4 \]
+    \item \textbf{Calculate test statistic}:
+        \[ \chi^{2} = 3.47 \]
+    \item \textbf{Calculate critical value $b$ or $p$-value}
+      \begin{itemize}
+        \item $b = \texttt{qnorm}(0.95,4) = 9.49$
+        \item $p = 1-\texttt{pnorm}(3.47) = 0.48 = 48\%$
+      \end{itemize}
+    \item \textbf{Conclusion}\\
+    ~~~~$3.47 < 9.49$ (or $48\% > 5\%$) : $H_0$ is accepted\\
+    ~~~~we have a very representative sample
 \end{enumerate}
 \end{frame}
 
@@ -262,28 +296,30 @@ Demon                   & 73           & 17\%           & 68           & 5      
 \begin{frame}
   \frametitle{Example: family composition}
   
-  Consider all families with 5 children in a certain community
+  Consider all families with 5 children in a certain community,\\
+  where the expected probability of getting a boy is equal to that of a girl (i.e. 50\%)
+  \vfill
   \pause
   There are 6 possible family compositions:
   \begin{enumerate}
-    \item 5 boys
-    \item 4 boys, 1 girl
-    \item 3 boys, 2 girls
-    \item 2 boys, 3 girls
+    \item 0 boys, 5 girls
     \item 1 boy, 4 girls
-    \item 5 girls
+    \item 2 boys, 3 girls
+    \item 3 boys, 2 girls
+    \item 4 boys, 1 girl
+    \item 5 boys, 0 girls
   \end{enumerate}
 
-  Are the observed values in a survey of 1022 families with 5 kids representative for a population where the expected probability of getting a boy is equal to that of a girl (i.e. 50\%)?
 \end{frame}
 
 \begin{frame}
   \frametitle{Example: family composition}
+  Are the observed values ($o_i$) in a survey of 1022 families with 5 kids representative for this community?
   \begin{table}[h]
-\begin{tabular}{@{}llllllll@{}}
+\begin{tabular}{@{}rrrrrrrr@{}}
 \toprule
-i       & 0  & 1   & 2   & 3   & 4   & 5  &  \\ \midrule
-$o_{i}$ & 58 & 149 & 305 & 303 & 162 & 45 &  \\ \bottomrule
+$i$ (\#boys)         & 0  & 1   & 2   & 3   & 4   & 5  &  \\ \midrule
+$o_{i}$ (\#families) & 58 & 149 & 305 & 303 & 162 & 45 &  \\ \bottomrule
 \end{tabular}
 \end{table}
 \pause
@@ -341,11 +377,11 @@ $r_i$                      & 4.74   & -0.89 & -0.93 & -1.07106 & 0.22 & 2.40 &  
 
 \begin{frame}
   \frametitle{Conditions}
-  
-  In order to be allowed to apply the $\chi^2$-test, the following conditions must be observed: (rule of Cochran)
+  \textbf{Rule of Cochran:}\\
+  In order to be allowed to apply the $\chi^2$-test, the following conditions must be observed: 
   \begin{enumerate}
-    \item For all categories, the expected value $e$ must be greater than 1
-    \item In at most 20\% of all categories, the expected value $e$ can be smaller than 5
+    \item expected value $e$ must be $>1$ for all categories
+    \item expected value $e$ must be $\ge5$ for 80\% of all categories
   \end{enumerate}
 \end{frame}
 
@@ -354,7 +390,12 @@ $r_i$                      & 4.74   & -0.89 & -0.93 & -1.07106 & 0.22 & 2.40 &  
 
 \begin{frame}
   \frametitle{$\chi^{2}$ test for two variables}
-  The Chi-squared test can also be applied on a research question regarding two variables, with respectively $r$, and $k$ levels.
+  The Chi-squared test can also be applied on a research question regarding two variables.
+\vfill
+  The approach is exactly the same, but the degree of freedom will now be defined as:
+ \[ df = (r-1) \cdot (k-1) \]
+  with $r$ the number of levels/categories of one variable\\
+  and $k$ the number of levels/categories of the other variable.
 \end{frame}
 
 \begin{frame}
@@ -433,7 +474,7 @@ Smoker & Yes                 & 21188         & 73.3         & 21261           \\
 
   \begin{itemize}
     \item $\chi^{2} = 10.35$
-    \item Large difference between observed and expected number of smokers who died from lyng cancer
+    \item Large difference between observed and expected number of smokers who died from lung cancer
     \item The same goes for the limited number of doctors that were not smokers, but did die from lung cancer
   \end{itemize}
   \end{column}
@@ -450,8 +491,8 @@ Smoker & Yes                 & 21188         & 73.3         & 21261           \\
     \end{itemize}
   \item \textbf{Determine $\alpha$ and $n$} : $\alpha = 0.05$ and $n = 24354$.
   \item \textbf{Calculate test statistic in the sample}:
-  \[ \chi^{2} = \sum_{i=1}^{n} \frac{(o_{i} - e_{i})^{2}}{E_{i}} = 10.35 \]
-  \item \textbf{Calculate critical value}: the critical value is $g = 3.8415$ and the degrees of fredom is $df = (r-1)(k-1) = 1$. The test statistic lies within the critical area, so we reject $H_{0}$.
+  \[ \chi^{2} = \sum_{i=1}^{n} \frac{(o_{i} - e_{i})^{2}}{e_{i}} = 10.35 \]
+  \item \textbf{Calculate critical value}: the critical value is $g = 3.8415$ and the degrees of freedom is $df = (r-1)(k-1) = 1$. The test statistic lies within the critical area, so we reject $H_{0}$.
 \end{enumerate}
 \end{frame}
 

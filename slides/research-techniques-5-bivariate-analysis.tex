@@ -419,9 +419,9 @@ between the regression line and the data points ($\rightarrow$ least squares met
 The equation for the regression line is:
 \[ y = \beta_0 + \beta_1 \cdot x \]
 with
-\[ \beta_1 = \frac{\sum_{i=1}^{n}(x_i - \overline{x})(y_i - \overline{y})}{\sum_{i=1}^{n}(x_i - x)^2} \]
+\[ \beta_1 = \frac{\sum_{i=1}^{n}(x_i - \overline{x})(y_i - \overline{y})}{\sum_{i=1}^{n}(x_i - \overline{x})^2} \]
 and
-\[ \beta_0 = \overline{y} - \beta_1 \overline{x} \]
+\[ \beta_0 = \overline{y} - \beta_1 \cdot \overline{x} \]
 
 \end{frame}
 
@@ -542,11 +542,13 @@ and
 \begin{frame}
   \frametitle{Covariance and correlation}
   \brightbox{\textcolor{HoGentAccent6}{Covariance} is the average deviation of all observations from the mean $(\overline{x}, \overline{y})$.}
-  \[\mathrm{Cov}(X,Y) = \frac{1}{n} \sum_{i=1}^{n} (x_i - \overline{x}) (y_i - \overline{y})\]
+  \[\mathrm{Cov}(X,Y) = \frac{1}{n} \sum_{i=1}^{n} (x_i - \overline{x})(y_i - \overline{y})\]
 \vfill
-  \brightbox{\textcolor{HoGentAccent6}{Pearson's correlation coefficient} is a measure for the linear correlation between two variables $X$ and $Y$}
+  \brightbox{\textcolor{HoGentAccent6}{Pearson's correlation coefficient} ($R$) is a measure for the linear correlation between two variables $X$ and $Y$}
 \vfill
-  \brightbox{The \textcolor{HoGentAccent6}{coefficient of determination} indicates the proportion of the variance in the dependent variable that is predictable from the independent variable(s).}
+  \[R = \frac{\mathrm{Cov}(X,Y)}{\sigma_{X} \cdot \sigma_{Y}} \mathrm{~~~~with~~~~~} -1 \le R \le 1 \]
+\vfill  
+  \brightbox{The \textcolor{HoGentAccent6}{coefficient of determination} ($R^{2}$) indicates the proportion of the variance in the dependent variable that is predictable from the independent variable(s).}
 \end{frame}
 
 \begin{frame}
@@ -670,7 +672,7 @@ and
   Magnitude of covariance is hard to interpret.\\
   Correlation coefficient (R) is a normalised version of covariance:
 \vfill  
-  \[R = \frac{\mathrm{Cov}(X,Y)}{\sigma_{X}\sigma_{Y}}\]
+  \[R = \frac{\mathrm{Cov}(X,Y)}{\sigma_{X} \cdot \sigma_{Y}} \mathrm{~~~~with~~~~~} -1 \le R \le 1 \]
 \vfill  
   R is a number between -1 and 1
 \vfill  
@@ -713,7 +715,7 @@ and
   
   \begin{itemize}
     \item If $X$ and $Y$ are unrelated, the best prediction for $y$ is $\overline{y}$
-    \item If $X$ and $Y$ are linearly related, the best prediction for $y$ is the regression line $\hat{y} = \beta_0 + \beta_1 x$
+    \item If $X$ and $Y$ are linearly related, the best prediction for $y$ is the regression line $\hat{y} = \beta_0 + \beta_1 \cdot x$
   \end{itemize}
 \end{frame}
 
@@ -730,38 +732,78 @@ and
           grid style={dashed, gray!30},
           ylabel=weight gain (g),
           xlabel=proteins (\%),
+          clip=false,
         ]
         \addplot[only marks] table  {data/santa.txt};
         \addplot [mark=none, color=black] coordinates {
           (0,307.71) (60,307.71)
         };
-        \addplot [mark=none, color=red] coordinates {
+        \addplot [mark=none, color=blue, thick] coordinates {
           (0,177) (0,307.71)
         };
-        \addplot [mark=none, color=red] coordinates {
+        \addplot [mark=none, color=blue, thick] coordinates {
           (10,231) (10,307.71)
         };
-        \addplot [mark=none, color=red] coordinates {
+        \addplot [mark=none, color=blue, thick] coordinates {
           (20,249) (20,307.71)
         };
-        \addplot [mark=none, color=red] coordinates {
+        \addplot [mark=none, color=blue, thick] coordinates {
           (30,348) (30,307.71)
         };
-        \addplot [mark=none, color=red] coordinates {
+        \addplot [mark=none, color=blue, thick] coordinates {
           (40,361) (40,307.71)
         };
-        \addplot [mark=none, color=red] coordinates {
+        \addplot [mark=none, color=blue, thick] coordinates {
           (50,384) (50,307.71)
         };
-        \addplot [mark=none, color=red] coordinates {
+        \addplot [mark=none, color=blue, thick] coordinates {
           (60,404) (60,307.71)
         };
+        \addplot[only marks] coordinates { (20,307.71) };
+        \node at (axis cs: 21.3, 316) {$\overline{y}$};
+        \node at (axis cs: 21.5, 240) {$y_i$};
 
       \end{axis}
     \end{tikzpicture}
     \label{fig:rendierenFiguur3}
-    \caption{Deviations w.r.t. the mean of y ($\overline{y} = 307.71$). Value of $y$ can not be predicted from $x$.}
   \end{figure}
+  Total variance $\sigma_{y,total}^2 = \frac{1}{n}\sum (y_i-\overline{y})^2$ = deviation from \textbf{mean} of $y$
+\end{frame}
+
+\begin{frame}
+\frametitle{Coefficient of determination ($R^2$)}
+\begin{figure}[t]
+    \begin{tikzpicture}
+    \begin{axis}[
+    axis x line=middle,
+    axis y line=middle,
+    enlarge y limits=true,
+    width=\textwidth, height=8cm,     % size of the image
+    grid = major,
+    grid style={dashed, gray!30},
+    ylabel=weight gain (g),
+    xlabel=proteins (\%),
+    legend style={at={(0.1,-0.1)}, anchor=north},
+    clip=false,
+    ]
+    \addplot[only marks] table  {data/santa.txt};
+    \addplot [no markers, color=black] table [y={create col/linear regression={y=y}}] {data/santa.txt};
+    \addplot [no markers, color=black] coordinates { (0,307.71) (60,307.71) }; % horiz line on mean
+    
+    \addplot [mark=none, thick, color=red] coordinates { (19.9,249) (19.9,268.4643) };
+    \addplot [mark=none, thick, color=green] coordinates { (19.9,307.71) (19.9,268.46) };
+    \addplot [mark=none, thick, color=blue] coordinates { (20.1,249) (20.1,307.71) };
+    \addplot[only marks] coordinates { (20,307.71) (20,268.46) };
+    \node at (axis cs: 21.3, 316) {$\overline{y}$};
+    \node at (axis cs: 18.7, 273) {$\hat{y}$};
+    \node at (axis cs: 21.5, 240) {$y_i$};
+    
+    \end{axis}
+    \end{tikzpicture}
+    \label{fig:rendierenFiguur2}
+\end{figure}
+  {\color{green}Green}: explained deviation, estimated using linear regression \\
+  {\color{red}Red}: unexplained deviation, caused by noise on the data
 \end{frame}
 
 \begin{frame}
@@ -780,34 +822,34 @@ and
     legend style={at={(0.1,-0.1)}, anchor=north}
     ]
     \addplot[only marks] table  {data/santa.txt};
-    \addplot [no markers, thick, red] table [y={create col/linear regression={y=y}}] {data/santa.txt};
-    \addplot [mark=none, color=red] coordinates {
+    \addplot [no markers, color=black] table [y={create col/linear regression={y=y}}] {data/santa.txt};
+    \addplot [mark=none, thick, color=red] coordinates {
         (0,177) (0,189.9643)
     };
-    \addplot [mark=none, color=red] coordinates {
+    \addplot [mark=none, thick, color=red] coordinates {
         (10,231) (10,229.2143)
     };
-    \addplot [mark=none, color=red] coordinates {
+    \addplot [mark=none, thick, color=red] coordinates {
         (20,249) (20,268.4643)
     };
-    \addplot [mark=none, color=red] coordinates {
+    \addplot [mark=none, thick, color=red] coordinates {
         (30,348) (30,307.7143)
     };
-    \addplot [mark=none, color=red] coordinates {
+    \addplot [mark=none, thick, color=red] coordinates {
         (40,361) (40,346.9643)
     };
-    \addplot [mark=none, color=red] coordinates {
+    \addplot [mark=none, thick, color=red] coordinates {
         (50,384) (50,386.2143)
     };
-    \addplot [mark=none, color=red] coordinates {
+    \addplot [mark=none, thick, color=red] coordinates {
         (60,404) (60,425.4643)
     };
     
     \end{axis}
     \end{tikzpicture}
     \label{fig:rendierenFiguur2}
-    \caption{Deviations w.r.t. the regression line. Value of $y$ can be predicted from $x$.}
 \end{figure}
+Unexplained variance $\sigma_{y,unexpl}^2 = \frac{1}{n}\sum (y-\hat{y})^2$ = deviation from \textbf{estimate} for $y$ based on regression line
 \end{frame}
 
 \begin{frame}
@@ -815,15 +857,15 @@ and
 
 Let
 
-\[SS_y = \sum_{i=1}^{n} (y_i - \overline{y})^2 \textrm{ (total sample variance)}\]
-\[SSE_y = \sum_{i=1}^{n} (y_i - \hat{y})^2 \textrm{ (unexplained variance)}\]
+\[ \sigma_{y,total} = \frac{1}{n} \sum_{i=1}^{n} (y_i - \overline{y})^2 \textrm{ (total sample variance)}\]
+\[ \sigma_{y,unexpl} = \frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y})^2 \textrm{ (unexplained variance)}\]
 
 \begin{itemize}
-  \item If $x$ doesn't contribute to $y$, then $SSE_y \approx SS_y$
-  \item If $x$ does contribute to $y$, then $SSE_y < SS_y$
+  \item If $x$ doesn't contribute to $y$, then $\sigma_{y,unexpl} \approx \sigma_{y,total}$
+  \item If $x$ does contribute to $y$, then $\sigma_{y,unexpl} < \sigma_{y,total}$
 \end{itemize}
 
-\[R^2 = \frac{SS_y - SSE_y}{SS_y} = \frac{\textrm{explained variance}}{\textrm{total sample variance}}\]
+\[R^2 = \frac{\sigma_{y,total} - \sigma_{y,unexpl}}{\sigma_{y,total}} = \frac{\textrm{explained variance}}{\textrm{total sample variance}}\]
 
 \end{frame}
 
