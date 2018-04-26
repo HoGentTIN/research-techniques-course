@@ -15,7 +15,7 @@ resto <- read.spss("../syllabus/data/catering_college.sav",
                    to.data.frame = TRUE)
 ```
 
-## Chi-square and Cramérs V
+## Chi-square and Cramér's V
 
 Chi-square and Cramér's V are measures to check if there is a relation between 2 qualitative variables (in R: "factors").
 
@@ -57,16 +57,18 @@ diffs <- (expected - observed)^2 / expected
 diffs
 ```
 
-De som van al deze waarden wordt $\chi^2$ ("chi-kwadraat") genoemd.
+The sum of these values are called $\chi^2$ ("chi-squared").
 
 ```{r}
 chi_squared <- sum(diffs)
 chi_squared
 ```
 
-Nu zegt deze waarde op zich nog steeds niet zo veel. Onder welke voorwaarden zeggen we dat er al dan niet een verband is tussen beide variabelen? Een en ander zal ook afhangen van de grootte van de tabel en het totaal aantal observaties. In een kruistabel met meer rijen/kolommen, zal je een grotere $\chi^2$ moeten hebben om te besluiten dat er een verband is.
+If the value of chi-squared would be zero ($\chi^2=0$), we could conclude that there is no relation at all between sex and appreciation. If $\chi^2>0$, then it is clear that the size of $\chi^2$ will depend on the size of the table and the total number of observations. A contingency table with a lot of rows/columns will lead to a bigger $\chi^2$. 
 
-*Cramér's V* is een formule waarmee de $\chi^2$ kan genormaliseerd worden tot een waarde tussen 0 en 1 die onafhankelijk is van de tabelgrootte:
+**Cramér's V** $= \sqrt{\frac{\chi^2}{(k-1) \cdot n}}$ with $k$ either the number of columns or the number of rows, the smallest of both.
+
+Cramér's V can be seen as a normalized version of $\chi^2$. The value is always a number between 0 and 1, and it is independent of the size of the contingency table.
 
 ```{r}
 k <- min(nrow(observed), ncol(observed))
@@ -74,31 +76,31 @@ cramers_v <- sqrt(chi_squared / ((k - 1) * n))
 cramers_v
 ```
 
-Om een besluit te trekken uit dit getal, vergelijk je het met de waarden in onderstaande tabel:
+Below you find the interpretation of the value of Cramér's V:
 
-| Cramér's V | Besluit                |
+| Cramér's V | Conclusion             |
 | :---:      | :---                   |
-| 0          | Geen verband           |
-| 0.1        | Zwak verband           |
-| 0.25       | Redelijk sterk verband |
-| 0.50       | Sterk verband          |
-| 0.75       | Zeer sterk verband     |
-| 1          | Volledig verband       |
+| 0          | No association at all  |
+| 0.1        | Weak association|
+| 0.25       | Fairly strong association |
+| 0.50       | Strong association          |
+| 0.75       | Very strong association     |
+| 1          | Complete association       |
 
-We kunnen dus besluiten dat er een redelijk sterk verband bestaat tussen de variabelen `Geslacht` en `Keuze_basis`.
+We can conclude that there is a fairly strong association between the variables `Geslacht` (sex) and `Keuze_basis` (appreciation of the base menu).
 
-### R-functies
+### R-functions
 
-In R zijn er al functies geschreven voor de berekening van $\chi^2$ en Cramér's V. Je hoeft dus niet telkens de berekeningen van hierboven te herhalen, maar kan meteen de juiste functie gebruiken, meer bepaald `assocstats` uit de library `vcd`:
+To calculate $\chi^2$ and Cramér's V in R, you can use the function `assocstats` from teh `vcd` library:
 
 ```{r}
 library(vcd)
 assocstats(observed)
 ```
 
-Deze functie geeft zowel de waarde van "Pearson's $\chi^2$" (derde regel, eerste cijfer) als Cramér's V (laatste regel). Beide komen overeen met de waarden die we hierboven berekend hebben.
+You will recognize 2 values: "The Pearson's $\chi^2$" (line 3, value 1) and Cramér's V (last line).
 
-## Regressie
+## Regression
 
 Als voorbeeld voor het berekenen van de regressierechte nemen we de dataset die ook in de slides gebruikt wordt:
 
