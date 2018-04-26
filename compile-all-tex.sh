@@ -1,23 +1,27 @@
 #!/bin/bash
 
-# grep -v -e '^$' -e '^#' .gitignore |sort -u
-
-if pdflatex --help|grep '\-quiet'>/dev/null; then
-    pdflatex_cmd="pdflatex -interaction=batchmode -quiet"
-else
-    pdflatex_cmd="pdflatex -interaction=batchmode"
-fi
-biber_cmd="biber --quiet"
-tmp_extensions="aux bcf bbl blg idx log nav out run.xml snm synctex.gz toc vrb"
-
 set -o errexit # exit immediately if a command exits with a non-zero status
 set -o nounset # do not allow to use an unset variable
 set -o pipefail # force exit code of a pipeline to non-zero, if one of commands fails with non-zero
 
+# define the commands and their options here, for maintainability
+if pdflatex --help|grep '\-quiet'>/dev/null; then
+    pdflatex_cmd="pdflatex -interaction=batchmode -quiet"
+else
+    # some versions of pdflatex (eg. on Mac) don't recognize the '-quiet' option
+    pdflatex_cmd="pdflatex -interaction=batchmode"
+fi
+biber_cmd="biber --quiet"
+
+# tmp_extensions: these files will be removed after a successful run
+tmp_extensions="aux bcf bbl blg idx log nav out run.xml snm synctex.gz toc vrb"
+
+# variables for argument parsing
 force=0
 cleanup=0
 nocleanup=0
 
+# variables for statistics
 n_skipped=0
 n_failed=0
 n_succes=0
@@ -128,6 +132,8 @@ compile_file() {
 }
 
 cleanup() {
+    # if the TeX-file contains 'includes', there will be additional files listed in aux-file
+    # they are removed one-by-one
     if [ -f ${filebase}.aux ]; then
         for i in $( grep '^\\\@input' ${filebase}.aux | tr '{' '}'|cut -d'}' -f2);
             do rm -f $i;
