@@ -1,7 +1,7 @@
 %%----------------------------------------------------------------------------
 %% Presentatie HoGent Bedrijf en Organisatie
 %%----------------------------------------------------------------------------
-%% Auteur: Bert Van Vreckem [bert.vanvreckem@hogent.be]
+%% Auteur: Bert Van Vreckem [bert.vanvreckem@hogent.be], Wim Goedertier
 
 \documentclass{beamer}
 
@@ -149,7 +149,7 @@
 \begin{tabular}{lcc}
 	\toprule
 	\textbf{Type} & \textbf{\# in sample} & \textbf{\% in population} \\
-	              & \emph{o}              & $\pi$                     \\ \midrule
+	              & $o_i$              & $\pi_i$                     \\ \midrule
 	Mutant        & 127                   & 35\%                      \\
 	Human         & 75                    & 17\%                      \\
 	Alien         & 98                    & 23\%                      \\
@@ -167,18 +167,18 @@
   \begin{itemize}
     \item We want to know if the sample is representative
     \item If sample is exactly representative $\Rightarrow$ 35\% of superheroes in the sample should be a mutant
-    \item The expected number is $0.35 \times 400 = 140$.
-    \item Notation: $e$ (expected).
+    \item The expected number is $400 \cdot 0.35 = 140$.
+    \item Notation: $e_i$ (expected).
   \end{itemize}
 
-  \[ e = n \times \pi \]
+  \[ e_i = n \cdot \pi_i \]
   
-  If the differences $o - e$ are relatively small, they can be attributed to random sample errors.
+  If the differences $o_i - e_i$ are relatively small, they can be attributed to random sample errors.
 \end{frame}
 
 \begin{frame}
   \frametitle{Goodness of fit test}
-  Beschouw $\chi^{2}$:
+  Consider $\chi^{2}$:
 
   \[ \chi^{2} = \sum_{i=1}^{n} \frac{(o_{i} - e_{i})^{2}}{e_{i}} \]
 
@@ -209,7 +209,7 @@
 \begin{table}[h]
 \begin{tabular}{@{}llllll@{}}
 \toprule
-\textbf{Superhero type} & \textbf{$o$} & \textbf{$\pi$} & \textbf{$e$} & \textbf{$o -e$} & \textbf{$\frac{(o-e)^{2}}{e}$} \\ \midrule
+\textbf{Hero type} & $o_i$ & $\pi_i$ & $e_i$ & $o_i -e_i$ & $\frac{(o_i-e_i)^{2}}{e_i}$ \\ \midrule
 Mutant                  & 127          & 35\%           & 140          & -13             & 1.21                           \\
 Human                    & 75           & 17\%           & 68           & 7               & 0.72                           \\
 Alien                   & 98           & 23\%           & 92           & 6               & 0.39                           \\
@@ -226,24 +226,30 @@ Demon                   & 73           & 17\%           & 68           & 5      
 
 \begin{frame}
   \frametitle{Goodness of fit test}
-    The test statistic $\chi^{2}$ follows the $\chi^{2}$ distribution\\
-    The shape of the $\chi^{2}$ distribution depends on the $df$ parameter
+    The test statistic $\chi^{2}$ follows the $\chi^{2}$ distribution
+    (i.e. if you take many different random samples from your population
+    and calculate $\chi^2$ each time,
+    the histogram will follow $\chi^2$ distribution)
 \vfill
-    \includegraphics[width=0.8\textwidth]{img/chap6-chi-square-distributions.png}
+    \includegraphics[width=0.7\textwidth]{img/chap6-chi-square-distributions.png}
+\vfill
+    The shape of the $\chi^{2}$ distribution depends on the $df$ parameter
 \end{frame}
 
 \begin{frame}
 \frametitle{Goodness of fit test}
 
 \begin{itemize}
-    \item The critical value $b$ for a specified significance level $\alpha$ and a specific degrees of freedom $df$ can be looked up in a table, or calculated in R.
+    \item The critical value (\textit{boundary} value) $b$ for a specified significance level $\alpha$ and a specific degrees of freedom $df$ can be looked up in a table, or calculated in R.
+\vfill
+    \item Similarly you can calculate the $p$-value, based on de value of $\chi^2$ and the degrees of freedom $df$.
 \vfill
     \item The degrees of freedom ($df$) are defined by:
     \[ df = k -1 \]
     with $k$ the number of categories
 \vfill 
-    \item $b = \texttt{qchisq}(1-\alpha,k-1)$
-    \item $\alpha = 1-\texttt{pchisq}(b,k-1)$
+    \item $b = \texttt{qchisq}(1-\alpha,df)$
+    \item $p = 1-\texttt{pchisq}(\chi^2,df)$
 \end{itemize}
 \end{frame}
 
@@ -291,6 +297,80 @@ Demon                   & 73           & 17\%           & 68           & 5      
 \end{enumerate}
 \end{frame}
 
+\subsection{Residuals}
+
+\begin{frame}
+\frametitle{Residuals (1)}
+
+\brightbox{\textcolor{HoGentAccent6}{Residuals} indicate how much every observation
+    deviates from the expected value for that category}
+
+\begin{enumerate}
+    \item The \textbf{\underline{Pearson} residuals}
+    \[ r_i = \frac{o_i-e_i}{\sqrt{e_i}} = \frac{o_i - n \cdot \pi_i}{\sqrt{n \cdot \pi_i}} \]
+    are the base for the test statistic $\chi^2$
+    \[ \chi^2 = \sum_{i}{r_i^2} \]
+
+%$r_i > 0$ : there are \textit{more} entities in that category than expected \\
+%$r_i < 0$ : there are \textit{less} entities in that category than expected \\
+In R:
+\[ \texttt{chisq.test(...)\$residuals} \]
+\end{enumerate}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Residuals (2)}
+
+\begin{enumerate}
+\setcounter{enumi}{1}
+\item The \textbf{\underline{standardized} residuals}
+\[ r_{std,i} = \frac{o_i-e_i}{\sqrt{e_i \cdot (1-\pi_i)}} = \frac{o_i - n \cdot \pi_i}{\sqrt{n \cdot \pi_i \cdot (1-\pi_i)}}\]
+indicate how well each category is represented in the sample.
+\vfill
+If $r_{std,i} \in [-2,2]$, the category is considered to be well represented.
+Below -2, it's underrepresented, above 2, it is overrepresented.
+\vfill
+    In R:
+    \[ \texttt{chisq.test(...)\$stdres} \]
+\vfill
+\scriptsize For \textit{random} sampling, the standardized residual has a standard normal distribution ($r_{std,i}$ is like a $z$-score).
+So, there is a probability of 95.4\% that $r_{std,i} \in [-2,2]$.
+%    If $|r_{std,i}| > 2$, the observed value $o_i$ is considered \textit{\textbf{extreme}}.\\
+%    I.e. the probability to find such a big deviation, only due to random sampling errors is very low (less than 4.6\%)
+
+\end{enumerate}
+\end{frame}
+
+\begin{frame}
+\frametitle{Residuals (example)}
+
+\begin{table}[h]
+    \begin{tabular}{@{}lrrrrr@{}}
+        \toprule
+\textbf{Superhero} & $o_i$ & $\pi_i$ & $e_i$ & $r_i$ & $r_{std,i}$ \\
+\textbf{type}      & & \scriptsize{(prob)} & & \scriptsize{(Pearson)} & \scriptsize{(standardized)} \\ \midrule
+        Mutant & 127   & 35\%           & 140          & -1.099 & -1.363 \\
+        Human  & 75    & 17\%           & 68           & 0.849  & 0.932 \\
+        Alien  & 98    & 23\%           & 92           & 0.626  & 0.713 \\
+        God    & 27    & 8\%            & 32           & -0.884 & -0.922 \\
+        Demon  & 73    & 17\%           & 68           & 0.606  & 0.666 \\ \bottomrule
+        & 400 & & 400 & & \\
+    \end{tabular}
+\end{table}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Conditions}
+\textbf{Rule of Cochran:}\\
+In order to be allowed to apply the $\chi^2$-test, the following conditions must be observed: 
+\begin{enumerate}
+    \item expected value $e$ must be $>1$ for all categories
+    \item expected value $e$ must be $\ge5$ for 80\% of all categories
+\end{enumerate}
+\end{frame}
+
 \subsection{Example}
 
 \begin{frame}
@@ -325,11 +405,11 @@ $o_{i}$ (\#families) & 58 & 149 & 305 & 303 & 162 & 45 &  \\ \bottomrule
 \pause
 The probability $\pi_{i}$ to have $i$ boys in a family of 5 is determined by a binomial distribution with parameters $n=5$ and $p=0.5$. E.g. the probability for 2 boys is:
 
-\[ (0.5)^{2} \times (1-0.5)^{5-2} \times \binom{5}{2} \]
+\[ (0.5)^{2} \cdot (1-0.5)^{5-2} \cdot \binom{5}{2} \]
 
 In general:
 
-\[ \pi_{i} = \binom{5}{i}\times p^{i} \times p^{5-i} = \frac{5!}{i!(5-i)!}\times 0.5^{i} \]
+\[ \pi_{i} = \binom{5}{i}\cdot p^{i} \cdot p^{5-i} = \frac{5!}{i!(5-i)!}\cdot 0.5^{i} \]
 \end{frame}
 
 \begin{frame}
@@ -337,12 +417,12 @@ In general:
   \begin{table}[h]
 \begin{tabular}{@{}llllllll@{}}
 \toprule
-$i$                         & 0        & 1        & 2        & 3        & 4       & 5       & $\Sigma$\\ \midrule
-$o_i$                      & 58       & 149      & 305      & 303      & 162     & 45      & 1022    \\
-$\pi_i$                      & 0.03    & 0.15    & 0.31    & 0.31  & 0.15 & 0.031 & 1       \\
-$e_i$                      & 31.68   & 159.43  & 318.86  & 318.86  & 159.43 & 31.68  &         \\
-$\frac{(o-e)^{2}}{e}$ & 21.86 & 0.68259  & 0.60   & 0.78  & 0.041 & 5.59 & 29.57 \\
-$r_i$                      & 4.74   & -0.89 & -0.93 & -1.07106 & 0.22 & 2.40 &         \\ \bottomrule
+$i$          & 0        & 1        & 2        & 3        & 4       & 5       & $\Sigma$\\ \midrule
+$o_i$        & 58       & 149      & 305      & 303      & 162     & 45      & 1022    \\
+$\pi_i$      & 0.031    & 0.156    & 0.313    & 0.313  & 0.156 & 0.031 & 1       \\
+$e_i$        & 31.94   & 159.69  & 319.38  & 319.38  & 159.69 & 31.94  &         \\
+$r_i^2$      & 21.27 & 0.72  & 0.65   & 0.0.84  & 0.03 & 5.34 & \textbf{\textit{28.85}} \\
+$r_{std,i}$  & \textbf{\textit{4.69}}   & -0.92 & -0.97 & -1.11 & 0.20 & \textbf{\textit{2.35}} &         \\ \bottomrule
 \end{tabular}
 \end{table}
 \end{frame}
@@ -357,32 +437,22 @@ $r_i$                      & 4.74   & -0.89 & -0.93 & -1.07106 & 0.22 & 2.40 &  
     \end{itemize}
   \item \textbf{Determine $\alpha$ and $n$} : $\alpha = 0.01$ and $n = 1022$.
   \item \textbf{Calculate test statistic for sample}:
-  \[ \chi^{2} = \sum_{i=1}^{n} \frac{(o_{i} - e_{i})^{2}}{e_{i}} = 29.5766 \]
-  \item \textbf{Calculate critical value}: $g = 15.0863$. Our test statistic lies within the critical area, and we can reject $H_{0}$. The sample is \emph{not} representative.
+  \[ \chi^{2} = \sum_{i=1}^{n} \frac{(o_{i} - e_{i})^{2}}{e_{i}} = 28.85 \]
+  \item \textbf{Calculate critical value}: $b = \texttt{qchisq}(0.99,5)=15.09$. Our test statistic lies within the critical area, and we can reject $H_{0}$. The sample is \emph{not} representative.
 \end{enumerate}
 \end{frame}
 
-\subsection{Standardised residuals}
 \begin{frame}
-  \frametitle{Standardised residuals}
-  \brightbox{The \textcolor{HoGentAccent6}{Standardised residuals} indicate which categories contribute the most to the value of the statistic.}
-  \[ r_{i} = \frac{o_{i} - e_{i}}{\sqrt{e_{i}(1-\pi_{i})}} = \frac{o_{i} - n \pi_{i}}{\sqrt{n \pi_{i}(1-\pi_{i})}} \]
-
-  \begin{itemize}
-    \item Rule of thumb: values with $|r_i| > 2$ are considered to be extreme
-  \end{itemize}
-
-  We can conclude that the number of families with only boys or only girls is larger than expected.
-\end{frame}
-
-\begin{frame}
-  \frametitle{Conditions}
-  \textbf{Rule of Cochran:}\\
-  In order to be allowed to apply the $\chi^2$-test, the following conditions must be observed: 
-  \begin{enumerate}
-    \item expected value $e$ must be $>1$ for all categories
-    \item expected value $e$ must be $\ge5$ for 80\% of all categories
-  \end{enumerate}
+  \frametitle{Example: family composition}
+  Which categories are causing the sample \textbf{\textit{not}} to be representative?
+\vfill
+  Check the standardised residuals.
+\vfill
+  For families with only girls, the standardized residual is 4.69.\\
+  For families with only boys, the standardized residual is 2.35.\\
+  Both are outside the interval [-2,2].\\
+\vfill
+  So, the families with only girls and only boys are overrepresented in the survey.
 \end{frame}
 
 \section{$\chi^{2}$ test for two variables}
@@ -390,7 +460,7 @@ $r_i$                      & 4.74   & -0.89 & -0.93 & -1.07106 & 0.22 & 2.40 &  
 
 \begin{frame}
   \frametitle{$\chi^{2}$ test for two variables}
-  The Chi-squared test can also be applied on a research question regarding two variables.
+  The Chi-squared test can also be applied on a research question regarding \textbf{\textit{two}} variables.
 \vfill
   The approach is exactly the same, but the degree of freedom will now be defined as:
  \[ df = (r-1) \cdot (k-1) \]
@@ -401,16 +471,17 @@ $r_i$                      & 4.74   & -0.89 & -0.93 & -1.07106 & 0.22 & 2.40 &  
 \begin{frame}
   \frametitle{Example: smoking doctors}
   
-  Doll and Hill researched the relation between smoking and lung cancer. In 1951, they sent a letter to all British general practicioners with the request to provide data about their age and smoking behaviour.
-  
-  Next, they observed obituaries and causes of death for years on end. The first results, after about 4 years, are summarised below:
-
+  Doll and Hill researched the relation between smoking and lung cancer. In 1951, they sent a letter to all British doctors with the request to provide data about their age and smoking behaviour.
+\vfill  
+  Next, they observed causes of death over several years. The first results, after about 4 years, are summarised below:
+\vfill  
   \begin{table}[h]
-    \begin{tabular}{@{}lllll@{}}
+    \begin{tabular}{@{}|ll|rr|r|@{}}
     	\toprule
-    	                & \textbf{Lung cancer} & \textbf{No} & \textbf{Yes} & \textbf{Total} \\ \midrule
+    	                & & \multicolumn{3}{l|}{\textbf{Lung cancer}} \\
+    	                & & \textbf{No} & \textbf{Yes} & \textbf{Total} \\ \midrule
     	\textbf{Smoker} & \textbf{Yes}         & 21178       & 83           & 21261          \\
-    	                & \textbf{No}          & 3092        & 1            & 3093           \\
+    	                & \textbf{No}          & 3092        & 1            & 3093           \\ \midrule
     	                & \textbf{Total}       & 24270       & 84           & 24354          \\ \bottomrule
     \end{tabular}
   \end{table}
@@ -419,14 +490,15 @@ $r_i$                      & 4.74   & -0.89 & -0.93 & -1.07106 & 0.22 & 2.40 &  
 \begin{frame}
   \frametitle{Example: smoking doctors}
   \begin{table}[h]
-    \begin{tabular}{@{}lllll@{}}
-      \toprule
-            & \textbf{Lung cancer} & \textbf{No} & \textbf{Yes} & \textbf{Total} \\ \midrule
-      Smoker & Yes                  & 21178       & 83           & 21261          \\
-            & No                   & 3092        & 1            & 3093           \\
-            & Total                & 24270       & 84           & 24354          \\ \bottomrule
+    \begin{tabular}{@{}|ll|rr|r|@{}}
+        \toprule
+        & & \multicolumn{3}{l|}{\textbf{Lung cancer}} \\
+        & & \textbf{No} & \textbf{Yes} & \textbf{Total} \\ \midrule
+        \textbf{Smoker} & \textbf{Yes}         & 21178       & 83           & 21261          \\
+        & \textbf{No}          & 3092        & 1            & 3093           \\ \midrule
+        & \textbf{Total}       & 24270       & 84           & 24354          \\ \bottomrule
     \end{tabular}
-  \end{table}
+\end{table}
 
   \begin{columns}
     \begin{column}{0.3 \textwidth}
@@ -440,9 +512,9 @@ $r_i$                      & 4.74   & -0.89 & -0.93 & -1.07106 & 0.22 & 2.40 &  
     \begin{column}{0.7 \textwidth}
   
     \begin{itemize}
-      \item \dots only $\frac{84}{ 24354} \times 100 = 0.35\% $ of British doctors died of lung cancer
-      \item \dots only $\frac{83}{21261} \times 100 = 0.39\%$ of those were smokers
-      \item \dots but this is much larger than the number of non-smokers $\frac{1}{3093} * 100 = 0.032\%$.
+      \item \dots only $\frac{84}{ 24354} \cdot 100 = 0.34\% $ of British doctors died of lung cancer
+      \item \dots only $\frac{83}{21261} \cdot 100 = 0.39\%$ of smoking doctors died of lung cancer
+      \item \dots but only $\frac{1}{3093} * 100 = 0.03\%$ of non-smoking doctors died.
     \end{itemize}
     \end{column}
   \end{columns}
@@ -452,11 +524,12 @@ $r_i$                      & 4.74   & -0.89 & -0.93 & -1.07106 & 0.22 & 2.40 &  
   \frametitle{Example: smoking doctors, expected values}
   
 \begin{table}[h]
-\begin{tabular}{@{}lllll@{}}
-\toprule
-      & \textbf{Lung cancer} & \textbf{No} & \textbf{Yes} & \textbf{Total} \\ \midrule
-Smoker & Yes                 & 21188         & 73.3         & 21261           \\
-      & No                & 3082.3        & 10.7         & 3093            \\
+    \begin{tabular}{@{}|ll|rr|r|@{}}
+    \toprule
+& & \multicolumn{3}{l|}{\textbf{Lung cancer}} \\
+& & \textbf{No} & \textbf{Yes} & \textbf{Total} \\ \midrule
+Smoker & Yes                 & 21187.7         & 73.3         & 21261           \\
+      & No                & 3082.3        & 10.7         & 3093            \\ \midrule
       & Total              & 24270         & 84           & 24354           \\ \bottomrule
 \end{tabular}
 \end{table}
@@ -473,9 +546,9 @@ Smoker & Yes                 & 21188         & 73.3         & 21261           \\
   \begin{column}{0.7 \textwidth}
 
   \begin{itemize}
-    \item $\chi^{2} = 10.35$
-    \item Large difference between observed and expected number of smokers who died from lung cancer
-    \item The same goes for the limited number of doctors that were not smokers, but did die from lung cancer
+    \item $\chi^{2} = 10.07$
+    \item In R: $\chi^{2} = 9.06$ because of an additional correction for 2 by 2 tables.
+    \item The standardized residuals are -3.17, 3.17, 3.17 and -3.17. So, differences between observed and expected values are large.
   \end{itemize}
   \end{column}
 \end{columns}
@@ -486,13 +559,13 @@ Smoker & Yes                 & 21188         & 73.3         & 21261           \\
   \begin{enumerate}
   \item \textbf{Formulate hypotheses}
     \begin{itemize}
-      \item $H_{0}$: there is no relation between the dependent and independent variable
+      \item $H_{0}$: there is no relation between smoking and lung cancer
       \item $H_{1}$: there \emph{is} a relation between them
     \end{itemize}
-  \item \textbf{Determine $\alpha$ and $n$} : $\alpha = 0.05$ and $n = 24354$.
+  \item \textbf{Determine}: $\alpha = 0.05$, $n = 24354$, $df = (r-1)(k-1) = 1$.
   \item \textbf{Calculate test statistic in the sample}:
-  \[ \chi^{2} = \sum_{i=1}^{n} \frac{(o_{i} - e_{i})^{2}}{e_{i}} = 10.35 \]
-  \item \textbf{Calculate critical value}: the critical value is $g = 3.8415$ and the degrees of freedom is $df = (r-1)(k-1) = 1$. The test statistic lies within the critical area, so we reject $H_{0}$.
+  \[ \chi^{2} = \sum_{i=1}^{n} \frac{(o_{i} - e_{i})^{2}}{e_{i}} = 10.07 \]
+  \item \textbf{Calculate critical value}: the critical value is $b = 3.8415$. The test statistic lies within the critical area, so we \textbf{\textit{reject}} $H_{0}$.
 \end{enumerate}
 \end{frame}
 
@@ -500,28 +573,24 @@ Smoker & Yes                 & 21188         & 73.3         & 21261           \\
   \frametitle{Causal relation}
   
   The conclusion is that smokers die from lung cancer more often than non-smokers. However, this does not prove a \emph{causal} relation!
-  
+\vfill  
   \begin{columns}
     \begin{column}{0.3 \textwidth}
-  
       \begin{figure}
         \centering
           \includegraphics[width=1.00\textwidth]{img/les-6-smoking2.jpg}
       \end{figure}
-  
     \end{column}
     \begin{column}{0.7 \textwidth}
-  
       \begin{itemize}
         \item \dots not all smokers get lung cancer
         \item \dots the smokers rokers could be older than the non-smokers
         \item \dots more smokers live in the large cities with more air pollution
         \item \dots a genetic disposition could have influence both on tobacco addiction and the probability to get lung cancer
       \end{itemize}
-    
     \end{column}
   \end{columns}
-
+\vfill
   For a causal interpretation of the data (this was \emph{not} an experiment!), we at least need a theory that explicitly models the relation between smoking and lung cancer.
 \end{frame}
 
