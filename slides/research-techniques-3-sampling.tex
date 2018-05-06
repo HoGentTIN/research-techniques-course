@@ -569,14 +569,15 @@ clip=false,
     \begin{itemize}
       \pause
       \item convert to $z$-score\\
-      $z=\frac{6-5}{1.5}=0.667$ dus $P(X>6) = P(Z>0.667)$
+      $z=\frac{6-5}{1.5}=0.667$ so $P(X>6) = P(Z>0.667)$
       \item convert to a \textbf{\textit{left}} tail probability
       \begin{itemize}
           \item 100\% probability rule: $P(Z>0.667)=1-P(Z<0.667)$
           \item or symmetry rule: $P(Z>0.667)=P(Z<-0.667)$
       \end{itemize}
-      \item look up $z$ in a $z$-table\\
-      \url{http://sixsigmastudyguide.com/wp-content/uploads/2014/04/z-table.jpg}
+      \item look up in a $z$-table
+      (eg. \url{http://sixsigmastudyguide.com/wp-content/uploads/2014/04/z-table.jpg})
+      or calculate in R (\texttt{1-pnorm(0.667)})
   \end{itemize}
   \vfill
   \item Direct calculation with R (or calculator)
@@ -688,17 +689,24 @@ Demo: \url{https://students.brown.edu/seeing-theory/probability-distributions/in
 
 \begin{frame}
   \frametitle{Point estimate}
-  \brightbox{A \textcolor{HoGentYellow}{point estimate} for a population parameter is a formula for estimating that parameter from the sample.}
-
+  \brightbox{A \textcolor{HoGentYellow}{point estimate} for a population parameter is an estimate for that parameter based on a sample (subset) of the population.}
+\vfill
+  \textbf{Example}: $\overline{x}$ is a \textbf{point estimate} for $\mu$
+\vfill
+  $\overline{x}$ is the mean of a sample\\
+  $\mu$ is the mean of the entire population
 \end{frame}
 
 \subsection{Confidence intervals}
 
 \begin{frame}
   \frametitle{Confidence interval}
-
-  \brightbox{A \textcolor{HoGentYellow}{confidence interval} for a population parameter is a formula for estimating an interval that will contain the value of that parameter with a specific \textcolor{HoGentYellow}{confidence level}. }
-
+  \brightbox{A \textcolor{HoGentYellow}{confidence interval} for a population parameter is an interval that will contain the value of that parameter with a specific \textcolor{HoGentYellow}{confidence level}. }
+\vfill
+\textbf{Example}: $\mu \in [a,b]$ with a confidence level of 95\%
+\vfill
+  $\mu$ is the mean of the entire population\\
+  $[a,b]$ is the confidence interval
 \end{frame}
 
 \subsection{Confidence interval for large samples}
@@ -823,14 +831,14 @@ clip=false,
 \frametitle{Confidence interval for large samples}
 
 We now get:
-\[ P\left(-1,96 < \frac{\overline{x} - \mu}{\frac{\sigma}{\sqrt{n}}} < 1,96 \right) = 0,95 \]
-\[ P\left( \mu-1,96 \frac{\sigma}{\sqrt{n}} < \overline{x} < \mu+1,96 \frac{\sigma}{\sqrt{n}} \right)  = 0,95 \]
+\[ P\left(-1.96 < \frac{\overline{x} - \mu}{\frac{\sigma}{\sqrt{n}}} < 1.96 \right) = 0.95 \]
+\[ P\left( \mu-1.96 \cdot \frac{\sigma}{\sqrt{n}} < \overline{x} < \mu+1.96 \cdot \frac{\sigma}{\sqrt{n}} \right)  = 0.95 \]
 
 Because of symmetry we can swap $\mu$ and $\overline{x}$:
-\[ P\left( \overline{x}-1,96 \frac{\sigma}{\sqrt{n}} < \mu < \overline{x}+1,96 \frac{\sigma}{\sqrt{n}} \right)  = 0,95 \]
+\[ P\left( \overline{x}-1.96 \cdot \frac{\sigma}{\sqrt{n}} < \mu < \overline{x}+1.96 \cdot  \frac{\sigma}{\sqrt{n}} \right)  = 0.95 \]
 
 Now we can say with 95\% confidence that:
-\[ \mu \in \left[~\overline{x}-1,96.\frac{\sigma}{\sqrt{n}}~,~\overline{x}+1,96. \frac{\sigma}{\sqrt{n}}~\right] \]
+\[ \mu \in \left[~\overline{x}-1.96 \cdot \frac{\sigma}{\sqrt{n}}~,~\overline{x}+1.96 \cdot  \frac{\sigma}{\sqrt{n}}~\right] \]
 
 \small (in practice we will use $s_{sample}$ as an estimate for $\sigma_{population}$)
 
@@ -846,8 +854,7 @@ For a \textit{\textbf{small}} sample the central limit theorem is \textbf{no lon
 Instead we can say:\\
 \vfill
 If a population $X$ has a normal distribution $(X \sim Nor(\mu,\sigma))$\\
-and you take a \textit{small} sample with mean $\overline{x}$ and standaarddeviation $s$,\\
-then
+and you take a \textit{small} sample with mean $\overline{x}$ and standard deviation $s$, then
 \[ t = \frac{\overline{x} - \mu}{\frac{s}{\sqrt{n}}} \]
 will behave as a t-distribution with ~$n-1$~ degrees of freedom
 \end{frame}
@@ -885,7 +892,7 @@ Assume for example $n=5$ (so \texttt{df=4}), then we have
 
 \vfill
 We can say with a certainty of 95\% that:
-\[ \mu \in \left[~ \overline{x} - t_{\frac{\alpha}{2},df}.\frac{s}{\sqrt{n}} ~,~ \overline{x} + t_{\frac{\alpha}{2},df}.\frac{s}{\sqrt{n}} ~\right] \]
+\[ \mu \in \left[~ \overline{x} - t_{\frac{\alpha}{2},df} \cdot \frac{s}{\sqrt{n}} ~,~ \overline{x} + t_{\frac{\alpha}{2},df} \cdot \frac{s}{\sqrt{n}} ~\right] \]
 
 \end{frame}
 
@@ -895,16 +902,14 @@ We can say with a certainty of 95\% that:
   \frametitle{Confidence interval for a fraction}
   \[ \overline{p} = \frac{\textnormal{number of successes}}{n} \]
   \begin{itemize}
-  \item The expected value of the probability distribution of $\overline{p}$ is $p$.
-  \item The stdev of the probability distribution of  $\overline{p}$ is $\sqrt{\frac{pq}{n}}$
+  \item The expected value of the probability distribution of $p$ is estimated by $\overline{p}$.
+  \item The stdev of $p$ is estiamted by $\sqrt{\frac{\overline{p} \cdot (1-\overline{p})}{n}}$
   \item For large samples, $\overline{p}$ is approximately normally distributed
 \end{itemize}
 
 Since $\overline{p}$ is a sample mean of the number of successes, this allows us to draw a confidence interval analogous to the previously discussed interval estimate of $\mu$ for large samples.
 
-  \[ \overline{p} \pm z_{\frac{\alpha}{2}} \sqrt{\frac{\overline{p}\overline{q}}{n}} \]
-  with $\overline{p} = \frac{x}{n}$ en $\overline{q} = 1- \overline{p}$
-
+  \[ p \in \left[~ \overline{p} - z_{\frac{\alpha}{2}} \cdot \sqrt{\frac{\overline{p} \cdot (1-\overline{p})}{n}} ~,~ \overline{p} + z_{\frac{\alpha}{2}} \cdot \sqrt{\frac{\overline{p} \cdot (1-\overline{p})}{n}} ~\right] \]
 \end{frame}
 
 \end{document}
