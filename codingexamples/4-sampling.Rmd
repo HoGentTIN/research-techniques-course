@@ -84,42 +84,40 @@ With the `plot` function, the histogram would be removed/overwritten.
 
 ## Probabilities based on the normal distribution
 
-Stel, Superman heeft een reactiesnelheid die normaal verdeeld is met gemiddelde 5 ms en standaardafwijking 1.5 ms.
+Suppose, Superman has a response time which has a normal distribution with an average of 5 milliseconds and a standard deviation of 1.5 ms.
 
 ```{r}
 m <- 5
 s <- 1.5
 ```
 
-Wat is de kans dat zijn reactiesnelheid groter is dan 6.5 ms? Wiskundige notatie: $P(X > 6.5)$
+What's the probability that his response time will be longer than 6 ms? Mathematical notation: $P(X > 6)$
 
 ```{r}
-# Bereken eerst de z-score
-x <- 6.5
+# First calculate the z-score
+x <- 6
 z <- (x - m) / s
 z
 ```
 
-Met de `pnorm` kunnen we enkel de *linker*staartkans $P(X < 6.5)$ of $P(Z < 1)$ berekenen.
-Er wordt gevraagd naar de kans dat de reactiesnelheid ***groter*** is dan 6.5 ms, dus
-we berekenen $1-P(X<6.5)$ of $1-P(Z<1)$:
+With `pnorm()` you can calculate the *left* tail probability $P(X < 6)$ or $P(Z < 0.667)$, but we need the probability for the respons time to be ***bigger*** than 6 ms. So, we calculate $1-P(X<6.5)$ or $1-P(Z<1)$:
 
 ```{r}
 1-pnorm(z)
 1-pnorm(x, m, s)
 ```
 
-Grafische voorstelling van deze situatie:
+Graphical representation of this situation:
 
 ```{r}
-# interval van de plot (x-waarden)
+# x-values
 x_interval <- seq(m - 4 * s, m + 4 * s, length=200)
-# punten op de Gauss-curve
+# y-values
 norm_dist <- dnorm(x_interval, m, s)
 plot(x_interval, norm_dist,
      type = 'l', xlab = '', ylab = '')
 
-# Het gebied links van x inkleuren
+# colour the area to the left of x
 i <- x_interval <= x
 polygon(
   c(x_interval[i], x,              x),
@@ -127,155 +125,152 @@ polygon(
   col = 'lightgreen')
 text(x, .01, x)
 
-# Toon het gemiddelde ahv een rode vertikale lijn
+# show the average using a red vertical line
 abline(v = m, col='red')
 text(m, .01, m)
 ```
 
-Andere voorbeelden van kansberekening:
+Other examples:
 
-1. Hoe groot is de kans dat de reactiesnelheid van Superman minder dan 4 ms is?
+1. Probability for the response time to be *less* than 4 ms?
 
     ```{r}
     pnorm(4, m, s)
     ```
 
-2. Hoe groot is de kans dat hij in *meer* dan 7 ms reageert?
+2. Probability for the response time to be *more* than 7 ms?
 
     ```{r}
     1 - pnorm(7, m, s)
     ```
 
-3. Hoe groot is de kans dat Superman in minder dan 3 ms
-reageert?
-
-    ```{r}
-    pnorm(3, m, s)
-    ```
-
-4. Hoe groot is de kans dat hij reageert tussen de 2 en de 6,5
-ms?
+3. Probability for the response time to be *between* 2 and 6,5 ms?
 
     ```{r}
     pnorm(6.5, m, s) - pnorm(2, m, s)
     ```
 
-5. Onder welke tijd ligt 80% van zijn reactiesnelheid?
+5. Below which level are 80% of his response times?
 
     ```{r}
     qnorm(.8, m, s)
     ```
 
-## Betrouwbaarheidsinterval
+## Confidence interval (large samples)
 
-Een betrouwbaarheidsinterval is een schatting aan de hand van een gebied waarbinnen je met een gekozen betrouwbaarheid kan veronderstellen dat het onbekende populatiegemiddelde erbinnen zal liggen.
+Suppose we have made 100 measurements of Superman's reaction time and we obtain a sample average of 5.2 ms. We assume that we know the *actual* standard deviation of its reaction time and that it is 1.5 ms.
 
-Stel, we hebben *n* = 100 metingen gedaan van de reactiesnelheid van Superman en we bekomen een steekproefgemiddelde van 5.2 ms. We veronderstellen dat we de werkelijke standaardafwijking van zijn reactiesnelheid kennen en dat die 1.5 ms is.
+To determine a confidence interval, proceed as follows:
 
-Om een betrouwbaarheidsinterval te bepalen gaan we als volgt te werk:
-
-1. We nemen als initiële schatting het steekproefgemiddelde en kiezen een zekerheidsniveau, bv. $1 - \alpha = 0.95$ (of 95%).
-2. We zoeken vervolgens de $z$-score waartussen 95% van alle waarden liggen bij een standaardnormale verdeling.
-3. Die gebruiken we om de waarden links en rechts van het steekproefgemiddelde te bepalen waartussen we verwachten dat 95% van de waarden terecht komen voor de kansverdeling die we uit de *centrale limietstelling* halen.
+1. As an initial estimate (point estimate), we take the sample average ($\overline{x}$) and choose a confidence level, e.g. $1 - \alpha = 0.95$ (or 95%).
+2. We then look for the $z$ score between which 95% of all values lie at a standard normal distribution.
+3. We use this to determine the values to the left and right of the sample average between which we expect 95% of the values to end up for the probability distribution that we take out of the *central limit theorem*.
 
 ```{r}
-# Stap 1
-m <- 5.2      # steekproefgemiddelde
-s <- 1.5      # standaardafwijking van de populatie
-n <- 100      # steekproefgrootte
-alpha <- 0.05 # 1 - alpha is het zekerheidsniveau
-# Stap 2
-z <- qnorm(1-alpha/2) # waarom delen door 2?
+# Step 1
+m <- 5.2      # mean of the sample
+s <- 1.5      # standard deviation of the population
+n <- 100      # size of the sample
+alpha <- 0.05 # 1 - alpha is the confidence level
+
+# Step 2
+z <- qnorm(1-alpha/2) # divide by 2! (see slides)
 z
-# Stap 3: het betrouwbaarheidsinterval
+
+# Step 3: confidence interval
 low  <- m - z * s / sqrt(n)
 high <- m + z * s / sqrt(n)
 c(low, high)
 ```
 
-We stellen dus met een betrouwbaarheidsniveau van 95% dat de reactiesnelheid van de superhelden ligt tussen de 4.91 en 5.49 ms ligt.
+So, we can say with a confidence level of 95% that the response time of Superman is between 4.91 en 5.49 ms.
 
-## Betrouwbaarheidsinterval bij kleine steekproeven
+## Confidence interval for small samples
 
-Wanneer we een kleine steekproef hebben (kleiner dan 30) valt de veronderstelling die we in de centrale limietstelling gedaan hebben weg. We kunnen in dat geval ook de normale verdeling niet gebruiken.
+If we have a small sample (less than 30), the assumption we made in the central limit setting is dropped. In that case, we cannot use the normal distribution anymore.
 
-Via de zgn. Student-$t$-verdeling is er echter toch een manier om een betrouwbaarheidsinterval te construeren. Deze verdeling lijkt op de normale verdeling in die zin dat ze ook op een Gauss-curve lijkt. De Student-$t$-verdeling houdt echter rekening met de steekproefgrootte $n$ en moet je ook mee opgeven. De dichtheidsfunctie krijgt dan een extra parameter die het aantal *vrijheidsgraden* genoemd wordt (Eng. *degrees of freedom*, afgekort `df`) en gelijk is aan $n - 1$.
+Through the so-called Student-$t$distribution, however, there is still a way to construct a confidence interval. This distribution *resembles* the normal distribution, but it also takes into account the sample size $n$. Therefore the density function gets an additional parameter called the degrees of *freedom* (abbreviated to `df`). It is equal to $n - 1$.
 
-Hoe kleiner het aantal vrijheidsgraden, hoe "platter" de curve en hoe breder de bekomen betrouwbaarheidsintervallen zullen zijn. Dit modelleert de grotere onzekerheid die we krijgen omwille van de kleine steekproef. Hoe groter $n$, hoe dichter de curve die van de normaalverdeling zal benaderen.
+The smaller the degrees of freedom, the "flatter" the curve and the wider the obtained confidence intervals.
+This models the greater uncertainty we get because of the small sample. The larger $n$, the better the curve will resemble the normal distribution.
 
-In de grafiek hieronder vind je de dichtheidsfunctie voor de Student-$t$-verdeling voor verschillende vrijheidsgraden:
+In the graph below you will find the density function for the Student-$t$ distribution for different degrees of freedom:
 
 ```{r}
 # Bron: https://www.statmethods.net/advgraphs/probability.html
-x <- seq(-4, 4, length=100) # x-waarden
-std_norm_dist <- dnorm(x)   # standaardnormaalverdeling, ter vgl         
-degf <- c(1, 3, 8, 30)      # te plotten vrijheidsgraden
+x <- seq(-4, 4, length=100) # x-values
+std_norm_dist <- dnorm(x)   # standard normal distrib (to compare)
+degf <- c(1, 3, 8, 30)      # 4 different degrees of freedom
 
-# afwerking van de grafiek (kleur, legende)
+# colors/labels
 colors <- c("red", "blue", "darkgreen", "gold", "black")
-labels <- c("df=1", "df=3", "df=8", "df=30", "normaal")
+labels <- c("df=1", "df=3", "df=8", "df=30", "normal")
 
-# plot van de standaardnormaalverdeling
+# plot standard normal distrib
 plot(x, std_norm_dist,
      type="l", lty=2,
-     xlab="x-waarde", ylab="dichtheid",
-     main="Vergelijking van Student-t verdelingen")
+     xlab="x-value", ylab="density",
+     main="Comparision of Student-t distributions")
 
-# plot van de vier Student-t verdelingen
+# plot the Student-t distributions
 for (i in 1:4){
   lines(x, dt(x,degf[i]), lwd=2, col=colors[i])
 }
 
-legend("topright", inset=.05, title="Verdelingen",
+legend("topright", inset=.05, title="Distributios",
        labels, lwd=2, lty=c(1, 1, 1, 1, 2), col=colors,
        cex = .5)
 
 ```
 
-Om dit te illustreren nemen we hetzelfde voorbeeld van hierboven, maar veronderstellen dat de steekproefgrootte slechts 15 was.
+To illustrate this, we take the same example as above, but assume that the sample size was only 15.
 
 ```{r}
-# Stap 1
-m <- 5.2      # steekproefgemiddelde
-s <- 1.5      # standaardafwijking van de populatie
-n <- 15       # steekproefgrootte
-alpha <- 0.05 # 1 - alpha is het zekerheidsniveau
-# Stap 2, maar nu gebruiken we de Student-t-verdeling!
+# Step 1
+m <- 5.2      # sample mean
+s <- 1.5      # standard deviation of the population
+n <- 15       # size of the sample
+alpha <- 0.05 # 1 - alpha is the confidence level
+
+# Step 2, now with Student-t distribution!
 t <- qt(1-alpha/2, df = n - 1)
 t
-# Stap 3: het betrouwbaarheidsinterval
+
+# Step 3: confidence interval
 low  <- m - t * s / sqrt(n)
 high <- m + t * s / sqrt(n)
 c(low, high)
 ```
 
-We stellen dus met een betrouwbaarheidsniveau van 95% dat de reactiesnelheid van de superhelden ligt tussen de 4.37 en 6.03 ms ligt.
+Now, we can state with a confidence level of 95% that the response time of Superman is between 4.37 en 6.03 ms.
 
-Dit interval is een stuk breder dan wat we verkregen bij een grotere steekproef. We zijn dus minder zeker van de positie van het populatiegemiddelde.
+This interval is much wider than what we obtained with a larger sample. We are therefore less certain about the position of the population average.
 
-## Betrouwbaarheidsinterval bij fracties
+## Confidence interval for fractions
 
-Sommige variabele hebben slechts twee mogelijke waarden, bv. ja/nee, waar/vals, gelukt/mislukt, succes/falen, 1/0, enz. Aan de hand van de steekproef willen we schatten wat in werkelijkheid de verhouding is tussen deze twee uitkomsten over de gehele populatie.
+Some variables have only two possible values, e.g. yes/no, true/false, success/failure, 1/0, etc. Using a sample, we want to estimate the actual ratio between these two results over the entire population.
 
-Stel dat we willen weten welk percentage van de superhelden (op eigen kracht) kan vliegen. Er werden 100 superhelden ondervraagd, 6 daarvan konden demonstreren dat ze inderdaad kunnen vliegen. Construeer een 95%-betrouwbaarheidsinterval voor het verwachte percentage van vliegende superhelden in de gehele pupulatie.
+Suppose we want to know what percentage of superheroes can fly (on their own). 100 superheroes were interviewed, 6 of whom were able to demonstrate that they can indeed fly. Construct a 95% confidence interval for the expected percentage of flying superheroes in the entire pupulation.
 
 ```{r}
-# Stap 1.
-n <- 100   # steekproefgrootte
-k <- 6     # aantal "successen" in de steekproef
-a <- 0.05  # betrouwbaarheidsniveau 95%
+# Step 1.
+n <- 100   # sample size
+k <- 6     # number of "successes" in the sample
+a <- 0.05  # confidence level 95%
 
-p <- k / n # schatting voor het percentage successen
-q <- 1 - p # schatting voor het percentage falingen
-c(p, q)    # toon de waarden van p en q
+p <- k / n # estimate for the percentage of successes
+q <- 1 - p # estimate for the percentage of failures
+c(p, q)
 
-# Stap 2. We gebruiken opnieuw de normale verdeling
+# Step 2 (we use the normal distribution again)
 z <- qnorm(1-a/2)
 
-# Stap 3.
+# Step 3.
 low <- p - z * sqrt(p*q/n)
 high <- p + z * sqrt(p*q/n)
 c(low, high)
 ```
 
-We stellen dus met een betrouwbaarheidsniveau van 95% dat tussen de 1.3% en 10.6% van de superhelden kan vliegen.
+We can state with a confidence level of 95% that between 1.3% and 10.6% of the super hero's can fly.
+
+(This document was translated with the help of www.DeepL.com/Translator)
