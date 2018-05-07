@@ -857,15 +857,15 @@ Unexplained variance $\sigma_{y,unexpl}^2 = \frac{1}{n}\sum (y-\hat{y})^2$ = dev
 
 Let
 
-\[ \sigma_{y,total} = \frac{1}{n} \sum_{i=1}^{n} (y_i - \overline{y})^2 \textrm{ (total sample variance)}\]
-\[ \sigma_{y,unexpl} = \frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y})^2 \textrm{ (unexplained variance)}\]
+\[ \sigma_{y,total}^2 = \frac{1}{n} \sum_{i=1}^{n} (y_i - \overline{y})^2 \textrm{ (total sample variance)}\]
+\[ \sigma_{y,unexpl}^2 = \frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y})^2 \textrm{ (unexplained variance)}\]
 
 \begin{itemize}
-  \item If $x$ doesn't contribute to $y$, then $\sigma_{y,unexpl} \approx \sigma_{y,total}$
-  \item If $x$ does contribute to $y$, then $\sigma_{y,unexpl} < \sigma_{y,total}$
+  \item If $x$ doesn't contribute to $y$, then $\sigma_{y,unexpl}^2 \approx \sigma_{y,total}^2$
+  \item If $x$ does contribute to $y$, then $\sigma_{y,unexpl}^2 < \sigma_{y,total}^2$
 \end{itemize}
 
-\[R^2 = \frac{\sigma_{y,total} - \sigma_{y,unexpl}}{\sigma_{y,total}} = \frac{\textrm{explained variance}}{\textrm{total sample variance}}\]
+\[R^2 = \frac{\sigma_{y,total}^2 - \sigma_{y,unexpl}^2}{\sigma_{y,total}^2} = \frac{\textrm{explained variance}}{\textrm{total sample variance}}\]
 
 \end{frame}
 
