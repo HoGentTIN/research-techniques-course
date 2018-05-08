@@ -760,11 +760,12 @@ The data files for these exercises can be found on Github under \emph{exercises/
   
   In table~\ref{tab:test-exam}, each row is the score a student received for an intermediate test and the final exam of some course.
   \begin{enumerate}
-    \item Calculate the parameters of the regression line $\hat{y}\beta_{0} + \beta_{1} x$, including all intermediate values. Check your result by using R's most appropriate function for calculating a regression line.
-    \item Calculate the covariance using the formula given in this course, including all intermediate results. Check your results using the appropriate R function. Explain why the results are different.
+    \item Calculate the parameters of the regression line $\hat{y}=\beta_{0} + \beta_{1} x$, including all intermediate values. Check your result by using R's most appropriate function for calculating a regression line.
+    \item Calculate the covariance using the formula given in this course, including all intermediate results. Check your results using the appropriate R function. The results are supposed to be the same.
     \item Calculate Pearson's correlation coefficient from the previous step, and using the appropriate R function.
     \item Calculate the determination coefficient from the previous step, and using the alternative definition:
     \[R^2 = \frac{SS_y - SSE_y}{SS_y}\]
+    ($SS_y=\sigma_{y,total}^2, SSE_y=\sigma_{y,unexplained}^2$)
     \item Interpret the values of the metrics calculated in the previous steps.
   \end{enumerate}
 \end{exercise}
@@ -810,7 +811,7 @@ The data files for these exercises can be found on Github under \emph{exercises/
 \end{figure}
 
 \begin{exercise}
-  \label{ex:cats-regression-correlation}
+  \label{ex:cats}
   Read data file \emph{cats.csv}. Perform a linear regression analysis on variables body weight (\emph{Bwt}) and heart weight (\emph{Hwt}).
   
   \begin{enumerate}
@@ -822,6 +823,7 @@ The data files for these exercises can be found on Github under \emph{exercises/
 \end{exercise}
 
 \begin{exercise}
+  \label{ex:cats-sex}
   Using the same data as in Exercise~\ref{ex:cats-regression-correlation}, perform a linear regression analysis on variables body weight (\emph{Bwt}) and heart weight (\emph{Hwt}) \emph{subdivided by gender} (\emph{Sex})
   
   \begin{enumerate}
@@ -842,3 +844,31 @@ The data files for these exercises can be found on Github under \emph{exercises/
 %  \item Plot a graphical representation of the contingency table with a clustered bar chart.
 %  \end{enumerate}
 %\end{exercise}
+
+\subsection{Answers on selected exercises}
+\label{ssec:analyse-2-variabelen-oplossingen}
+
+\paragraph{Exercise~\ref{ex:contingency-tables-manual}}
+
+$\chi^2 \approx 18,2792$, Cramér's $V \approx 0,1939$
+
+\paragraph{Exercise~\ref{ex:regression-manual}}
+
+\begin{itemize}
+  \item $\beta_{0} \approx 0,6333$, $\beta_{1} \approx 0.9667$
+  \item $Cov \approx 6,444$, $R \approx 0,9352$, $R^2 \approx 0,8747$
+\end{itemize}
+
+\paragraph{Exercise \ref{ex:cats} en \ref{ex:cats-sex}}
+
+\begin{center}
+  \begin{tabular}{lrrrrr}
+  	\toprule
+    \textbf{Selectie} & \textbf{$\beta_{0}$} & \textbf{$\beta_{1}$} & \textbf{$Cov$} & \textbf{$R$} & \textbf{$R^2$} \\
+    \midrule
+  	Entire set & -0.3511 & 4.0318 & 0.9496 & 0.8041 & 0.6466 \\
+  	Female       &  2.9813 & 2.6364 & 0.1979 & 0.5320 & 0.2831 \\
+  	Male         & -1.1768 & 4.3098 & 0.9419 & 0.7930 & 0.6289 \\
+    \bottomrule
+  \end{tabular}
+\end{center}
