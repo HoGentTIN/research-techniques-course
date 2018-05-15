@@ -5,6 +5,15 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+```
+Make sure to install the packages "TTR" and "forecast" 
+```{r}
+#install.packages("TTR")
+#install.packages("forecast")
+```
+
+Also, don't forget to load these libraries
+```{r}
 library(TTR)
 library(forecast)
 ```
@@ -52,6 +61,8 @@ We basically need a method that takes the last observations into account, but fo
 
 ### Simple Moving Average
 
+$X_t = \frac{1}{m} \cdot \sum_{i=k}^t x_i$ with $k=t-m+1$
+
 ```{r}
 sma_3 <- SMA(x = demand_ts, n = 3)
 sma_5 <- SMA(x = demand_ts, n = 5)
@@ -68,7 +79,7 @@ legend("topright", lty = 1,
 
 ### Exponential Moving Average
 
-$X_t = \alpha x_t + (1 - \alpha) X_{t-1}$
+$X_t = \alpha \cdot x_t + (1 - \alpha) \cdot X_{t-1}$
 
 ```{r}
 # Play with the value of alpha. What happens if alpha is close to 1?
