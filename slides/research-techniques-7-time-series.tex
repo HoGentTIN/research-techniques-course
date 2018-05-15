@@ -196,13 +196,13 @@
 
   \begin{enumerate}
     \item select the most appropriate parametric model
-    \item estimate the parameters $b_i (i: 1, \dots, n)$ based on the
+    \item estimate the parameters $b_i (i: 1, \dots, n)$ based on the observations
   \end{enumerate}
 
   These estimates $\widehat{b_i}$ are chosen in a way that they approach the observations as well as possible.
 \end{frame}
 
-\begin{frame}
+\begin{frame}<presentation:0> %hide this slide
   \frametitle{Parameter estimation: example}
 
   \begin{table}[t]
@@ -223,7 +223,7 @@
   \end{figure}
 \end{frame}
 
-\begin{frame}
+\begin{frame}<presentation:0> %hide this slide
   \frametitle{Parameter estimation: example}
 
   \begin{itemize}
@@ -238,7 +238,7 @@
   \includegraphics[width=.7\textwidth]{img/tijdreeks21.jpg}
 \end{frame}
 
-\begin{frame}
+\begin{frame}<presentation:0> %hide this slide
   \frametitle{Parameter estimation: example}
 
   The observations used for the estimate of $\widehat{b}$ can be chosen, e.g.:
@@ -260,16 +260,17 @@
   \brightbox{The \textcolor{HoGentYellow}{Simple Moving Average} is a series of \emph{averages} of the last $m$ observations}
 
   \begin{itemize}
-    \item Hide short term fluctuations and show long term trends
-    \item $m$ is the time range, and is the parameter of this method
+    \item The parameter $m$ is called the \textbf{time range}
+    \item Used to hide short term fluctuations
+    \item Used to show long term trends
   \end{itemize}
 
   \begin{equation}
-    SMA(t) = \sum_{i=k}^{t} \frac{x_{i}}{m}
+    SMA_m(t) = \sum_{i=k}^{t} \frac{x_{i}}{m}
     \label{eq:movingAverage}
   \end{equation}
 
-  met $k = t - m + 1$.
+  with $k = t - m + 1$.
 \end{frame}
 
 \begin{frame}
@@ -293,7 +294,7 @@
 
 }
 
-\begin{frame}
+\begin{frame}<presentation:0> %hide this slide
   \begin{table}
     \begin{tabular}{|llllllllll|}
       \hline
@@ -328,26 +329,26 @@ You can also calculate the mean squared deviation/mean squared error (MSE):
 
   \begin{itemize}
     \item In the case of $SMA$ all observations contribute equally
-    \item Weighted Moving Average ($WMA$) has multiplying factors to give different weights to observations
-    \item A special case is the \emph{Exponential Moving Average} ($EMA$) or \emph{exponential smoothing}:
-      \begin{equation}
-        EMA(t) = \alpha x_{t-1} + (1-\alpha) EMA(t-1)
-        \label{eq:singleExpMA}
-      \end{equation}
-
-      with $\alpha$ the smoothing constant ($0 < \alpha < 1$), and $t \geq 3$
+\vspace{0.7cm}    \item Weighted Moving Average ($WMA$) has multiplying factors to give different weights to observations
   \end{itemize}
 \end{frame}
 
 \begin{frame}
   \frametitle{Exponential Moving Average}
+The \emph{Exponential Moving Average} (EMA) or \emph{exponential smoothing} is a special case of WMA:
+\begin{equation}
+\textnormal{EMA:}~~ X_t = \alpha \cdot x_t + (1-\alpha) \cdot X_{t-1}
+\label{eq:singleExpMA}
+\end{equation}
 
-  Formula~\ref{eq:singleExpMA} is only valid from $t=3$. Determining  $EMA(2)$ is an important parameter. Some possible choices:
+The parameter $\alpha$ is called the \textbf{smoothing constant} ($0 < \alpha < 1$). 
+\vfill
+Formula~\ref{eq:singleExpMA} is only valid for $t \geq 2$.\\
+It is important to choose a good value for $X_1$, possible choices:
   
   \begin{itemize}
-    \item $EMA(2) = x_1$
-    \item $EMA(2) = \frac{1}{m} \sum_{i=1}^{m} x_i$ (i.e.~mean of the first $m$ observations)
-    \item Set $EMA(2)$ to some objective value
+    \item $X_1 = x_1$
+    \item $X_1 = \frac{1}{m} \sum_{i=1}^{m} x_i$ (i.e.~mean of the first $m$ observations)
     \item \ldots
   \end{itemize}
 \end{frame}
@@ -355,15 +356,19 @@ You can also calculate the mean squared deviation/mean squared error (MSE):
 \begin{frame}
   \frametitle{Why ``\emph{exponential}''?}
 
-  \begin{align*}
-    EMA(t) & = \alpha x_{t-1} + (1-\alpha) EMA(t-1)                                           \\ \pause
-           & = \alpha x_{t-1} + (1-\alpha)\left[\alpha x_{t-2} + (1-\alpha)EMA(t - 2)\right]  \\ \pause
-           & = \alpha x_{t-1} + \alpha (1-\alpha)x_{t-2} + (1-\alpha)^{2} EMA(t - 2)          \\ \pause
-           &   \text{or, in general:} \\ \pause
-           & = \alpha \sum_{i=1}^{t-2}(1-\alpha)^{i-1}x_{t-i} + (1-\alpha)^{t-2} EMA(2), t \geq 2
-  \end{align*}
-
-  The weight of older observations decreases exponentially
+$ X_2 = \alpha \cdot x_2 + (1-\alpha) \cdot X_1 $\\
+\vfill
+$ X_3 = \alpha \cdot x_3 + (1-\alpha) \cdot X_2 $\\
+$ X_3 = \alpha \cdot x_3 + (1-\alpha) \cdot \left[\alpha \cdot x_2 + (1-\alpha) \cdot X_1\right]  $\\
+$ X_3 = \alpha \cdot x_3 + \alpha (1-\alpha) \cdot x_2 + (1-\alpha)^2 \cdot X_1  $\\
+\vfill
+$ X_4 = \alpha \cdot x_4 + (1-\alpha) \cdot X_3 $\\
+$ X_4 = \alpha \cdot x_3 + (1-\alpha) \cdot \left[ \alpha \cdot x_3 + \alpha (1-\alpha) \cdot x_2 + (1-\alpha)^2 \cdot X_1\right]  $\\
+$ X_4 = \alpha \cdot x_4 + \alpha (1-\alpha) \cdot x_3 + \alpha (1-\alpha)^2 \cdot x_2 + (1-\alpha)^3 \cdot X_1  $\\
+\vfill
+$ X_5 = \alpha \cdot x_5 + \alpha (1-\alpha) \cdot x_4 + \alpha (1-\alpha)^2 \cdot x_3 + \alpha (1-\alpha)^3 \cdot x_2 + (1-\alpha)^4 \cdot X_1  $\\
+\vfill
+The weight of older observations decrease exponentially
 \end{frame}
 
 \begin{frame}
@@ -372,15 +377,17 @@ You can also calculate the mean squared deviation/mean squared error (MSE):
   \begin{table}
     \centering
     \begin{tabular}{l|llll}
-      $\alpha$ & $(1-\alpha)$ & $(1-\alpha)^{2}$ & $(1-\alpha)^{3}$ & $(1-\alpha)^{4}$ \\ \hline
-      0.9   & 0.1       & 0.01             & 0.001                      & 0.0001           \\
-      0.5   & 0.5       & 0.25             & 0.125                      & 0.062            \\
-      0.1   & 0.9       & 0.81             & 0.729                      & 0.6561           \\
+      $\alpha$ & $\alpha(1-\alpha)$ & $\alpha(1-\alpha)^{2}$ & $\alpha(1-\alpha)^{3}$ & $(1-\alpha)^{4}$ \\ \hline
+      0.9   & 0.09       & 0.009             & 0.0009                      & 0.0001           \\
+      0.5   & 0.25       & 0.125             & 0.0625                      & 0.0625            \\
+      0.1   & 0.09       & 0.081             & 0.0729                      & 0.6561           \\
     \end{tabular}
     \caption{Values for $\alpha$ and $(1-\alpha)^{n}$}
     \label{tab:alpha}
   \end{table}
-  How quickly old observations are ``forgotten'' depends on $\alpha$. With $\alpha$ close to 1, old values are forgotten quickly, with $\alpha$ close to 0, older values are ``remembered'' longer.
+  How quickly old observations are ``forgotten'' depends on $\alpha$.\\
+  With $\alpha$ close to 1, old values are forgotten quickly\\
+  With $\alpha$ close to 0, older values are ``remembered'' longer
 \end{frame}
 
 
@@ -417,12 +424,12 @@ You can also calculate the mean squared deviation/mean squared error (MSE):
   We introduce an extra term in the model to estimate the trend: $b_t$ at time $t > 1$:
 
 \begin{eqnarray}
-  X_{t} = \alpha x_{t} + (1-\alpha)(X_{t-1} + b_{t-1}) & 0 \leq \alpha \leq 1 \\
-  b_{t} = \gamma(X_{t}-X_{t-1}) + (1-\gamma)b_{t-1} & 0 \leq \gamma \leq 1 
+  X_{t} = \alpha \cdot x_{t} + (1-\alpha) \cdot (X_{t-1} + b_{t-1}) & 0 \leq \alpha \leq 1 \\
+  b_{t} = \beta \cdot (X_{t}-X_{t-1}) + (1-\beta) \cdot b_{t-1} & 0 \leq \beta \leq 1 
 \label{eq:doubleSmoothing}
 \end{eqnarray}
 
-  with $0 < \alpha < 1$ and $0 < \gamma < 1$
+  with $0 < \alpha < 1$ and $0 < \beta < 1$
   
   \begin{itemize}
     \item $ b_{t-1}$ in the first equation ensures estimates follow the trend
@@ -433,12 +440,12 @@ You can also calculate the mean squared deviation/mean squared error (MSE):
 \begin{frame}
   \frametitle{Double exponential smoothing}
   
-  Alternatives for bootstrapping:
+  Possible choices for bootstrapping:
   
 \begin{align*}
   X_{1} & = x_{1} \\
   b_{1} & = x_{2} - x_{1} \\
-  b_{1} & = \frac{1}{3}\left[ (x_{2} - x_{1}) + (x_{1} - x_{2}) + (x_{4} - x_{3}) \right]\\
+  b_{1} & = \frac{1}{3}\left[ (x_{2} - x_{1}) + (x_{3} - x_{2}) + (x_{4} - x_{3}) \right]\\
   b_{1} & = \frac{x_{n} - x_{1}}{n-1} \\
 \end{align*}
 
@@ -455,7 +462,7 @@ You can also calculate the mean squared deviation/mean squared error (MSE):
 
   or in general, for time index $t+m$:
 
-  \[ F(t+m) = s_t + m b_t \]
+  \[ F(t+m) = s_t + m \cdot b_t \]
 \end{frame}
 
 \begin{frame}
@@ -480,9 +487,9 @@ You can also calculate the mean squared deviation/mean squared error (MSE):
   \end{itemize}
 
 \begin{align*}
-  X_{t} &= \alpha \frac{x_{t}}{c_{t-L}} + (1-\alpha) (X_{t-1} + b_{t-1}) & \textnormal{Smoothing}\\
-  b_{t} &= \gamma (X_{t} - X_{t-1}) + (1-\gamma)b_{t-1} & \textnormal{Trend smoothing} \\
-  c_{t} &= \beta \frac{x_{t}}{X_{t}} + (1-\beta)c_{t-L} & \textnormal{Seasonal smoothing} \\
+  X_{t} &= \alpha \cdot \frac{x_{t}}{c_{t-L}} + (1-\alpha) \cdot (X_{t-1} + b_{t-1}) & \textnormal{Smoothing}\\
+  b_{t} &= \beta \cdot (X_{t} - X_{t-1}) + (1-\beta) \cdot b_{t-1} & \textnormal{Trend smoothing} \\
+  c_{t} &= \gamma \cdot \frac{x_{t}}{X_{t}} + (1-\gamma) \cdot c_{t-L} & \textnormal{Seasonal smoothing} \\
 \label{eq:HoltWinters}
 \end{align*}
 
@@ -491,9 +498,9 @@ You can also calculate the mean squared deviation/mean squared error (MSE):
 \begin{frame}
   \frametitle{Triple exponential smoothing}
 
-  Forecast at time $t + m$:
+  Forecast F(t+m):
 
-  \[ F_{t+m} = (X_{t} + mb_{t})c_{t-L+m} \]
+  \[ F(t+m) = (X_{t} + m \cdot b_{t}) \cdot c_{t-L+m} \]
 
   For an implementation in Java, see \url{https://github.com/bertvv/wintersmethod}
 \end{frame}
