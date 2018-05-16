@@ -291,8 +291,8 @@ Demon                   & 73           & 17\%           & 68           & 5      
         \[ \chi^{2} = 3.47 \]
     \item \textbf{Calculate critical value $b$ or $p$-value}
       \begin{itemize}
-        \item $b = \texttt{qnorm}(0.95,4) = 9.49$
-        \item $p = 1-\texttt{pnorm}(3.47) = 0.48 = 48\%$
+        \item $b = \texttt{qchisq}(0.95,4) = 9.49$
+        \item $p = 1-\texttt{pchisq}(3.47) = 0.48 = 48\%$
       \end{itemize}
     \item \textbf{Conclusion}\\
     ~~~~$3.47 < 9.49$ (or $48\% > 5\%$) : $H_0$ is accepted\\
