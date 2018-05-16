@@ -81,8 +81,8 @@
 \begin{frame}
   \frametitle{Time series and predictions}
 
-  \brightbox{A time series is a sequence of observations of a variable over time}
-
+  \brightbox{A \textcolor{HoGentYellow}{time series} is a sequence of observations of a variable over time}
+\vfill
   A time series is a stochastic process. Examples include:
 
   \begin{itemize}
@@ -126,65 +126,48 @@
 \begin{frame}
   \frametitle{Mathematical models for time series}
 
-  The simplest model:
+  \begin{enumerate}
+  \item The \textbf{constant} model
+\vfill
+The observed values $x_t$ are modelled as random variations $\varepsilon_t$ around a constant value $b$
+
+\begin{equation}
+x_{t} = b + \varepsilon_{t}
+\label{eq:timeseries-constant}
+\end{equation}
 
   \begin{itemize}
-    \item Constant $b$
-    \item Variations around $b$, modeled by a random variable $\varepsilon_{t}$
-  \end{itemize}
-
-  \begin{equation}
-    X_{t} = b + \varepsilon_{t}
-    \label{eq:timeseries-constant}
-  \end{equation}
-
-  \begin{itemize}
-    \item $X_{t}$: stochastic variable for the time series, at time $t$
     \item $x_{t}$: \emph{observation} at time $t$
-    \item $\varepsilon_{t}$: \emph{noise}. We assume $\varepsilon_{t} \sim Nor(\mu = 0; \sigma)$
+    \item $b$: the constant, i.e. the average of the observations $x_t$
+    \item $\varepsilon_{t}$: random variation, \textbf{noise}. We assume $\varepsilon_{t} \sim Nor(\mu = 0; \sigma)$
   \end{itemize}
+  \end{enumerate}
 \end{frame}
 
 \begin{frame}
   \frametitle{Mathematical models for time series}
 
-  We can also assume a linear relation:
-  
+  \begin{enumerate}
+  \setcounter{enumi}{1}
+  \item The \textbf{linear} model
   \begin{equation}
-    X_{t} = b_{0} + b_{1} \cdot t + \varepsilon_{t}
+    x_{t} = b_{0} + b_{1} \cdot t + \varepsilon_{t}
     \label{eq:timeseries-linear}
   \end{equation}
-
-  Equations~\ref{eq:timeseries-constant} and \ref{eq:timeseries-linear} are specific instances of the more general \emph{polynomial} case:
-
+\vfill
+  \item The \textbf{polynomial} model
   \begin{equation}
-    X_{t} = b_{0} + b_{1} t + b_{2} t^{2} + \dots + b_{n} t^{n} + \varepsilon_{t}
+    x_{t} = b_{0} + b_{1} t + b_{2} t^{2} + \dots + b_{n} t^{n} + \varepsilon_{t}
     \label{eq:timeseries-polynomial}
   \end{equation}
-\end{frame}
-
-\subsection{General}
-
-\begin{frame}
-  \frametitle{General parametric model for time series}
-
-  A time series is a function with parameters $b_i$.
-
+\vfill
+\item The \textbf{general} parametric model
   \begin{equation}
-    X_{t} = f(b_{0}, b_{1}, b_{2}, \dots , b_{n}, t) + \varepsilon_{t}
+    x_{t} = f(b_{0}, b_{1}, b_{2}, \ldots , b_{n}, t) + \varepsilon_{t}
     \label{eq:timeseries-parametric}
   \end{equation}
-
-  We also assume:
-
-  \begin{itemize}
-    \item We consider two components of variability:
-      \begin{itemize}
-        \item the average of the variable varies over time
-        \item there is random variation w.r.t.~this mean
-      \end{itemize}
-    \item The variance of the residuals in the model ($X_t - x_t$) is constant over time (\emph{homeoscedastic})
-  \end{itemize}
+$f(\ldots,t)$ can be any function with parameters $b_i$
+  \end{enumerate}
 \end{frame}
 
 \subsection{Parameter estimation}
@@ -192,14 +175,26 @@
 \begin{frame}
   \frametitle{Parameter estimation}
 
-  Goal = to make predictions based on the time series model (forecasting)
+  Goal = make predictions (to do \textit{forecasting})
 
   \begin{enumerate}
-    \item select the most appropriate parametric model
-    \item estimate the parameters $b_i (i: 1, \dots, n)$ based on the observations
+    \item select the most appropriate model
+    \item estimate the parameters $b_i$ ($i=1, \dots, n$) based on the observations $x_t$
   \end{enumerate}
 
   These estimates $\widehat{b_i}$ are chosen in a way that they approach the observations as well as possible.
+\vfill
+  Mathematically, we need to assume \ldots
+\begin{itemize}
+    \item \ldots that the variability on $x_t$ can be split in 2 components:
+    \begin{itemize}
+        \item an average that varies over time
+        \item a \textbf{random} variation on top of this average ($\varepsilon_t$)
+    \end{itemize}
+    \item \ldots that the variance of $\varepsilon_{t}$ is \textbf{constant} over time\\
+    (i.e.: $x_t$ is \textbf{homoscedastic})
+\end{itemize}
+
 \end{frame}
 
 \begin{frame}<presentation:0> %hide this slide
@@ -238,7 +233,7 @@
   \includegraphics[width=.7\textwidth]{img/tijdreeks21.jpg}
 \end{frame}
 
-\begin{frame}<presentation:0> %hide this slide
+\begin{frame}%<presentation:0> %hide this slide
   \frametitle{Parameter estimation: example}
 
   The observations used for the estimate of $\widehat{b}$ can be chosen, e.g.:
@@ -266,7 +261,7 @@
   \end{itemize}
 
   \begin{equation}
-    SMA_m(t) = \sum_{i=k}^{t} \frac{x_{i}}{m}
+    \textnormal{SMA}_{m,t} = \sum_{i=k}^{t} \frac{x_{i}}{m}
     \label{eq:movingAverage}
   \end{equation}
 
@@ -298,9 +293,9 @@
   \begin{table}
     \begin{tabular}{|llllllllll|}
       \hline
-      ~       & 11   & 12   & 13   & 14   & 15   & 16   & 17   & 18   & 19   \\
+      $t$       & 11   & 12   & 13   & 14   & 15   & 16   & 17   & 18   & 19   \\
       $x_{t}$ & 3    & 14   & 14   & 20   & 7    & 9    & 6    & 11   & 3    \\
-      $X_{t}$ & 11.7 & 11.6 & 11.4 & 11.6 & 11.1 & 10.5 & 10.2 & 10.4 & 10.7 \\
+      SMA$_{10,t}$ & 11.7 & 11.6 & 11.4 & 11.6 & 11.1 & 10.5 & 10.2 & 10.4 & 10.7 \\
       $e$     & -8.7 & 2.4  & 2.6  & 8.4  & -4.1 & -1.5 & -4.2 & 0.6  & -7.7 \\ \hline
     \end{tabular}
     \caption{Error in moving average ($m = 10$) predictions.}
@@ -328,27 +323,32 @@ You can also calculate the mean squared deviation/mean squared error (MSE):
   \frametitle{Weighted Moving Average}
 
   \begin{itemize}
-    \item In the case of $SMA$ all observations contribute equally
-\vspace{0.7cm}    \item Weighted Moving Average ($WMA$) has multiplying factors to give different weights to observations
+    \item In an \textbf{SMA} all observations contribute equally
+    \[ \textnormal{Eg.: SMA}_{4,t} = \frac{1}{4} \cdot x_{t} + \frac{1}{4} \cdot x_{t-1} +
+\frac{1}{4} \cdot x_{t-2} + \frac{1}{4} \cdot x_{t-3} \]
+\vfill
+    \item In a \textit{Weighted Moving Average} (\textbf{WMA}) the observations have different weights (multiplying factors)
+    \[ \textnormal{Eg.: WMA}_t = \frac{4}{10} \cdot x_{t} + \frac{3}{10} \cdot x_{t-1} +
+\frac{2}{10} \cdot x_{t-2} + \frac{1}{10} \cdot x_{t-3} \]
   \end{itemize}
 \end{frame}
 
 \begin{frame}
   \frametitle{Exponential Moving Average}
-The \emph{Exponential Moving Average} (EMA) or \emph{exponential smoothing} is a special case of WMA:
+The \emph{Exponential Moving Average} (\textbf{EMA}) or \textbf{exponential smoothing} is a special case of WMA:
 \begin{equation}
-\textnormal{EMA:}~~ X_t = \alpha \cdot x_t + (1-\alpha) \cdot X_{t-1}
+\textnormal{EMA}_t = S_t = \alpha \cdot x_t + (1-\alpha) \cdot S_{t-1}
 \label{eq:singleExpMA}
 \end{equation}
 
 The parameter $\alpha$ is called the \textbf{smoothing constant} ($0 < \alpha < 1$). 
 \vfill
-Formula~\ref{eq:singleExpMA} is only valid for $t \geq 2$.\\
-It is important to choose a good value for $X_1$, possible choices:
+Formula~(\ref{eq:singleExpMA}) is only valid for $t \geq 2$.\\
+It is important to choose a good value for $S_1$, possible choices:
   
   \begin{itemize}
-    \item $X_1 = x_1$
-    \item $X_1 = \frac{1}{m} \sum_{i=1}^{m} x_i$ (i.e.~mean of the first $m$ observations)
+    \item $S_1 = x_1$
+    \item $S_1 = \frac{1}{m} \sum_{i=1}^{m} x_i$ (i.e. the mean of the first $m$ observations)
     \item \ldots
   \end{itemize}
 \end{frame}
@@ -356,19 +356,21 @@ It is important to choose a good value for $X_1$, possible choices:
 \begin{frame}
   \frametitle{Why ``\emph{exponential}''?}
 
-$ X_2 = \alpha \cdot x_2 + (1-\alpha) \cdot X_1 $\\
+$ S_2 = \alpha \cdot x_2 + (1-\alpha) \cdot S_1 $\\
 \vfill
-$ X_3 = \alpha \cdot x_3 + (1-\alpha) \cdot X_2 $\\
-$ X_3 = \alpha \cdot x_3 + (1-\alpha) \cdot \left[\alpha \cdot x_2 + (1-\alpha) \cdot X_1\right]  $\\
-$ X_3 = \alpha \cdot x_3 + \alpha (1-\alpha) \cdot x_2 + (1-\alpha)^2 \cdot X_1  $\\
+$ S_3 = \alpha \cdot x_3 + (1-\alpha) \cdot S_2 $\\
+$ S_3 = \alpha \cdot x_3 + (1-\alpha) \cdot \left[\alpha \cdot x_2 + (1-\alpha) \cdot S_1\right]  $\\
+$ S_3 = \alpha \cdot x_3 + \alpha (1-\alpha) \cdot x_2 + (1-\alpha)^2 \cdot S_1  $\\
 \vfill
-$ X_4 = \alpha \cdot x_4 + (1-\alpha) \cdot X_3 $\\
-$ X_4 = \alpha \cdot x_3 + (1-\alpha) \cdot \left[ \alpha \cdot x_3 + \alpha (1-\alpha) \cdot x_2 + (1-\alpha)^2 \cdot X_1\right]  $\\
-$ X_4 = \alpha \cdot x_4 + \alpha (1-\alpha) \cdot x_3 + \alpha (1-\alpha)^2 \cdot x_2 + (1-\alpha)^3 \cdot X_1  $\\
+$ S_4 = \alpha \cdot x_4 + (1-\alpha) \cdot S_3 $\\
+$ S_4 = \alpha \cdot x_3 + (1-\alpha) \cdot \left[ \alpha \cdot x_3 + \alpha (1-\alpha) \cdot x_2 + (1-\alpha)^2 \cdot S_1\right]  $\\
+$ S_4 = \alpha \cdot x_4 + \alpha (1-\alpha) \cdot x_3 + \alpha (1-\alpha)^2 \cdot x_2 + (1-\alpha)^3 \cdot S_1  $\\
 \vfill
-$ X_5 = \alpha \cdot x_5 + \alpha (1-\alpha) \cdot x_4 + \alpha (1-\alpha)^2 \cdot x_3 + \alpha (1-\alpha)^3 \cdot x_2 + (1-\alpha)^4 \cdot X_1  $\\
+$ S_5 = \alpha \cdot x_5 + \alpha (1-\alpha) \cdot x_4 + \alpha (1-\alpha)^2 \cdot x_3 + \alpha (1-\alpha)^3 \cdot x_2 + (1-\alpha)^4 \cdot S_1  $\\
 \vfill
-The weight of older observations decrease exponentially
+%$ S_k = \alpha \cdot x_k + \alpha (1-\alpha)^1 \cdot x_{k-1} + \ldots + \alpha (1-\alpha)^{k-2} \cdot x_2 + (1-\alpha)^{k-1} \cdot S_1  $\\
+%\vfill
+The weight factors for older observations decrease \textit{exponentially}
 \end{frame}
 
 \begin{frame}
@@ -376,7 +378,7 @@ The weight of older observations decrease exponentially
 
   \begin{table}
     \centering
-    \begin{tabular}{l|llll}
+    \begin{tabular}{l|l|l|l|l}
       $\alpha$ & $\alpha(1-\alpha)$ & $\alpha(1-\alpha)^{2}$ & $\alpha(1-\alpha)^{3}$ & $(1-\alpha)^{4}$ \\ \hline
       0.9   & 0.09       & 0.009             & 0.0009                      & 0.0001           \\
       0.5   & 0.25       & 0.125             & 0.0625                      & 0.0625            \\
@@ -422,18 +424,16 @@ The weight of older observations decrease exponentially
   \frametitle{Double exponential smoothing}
   
   We introduce an extra term in the model to estimate the trend: $b_t$ at time $t > 1$:
-
 \begin{eqnarray}
-  X_{t} = \alpha \cdot x_{t} + (1-\alpha) \cdot (X_{t-1} + b_{t-1}) & 0 \leq \alpha \leq 1 \\
-  b_{t} = \beta \cdot (X_{t}-X_{t-1}) + (1-\beta) \cdot b_{t-1} & 0 \leq \beta \leq 1 
+  S_{t} = \alpha \cdot x_{t} + (1-\alpha) \cdot (S_{t-1} + b_{t-1}) & ~~~0 < \alpha < 1 \\
+  b_{t} = \beta \cdot (S_{t}-S_{t-1}) + (1-\beta) \cdot b_{t-1}     & ~~~0 < \beta < 1 
 \label{eq:doubleSmoothing}
 \end{eqnarray}
-
-  with $0 < \alpha < 1$ and $0 < \beta < 1$
-  
+\vfill
+Remark:
   \begin{itemize}
     \item $ b_{t-1}$ in the first equation ensures estimates follow the trend
-    \item $X_{t}-X_{t-1}$ is positive or negative and is used to update the trend estimate
+    \item $S_{t}-S_{t-1}$ is used to update the trend estimate. It can be positive (rising trend) or negative (downward trend)
   \end{itemize}
 \end{frame}
 
@@ -443,9 +443,10 @@ The weight of older observations decrease exponentially
   Possible choices for bootstrapping:
   
 \begin{align*}
-  X_{1} & = x_{1} \\
+  S_{1} & = x_{1} \\
+  \\
   b_{1} & = x_{2} - x_{1} \\
-  b_{1} & = \frac{1}{3}\left[ (x_{2} - x_{1}) + (x_{3} - x_{2}) + (x_{4} - x_{3}) \right]\\
+  b_{1} & = \frac{ (x_{4} - x_{3}) + (x_{3} - x_{2}) + (x_{2} - x_{1}) }{3} = \frac{x_4-x_1}{3} \\
   b_{1} & = \frac{x_{n} - x_{1}}{n-1} \\
 \end{align*}
 
@@ -454,15 +455,16 @@ The weight of older observations decrease exponentially
 \subsubsection{Forecasting}
 
 \begin{frame}
-  \frametitle{Forecasting}
+  \frametitle{Double exponential smoothing}
+  \framesubtitle{Forecasting}
   
-  To determine a forecast $F(t+1)$ for time index $t+1$, we use:
+  To determine a forecast $F_{t+1}$ for time index $t+1$, we use:
 
-  \[ F(t+1) = s_t + b_t \]
+  \[ F_{t+1} = S_t + b_t \]
 
   or in general, for time index $t+m$:
 
-  \[ F(t+m) = s_t + m \cdot b_t \]
+  \[ F_{t+m} = S_t + m \cdot b_t \]
 \end{frame}
 
 \begin{frame}
@@ -487,9 +489,9 @@ The weight of older observations decrease exponentially
   \end{itemize}
 
 \begin{align*}
-  X_{t} &= \alpha \cdot \frac{x_{t}}{c_{t-L}} + (1-\alpha) \cdot (X_{t-1} + b_{t-1}) & \textnormal{Smoothing}\\
-  b_{t} &= \beta \cdot (X_{t} - X_{t-1}) + (1-\beta) \cdot b_{t-1} & \textnormal{Trend smoothing} \\
-  c_{t} &= \gamma \cdot \frac{x_{t}}{X_{t}} + (1-\gamma) \cdot c_{t-L} & \textnormal{Seasonal smoothing} \\
+  S_{t} &= \alpha \cdot \frac{x_{t}}{c_{t-L}} + (1-\alpha) \cdot (S_{t-1} + b_{t-1}) & \textnormal{Smoothing}\\
+  b_{t} &= \beta \cdot (S_{t} - S_{t-1}) + (1-\beta) \cdot b_{t-1} & \textnormal{Trend smoothing} \\
+  c_{t} &= \gamma \cdot \frac{x_{t}}{S_{t}} + (1-\gamma) \cdot c_{t-L} & \textnormal{Seasonal smoothing} \\
 \label{eq:HoltWinters}
 \end{align*}
 
@@ -497,12 +499,11 @@ The weight of older observations decrease exponentially
 
 \begin{frame}
   \frametitle{Triple exponential smoothing}
-
-  Forecast F(t+m):
-
-  \[ F(t+m) = (X_{t} + m \cdot b_{t}) \cdot c_{t-L+m} \]
-
-  For an implementation in Java, see \url{https://github.com/bertvv/wintersmethod}
+  \framesubtitle{Forecasting}
+  Forecast:
+  \[ F_{t+m} = (S_{t} + m \cdot b_{t}) \cdot c_{t-L+m} \]
+\vfill  
+  For an implementation in Java, see \url{https://github.com/bertvv/wintersmethod}\\
 \end{frame}
 
 \begin{frame}
