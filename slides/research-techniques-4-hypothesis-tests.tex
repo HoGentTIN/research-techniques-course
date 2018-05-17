@@ -210,16 +210,16 @@ Population standard deviation (assumed to be known): $\sigma = 0.55$
   
   \brightbox{The \textcolor{HoGentAccent6}{critical region} is the set of values of the test statistic for which we can reject the null hypothesis.}
   
-  We are looking for a \emph{critical value} $g$ for which:
-\[ P(M > g) = \alpha \]
+  We are looking for a \emph{critical (boundary) value} $b$ for which:
+\[ P(M > b) = \alpha \]
 
 Find a $z_\alpha$ for which:
 \[ P(Z > z_\alpha) = \alpha \]
-\[ \Rightarrow g = \mu + z_\alpha \cdot \frac{\sigma}{\sqrt{n}} \]
+\[ \Rightarrow b = \mu + z_\alpha \cdot \frac{\sigma}{\sqrt{n}} \]
  
   \begin{itemize}
-    \item $\overline{x}<g$: region of acceptance (don't reject $H_0$)
-    \item $\overline{x}>g$: critical region (reject $H_0$)
+    \item $\overline{x}<b$: region of acceptance (don't reject $H_0$)
+    \item $\overline{x}>b$: critical region (reject $H_0$)
   \end{itemize}
   
 \end{frame}
@@ -246,9 +246,9 @@ significance level $\alpha = 0.05$ $\Rightarrow$ critical value $z_{\alpha}$=1.6
 
 \begin{frame}
   \frametitle{Left tailed test}
-  In case of a \emph{left tailed} test, the critical value $g$ becomes:
-  \[ g = \mu - z_\alpha \cdot \frac{\sigma}{\sqrt{n}} \]
-  and $H_0$ will be rejected if $\overline{x}<g$
+  In case of a \emph{left tailed} test, the critical value $b$ becomes:
+  \[ b = \mu - z_\alpha \cdot \frac{\sigma}{\sqrt{n}} \]
+  and $H_0$ will be rejected if $\overline{x}<b$
 \end{frame}
 
 \begin{frame}
@@ -256,11 +256,11 @@ significance level $\alpha = 0.05$ $\Rightarrow$ critical value $z_{\alpha}$=1.6
   In case of a \emph{two tailed} test, we use the $z$-score for $\frac{\alpha}{2}$:
   \[ z_{\frac{\alpha}{2}} = qnorm(1-\frac{\alpha}{2})=qnorm(0.975) \]
 
-  We will use 2 critical values $g_1$ and $g_2$:
-  \[ g_1 = \mu - z_\frac{\alpha}{2} \cdot \frac{\sigma}{\sqrt{n}} \]
-  \[ g_2 = \mu + z_\frac{\alpha}{2} \cdot \frac{\sigma}{\sqrt{n}} \]
+  We will use 2 critical values $b_1$ and $b_2$:
+  \[ b_1 = \mu - z_\frac{\alpha}{2} \cdot \frac{\sigma}{\sqrt{n}} \]
+  \[ b_2 = \mu + z_\frac{\alpha}{2} \cdot \frac{\sigma}{\sqrt{n}} \]
 
-  And $H_0$ will now be rejected if $\overline{x}<g_1$ or $\overline{x}>g_2$
+  And $H_0$ will now be rejected if $\overline{x}<b_1$ or $\overline{x}>b_2$
 \end{frame}
 
 \begin{frame}
@@ -327,11 +327,11 @@ significance level $\alpha = 0.05$ $\Rightarrow$ critical value $z_{\alpha}$=1.6
   
     \begin{block}{Calculate the critical area}
     
-    \[ g = \mu - z \cdot \frac{\sigma}{\sqrt{n}} \]
-    \[ g = 27 - 1.645 \cdot \sqrt{\frac{55}{50}} \]
-    \[ g \approx 25.2749 \]
+    \[ b = \mu - z \cdot \frac{\sigma}{\sqrt{n}} \]
+    \[ b = 27 - 1.645 \cdot \sqrt{\frac{55}{50}} \]
+    \[ b \approx 25.2749 \]
   
-    We find that $\overline{x} < g$, so we can reject $H_{0}$
+    We find that $\overline{x} < b$, so we can reject $H_{0}$
   \end{block}
 
 \end{frame}
@@ -402,7 +402,7 @@ significance level $\alpha = 0.05$ $\Rightarrow$ critical value $z_{\alpha}$=1.6
   
   Determine critical value:
   
-  \[ g = \mu \pm t_\alpha \cdot \frac{s}{\sqrt{n}} \]
+  \[ b = \mu \pm t_\alpha \cdot \frac{s}{\sqrt{n}} \]
   
   \begin{itemize}
     \item $t$-value is derived from Student's $t$ distribution, depends on \emph{degrees of freedom}, $n-1$
