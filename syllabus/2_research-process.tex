@@ -1,0 +1,500 @@
+\chapter{The Research Process}
+\label{ch:onderzoeksproces}
+
+\section{Learning Goals}
+\label{sec:onderzoeksproces-leerdoelen}
+
+By the end of this chapter you must be able to:
+
+\begin{itemize}
+    \item Define the terms in this chapter;
+    \begin{itemize}
+        \item scientific method and empirical validation
+        \item fundamental and applied research
+        \item variable, value
+        \item measurement levels: nominal, ordinal, interval, ratio
+        \item population, sample, sampling frame
+        \item random vs.~ select sample
+        \item stratified sample
+        \item sampling errors: accidental/systematic, sampling/non-sampling error
+    \end{itemize}
+    \item Based on the description of a case or situation, determine whether or not they meet the characteristics of the scientific method or empirical validation;
+    \item Identify and explain scientific research objectives;
+    \item Identify and explain the different steps in a research process;
+    \item List the four measurement levels, formulate the characteristics of each and give an example;
+    \item Determine the measurement level for a given variable;
+    \item List the types of sampling errors, formulate the characteristics of each and give an example;
+    \item Based on the description of a sampling method:
+    \begin{itemize}
+        \item make a distinction between a random and a selective sampling method;
+        \item identify and explain the type of sampling error(s) made;
+        \item make proposals to improve the sampling method;
+    \end{itemize}
+\end{itemize}
+
+\section{The Scientific Method}
+\label{sec:onderzoeksproces-wetenschappelijke-methode}
+
+There are several ways to gather knowledge:
+
+\begin{enumerate}
+    \item The scientific method    
+    \item The non-scientific method
+\end{enumerate}
+
+\paragraph{Non-Scientific} Several versions of non-scientific reasoning exist:
+\begin{description}
+	\item [Authoritarian] Someone is considered to be an authority on a certain subject and to be trustworthy. Every claim this person makes is regarded as the truth.
+	\item [Deductive] Given a set of assumptions, logical reasoning leads to certain conclusions. This way, correct results \emph{may} be found, but these depend solely on the truth of the assumptions. These are not researched empirically, though.
+\end{description}
+
+\paragraph{Scientific} 
+A characteristic of the \textsl{scientific method} is \textbf{empirical validation}: based on experiments and direct observation. A claim is only valid if it corresponds to what is observed.
+
+\begin{exercise}
+Try to prove that pigs can fly, starting from both a non-scientific and a scientific reasoning.
+\end{exercise}
+
+Empirical research may have several goals:
+\begin{enumerate}
+    \item Exploration: Does something exist, or does a certain event occur?
+    \item Description: What are the properties of this event?
+    \item Prediction: Is a certain event related to another one and is it possible to predict it?
+    \item Verification: Is it possible to completely predict a certain event based on other observations?
+\end{enumerate}
+
+\paragraph{Research Objectives}
+
+Most research objectives can be categorised into:
+
+\begin{description}
+	\item[Generalisation] Often research is conducted on a limited \emph{sample} of the group that is being studied, the \emph{population}. If conclusions for this sample also hold for the population, we have found a valid generalisation.
+    \item[Specialisation] Applying general knowledge to specific instances or domains. A lot of applied research can be classified under this category.
+\end{description}
+
+Two types of generalisation are discerned:
+
+\begin{enumerate}
+	\item About a single phenomenon;
+	\item About relations between phenomena.
+\end{enumerate}
+
+There are three reasons why relations between phenomena are so important:
+
+\begin{enumerate}
+	\item A complete understanding of the phenomenon;
+	\item Relations may enable prediction;
+	\item Revealing causal relations.
+\end{enumerate}
+
+\paragraph {Fundamental vs. Applied Research}
+Depending on the research objective, we speak of either fundamental or applied research.
+
+\emph{Basic or Fundamental Research} is typically conducted at universities. Researchers try to expand the existing knowledge in their field. In computer science, for example, it can be about developing new algorithms. Fundamental research does not primarily take practical applications into account. You could say that fundamental research focuses primarily on developing new solution methods, and only afterwards on what problems can be solved more efficiently by using these methods. It is difficult to predict what impact (in particular added financial value) fundamental research results will have. In the best case it could change the world, in the worst there is no practical application.
+
+\emph{Applied research} starts with a concrete problem, typically in a business context. Researchers must first familiarize themselves with the specific problem domain. Then they can look for the most suitable method to solve that problem. They must therefore also be aware of the state-of-the-art within the relevant fundamental research. The added value of applied research is usually easier to measure, but the impact is limited to the company or organization for which the research was conducted.
+
+\section{Basic Concepts in Research}
+
+\paragraph{Levels of Measurement}
+
+In quantitative research, we try to comprehend a phenomenon by measuring it.
+
+\begin{definition}[Variable]
+     A general property of an object that allows us to distinguish it (e.g.~length, mass, etc.).
+\end{definition}
+
+\begin{definition}[Value]
+    The specific property of a specific object. The measurement assigned to a variable (e.g.~1.83m, 78kg, etc.).
+\end{definition}
+
+In statistical analysis, a classification of variable types is used that helps determining which statistical methods can be applied to the variable in question. A common taxonomy of the level of measurement is:
+
+\begin{description}
+	\item [Nominal] The variable can only take a limited number of values, and there is no logical order between them. Some examples include gender, nationality, biological species, etc.
+	\item [Ordinal] The variable can take a limited number of values, but there is a logical ordering between them. E.g.~Likert scale when measuring opinion (from \emph{strongly disagree} to \emph{strongly agree}), military rank, etc.
+	\item [Interval] A numerical variable that allows for the degree of difference between items, but not the ratio between them. There is no meaningful zero value. E.g.~temperature.
+	\item [Ratio] A numerical variable with a non-arbitrary zero point, that allows for meaningful ratios between values (e.g.~``twice as long,'' ``5\% higher,'' etc.). E.g.~mass, age, etc.
+\end{description}
+
+\begin{exercise}
+	Try to come up with other examples of all levels of measurement.
+\end{exercise}
+
+\paragraph{The Research Process}
+
+The research process can largely be subdivided into six main phases:
+
+\begin{enumerate}
+	\item Formulating the problem statement: what is the research question?
+	\item Defining the exact information need: what are the specific questions we need to ask, what do we need to measure?
+	\item Conducting the research: surveys, simulations, experiments, \dots
+	\item Processing result data, nowadays typically using statistical software
+	\item Analysing the results: applying statistical methods
+	\item Writing conclusions and reporting on the conducted research
+\end{enumerate}
+
+\begin{definition}[Causal Relation]
+    Two variables have a \emph{causal relation} when a change in the first variable reliably causes an associated change into the second one, provided that all other potential causes are eliminated. The first variable is called the \emph{independent variable}, the second the \emph{dependent variable}.
+\end{definition}
+
+A relation is not always readily apparent, and sometimes we must look further than the actual values of variables before drawing conclusions.
+
+\begin{example}
+    Inspect the values in Table~\ref{tab:pepsi-coca}, which are the result of a taste test. 
+    A hundred persons were asked to blindly taste a kind of cola and then to say whether they liked it or not.
+    
+    Initially, one could think that Pepsi is better because more people find it tasty. 
+    However, that would not be correct. We need to look at the relative numbers. 
+    Out of $70$ people that tasted Pepsi, $56$ found it tasty, or $80\%$ ($\frac{56}{70} = 0.8$). 
+    Out of the $30$ that tasted Coca cola, $24$ found it tasty, which also is $80\%$ ($\frac{24}{30} = 0.8$). 
+    Consequently, there is no difference between the results for Pepsi vs.~Coca Cola.
+\end{example}    
+
+\begin{table}
+    \centering
+    \begin{tabular}{l|cc|c}
+                  & Pepsi & Coca Cola & Total \\
+        \midrule
+        Like      &  56   &    24     &   80  \\
+        Dislike   &  14   &     6     &   20  \\
+        \midrule
+        Total     &  70   &    30     &  100
+    \end{tabular}
+    \caption[Results of a taste test between Pepsi and Coca Cola.]{Results of a taste test between Pepsi and Coca Cola. A hundred persons were asked to blindly taste a kind of cola (Pepsi or Coca Cola) and to say whether they liked it or not.}
+    \label{tab:pepsi-coca}
+\end{table}
+
+\section{Sample Testing}
+\label{sec:onderzoeksproces-steekproefonderzoek}
+
+A reason for conducting quantitative research is being able to make statements that give a representative picture of the reality. A sample is often used for this. A sample is a selection from a total population for the purpose of measuring certain characteristics of that population.
+
+\subsection{Sample and Population}
+
+\begin{definition}[Population]
+    A \index{population}\emph{population} is the collection of \textbf{all} elements (objects/people/\ldots) that you want to investigate.
+\end{definition}
+
+\begin{definition}[Sampling Frame]
+    A \index{sampling frame}\emph{sampling frame} is a list that includes all members of a population to be investigated.
+\end{definition}
+
+\begin{definition}[Sample]
+    A \index{sample}\emph{sample} is a subset of the population on which the researchers will effectively take measurements, or on which they will collect specific information.
+\end{definition}
+
+\begin{figure}
+    \begin{center}
+        \begin{tikzpicture}[scale=.55]
+        \fill[hgyellow] (2,2) ellipse (4cm and 2cm) ;
+        \fill[hgorange] (1.5,2) ellipse (2cm and 1cm) ;
+        \node[draw=none,minimum size=1cm,inner sep=0pt] at (3,0.5) {population};
+        \node[draw=none,minimum size=1cm,inner sep=0pt] at (2.5,2) {sample};
+        \end{tikzpicture}
+    \end{center}
+    \caption{Sample and Population}
+    \label{img:populatie-steekproef}
+\end{figure}
+
+There are a number of reasons for taking a sample:
+
+\begin{itemize}
+    \item Population is too large to collect the necessary information from the entire population.
+    \item Performing a measurement is too expensive, which would cause the experiment to become too costly.
+    \item When time is limited, it is often faster to investigate a subgroup.
+    \item Taking a sample is in any case easier than examining the entire population.
+    \item \dots
+\end{itemize}
+
+After taking the necessary measurements, or collecting the necessary information, the researchers will draw a conclusion. Under certain strict conditions, the results for the sample may also be generalized to the entire population. In other words, if you have taken the sample correctly, you can assume that what you observe within the sample will apply to the entire population. At a later point we will go into more detail about what these conditions are.
+
+\subsection{Choosing a Sampling Method}
+
+\subsubsection{Random Sample}
+
+There are different techniques for taking a sample from a population. In an ideal world, the best way to set up a sample is as follows:
+
+\begin{enumerate}
+    \item \textbf{Define the Population}: what is the precise target group? This is closely related to the research problem. This is a very important step that you should not go over lightly. It is important to describe the target group / population as good as possible. Elements of interest are, for example, social, demographic or physical characteristics such as gender, age, place of residence, \dots
+    \item \textbf{Determine the Sampling Frame}: if the target group is well defined, you can compile a list of all elements that are part of the population. That can be people, companies, products, etc., depending on the research question.
+    \item \textbf{Random sample}: the researchers then use the sampling frame to select a number of elements \textit{randomly} from which they will collect information.
+\end{enumerate}
+
+It is extremely important that the selection process is effectively random, that is, every element of the population has an equal chance of being selected. We will investigate the reason for this later in this course, when we talk about the Central Limit Theorem (cfr. Section~\ref{sec:centrale-limietstelling}).
+
+\begin{definition}[random sample]
+    We call a sample where every element has an equal chance of being selected \index{sample!random}\emph{random}.
+\end{definition}
+
+Unfortunately, it is often impractical to take a random sample. Sometimes it is practically impossible to set up a sampling frame, even if the target group is well defined.
+
+\begin{example}
+    Every year, the imec research center in Flanders conducts research regarding the use of media and technology. The population is defined as all Flemish people older than 16. 
+    
+    On January 1st 2019, the Flemish Region had approximately 6.6 million inhabitants, excluding Dutch speakers in Brussels~\autocite{Statbel2019}. You can imagine that as a research institution it is not possible to obtain a list with the names and contact details of all these residents. The government might be the only one able to compile such a list, but the law on the protection of privacy does not allow it to be shared with other organizations.
+    
+    For that reason imec is forced to use a different method to determine a sample.
+\end{example}
+
+\subsubsection{Stratified Samples}
+
+Sometimes the population is very diverse on a number of important characteristics. Therefore, the population as a whole is classified into a number of non-overlapping and homogeneous strata or classes, e.g. age category, gender, level of education, etc.
+
+\begin{definition}[Stratified Sample]
+    \index{sample!stratified}A \textbf{stratified} sample is a sample in which the proportion of each subpopulation in the sample is equal to the proportion of the subpopulation in the full population.
+\end{definition}
+
+\begin{example}
+    Table~\ref{tab:frequenties-populatie} illustrates the absolute number of men and women for different age groups of a population.
+    We cannot question all members of the population, but if we take a sample where the men/women and age category are relatively equivalent to the population, we have taken a stratified sample (cfr. Table~\ref{tab:frequenties-steekproef}).
+\end{example}
+
+\begin{table}
+    \centering
+    \begin{tabular}{l|cccc|c}
+        & \multicolumn{4}{c|}{\textbf{Age}} & \\
+        Gender & $\le 18$ & $]18,25]$ & $]25, 40]$ & $> 40$ & Total\\
+        \hline
+        Woman & 500 & 1500 & 1000 & 250 & 3250 \\
+        Man   & 400 & 1200 & 800 & 160 & 2560\\
+        \hline
+        Total & 900 & 2700 & 1800 & 410 & 5810
+    \end{tabular}
+    \caption{Number of men and women for different groups within a fictional population.}
+    \label{tab:frequenties-populatie}
+\end{table}
+
+\begin{table}
+    \centering
+    \begin{tabular}{l|cccc|c}
+        & \multicolumn{4}{c|}{\textbf{Age}} & \\
+        Gender & $\le 18$ & $]18,25]$ & $]25, 40]$ & $> 40$ & Total\\
+        \hline
+        Woman & 50 & 150 & 100 & 25 & 325 \\
+        Man   & 40 & 120 & 80 & 16 & 256\\
+        \hline
+        Total & 90 & 270 & 180 & 41 & 581
+    \end{tabular}
+    \caption{Sample stratified according to gender and age group.}
+    \label{tab:frequenties-steekproef}
+\end{table}
+
+The advantage of a stratified sample is that it is easier to check whether the sample is representative for the whole population. 
+Because in this example the researchers made a selection based on specific characteristics, the sample, however, cannot be regarded as random.
+
+After the sample is stratified, one must determine how th erequired number of objects or respondents must be chosen within each stratum. If possible, this should be done in a random manner.
+
+%\subsubsection{Andere steekproefmethoden}
+
+% TODO: Eventueel andere steekproefmethoden opsommen, bv. ahv
+% https://www.studiemeesters.nl/scriptie/steekproefmethode-steekproef-nemen-doe-je-zo/
+
+\subsection{Sampling Errors}
+
+No matter what you do to take the sample as good as possible, your measurements will almost always differ from what you would get if you examined the entire population. There will most likely be \emph{errors} in the results. These errors can be subdivided into the following categories:
+
+
+\paragraph{Accidental Sampling Errors}
+
+Even when using a a random sample, it is possible that measurements within the sample deviate from what would have been measured in the full population. These errors are called \emph{accidental sampling errors}, and this type of error is inevitable.
+
+%Ook als je een aselecte steekproef neemt, is het mogelijk dat bij de geselecteerde elementen de metingen afwijken van wat in de populatie als geheel zou gemeten worden. In dit geval spreken we van een \emph{toevallige steekproeffout}. Dit soort fouten is onvermijdelijk.
+
+\paragraph{Systematic Sampling Errors}
+
+A procedure in the sample that results in an error that has a systematic cause and is therefore not due to accidental effects.
+For example, by systematically questioning a privileged part of the population.
+If you conduct an online survey, you exclude anyone who does not have an internet connection.
+People will also be more likely to participate in a survey if they have a certain affinity with the subject.
+
+\begin{example}
+    Scientific literature, including top journals, regularly makes general statements about human psychology and behavior based on samples taken entirely from Western, highly educated, industrialized, rich and democratic societies. These properties (Western, Educated, Industrialized, Rich, en Democratic) are often abbreviated as \emph{WEIRD}.
+    
+    The scientists assume that these groups are representative of the global population as a whole, but that is a dangerous assumption.
+    A study by~\textcite{HenrichEtAl2010} concludes that there are important indications that the members of \emph{WEIRD} societies exhibit unusual qualities in relation to the world population as a whole, and can sometimes even be regarded as outliers!
+    
+    As a result, conclusions drawn from this type of research will be put at risk!
+\end{example}
+
+\paragraph{Accidental Non-Sampling Errors}
+
+A non-sampling error is not related to the way the sample is set up, but rather to the measurement or the collection of information within the sample.
+
+Examples of \emph{accidental non-sampling errors} include incorrectly ticked answers, either by accident or because the respondent interpreted the question differently than the researcher intended.
+
+These types of errors can be avoided by, for example, formulating the questions clearly and not misinterpretably, by designing and applying a strict measurement procedure, etc.
+
+\subsubsection{Systematic Non-Sampling Errors}
+
+For example, if respondents with a strong link to the survey are more likely to complete a questionnaire, you will get more positive answers - while they are not representative of the entire population.
+
+\section{Exercises}
+\label{sec:onderzoeksproces-oefeningen}
+
+\subsection{Research Process}
+
+In the Bachelor thesis by \textcite{Akin2016}, a comparative study between several persistence methods in Android is conducted. The abstract reads:
+
+\begin{displayquote}
+  Nowadays, there are a lot of applications, but which ones remain functional without an internet connection? At present, supporting offline operation of an application is no longer a luxury, but a must-have. In order to provide offline support in an application, a database is used. Because of this, databases are important within the it-industry.
+  
+  There are different types of databases, but which one to use? Which type is most suitable for a specific type of application? The choice of the database can have a major impact on several properties: performance, startup speed, CPU-usage, \ldots If the database negatively affects these metrics, this may have as consequence that the numver of users of the application will drop.
+  
+  To find an answer to the problem statement, the following partial questions with regards to the application were formulated:
+  
+  \begin{itemize}
+    \item What is the effect of the chosen database on startup speed? Does the database slow down the startup or does it not have any effect compared to other databases?
+    \item What is the effect of the chosen database on CPU usage? A higher CPU usage will lead to higher battery drain. Will the CPU usage be higher or lower compared to other databases?
+    \item What is the average speed of the chosen database when adding records to the database?
+  \end{itemize}
+  
+  The research was conducted on three different application profiles: a small amount of data (profile 1), a medium amount of data (profile 2), and a large amount of data (profile 3).
+  
+  The expectations were that Realm would always have been the better choice, except for application profile 1. In that case, SharedPrefecences should be the better choice, since it was specifically designed for small amounts of simple data.
+  
+  However, experiments yielded the following results:
+  
+  \begin{enumerate}
+    \item Small amount of data: Realm
+    \item Medium amount of data: Realm
+    \item Large amount of data: SQLite
+  \end{enumerate}
+
+\end{displayquote}
+
+\begin{exercise}
+  After reading the abstract, try to answer to the following questions as well as possible:
+  
+  \begin{enumerate}
+    \item What is the objective of this research?
+    \item Who is the intended target audience?
+    \item Are conclusions stated explicitly? 
+    \item How is the text structured? Does this match the prescribed structure discussed in class?
+  \end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+  Find the following components of an abstract in the text:
+  
+  \begin{itemize}
+    \item Context
+    \item Need
+    \item Task
+    \item Object
+    \item Result
+    \item Conclusion
+    \item Perspective
+  \end{itemize}
+
+  If you were unable to answer some of the questions above, try to formulate an answer if you were to be conducting this research yourself.
+\end{exercise}
+
+\subsection{Basic Concepts in Research}
+
+
+\begin{exercise}[Retrieval Practice: Measurement Levels]
+    \label{ex:retrieval-practice-meetniveaus}
+    Measurement levels are an important concept in descriptive statistics because most visualization and analysis techniques depend on this. It is therefore important to know and understand the different measurement levels.
+    
+    \emph{Retrieval practice} is a study technique that has been scientifically proven to be effective and which leads to improved learning outcomes~\parencite{RoedigerKarpicke2006}.
+    
+    \begin{enumerate}[label=\alph*.]
+        \item Take a blank sheet of paper and try to reproduce an overview of all measurement levels without consulting the syllabus or other sources. Describe the specific properties for each measurement level and give some examples.
+        
+        \textbf{Take enough time for this} (e.g. at least 5 to 10 minutes). Do not immediately look into the syllabus, but try to remember as much as possible.
+        
+        When you are done with this, indicate everything that you have noted so far with a (e.g. green) marker.
+        
+        \item If possible, consult with a fellow student and try to complete the overview that you have each made. Mark all additions with a marker in a different color (e.g. yellow).
+        
+        \item Finally verify your notes using the syllabus and correct/complete incorrect or missing information if necessary. Indicate this in a third color (e.g. orange or red).
+    \end{enumerate}
+    
+    Thanks to the highlighted colors in your notes, you now have an overview of what you already know and what you need to study. 
+    Repeat this exercise a number of times during the course of the semester. 
+    Never first look at the result of a previous attempt, but immediately try to retrieve as much information as possible from your memory on a blank sheet. Compare the results afterwards. 
+    You should notice that over time, you will mark more and more in green and you will use less red or even none at all.
+\end{exercise}
+
+Een data frame of tibble in R kan je altijd beschouwen als het resultaat van een \textit{steekproef}. Elke rij is een \textit{observatie}\index{observatie} en elke kolom een \textit{variabele}\index{variabele}. Je kan een variabele selecteren met de notatie \texttt{dataset\$kolomnaam}. Observaties kan je selecteren op rijnummer (bv. \texttt{dataset[1,]}) of a.h.v. een eigenschap (bv. \verb|dataset[dataset$a == "yes",]|)
+
+\begin{exercise}
+    Importeer de dataset van het onderzoek van~\textcite{Akin2016} in R. Je vindt deze terug in de Github repository voor deze cursus, onder de directory \texttt{oefeningen/datasets/} in het bestand \texttt{android\_persistence\_cpu.csv}.
+    
+    \begin{enumerate}
+        \item Som de verschillende variabelen op in deze dataset
+        \item Gebruik de functie \texttt{glimpse()} en \texttt{View()} om de inhoud van de dataset te bekijken.
+        \item Gebruik de functie \texttt{unique()} om de verschillende in de steekproef voorkomende waarden van elke variabele op te vragen.
+        \item Bepaal voor elke variabele het meetniveau. De resultaten uit de vorige stappen kunnen hier bij helpen!
+        \item Vraag de waarden in de kolom \texttt{price} op
+        \item Vraag een lijst op van computers met een CD-ROM station (variabele \texttt{cd} is \texttt{yes}).
+    \end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+    Importeer de dataset \texttt{Aardbevingen.csv}. Wat is het meetniveau van volgende variabelen?
+    
+    \begin{enumerate}
+        \item Latitude en Longitude
+        \item Type
+        \item Time
+        \item Depth
+    \end{enumerate}
+    
+    Merk op dat in deze dataset, de kolom ID niet echt als een variabele kan beschouwd worden. Deze dient enkel om een unieke naam te geven aan elke observatie in de steekproef, maar bevat geen eigenschap.
+\end{exercise}
+
+\subsection{Sampling Methods and Sampling Errors}
+
+\begin{exercise}
+    Een onderzoeker wil zo correct mogelijk de consumptiegewoontes van de inwoners van 18 jaar en ouder in een bepaalde gemeente met 3 woonkernen onderzoeken.  Hij onderscheidt 4 leeftijdsgroepen zodat hij uiteindelijk aan 12 deelgroepen komt. Hij vraagt de procentuele samenstelling van de bevolking op in de gemeente en berekent daaruit hoeveel bevragingen hij per deelgroep moet uitvoeren. Dit noemen we een \emph{quotasteekproef}.
+    
+    Vragen:
+    \begin{enumerate}[label=\alph*.]
+        \item Is dit een aselecte steekproef? Waarom (niet)?
+        \item Is de steekproef representatief voor de populatie?
+        \item Welke soort fouten kunnen hier gemaakt worden?
+        \item Wat zijn de voor- en nadelen?
+        \item Welke andere parameters zouden kunnen gebruikt worden bij het opsplitsen in deelgroepen?
+    \end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+    Een onderzoeksbureau wil het aankoopgedrag van wasproducten nagaan. Men beslist een aantal vragen te stellen aan vrouwen tussen de 25 en 55 jaar omdat men ervan uitgaat dat de relevante populatie uit deze categorie consumenten bestaat.
+    
+    \begin{enumerate}[label=\alph*.]
+        \item Is dit een aselecte steekproef? Waarom (niet)?
+        \item Welke fout wordt hier gemaakt?
+        \item Hoe groot is de impact van deze fout?
+    \end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+    De vakbonden willen een onderzoek doen naar de werkomstandigheden van de werknemers van een IT-bedrijf. Dat bedrijf heeft in totaal 3200 werknemers die verdeeld zijn over 12 vestigingen. Omdat het aantal werknemers groot is worden aselect 40 werknemers gekozen per vestiging. De steekproefomvang is dus $n = 480$.
+    
+    \begin{enumerate}[label=\alph*.]
+        \item Is dit een aselecte steekproef? Waarom (niet)?
+        \item Welke fout wordt hier gemaakt?
+        \item Wat is de impact van deze fout?
+        \item In welke situatie zou deze steekproefmethode toch representatief kunnen zijn voor de populatie?
+    \end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+    We willen een onderzoek voeren naar onze studenten aan de Hogeschool Gent, faculteit Bedrijf en Organisatie. Hiervoor worden de aanwezige studenten in een bepaald opleidingsonderdeel bevraagd.
+    
+    \begin{enumerate}[label=\alph*.]
+        \item Is dit een aselecte steekproef? Waarom (niet)?
+        \item Welke fout wordt hier gemaakt?
+        \item Stel dat de aanwezige docent in de perceptie van de studenten zeer streng is en tijdens de bevraging rondloopt. Welk bezwaar kan hier gegeven worden? Meer bepaald, welke fout kan op deze manier ge\"introduceerd worden?
+        \item Stel dat de bevraging niet tijdens een les, maar na een examen gehouden wordt. Welke fout kan er dan gemaakt worden?
+    \end{enumerate}
+\end{exercise}
+
+\begin{exercise}[Retrieval practice: steekproeffouten]
+    Gebruik de procedure voor retrieval practice uit oefening~\ref{ex:retrieval-practice-meetniveaus} om de soorten \emph{steekproeffouten} in te studeren.
+    
+    Geef een overzicht van de verschillende soorten steekproeffouten, beschrijf ze en geef telkens een voorbeeld.
+\end{exercise}
+

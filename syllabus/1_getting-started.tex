@@ -1,0 +1,661 @@
+\chapter{Getting started}
+\label{ch:getting-started}
+
+\section{Study guide}
+
+The study guide provides an overview of the most important information of this course.
+This includes the objectives, study materials, a weekly planning and learning instructions.
+Please take your time to read everything thoroughly!
+
+\subsection{Purpose and location of the course in the curriculum}
+
+This course in an introduction to the nowadays popular field of \emph{data science}. The aim of this course if to familiarize you with the correct methods for the collection, processing and analysis of numerical data and to write a substantiated research report about it.
+
+This course also serves as a preparation for the bachelor's thesis, where you will have to put these techniques into practice.
+But even after graduating, the knowledge gained in this course remains valuable. 
+Successful companies make decisions, not based on gut feeling or intuition, but by collecting and analyzing data. 
+Based on the techniques explained in this syllabus, you will have sufficient background to answer questions such as:
+
+\begin{itemize}
+    \item Is a (web) application fast enough for the users? Is the user experience consistent, or is there a great variation in response times?
+    \item When comparing two systems, be it software or hardware, which one is the most efficient? Is the difference between both systems significant, or can differences in the measurements be due to chance or other factors?
+    \item When should purchases of new equipment (e.g. hard drives, servers, memory, etc.) be scheduled based on historical usage data?
+\end{itemize}
+
+The competencies acquired in this course also have a useful purpose outside of computer science. 
+After all, you learn to deal critically with data and information, and how to correctly analyze and interpret them. 
+In the political and social debate, deliberate assertions are made that are demonstrably wrong or that try to "reverse the truth." 
+The term that often appears in this context is "Fake News." 
+One way to guard yourself against this is to deal critically with the information that is disseminated. 
+As a result, the underlying reason for this disinformation can often be made clear.
+
+Statistics and data science are therefore indispensable for (i) analyzing data correctly and formulating substantiated conclusions and (ii) conducting research in which you can send substantiated conclusions to the world.
+
+\subsection{Objectives}
+
+\begin{itemize}
+    \item Is able to name and explain concepts, formulas, theorems  and their elaboration from descriptive and inductive statistics
+    \item Is able to correctly apply formulas and theorems from descriptive and inductive statistics to research questions
+    \item Is able to analyse data using statistical software
+    \item Is able to write a structured scientific document including references using \LaTeX{}
+    \item Is able to compare the scientific method with non-scientific methods and is able to name advantages and disadvantages
+\end{itemize}
+
+These objectives can also be found in the official study guide.
+
+\subsection{Contents}
+
+In the remainder of this chapter you will find instructions for installing the required software, and a brief introduction to working with R, a programming language for data analysis.
+
+Chapter~\ref{ch:onderzoeksproces} provides an introduction to the steps of a typical research process and introduces basic concepts of data analysis, such as sampling a population, variables and measurement levels.
+
+Chapter~\ref{ch:analyze1var} deals with the analysis of a single variable, focusing on center and distribution dimensions, together with suitable visualization techniques for each variable type.
+
+Chapter~\ref {ch:central limit theorem} provides a brief summary about probability distributions, after which the central limit theorem is discussed with an immediate application using confidence intervals.
+
+Chapter~\ref{ch:toetsingsprocedures} introduces the general method for conducting statistical tests, and specifically with tests for statements about the average of a population: the $ z $ test and the $ t $ test.
+
+Whereas the previous chapters only considered a single separate variable, Chapter~\ref{ch: analyze2var} examines different techniques for making connections between two variables, depending on the variable type.
+
+Chapter~\ref{ch: time series} provides an introduction to analyzing the evolution of a variable over time, using mathematical models that also allow for making predictions under certain conditions.
+
+\subsection{Study Material}
+
+The main study material for this course is this syllabus, which also includes some exercise assignments. 
+This course will be available as PDF on Chamilo, as well as a PDF printout of the slides used during the lectures.
+
+In addition, students will get access to a GitHub repository containing the source code of:
+
+\begin{itemize}
+    \item This syllabus,
+    \item The slides used during the lectures,
+    \item Source code examples in R for all techniques covered in the course.
+\end{itemize}
+
+\textbf{Errata and changes} to this syllabus will be directly available on GitHub.
+The PDF printouts available on Chamilo will not necessarily be up to date.
+However, students can generate the latest versions of all documents themselves using \LaTeX{}.
+
+All software required for this course is free/open source.
+Installation instructions can be found in Section~\ref{sec:installatie-software}.
+
+\subsection{Teaching Methods}
+
+This course is scheduled for three hours a week, which includes one hour of classroom instructions and lecture, and two hours of exercises and group work.
+
+\subsection{Study Tips}
+
+The course \emph{Research Techniques} is experienced as difficult by many students. That is understandable, because the subject is beyond the comfort zone of the average computer science student and we all know that math subjects are not among the most popular.
+
+There are two ways to deal with this. You could take the path of least resistance: concentrate on the courses you like most first, and go through this syllabus one day before the exam, hoping that you will gather enough points to pass. However, experience shows that this strategy is unsuccessful, as illustrated by the low pass rate of the first exam session (in 2016-2017, pass rate was around 35\% for regular students during the first exam session). In the second session, we often see a much higher pass rate, which in our opinion suggests that if you make sufficient effort for this course, it is certainly feasible.
+
+Some tips to help you succeed for this course on the first try:
+
+\begin{itemize}
+    \item Do not skip the lectures, and \emph{take notes actively}~\parencite{Lundin2020}.
+    \item Also spend some time on this subject \emph{outside of contact hours}. Repeat the covered theory and complete unfinished exercises.
+    Write down things that you do not understand or where you are stuck, and ask your question during the next lecture.
+    \item Use good \emph{learning techniques}. A good overview of learning techniques whose effect has been scientifically proved can be found on the website of \emph{The Learning Scientists}\footnote{\url{http://www.learningscientists.org/}}.
+    \begin{itemize}
+        \item \emph{Spaced practice:} When you cram, you study for a long, intense period of time close to an exam. When you space your learning, you take that same amount of study time, and spread it out across a much longer period of time.
+        This method works best if you block a fixed moment in your weekly agenda, at least once per week.
+        \item \emph{Retrieval practice:} Take an empty sheet of paper, and try to write down everything you know about a certain subject,
+        without looking at your syllabus or other notes. Afterwards, compare your notes with the information in the syllabus and other notes you took during the lectures.
+        \item \emph{Elaboration:} Ask yourself how certain things (e.g. formulas, testing procedures \ldots) work and why. Consult with your fellow students and ask your lecturer for more explanation if required. Make links between different topics in the course (e.g. compare assessment procedures).
+        \item \emph{Interleaving:} Alternate topics while studying.
+        \item Use \emph{concrete examples} to understand abstract ideas.
+        Some examples are already provided throughout this syllabus, but try to think of others yourself. Consult with fellow students and ask for feedback from your lecturer if needed.
+        
+        \item \emph{Dual coding:} Combine words and images, try to visualize the material you are studying.
+    \end{itemize}
+\end{itemize}
+
+Ultimately it comes down to investing enough time and effort to study for this course.
+
+\subsection{Study Guidance and Planning}
+
+Students following a regular program can ask questions during the lectures or using the forum on Chamilo.
+
+%In Tabel~\ref{tab:weekplanning} vind je een overzicht van de lesplanning voor het dagonderwijs die ook als leidraad kan dienen voor de studieplanning van studenten afstandsleren.
+
+%\begin{table}
+%  \begin{center}
+%    \begin{tabular}{cll}
+%       \hline
+%       \textbf{Week} & \textbf{Theorie}     & \textbf{Oefeningen}            \\
+%       \hline
+%       1  & Intro, Onderzoeksproces         & Software installeren, \LaTeX{} \\
+%       2  & Analyse van 1 variabele         & Wetenschappelijk schrijven     \\
+%       3  & Steekproefonderzoek             & Analyse van 1 variabele        \\
+%       4  & Steekproefonderzoek             & Steekproefonderzoek            \\
+%       5  & Toetsingsprocedures ($z$-toets) & Steekproefonderzoek            \\
+%       6  & Toetsingsprocedures ($t$-toets) & Toetsingsprocedures            \\
+%       7  & Analyse van 2 variabelen        & Toetsingsprocedures            \\
+%      --- & \textbf{Paasvakantie}           & ---                            \\
+%       8  & Analyse van 2 variabelen        & Analyse van 2 variabelen       \\
+%       9  & $\chi^2$-toets                  & Analyse van 2 variabelen       \\
+%      10  & Tijdreeksen                     & $\chi^2$-toets                 \\
+%      11  & Toelichting bachelorproef       & Tijdreeksen                    \\
+%      12  & Herhaling                       & Herhaling                      \\
+%      \hline
+%    \end{tabular}
+%    \caption[Weekplanning]{Weekplanning van de cursus.}
+%    \label{tab:weekplanning}
+%  \end{center}
+%\end{table}
+
+\subsection{Evaluation}
+
+\begin{itemize}
+    \item First exam chance:
+    \begin{itemize}
+        \item 70\% periodic evaluation: written examination, consisting of a closed book part (theory) and a part with preparation on PC (exercises).
+        \item 30\% non-periodic evaluation, group work: conducting a mini-group research consisting of a literature study, setting up a reproducible experiment, collecting measurement data and analyzing it statistically, and writing a report about it.
+    \end{itemize}
+    \item Re-sit Exam:
+    \begin{itemize}
+        \item 70\% periodic evaluation: written examination, consisting of a closed book part (theory) and a part with preparation on PC (exercises).
+        \item 30\% non-periodic evaluation: no second exam opportunity will be organized. If a student did not pass for the first exam opportunity, the assessment for this evaluation form or the absence for this evaluation form will remain valid for the second exam opportunity.
+    \end{itemize}
+\end{itemize}
+
+\section{Software installation}
+\label{sec:installatie-software}
+
+For this course you will be using different software packages. In this section, you can find some installation instructions and how to get started.
+
+\begin{itemize}
+    \item Git client (version-control system);
+    \item \LaTeX{} compiler;
+    \item \LaTeX{} editor;
+    \item Jabref (for managing bibtex (.bib) databases);
+    \item R (free software environment for statistical computing and graphics);
+    \item Rstudio (IDE for R);
+    \item HOGENT-specific fonts.
+\end{itemize}
+
+Some of these applications take up a lot of disk space, so make sure to have enough free space.
+
+Many other courses on statistics or research techniques often use commercial software: SPSS or SAS for data analysis, MS Office for the layout of documents. This course explicitly chooses to use open source or free software. The main advantage of this is that you can still use the software after you graduate, without you or your company/organization having to purchase software licenses.
+
+Moreover, the tools that we will use are at least as good as their commercial counterparts. R, a programming language for statistical analysis, is used worldwide in both academic and professional contexts. Therefore, it is most likely that you will encounter it again during your professional career, or that you will be able to use it to solve data-related problems. Feedback received from former students confirms this.
+
+\LaTeX{} on the other hand is a markup language and text-setting system for the professional design of documents. The aim is that the author can focus on the logical structure and contents of a text, and that the design part is taken over by the software. Learning the markup language requires some effort, but it is an investment that pays off if you want to prepare a long document (such as a thesis) in a professional, tight way. In the past, few Bachelor's theses have been submitted that were prepared using MS Word and that had a sufficiently good layout. It may seem much easier to write a text in Word, but it is almost impossible to achieve a consistent and professional-looking layout when writing a long document.
+
+\subsection{Windows}
+
+Given the fairly large amount of applications, Windows users should use the Chocolatey package manager\footnote{\url{https://chocolatey.org/}} instead of downloading and installing everything manually.
+
+After installing Chocolatey\footnote{\url{https://chocolatey.org/install}}, run the following commands in a CMD or PowerShell terminal as Administrator:
+
+\begin{verbatim}
+choco install -y git
+choco install -y miktex
+choco install -y texstudio
+choco install -y JabRef
+choco install -y r.project
+choco install -y r.studio
+\end{verbatim}
+
+In case you wants to use the ``classical'' method, you can find the individual software packages here:
+
+\begin{itemize}
+    \item Git client: \url{https://git-scm.com/download/win}
+    \item \LaTeX{} compiler: \url{https://miktex.org/download}
+    \item TeXStudio: \url{http://www.texstudio.org/}
+    \item Jabref: \url{https://www.fosshub.com/JabRef.html}
+    \item R: \url{https://lib.ugent.be/CRAN/}
+    \item Rstudio: \url{https://www.rstudio.com/products/rstudio/download/#download}
+\end{itemize}
+
+\subsection{macOS}
+
+macOS users should install the necessary software using the Homebrew\footnote{\url{https://brew.sh/}} package manager\footnote{\textbf{Note!} This method has not yet been tested. Feedback from macOS users is welcome!}:
+
+\begin{verbatim}
+brew install git
+brew cask install mactex
+brew cask install texstudio
+brew cask install jabref
+brew install Caskroom/cask/xquartz
+brew install --with-x11 r
+brew cask install --appdir=/Applications rstudio
+\end{verbatim}
+
+In case you wants to install everything manually, you can find the individual software packages here:
+
+\begin{itemize}
+    \item Git client: \url{https://git-scm.com/download/mac}
+    \item \LaTeX{} compiler: \url{https://www.tug.org/mactex/mactex-download.html}
+    \item TeXStudio: \url{http://www.texstudio.org/}
+    \item Jabref: \url{https://www.fosshub.com/JabRef.html}
+    \item R: \url{https://lib.ugent.be/CRAN/}
+    \item Rstudio: \url{https://www.rstudio.com/products/rstudio/download/#download}
+\end{itemize}
+
+
+\subsection{Linux}
+\label{ssec:installatie-linux}
+
+Apart from RStudio, all required software packages are available in the repositories of most common Linux distributions. Below we provide command-line instructions for Ubuntu (Xenial / 16.04) and Debian 9 on the one hand, and Fedora on the other.
+
+\paragraph{Ubuntu/Debian} 
+
+First check the URL of the latest version of RStudio via the website. There is a separate version for Debian users, so it is best to copy the URL of the link from the website instead of using the one provided below.
+
+\begin{verbatim}
+sudo apt install biber git jabref r-base texlive-bibtex-extra \
+texlive-extra-utils texlive-fonts-recommended texlive-lang-european \
+texlive-latex-base texlive-latex-extra texlive-latex-recommended \
+texlive-pictures texstudio ttf-mscorefonts
+wget https://download1.rstudio.org/desktop/bionic/amd64/rstudio-1.2.5033-amd64.deb
+sudo dpkg -i ./rstudio-1.2.5033-amd64.deb
+\end{verbatim}
+
+\paragraph{Fedora}
+
+First check the link to the latest version of RStudio via the website. This is one long command:
+
+\begin{verbatim}
+sudo dnf install git texstudio R \
+java-1.8.0-openjdk-openjfx texlive-collection-latex \
+texlive-texliveonfly texlive-babel-dutch \
+msttcore-fonts-installer.noarch \
+https://download1.rstudio.org/desktop/fedora28/x86_64/rstudio-1.2.5033-x86_64.rpm
+\end{verbatim}
+
+It is also possible to install JabRef from the Fedora package repository, but then you get an outdated version. In this case, it is better to download the ``Platform Independent Runnable Jar'' from the project website\footnote{\url{https://jabref.org/}}. After downloading, you can start the application from a shell using the following command (in this example using version 4.3.1):
+
+\begin{verbatim}
+java -jar JabRef-4.3.1.jar
+\end{verbatim}
+
+\section{Configuration}
+
+\subsection{Git, GitHub}
+
+You may have already configured Git for some of your other courses. Check again if necessary! If everything is ok, you can skip this section.
+
+\emph{We strongly recommend using Git via the command line.} 
+This way you get the best insight into how it all works. The command \texttt{git status} provides a good overview of the state of your local repository at any time, and indicates what commands you can use to take a step further or undo the last step. 
+For those who prefer a GUI, we recommend GitKraken~\footnote{\url{https://www.gitkraken.com/}}.
+
+If you do not have a GitHub account yet, choose a username that you can still use after graduation (so e.g. not your HOGENT login). 
+Chances are high that you will still use GitHub during your career. However, make sure to link your HOGENT email address to your GitHub account (you can register multiple addresses). By doing so, you can claim the GitHub Student Developer Pack\footnote{\url{https://education.github.com/pack}}, which gives you free access to a number of premium products and services.
+
+Windows users perform the following instructions using Git Bash, macOS and Linux users via the default (Bash) terminal.
+
+\begin{verbatim}
+git config --global user.name 'Pieter Stevens'
+git config --global user.email 'pieter.stevens.u12345@student.hogent.be'
+git config --global push.default simple
+\end{verbatim}
+
+Also create an SSH key to simplify synchronizing with GitHub. By doing so, you no longer need to provide a password when pulling/pushing from/to a private repository. You can create an SSH key using the following command:
+
+\begin{verbatim}
+ssh-keygen
+\end{verbatim}
+
+Follow the instructions on the command line, just press ENTER when you are asked to enter a pass phrase.
+
+The home directory of your user account (e.g. \verb|c:\Users\Pieter| on Windows, \verb|/Users/pieter| on macOS, \verb|/home/pieter| on Linux) now contains a directory \verb|.ssh/| with two files:  \verb|id_rsa| (your private key) and \verb|id_rsa.pub| (your public key).
+Open the latter one with a text editor and copy the entire content of the file to the clipboard. Then go to your GitHub profile and choose SSH and GPG keys in the menu on the left. Click in the top right on the green button with ``New SSH Key'' and paste the contents of your public key file into the ``Key'' field. Confirm your choice.
+
+Now check if you can download the code for the Research Techniques course without having to enter your account details. 
+In the Bash shell, navigate to the directory where you want to download the project locally and execute:
+
+\begin{verbatim}
+git clone git@github.com:HoGentTIN/research-techniques-course.git 
+\end{verbatim}
+
+If this succeeds, a directory has now been created with the same name as the repository. You may move the directory and even change the name if desired. Execute the \texttt{git pull} command within this directory regularly during the semester, to always have the latest version of the course material. Please do not modify any files within this repository yourself, as this will lead to conflicts.
+
+\subsection{Fonts}
+
+Some documents, e.g. the slides, are using non-default fonts. Therefore, if you want to compile a PDF of the slides, you will have to install these fonts.
+
+Linux users should also download the well-known Microsoft fonts (Arial, Courier, Times New Roman, etc.). If you have followed the installation instructions in Section~\ref{ssec:installatie-linux}, this should already be OK.
+
+The required fonts are:
+
+\begin{itemize}
+    \item Montserrat: \url{https://fonts.google.com/specimen/Montserrat}
+    \item Code Pro Black: o.a. via \url{https://www.wfonts.com/font/code-pro-black}
+    \item Fira Math: \url{https://github.com/firamath/firamath}
+    \item Inconsolata: \url{https://fonts.google.com/specimen/Inconsolata}
+\end{itemize}
+
+You can download the Google Fonts as follows: follow the link to the font, click on ``Select this font'' and then on the bottom right of the black bar with the text ``1 Family selected''. In the pop-up you will see a download icon at the top right. Click on this icon to download the font.
+
+\subsection{TeXstudio}
+
+Check these settings using the menu item \emph{Options > Configure TeXstudio}:
+
+\begin{itemize}
+    \item Build:
+    \begin{itemize}
+        \item Default Compiler: XeLaTeX
+        \item Default Bibliography tool: Biber
+    \end{itemize}
+    \item Commands:
+    \begin{itemize}
+        \item \texttt{xelatex -synctex=1 -interaction=nonstopmode  -shell-escape \%.tex}
+        
+        (add the option \texttt{-shell-escape})
+    \end{itemize}
+    \item Editor:
+    \begin{itemize}
+        \item Indentation mode: Indent and Unindent Automatically
+        \item Replace Indentation Tab by Spaces: Enable this
+        \item Replace Tab in Text by spaces: Enable this
+        \item Replace Double Quotes: English Quotes: \verb|``''|
+    \end{itemize}
+    
+\end{itemize}
+
+To test whether TeXstudio works properly, you can open the file \texttt{syllabus/research-techniques.tex}. Select \emph{Tools > Build \& View} (or press F5) to compile a PDF of the syllabus. Check whether there is a bibliography and/or index at the end of the document. If not, follow these steps:
+
+\begin{enumerate}
+    \item Select \emph{Tools > Index} to generate the index;
+    \item Select \emph{Tools > Bibliography} (or press F8) to generate the bibliography;
+    \item Select \emph{Tools > Index} (no shortcut) to generate the search index;
+    \item Run \emph{Build \& View} (F5) again.
+\end{enumerate}
+
+Many functionalities of \LaTeX{} are located in separate packages that are not necessarily installed by default.
+The first time you compile a file, it is therefore possible that additional packages must be downloaded.
+In this case, MiK\TeX{} will show a pop-up to ask for permission, confirm this. 
+On Linux it is possible that you have to install these packages manually. 
+Compiling can easily take a few minutes the first time, without providing feedback about what is happening. Please be patient!
+
+If errors occur during compilation, you can get an overview of the error messages at the bottom of the Log tab.
+
+\subsection{JabRef}
+
+JabRef\footnote{\url{http://www.jabref.org/}} is a GUI for editing and managing Bib\TeX{} files, a type of database for sources from scientific or professional literature to be used within a \LaTeX{} document.
+
+Select \emph{Options > Preferences > General} in the menu, and at the bottom set ``Default bibliography mode'' to ``biblatex''. This makes the file format of the bibliographic database compatible with that of the syllabus and the offered \LaTeX{} template for the bachelor's thesis.
+
+In the \emph{Preferences} window, choose the category \emph{File} and specify a directory for storing PDFs of the found sources under \emph{Main file directory}. It is very interesting to download and keep track of all found articles in this directory. It is even better to use the Bib\TeX{} key as the name of the file (typically name of the first author + year, eg. \texttt{Knuth1998.pdf}). You can then easily open the file from within JabRef.
+
+For more detailed information about maintaining bibliographic references, see the bachelor thesis guide~\autocite{VanVreckem2017}.
+
+
+\section{Introduction to R}
+
+R is a software package for editing, analyzing and visualizing data. It includes (among others):
+
+\begin{enumerate}
+    \item an effective data management and storage facility,
+    \item a series of operators for array calculations, in particular matrices,
+    \item a large collection of tools for data analysis,
+    \item graphical functions for data analysis and display and
+    \item a well-developed, simple and effective programming language (called 'S').
+\end{enumerate}
+
+R has a built-in help function that is similar to that of UNIX man-pages. For more information about a specific function, e.g. \texttt{solve}, you can invoke the following command:
+\begin{lstlisting}
+> help (solve)
+\end{lstlisting}
+
+As an alternative, you can also just type the command with a question mark in front:
+\begin{lstlisting}
+> ?solve
+\end{lstlisting}
+
+
+\subsection{Save commands and execute output}
+
+If the commands are stored in an external file, e.g. \texttt{commands.R} in the working directory, they can be executed at any time in an R session using the command:
+\begin{lstlisting}
+> source ("commands.R")
+\end{lstlisting}
+
+The \texttt{sink} command will redirect all output from the console to a given external file, e.g. \texttt{record.lis}:
+\begin{lstlisting}
+> sink ("record.lis")
+\end{lstlisting}
+
+The following command restores output to the console:
+\begin{lstlisting}
+> sink()
+\end{lstlisting}
+
+\subsection{R environment and workspace}
+
+The entities that R creates and manipulates are known as objects. These can be variables, arrays of digits, sequences, functions, or more general structures built using these components. During an R session, objects are created and stored by name.
+
+The R command:
+\begin{lstlisting}
+> objects()
+\end{lstlisting}
+returns a list of all objects that have been created in the workspace so far.
+The collection of objects that are currently stored is called the workspace.
+
+To remove objects from the workspace, you can use \texttt{rm}:
+\begin{lstlisting}
+> rm (x, y, z, inkt, junk, temp, foo, bar)
+\end{lstlisting}
+
+All objects created during an R session can be permanently saved to a file for use in future sessions. When this option is activated, the objects are written to a file with extension \texttt{.RData}.
+
+In the remainder of this chapter we investigate how you can define a dataset in R. We will focus on only two commands. The first command is used for assigning data, the second is for reading a file. There are multiple ways to read data in an R session, but we focus on just two to keep it simple.
+
+
+\subsection{Assignment}
+
+The most direct way to save a list of numbers is by using the  \texttt{c}-command (C is an abbreviation for combining).
+The idea is that a list of numbers is stored under a certain name, and the name is used to refer to the data.
+A list is specified with the \texttt{c} command, and the assignment is indicated by the symbols "<-".
+Another term that is often used to describe the list of numbers is a \texttt{vector}.
+
+The digits within the \texttt{c} command are separated by commas. As an example we can create a new variable named "\texttt{x}":
+\begin{lstlisting}
+> x <- c(10.4, 5.6, 3.1, 6.4, 21.7)
+\end{lstlisting}
+
+When executing this command, you should not see any output except for a new command line. The command makes a list of numbers called "x". To look at the elements in x, just type his name and press the enter key.
+
+To work with one of the numbers, you can access the variable and then write square brackets to indicate the number you want to consider:
+\begin{lstlisting}
+> x[2]
+[1] 5.6
+\end{lstlisting}
+
+\subsection{Reading a csv file}
+
+Often, data is available as a csv file (csv = comma separated values).
+In a csv file, each line contains a row of values that can be numbers or letters, and each value is separated by a comma. 
+In general, the first row contains a list of labels. 
+The idea is that the labels in the top row are used to refer to the different variables per row.
+
+The command to read the data file is \texttt{read.csv}. We must provide at least one argument to this command.
+
+
+\begin{exercise}
+    Use the help command  check what the parameters of the command are. Then try reading the file \texttt{computers.csv}.
+\end{exercise}
+
+Using \texttt{dir()}, \texttt{getwd()} and \texttt{setwd(``DIRNAME'')} you should be able to navigate to the correct directory. The \texttt{dir()} command lists the files in the current working directory, and the \texttt{getwd()} (get working directory) command returns the full path of the current working directory.
+
+\begin{lstlisting}[breaklines=true]
+> dir()
+[1] "breakingbad.csv"  "Desktop"          "Documents"        "Downloads"        "dumps"            "earch php-"       "examples.desktop"
+[8] "f.r"              "kids.csv"         "kmissles.csv"     "kmissles.ods"     "Music"            "out.pdf"          "Pictures"        
+[15] "public"           "Public"           "R"                "Templates"        "test"             "test.php"         "Videos"          
+> getwd()
+[1] "/home/eothein"
+\end{lstlisting}
+
+The used data file originates from the publication of \autocite{Stengos2005}. 
+This dataset contains data from 1993 to 1995 on computer prices. 
+You can check the effect of the addition of CD-ROM drive on the price of the computer or the effect of clock speed on the price.
+
+The \texttt{names()} command provides an overview of the defined columns:
+
+\begin{lstlisting}[breaklines=true]
+> names(computers)
+[1] "price"   "speed"   "hd"      "ram"     "screen"  "cd"      "multi"   "premium" "ads"     "trend"
+\end{lstlisting}
+
+To execute the command \texttt{read.csv}, R uses a specific type of variable called a data frame. 
+All data is stored in the data frame as separate columns.
+If you are not sure what type of variable you have, you can use the \texttt{attributes} command.
+This lists all the things that R uses to describe the variable:
+
+\begin{lstlisting}[breaklines=true]
+attributes(computers)
+$names
+[1] "price"   "speed"   "hd"      "ram"     "screen"  "cd"      "multi"   "premium" "ads"     "trend"  
+
+$class
+[1] "tbl_df"     "tbl"        "data.frame"
+
+$row.names
+[1]    1    2    3    4    5    6    7    8    9   10   11   12   13   14   15   16   17   18   19   20   21   22   23   24   25   26   27
+[28]   28   29   30   31   32   33   34   35   36   37   38   39   40   41   42   43   44   45   46   47   48   49   50   51   52   53   54
+...
+[ reached getOption("max.print") -- omitted 5259 entries ]
+
+$spec
+cols(
+price = col_integer(),
+speed = col_integer(),
+hd = col_integer(),
+ram = col_integer(),
+screen = col_integer(),
+cd = col_character(),
+multi = col_character(),
+premium = col_character(),
+ads = col_integer(),
+trend = col_integer()
+)
+
+\end{lstlisting}
+
+\subsection{Data Types}
+
+We look at some ways in which R can store and organize data. 
+However, as this is an introduction we only consider a small subset of the different data types recognized by R.
+
+\subsubsection{Numbers}
+
+The simplest way to store a number is to create a variable for a single number:
+\begin{lstlisting}
+> a <- 3
+\end{lstlisting}
+
+Using this variable we can do some basic operations:
+\begin{lstlisting}
+> b <- sqrt(a*a+3)
+> b
+[1] 3.464102
+\end{lstlisting}
+
+The \texttt{numeric} command can be used to initialize a list of numbers. For example, the following assignment makes a list of 10 numbers. The \texttt{typeof} command returns the type of the variable.
+\begin{lstlisting}
+> a <- numeric(10)
+> a
+[1] 0 0 0 0 0 0 0 0 0 0
+> typeof(a)
+[1] "double"
+\end{lstlisting}
+
+\subsubsection{Strings}
+
+A string is specified by using quotation marks. Both single and double quotes are valid:
+\begin{lstlisting}
+> a <- "hello"
+> a
+[1] "hello"
+> b <- c("hello","there")
+> b
+[1] "hello" "there"
+> b[1]
+[1] "hello"
+\end{lstlisting}
+
+\subsubsection{Factors}
+
+Often an experiment contains tests for different levels of an explanatory variable, for example a nominal variable that is coded with an integer. The different levels are also called factors.
+
+You indicate that a variable is a factor by using the \texttt{factor} command.
+
+\subsubsection{Data Frames}
+
+Data can be stored using data frames. Data frames allow for storing different vectors of different types in the same variable. 
+The vectors can be of all types. For example, a data frame can contain several vectors, and each vector can be a vector of factors, strings, or numbers.
+
+There are different ways to create and manipulate data frames. Most of them are out of scope for this introduction, they are only mentioned here to provide a more complete overview.
+
+\lstinputlisting{data/dataframe.R}
+
+\subsubsection{Logical Variables}
+
+Another important data type is the logical type. There are two predefined variables, \texttt{TRUE} and \texttt{FALSE}.
+
+\subsubsection{Tables}
+
+Data can also be stored using a table. We will only focus on creating and defining tables.
+
+\lstinputlisting{data/tables.R}
+
+If you want to add rows to the table, add another vector as an argument to the table command.
+In the example below we have two questions.
+The first question contains the reactions 'Never', 'Sometimes' or 'Always'.
+The second question contains the responses 'Yes', 'No' or 'Maybe'.
+The set of vectors 'a' and 'b' contain the answer for each measurement.
+The third value in 'a' is how the third person responded to the first question and the third value in 'b' is how the third person responded to the second question.
+
+\lstinputlisting[breaklines=true]{data/twotables.R}
+
+\subsubsection{Matrices}
+
+A matrix is a collection of data that is arranged in a two-dimensional rectangular format. An example of a matrix is as follows:
+
+\[
+\begin{bmatrix}
+2 & 3 \\ 
+4 & 5  
+\end{bmatrix}
+\]
+
+\lstinputlisting{data/matrix.R}
+
+\section{Exercises}
+
+\begin{exercise}
+    Take a look at the dataset \texttt{mtcars}. 
+    Return the value for the first row, second column. Also return the number of rows and the number of columns.
+    Give a preview of the entire data frame. Try to only return the column with the definitions of the cylinders.    
+    To obtain a data frame with the two columns mpg and hp, we add the column names to an index vector with a single square bracket operator.
+    Try to find out how you can determine a row record of the built-in dataset mtcars.
+\end{exercise}
+
+\begin{exercise}
+    Create a random data file in Excel yourself and try to read it in R. 
+    Are there any other data formats that are supported by R?
+\end{exercise}
+
+\begin{exercise}
+    Generate a $4 \times 5$ array and call it $x$. Next, generate a $3 \times 2$ array where the first column can be the row index of $x$
+    and the second column a column index for $x$.Replace the elements defined by the index in $i$ in $x$ by 0. 
+\end{exercise}
+
+\begin{exercise}
+    Generate a vector that contains a first name and a last name. Also name the columns. Return the first name of the first element of the array.
+\end{exercise}
+
+\begin{exercise}
+    For the data file \texttt{rainforest} in the library \texttt{DAAG}, try counting how many rows there are for each species that are complete (i.e. do not contain n.a.). You can use \texttt{with, table, complete.cases} for this.
+\end{exercise}
+
+\begin{exercise}
+    Generate a vector with the values $e^x cos(x)$ for $x= 3, 3.1, 3.2, \dots ,6$
+\end{exercise}
+
+\begin{exercise}
+    Calculate: $\sum_{i}^{100}(i^3 + 4i^2)$
+\end{exercise}
+
