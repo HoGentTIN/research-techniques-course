@@ -1,0 +1,53 @@
+---
+title: "Exercise 1.2"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+In this exercise we work with the built-in data frame `mtcars`.
+    
+1. Use built-in R functions to retrieve information about the dataset
+
+    ```{r mtcars1}
+    #View(mtcars)  # Inhoud van de dataset
+    #?mtcars       # Uitleg over de dataset
+    ```
+
+2. Return the value of the first row, second column
+
+    ```{r mtcars2}
+    mtcars[1,2]
+    ```
+
+3. Return the number of rows and the number of columns
+
+    ```{r mtcars3}
+    nrow(mtcars) # aantal rijen
+    ncol(mtcars) # aantal kolommen
+    ```
+
+4. Return only the column containing the definitions of the cylinders
+
+    ```{r mtcars4}
+    # Heel de kolom
+    mtcars$cyl
+    # Aantal cylinders van de auto's zonder automatische vernelling
+    mtcars$cyl[mtcars$am == 0]  
+    ```
+
+To obtain a data frame with the two columns `mpg` and `hp`, add the column names to an index vector with a single square bracket operator.
+
+    ```{r mtcars5}
+    mtcars[c("mpg","hp")]
+    ```
+
+Try to find out how you can determine a row record of the built-in dataset `mtcars`.
+
+    ```{r mtcars6}
+    mtcars[3,]               # Derde rij
+    mtcars["Datsun 710",]    # Rij met gegeven naam
+    mtcars[mtcars$cyl == 6,] # Rijen die voldoen aan een voorwaarde 
+    ```

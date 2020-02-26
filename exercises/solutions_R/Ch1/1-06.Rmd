@@ -1,0 +1,45 @@
+---
+title: "Exercise 1.6"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+**Remark:** Before running this code in RStudio, first do (from the menu): *Session > Set Working Directory > To Source File Location*. This allows loading the .csv file from the current directory.
+
+Import the file \texttt{rainforest.csv} in R.
+
+For this data file, try counting how many rows there are for each species that are complete (i.e. do not contain n.a.). 
+You can use `with`, `table`, and `complete.cases` to achieve this.
+
+
+1. Import the file
+
+    ```{r}
+    # Load data from csv
+    rainforest <- read.csv("../../datasets/rainforest.csv", sep = ",")
+    # Allows the columns to be accessed directly instead of with table$column notation
+    attach(rainforest)
+
+    #View(rainforest) # View contents
+    ```
+    
+2. Select complete records 
+
+    ```{r}
+    # Array indicating for each record if it is complete (TRUE/FALSE)
+    ok <- complete.cases(rainforest)
+    # Selection from rainforest containing only complete records.
+    # Only the column "species" is stored.
+    complete <- rainforest[ok,c("species")]
+    ```
+    
+3. Create a frequency table containing the number of complete cases for each species
+
+    ```{r}
+    table(complete)
+    ```
+  
+**Conclusion:** Only *B. myrtifolia* has four complete cases, the other species don't have any.
