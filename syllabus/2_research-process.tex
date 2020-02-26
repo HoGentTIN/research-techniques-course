@@ -108,17 +108,32 @@ In quantitative research, we try to comprehend a phenomenon by measuring it.
     The specific property of a specific object. The measurement assigned to a variable (e.g.~1.83m, 78kg, etc.).
 \end{definition}
 
-In statistical analysis, a classification of variable types is used that helps determining which statistical methods can be applied to the variable in question. A common taxonomy of the level of measurement is:
+In statistical analysis, a classification of variable types is used that helps determining which statistical methods can be applied to the variable in question. 
+This subsection introduces a common taxonomy for the possible measurement levels of a variable.
+
+\subparagraph{Qualitative Scales}
+
+Qualitative values are not necessarily numeric.
+They always have a limited number of possible values.
 
 \begin{description}
-	\item [Nominal] The variable can only take a limited number of values, and there is no logical order between them. Some examples include gender, nationality, biological species, etc.
-	\item [Ordinal] The variable can take a limited number of values, but there is a logical ordering between them. E.g.~Likert scale when measuring opinion (from \emph{strongly disagree} to \emph{strongly agree}), military rank, etc.
-	\item [Interval] A numerical variable that allows for the degree of difference between items, but not the ratio between them. There is no meaningful zero value. E.g.~temperature.
-	\item [Ratio] A numerical variable with a non-arbitrary zero point, that allows for meaningful ratios between values (e.g.~``twice as long,'' ``5\% higher,'' etc.). E.g.~mass, age, etc.
+    \item [Nominal] The variable can only take a limited number of values, and there is no logical order between them. Some examples include gender, nationality, biological species, etc.
+    \item [Ordinal] The variable can take a limited number of values, but there is a logical ordering between them. E.g.~Likert scale when measuring opinion (from \emph{strongly disagree} to \emph{strongly agree}), military rank, etc.	
+\end{description}
+
+\subparagraph{Quantitative Variables}
+
+Quantitative variables often contain the result of a measurement.
+They are usually expressed using a number and unit of measurement.
+Quantitative variables can have many values, and often values are unique.
+
+\begin{description}
+    \item [Interval] A numerical variable that allows for the degree of difference between items, but not the ratio between them. There is no meaningful zero value. E.g.~temperature.
+    \item [Ratio] A numerical variable with a non-arbitrary zero point, that allows for meaningful ratios between values (e.g.~``twice as long,'' ``5\% higher,'' etc.). E.g.~mass, age, etc.
 \end{description}
 
 \begin{exercise}
-	Try to come up with other examples of all levels of measurement.
+    Think of some other examples for all 4 measurement levels.
 \end{exercise}
 
 \paragraph{The Research Process}
@@ -364,7 +379,7 @@ In the Bachelor thesis by \textcite{Akin2016}, a comparative study between sever
 \end{displayquote}
 
 \begin{exercise}
-  After reading the abstract, try to answer to the following questions as well as possible:
+  After reading the abstract, try to answer to the following questions as good as possible:
   
   \begin{enumerate}
     \item What is the objective of this research?
@@ -417,84 +432,100 @@ In the Bachelor thesis by \textcite{Akin2016}, a comparative study between sever
     You should notice that over time, you will mark more and more in green and you will use less red or even none at all.
 \end{exercise}
 
-Een data frame of tibble in R kan je altijd beschouwen als het resultaat van een \textit{steekproef}. Elke rij is een \textit{observatie}\index{observatie} en elke kolom een \textit{variabele}\index{variabele}. Je kan een variabele selecteren met de notatie \texttt{dataset\$kolomnaam}. Observaties kan je selecteren op rijnummer (bv. \texttt{dataset[1,]}) of a.h.v. een eigenschap (bv. \verb|dataset[dataset$a == "yes",]|)
+A data frame or tibble in R can represent the result of a \textit{sample}.
+Each row represents an \textit{observation}\index{observation} and each column a \textit{variabel}\index{variable}. 
+You can select a variable using the notation \texttt{dataFrame\$columnName}. 
+Observations can be selected using the row number (e.g. \texttt{dataset[1,]}) or using a property (e.g. \verb|dataset[dataset$a == "yes",]|).
 
 \begin{exercise}
-    Importeer de dataset van het onderzoek van~\textcite{Akin2016} in R. Je vindt deze terug in de Github repository voor deze cursus, onder de directory \texttt{oefeningen/datasets/} in het bestand \texttt{android\_persistence\_cpu.csv}.
+    Import the dataset containing the results of~\textcite{Akin2016} in R. 
+    You can find this file in the GitHub repository of this course, in the folder
+    \texttt{exercises/datasets/}, file \texttt{android\_persistence\_cpu.csv}.
     
     \begin{enumerate}
-        \item Som de verschillende variabelen op in deze dataset
-        \item Gebruik de functie \texttt{glimpse()} en \texttt{View()} om de inhoud van de dataset te bekijken.
-        \item Gebruik de functie \texttt{unique()} om de verschillende in de steekproef voorkomende waarden van elke variabele op te vragen.
-        \item Bepaal voor elke variabele het meetniveau. De resultaten uit de vorige stappen kunnen hier bij helpen!
-        \item Vraag de waarden in de kolom \texttt{price} op
-        \item Vraag een lijst op van computers met een CD-ROM station (variabele \texttt{cd} is \texttt{yes}).
-    \end{enumerate}
+        \item Get an overview of the different variables in this dataset
+        \item Use the functions \texttt{glimpse()} and \texttt{View()} to view the contents of the dataset.
+        \item Use the function \texttt{unique()} to get a list of distinct values for each variable in the sample.
+        \item Define the level of measurement for each variable. The results from the previous steps can help!
+      \end{enumerate}
 \end{exercise}
 
 \begin{exercise}
-    Importeer de dataset \texttt{Aardbevingen.csv}. Wat is het meetniveau van volgende variabelen?
-    
-    \begin{enumerate}
-        \item Latitude en Longitude
-        \item Type
-        \item Time
-        \item Depth
-    \end{enumerate}
-    
-    Merk op dat in deze dataset, de kolom ID niet echt als een variabele kan beschouwd worden. Deze dient enkel om een unieke naam te geven aan elke observatie in de steekproef, maar bevat geen eigenschap.
+  Import the dataset \texttt{earthquakes.csv} in R.
+  What is the measurement level of the following variables?
+  
+  \begin{enumerate}
+    \item Latitude and Longitude
+    \item Type
+    \item Time
+    \item Depth
+  \end{enumerate}
+
+  Note that in this dataset, the column \texttt{ID} is not really a variable. 
+  This column was only added to get a unique key for each obvervation in the sample, but does not contain a property.
 \end{exercise}
 
 \subsection{Sampling Methods and Sampling Errors}
 
 \begin{exercise}
-    Een onderzoeker wil zo correct mogelijk de consumptiegewoontes van de inwoners van 18 jaar en ouder in een bepaalde gemeente met 3 woonkernen onderzoeken.  Hij onderscheidt 4 leeftijdsgroepen zodat hij uiteindelijk aan 12 deelgroepen komt. Hij vraagt de procentuele samenstelling van de bevolking op in de gemeente en berekent daaruit hoeveel bevragingen hij per deelgroep moet uitvoeren. Dit noemen we een \emph{quotasteekproef}.
+    A researcher wants to investigate as accurately as possible the consumption habits of residents ages 18 years and older in a certain municipality with 3 residential areas. 
+    He distinguishes 4 age groups so he eventually has a total of 12 subgroups. 
+    From the municipality, he requests the percentual composition of the population in the city and based on the numbers he calculated the number of respondents required for each age group.
+    We call this type of sample a \emph{quota sample}.
     
-    Vragen:
+    Questions:
     \begin{enumerate}[label=\alph*.]
-        \item Is dit een aselecte steekproef? Waarom (niet)?
-        \item Is de steekproef representatief voor de populatie?
-        \item Welke soort fouten kunnen hier gemaakt worden?
-        \item Wat zijn de voor- en nadelen?
-        \item Welke andere parameters zouden kunnen gebruikt worden bij het opsplitsen in deelgroepen?
+      \item Is this a random sample? Why (not)?
+      \item Is this sample representative for the population?
+      \item Which types or sampling errors can occur?
+      \item What are the advantages and disadvantages?
+      \item What other parameters could be used to divide the population in subgroups?
     \end{enumerate}
-\end{exercise}
-
-\begin{exercise}
-    Een onderzoeksbureau wil het aankoopgedrag van wasproducten nagaan. Men beslist een aantal vragen te stellen aan vrouwen tussen de 25 en 55 jaar omdat men ervan uitgaat dat de relevante populatie uit deze categorie consumenten bestaat.
-    
-    \begin{enumerate}[label=\alph*.]
-        \item Is dit een aselecte steekproef? Waarom (niet)?
-        \item Welke fout wordt hier gemaakt?
-        \item Hoe groot is de impact van deze fout?
-    \end{enumerate}
-\end{exercise}
-
-\begin{exercise}
-    De vakbonden willen een onderzoek doen naar de werkomstandigheden van de werknemers van een IT-bedrijf. Dat bedrijf heeft in totaal 3200 werknemers die verdeeld zijn over 12 vestigingen. Omdat het aantal werknemers groot is worden aselect 40 werknemers gekozen per vestiging. De steekproefomvang is dus $n = 480$.
+  \end{exercise}
+  
+  \begin{exercise}
+    A research agency wants to investigate the purchasing behavior of washing products.
+    They interrogate a number of women between 25 and 55, because they assume that these are representative for most customers.
     
     \begin{enumerate}[label=\alph*.]
-        \item Is dit een aselecte steekproef? Waarom (niet)?
-        \item Welke fout wordt hier gemaakt?
-        \item Wat is de impact van deze fout?
-        \item In welke situatie zou deze steekproefmethode toch representatief kunnen zijn voor de populatie?
+      \item Is this a random sample? Why (not)?
+      \item Which sampling error was made?
+      \item What is the impact of this error?
     \end{enumerate}
-\end{exercise}
+  \end{exercise}
+  
+  \begin{exercise}
 
-\begin{exercise}
-    We willen een onderzoek voeren naar onze studenten aan de Hogeschool Gent, faculteit Bedrijf en Organisatie. Hiervoor worden de aanwezige studenten in een bepaald opleidingsonderdeel bevraagd.
+    
+
+    The trade unions want to investigate the working conditions of the employees of an IT company.
+    This company has a total of 3200 employees spread over 12 branch offices.
+    Because the total number of employees is quite large, 40 employees are selected at random from each branch office.
+    The size of the sample is therefore $ n = 480 $.
     
     \begin{enumerate}[label=\alph*.]
-        \item Is dit een aselecte steekproef? Waarom (niet)?
-        \item Welke fout wordt hier gemaakt?
-        \item Stel dat de aanwezige docent in de perceptie van de studenten zeer streng is en tijdens de bevraging rondloopt. Welk bezwaar kan hier gegeven worden? Meer bepaald, welke fout kan op deze manier ge\"introduceerd worden?
-        \item Stel dat de bevraging niet tijdens een les, maar na een examen gehouden wordt. Welke fout kan er dan gemaakt worden?
+      \item Is this a random sample? Why (not)?
+      \item Which sampling error was made?
+      \item What is the impact of this error?
+      \item In what scenario could this sample be representative for the whole population?
     \end{enumerate}
-\end{exercise}
-
-\begin{exercise}[Retrieval practice: steekproeffouten]
-    Gebruik de procedure voor retrieval practice uit oefening~\ref{ex:retrieval-practice-meetniveaus} om de soorten \emph{steekproeffouten} in te studeren.
+  \end{exercise}
+  
+  \begin{exercise}
+    We want to conduct a study about students at HOGENT, faculty of Business and Organization.
+    For this study, the students present during a certain course unit are questioned.
     
-    Geef een overzicht van de verschillende soorten steekproeffouten, beschrijf ze en geef telkens een voorbeeld.
-\end{exercise}
+    \begin{enumerate}[label=\alph*.]
+      \item Is this a random sample? Why (not)?
+      \item Which sampling error was made?
+      \item Suppose the teacher is very strict in the students' perception and walks around during the survey. What objection can be made here? More specifically, what error can be introduced this way?
+      \item Suppose the survey is not taken during a lesson, but after an exam. What error could be made?
+    \end{enumerate}
+  \end{exercise}
+  
+  \begin{exercise}[Retrieval practice: steekproeffouten]
+    Use the procedure for retrieval practice from Exercise~\ref{ex:retrieval-practice-meetniveaus} to study the different types of \emph{sampling errors}.
+    
+    Give an overview of the different types of sampling errors, describe them and give an example.
+  \end{exercise}
 
