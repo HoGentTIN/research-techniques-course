@@ -419,8 +419,9 @@ The clarity of a histogram largely depends on the choice of intervals. If these 
 \subsection{Central Tendency and Dispersion}
 
 \begin{exercise}
-    The formulas for the sample mean $\overline{x}$, variance $s^2$ and standard deviation $s$ can be found in Section~\ref{ssec:arithmetic-mean} and~\ref{ssec:variance-and-standard-deviation} respectively.
-    How should these formulas  be adapted to be used with a frequency table? Apply these formulas to the data provided in Table~\ref{tab:pinfreq}.
+  \label{ex:mean-stdev-freq}
+  The formulas for the sample mean $\overline{x}$, variance $s^2$ and standard deviation $s$ can be found in Section~\ref{ssec:arithmetic-mean} and~\ref{ssec:variance-and-standard-deviation} respectively.
+  How should these formulas  be adapted to be used with a frequency table? Apply these formulas to the data provided in Table~\ref{tab:pinfreq}.
 \end{exercise}
 
 \begin{table}
@@ -463,24 +464,62 @@ The clarity of a histogram largely depends on the choice of intervals. If these 
   Find out what the \emph{coefficient of variation} (CV) means. How is it defined? What is the major difference with the standard deviation?
 \end{exercise}
 
+\begin{exercise}
+  \label{ex:ais}
+  Import the file \texttt{ais.csv} in R (this file is available in the Github repository of this course, inside the folder \texttt{exercises/datasets}). 
+  A description of this data frame can be found in the same folder, file \texttt{ais.html}.
 
+  You can import this file in R using the following code:
+  \begin{lstlisting}
+  ais <- read.csv("ais.csv", sep = ",")
+  attach(ais)
+  \end{lstlisting}
 
-%%% TODO VANAF HIER %%% 
+  Consider the following subsets of this data frame, and calculate for each subset the appropriate measures for central tendency and dispersion for the variables \texttt{sex} and \texttt{ht}.
+
+  \begin{enumerate}
+      \item the rowers;
+      \item the rowers, the netballers and the tennis players combined;
+      \item the female basketball players and rowers.
+  \end{enumerate}
+\end{exercise}
 
 \begin{exercise}
-  In the following exercises, we're going to use the experimental results from~\textcite{Akin2016}. These are stored in the file \texttt{android\_persistence\_cpu.csv}.
+  \label{ex:mean-range-R}
+  Use the functions \texttt{mean} and \texttt{range} in R to determine the mean and range of:
+  \begin{itemize}
+      \item the numbers 1, 2, \dots, 21.
+      \item 50 random values, generated from a normal distribution with mean 0 and variance 1 (function \texttt{rnorm}).
+      \item the columns \texttt{height} and \texttt{weight} of the data frame \texttt{women} (built-in in R).
+  \end{itemize}
+\end{exercise}
 
-  Open this file in a spreadsheet application and study the structure of the data. Can you identify the variables and their level of measurement?
 
-  We will be using the \texttt{R} programming language for statistical computing with RStudio\footnote{\url{https://www.rstudio.com/}}. Start RStudio and create a new R script. Save it into the same directory as the data file. In the menu, select Session > Set Working Directory > To source file location. Enter the following line of code:
+In previous exercises we described the different measures for central tendency and dispersion.
+As you might have notices, these metrics are also used in the research of~\textcite{Akin2016}.
+In the next exercies, we will try to reproduce the results.
 
-\begin{lstlisting}
-android_cpu <- read.csv("android_persistence_cpu.csv",
-                        sep=";")
-attach(android_cpu)
+For this, we need the file \texttt{android\_persistence\_cpu.csv}.
+This file can also be found inside the folder \texttt{exercises/datasets} on GitHub.
+
+
+\begin{exercise}
+  \label{oef:casus-akin2016-1var}
+  Open this file in a spreadsheet application and study the structure of the data. 
+  Can you identify the variables and their measurement level?
+\end{exercise}
+
+We will be using the \texttt{R} programming language for statistical computing with RStudio. 
+
+\begin{lstlisting}[breaklines=true]
+  android_cpu <- read.csv("android_persistence_cpu.csv", sep=";", dec=".")
+  attach(android_cpu)
 \end{lstlisting}
 
-After loading the data, let's look at average time, standard deviation, quartiles, etc.~over the entire data set. Use the appropriate R functions: \texttt{mean}, \texttt{median}, \texttt{quantile}, \texttt{min}, \texttt{max}, \texttt{var}, \texttt{sd}.
+You can use the above code to import the file in R. 
+After importing the file, try to calculate the average execution time, the standard deviation, the different quantiles, etc.
+Use the commands \texttt{mean}, \texttt {median}, \texttt {quantile}, \texttt {min}, \texttt{max}, \texttt{var}, \texttt{sd}. 
+You can also use the \texttt{summary} command to get a nice overviw.
 
 Tips:
 
@@ -488,10 +527,10 @@ Tips:
   \item A column/variable of a data table is referred to as: \verb|Table$Column|. When you have \verb|attach|ed the table, you can use the \verb|Column| name directly.
   \item You can group values according to a qualitative value with \verb|Variable ~ Categories|.
 \end{itemize}
-\end{exercise}
+
 
 \begin{exercise}
-Is it possible to draw conclusions from these results? If so, what are they? If not, why not?
+  Is it possible to draw conclusions from these results? If so, what are they? If not, why not?
 \end{exercise}
 
 \subsection{Charts in R}
@@ -499,47 +538,43 @@ Is it possible to draw conclusions from these results? If so, what are they? If 
 
 A histogram is a plot that shows the frequencies of observations between specific ranges.
 
-\begin{lstlisting}
-hist(android_cpu$Time, main="Distribution of execution time",
-     xlab="Execution time")
-hist(android_cpu$Time, main="Distribution of execution time",
-     xlab="Execution time", breaks=2)
+\begin{lstlisting}[breaklines=true]
+  hist(android_cpu$Time, main="Distribution of execution time", xlab="Execution time (ms)")
+  hist(android_cpu$Time, main="Distribution of execution time", xlab="Execution time (ms)", breaks=2)
 \end{lstlisting}
 
 \begin{exercise}
-Generate a histogram for \texttt{android\_cpu\$Time}\footnote{You can find general info about generating plots in R here:  \url{https://www.datacamp.com/community/tutorials/15-questions-about-r-plots\#gs.RK_ORsI}.}.
- 
-Can you draw useful conclusions from this graph? What happens if you increase the number of \texttt{breaks}?
+  Can you draw useful conclusions from this graph\footnote{You can find general info about generating plots in R here:  \url{https://www.datacamp.com/community/tutorials/15-questions-about-r-plots\#gs.RK_ORsI}.}? 
+  What happens if you increase the number of \texttt{breaks}?
 \end{exercise}
 
 \subsubsection{Boxplot}
 
-A boxplot shows the median, quartiles, and extremes in a dataset. It gives a good impression of the distribution of the data.
+A boxplot shows the median, quartiles, and extremes in a dataset. 
+It provides a good overview of the distribution of the data.
 
-\begin{lstlisting}
-boxplot(android_cpu$Time)
-boxplot(android_cpu$Time, main='Distribution of CPU time',
-        ylab='Time in ms');
+\begin{lstlisting}[breaklines=true]
+  boxplot(android_cpu$Time)
+  boxplot(android_cpu$Time, main='Distribution of execution time', ylab="Execution time (ms)")
 \end{lstlisting} 
 
 \begin{exercise}
   By default, boxplots are drawn vertically. Use the help function in RStudio to find out how to draw it horizontally.
 \end{exercise}
 
-In the previous exercises, when we tried to analyse the dataset as a whole, we noticed that this is pretty much useless, since the data set is divided into several categories. Let's create boxplots for each category.
+In the previous exercises, when we tried to analyse the dataset as a whole, we noticed that this is pretty much useless, since the data set is divided into several categories. 
+Let's create separate boxplots for each category.
 
-\begin{lstlisting}
-boxplot(android_cpu$Time ~ android_cpu$DataSize,
-        main='Distribution of CPU time over data sizes',
-        ylab='Time in ms');
+\begin{lstlisting}[breaklines=true]
+  boxplot(android_cpu$Time ~ android_cpu$DataSize, main="Distribution of CPU time over the data sizes", ylab="Time in ms");
 \end{lstlisting}
 
 \begin{exercise}
-\label{ex:boxplot}
-Interpret the results from this plot. Do these make more sense?
+	\label{ex:boxplot}
+  Interpret the results from this plot. Do these make more sense?
 \end{exercise}
 
-We kunnen hetzelfde doen voor de verschillende soorten dataopslagmogelijkheden in android.
+We can do the same for the different persistence types.
 
 \begin{exercise}
   Do the same as in \ref{ex:boxplot}, but group by \verb|PersistenceType| and interpret the results. Do these make sense?
@@ -547,37 +582,152 @@ We kunnen hetzelfde doen voor de verschillende soorten dataopslagmogelijkheden i
 
 Finally, let's see how the data is distributed over \emph{both} categories.
 
-\begin{lstlisting}
-boxplot(android_cpu$Time ~ android_cpu$PersistenceType * android_cpu$DataSize)
+\begin{lstlisting}[breaklines=true]
+  boxplot(android_cpu$Time ~ android_cpu$PersistenceType * android_cpu$DataSize, main="Distribution of CPU time over data sizes for the different persistent types", ylab="Time in ms");
 \end{lstlisting}
 
 By looking at the data over the different categories, we get a clearer view on the data, but the graph is a bit overcrowded now.
 
 There are several ways of selecting data that meets specific criteria, a.o.~the functions \verb|which| and \verb|subset|.
 
-\begin{lstlisting}
-greenDOA <- android_cpu[which(android_cpu$PersistenceType=='GreenDAO'),]
-boxplot(greenDOA$Time~greenDOA$DataSize)
+\begin{lstlisting}[breaklines=true]
+  greenDOA <- android_cpu[which(android_cpu$PersistenceType=='GreenDAO'),];
+  boxplot(greenDOA$Time ~ greenDOA$DataSize);
 \end{lstlisting}
 
 \begin{exercise}
-Wat can you conclude from this plot?
+  Wat can you conclude from this plot?
 \end{exercise}
 
 \begin{exercise}
-Find out which box plots are meaningful for this data and whether your results match those of~\textcite{Akin2016}. What are your conclusions?
+  Find out which box plots are meaningful for this data and whether your results match those of~\textcite{Akin2016}. What are your conclusions?
+\end{exercise}
+
+\begin{exercise}[Retrieval practice]
+  Use the procedure for retrieval practice from exercise~\ref{ex:retrieval-practice-meetniveaus} 
+  to study the \emph{techqniques for analysis and visualization of a single variable}.
+  
+  Provide for each measurement level:
+  
+  \begin{itemize}
+    \item The appropriate measurements for central tendency and dispersion (name + definitions and formulas)
+    \item The appropriate graph types
+  \end{itemize}
 \end{exercise}
 
 
 
-\section{Solutions to selected exercises}
 
-Exercise~\ref{ex:q2}: the median
+%Exercise~\ref{ex:q2}: the median
 
-Exercise~\ref{ex:variance-formula}:
+%Exercise~\ref{ex:variance-formula}:
+
+%\begin{itemize}
+  %\item When using the values themselves, negative and positive values would cancel out each other, resulting in a variance of 0 in set $X$.
+  %\item When using the absolute value, both data sets would have the same variance, although the dispersion of set $Y$ is clearly larger.
+%  \item When squaring the differences, these problems do not occur.
+%\end{itemize}
+
+
+
+% Answers
+\subsection{Solutions to selected exercises}
+
+\paragraph{Exercise \ref{ex:mean-stdev-freq}}
 
 \begin{itemize}
-  \item When using the values themselves, negative and positive values would cancel out each other, resulting in a variance of 0 in set $X$.
-  \item When using the absolute value, both data sets would have the same variance, although the dispersion of set $Y$ is clearly larger.
-  \item When squaring the differences, these problems do not occur.
+  \item $\overline{x} = 7$
+  \item $s^2 \approx 5.830508$
+  \item $s \approx 2.414645$
 \end{itemize}
+
+\paragraph{Exercise \ref{ex:variance-formula}}
+Table~\ref{tab:opl-variance-ht} provides an overview of the adjusted sample variance for both datasets.
+
+\begin{table}
+  \centering
+  \begin{tabular}{@{}l|rrr@{}}
+    \toprule
+      & \textbf{$s^{2}_{1}$} & \textbf{$s^{2}_{2}$} & \textbf{$s^{2}_{3}$} \\
+    \midrule                
+      \textbf{$ X $} & 0           & 5.333333    & 21.33333    \\ 
+      \textbf{$ Y $} & 0           & 5.333333    & 30          \\           
+    \bottomrule
+  \end{tabular}
+  \caption{Results of the adjusted sample variance for both datasets, for the different formulas of exercise~\ref{ex:variance-formula}.}
+  \label{tab:opl-variance-ht}
+\end{table}
+
+\paragraph{Exercise \ref{ex:ais}}
+
+Table~\ref{tab:opl-ais-ht} provides an overview of the most important measurements for central tendency and dispersion for the variable \texttt{ht} (height/length) for the requested groups.
+
+\begin{table}
+  \centering
+  \begin{tabular}{@{}l|r|rrrr|rr@{}}
+    \toprule
+    & \textbf{(1)} & \multicolumn{4}{c}{\textbf{(2)}}                                                 & \multicolumn{2}{c}{\textbf{(3)}} \\ 
+    & \textbf{Row} & \textbf{Total}    & \textbf{Row} & \textbf{Netball} & \textbf{Tennis} & \textbf{B\_ball}  & \textbf{Row} \\ \midrule
+    \textbf{mean}       & 182.376      & 179.066                      & 182.376      & 176.087          & 174.164         & 182.269           & 178.859      \\
+    \textbf{stdev}      & 7.798        & 7.936                        & 7.798        & 4.124            & 9.858           & 8.621             & 5.970        \\
+    \textbf{min}        & 156.000      & 156.000                      & 156.000      & 168.600          & 157.900         & 169.100           & 156.000      \\
+    \textbf{Q1}         & 179.300      & 174.200                      & 179.300      & 173.450          & 167.300         & 174.000           & 177.600      \\
+    \textbf{median}     & 181.800      & 179.500                      & 181.800      & 176.000          & 175.000         & 184.600           & 179.650      \\
+    \textbf{Q3}         & 186.300      & 183.400                      & 186.300      & 179.150          & 180.750         & 188.700           & 181.200      \\
+    \textbf{max}        & 198.000      & 198.000                      & 198.000      & 183.300          & 190.800         & 195.900           & 186.300      \\
+    \textbf{IQR}        & 7.000        & 9.150                        & 7.000        & 5.700            & 13.450          & 14.700            & 3.600        \\ \bottomrule
+  \end{tabular}
+  \caption{Overview results Exercise~\ref{ex:ais} for the variable \texttt{ht} (height/length).}
+  \label{tab:opl-ais-ht}
+\end{table}
+
+In part 1 and 2 we take the variable \texttt{sex} as an example, cfr. Table~\ref{tab:opl-ais-sex} for an overview.
+We cannot say much about qualitative variables, so we provide a frequency table from which we can derive the mode.
+
+In part 3 only women are selected, and Table~ \ref{tab:opl-ais-sport} illustrates the frequencies of the variable \texttt{sport}.
+
+\begin{table}
+  \centering
+  \begin{tabular}{@{}l|r|rrrr}
+  	\toprule
+  	               & \textbf{(1)} &                    \multicolumn{4}{c}{\textbf{(2)}}                     \\
+  	               & \textbf{Row} & \textbf{Whole group}& \textbf{Row} & \textbf{Netball} & \textbf{Tennis} \\ \midrule
+  	\textbf{f}     &           22 &                  52 &           22 &               23 &               7 \\
+  	\textbf{m}     &           15 &                  19 &           15 &                0 &               4 \\
+  	\textbf{mode}  &            f &                   f &            f &                f &               f \\ \bottomrule
+  \end{tabular}
+  \caption{Overview results Exercise~\ref{ex:ais} (1) and (2) for the variable \texttt{sex}. This table provides the different frequencies, as well as the mode.}
+  \label{tab:opl-ais-sex}
+\end{table}
+
+\begin{table}
+  \centering
+  \begin{tabular}{@{}l|l}
+  	\toprule
+  	                 & Frequency   \\ \midrule
+  	\textbf{B\_ball} & 13          \\
+  	\textbf{Row}     & 22          \\
+  	\textbf{modus}   & Row         \\ \bottomrule
+  \end{tabular}
+  \caption{Overview results Exercise~\ref{ex:ais} (3) for the variable \texttt{sport}.}
+  \label{tab:opl-ais-sport}
+\end{table}
+
+
+\paragraph{Exercise \ref{ex:mean-range-R}}
+Table~\ref{tab:opl-mean-range-R} provides an overview of the mean and range for exercise~\ref{ex:mean-range-R}.
+
+\begin{table}
+  \centering
+  \begin{tabular}{@{}l|r|rl@{}}
+    \toprule
+      & \textbf{Mean} & \multicolumn{2}{c}{\textbf{Range}} \\
+    \midrule                
+                  \textbf{$1,2,...,21$} & 11       & 1    & 21    \\ 
+        \textbf{\texttt{women\$height}} & 65       & 58   & 72    \\
+        \textbf{\texttt{women\$weight}} & 136.7333 & 115  & 164   \\
+    \bottomrule
+  \end{tabular}
+  \caption{Mean and range for the datasets of Exercise~\ref{ex:mean-range-R}.}
+  \label{tab:opl-mean-range-R}
+\end{table}
