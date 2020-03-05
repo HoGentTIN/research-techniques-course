@@ -1,0 +1,176 @@
+---
+title: "2 -- The Research Process"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Researchers collect large amounts of raw data while conducting experiments, conducting a survey, etc. These are stored according to various structured file formats so that we can import the data into our statistical analysis toolkit. What many of these file formats have in common is that the data is stored in a tabular form.
+
+Such a table usually corresponds to a **sample**. Each column represents an investigated **variable**. The first row typically contains the column heading with the names of all variables. All subsequent rows each contain one **observation**, consisting of the values for all variables.
+
+## Base-R vs Tidyverse
+
+Before we elaborate on this, first this. 
+You will notice that there are several ways to perform the same task in R, for example, read in a data file or plot a graph. 
+In particular, there are two large “families” of methods that are often referred to as *Base-R* on the one hand and *the Tidyverse* on the other. 
+Base-R includes the commands and functions that have traditionally been present in R, but that can be written by different authors, with different coding styles and APIs. The Tidyverse is a collection of code libraries with a common philosophy and coding style with the aim of having easy-to-read code and powerful functionality.
+
+For this course we do not really prefer one method over another. 
+However, for all tasks that we expect students to be able to perform in R, sample code is provided, which should help you to get started.
+
+In any case, it is useful to load the functionality of the Tidyverse into every R-script. You can do this by starting your script with:
+
+```{r, message=FALSE}
+library(tidyverse)
+```
+If you want to load a library and it is not yet installed, go to the Packages tab at the bottom right in RStudio. Click Install and enter the package name. Make sure "Install dependencies" is checked at the bottom.
+
+## Data frames and tibbles
+
+The most common data structure for analyzing data from an experiment is a data frame or tibble. In R both can largely be used interchangeably and they also have largely the same functionality. Data frames are the original data structures from Base R, tibbles have been introduced in Tidyverse.
+
+A data frame or tibble contains all measurements from a sample in the form of a table. Each row of this table is an individual observation from the sample. You can consider each column as a statistical variable and can be of a different measurement level, either a qualitative (referred to as a *factor* in R, or also *category* or *enumerated type*), or a quantitative one.
+
+We first start with a data frame that is built-in in R using the name `mtcars`.
+
+```{r}
+?mtcars       # View the "man page" for this data set
+View(mtcars)  # View the contents of this data set in table form
+nrow(mtcars)  # Number of rows
+ncol(mtcars)  # Number of columns
+```
+
+Retrieve elements from a data frame:
+
+```{r}
+mtcars[1,2]  # first row, second column
+mtcars[3,]   # third row
+mtcars[3:5,] # third to fifth row
+mtcars[,2]   # second column
+mtcars[,2:4] # second to fourth column
+mtcars$cyl   # column with name "cyl"
+mtcars[c("mpg","hp")] # table containing only columns "mpg" and "hp"
+```
+
+You can also select a subset using a type of query.
+For example, "Return the number of cylinders (`cyl`) of cars that do not have an automatic transmission (`am`)."
+
+```{r}
+mtcars$cyl[mtcars$am == 0]  
+```
+
+Or "Return all information of cars with a maximum of 6 cylinders." 
+Note that there is a comma within the square brackets!
+
+```{r}
+mtcars[mtcars$cyl <= 6,]
+```
+
+You can also combin such "queries" using logical operatos *and* (`&`), *or* (`|`) and *not* (`!`).  
+For example, "Return all information about cars with a fuel consumption between 20 and 25 mpg."
+
+```{r}
+mtcars[mtcars$mpg >= 20 & mtcars$mpg <= 25,]
+```
+
+## Opening a CSV-file
+
+The most accessible file type, which is supported by every software package for statistical analysis, is a so-called CSV file. 
+CSV is and abbreviation for Comma Separated Values and is actually an ordinary text file. 
+You can therefore open a .csv file using a text editor. 
+Each line of text corresponds to an observation and the values of the variables are separated from each other using a comma.
+
+To import a CSV file, you can use the function `read_csv()` (from Tidyverse). 
+If the file follows the standard format for CSV-files, you only need to specify the name of the file:
+
+```{r}
+computers <- read_csv(file = "data/computers.csv")
+```
+
+The result of `read_csv()` is a `tibble` object, corresponding toa table in R.
+The result can be assigned to a variable.
+Choose a descriptive name for this variable so that your code is easier to read.
+
+R is written primarily with the Anglo-Saxon world in mind. 
+For numbers, the period is used as a decimal point (12.3456), while in Dutch we generally use a comma (12,3456). 
+A CSV file formatted in the Dutch language area therefore uses the comma as a decimal point and a semicolon as a separator. 
+For these cases you can use `read_csv2 ()`.
+
+```
+read_csv2(file = "voorbeeld.csv") 
+```
+
+With some files, tab characters are used to separate columns. You can use `read_tsv ()` for this (TSV = tab separated values):
+
+```
+read_tsv(file = "voorbeeld.txt")
+```
+
+Finally, there is also a general function `read_delim ()` for all other formats. 
+This function has many options, so read the R manual for more info (`?read_delim`).
+
+Some important options that you will need anyway (and which are supported for all `read_X()` functions):
+
+- `quote`: character used as a quotation mark.
+- `na`: a vector of strings that must be interpreted as missing values.
+- `col_names`: boolean indicating whether the first row contains the column heading. If FALSE is provided, the column names are automatically generated: X1, X2, etc. You can also include a vector of strings, which is then interpreted as the names of the columns.
+- `col_types`: with this you can indicate the type of each column. You can provide a string with a letter for each column that indicates the type. `c` = character,` i` = integer, etc. (cfr. the manual).
+
+```
+read_delim(file = "voorbeeld.csv",
+           na = c("none", "N/A"),
+           col_names = c("Name", "length", "weight"),
+           col_types = "cid",
+           quote = "'")
+```
+
+After reading a dataset and assigning it to a variable, there are different ways to view the contents of the table:
+
+- In RStudio at the top right under Global Environment, double-click the variable name. The data is then shown in tabular form.
+- In the console: `View(data)`. This has the same effect as the previous method.
+- `glimpse(data)`: this shows part of the data, and also the data types of each variable / column.
+
+## Specifying the variable type
+
+Study the contents of the variable `computers`. 
+Only 2 data types are used, *character* and *double*. 
+This is correct, but we could specify this more precisely. 
+The numbers are whole (*integer*), so it is not necessary to handle them as a *double*. 
+The data type *character* allows for little analysis, and it is better to convert this to a *factor* (a qualitative variable, either nominal or ordinal). 
+For this you use the `col_types` option and the `cols()`function to specify the type in detail per column. 
+An example for `computers.csv`:
+
+```{r}
+computers <- read_csv(file = "data/computers.csv",
+                      col_types = cols(
+                        price = col_integer(),
+                        speed = col_integer(),
+                        hd = col_integer(),
+                        ram = col_integer(),
+                        screen = col_integer(),
+                        cd = col_factor(c("no", "yes")),
+                        multi = col_factor(c("no", "yes")),
+                        premium = col_factor(c("no", "yes")),
+                        ads = col_integer(),
+                        trend = col_integer()
+                      ))
+```
+
+## Summary
+
+Main Functions:
+
+| Function      |  |
+| :---          | :--- |
+| `read_csv()`  | Parse a CSV file with `,` as a separator and `.` as a decimal point |
+| `read_csv2()` | Parse a CSV file with `;` as a separator and `,` as a decimal point |
+| `read_tsv()`  | Parse a TSV file with TAB as separator                              |
+| `names()`     | Return the variable names of a table                                |
+| `unique()`    | Return the unique values of a vector                                |
+
+Tip: In RStudio you can find summaries of the most important functions in R. via Help > Cheatsheets.

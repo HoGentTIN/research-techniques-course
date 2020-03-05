@@ -1,0 +1,106 @@
+---
+title: "1 -- Getting Started"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Calculating
+
+```{r}
+1 + 2
+3 * 4 + 5
+3 * (4 - 5)
+2^4
+(1 + 7) / (3 + 8)
+```
+
+## Variables
+
+To assign variables in R, we use `<-`.
+
+```{r}
+x <- 2
+y <- 3
+x + y
+```
+The operator `=` can also be used.
+It is typically used when specifying parameters of a function.
+
+```{r}
+# Provide parameters in the default order, without specifying the name
+rnorm(50, 0, 1)
+# The names of the parameters are used, the order of the parameters is no longer relevant
+rnorm(50, mean = 0, sd = 1)
+```
+
+The second notation is more readable, and you don't have to remember the order of the parameters.
+Rstudio has autocompletion for the names of the parameters.
+
+## Lists / Vectors
+
+```{r}
+# Create 2 lists
+a <- c(1, 2, 3, 4)
+b <- c(5, 6, 7, 8)
+# A list containing numbers 0 to 10 (range)
+c <- 0:10
+
+# Calculations using a list and a single number:
+# Applies the operation to each element of the list
+a + 5
+a - 9
+a * 4
+a / 3
+a ^ 2
+
+# Calculations using two lists:
+# Applies the operation using the corresponding elements from both lists
+a + b
+a - b
+a * b
+a / b
+a ^ b
+```
+
+When selecting elements from a list, note that the index starts at 1!
+
+```{r}
+b[1]   # First element
+b[2:3] # Second and third element
+```
+
+## List functions
+
+```{r}
+length(a) # Length
+min(a)    # Smallest value
+max(a)    # Biggest value
+sum(a)    # Sum of all values
+```
+
+## Matrices
+
+The following example creates a 2D array or *matrix*. 
+You need to provide a list of all values, the number of rows and the number of columnbs. 
+Note that the matrix column is filled in per column!
+
+```{r}
+mat <- matrix(
+      c(1, 2, 3,
+        4, 5, 6), 
+      nrow = 3,
+      ncol = 2)
+mat
+```
+
+Selecting an element from a matrix:
+
+```{r}
+mat[3,2]  # Element from the third row, second column
+mat[,2]   # Second kolom
+mat[1,]   # First row
+mat[2:3,] # Second and third row
+```
