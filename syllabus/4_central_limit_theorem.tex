@@ -498,117 +498,132 @@ However, note that we assume to know the standard deviation of the population, w
 \subsection{Confidence interval for the population mean of a small sample}
 \label{ssec:confidence-interval-pop-mean-small-sample}
 
-Bij kleine steekproeven kunnen we niet langer veronderstellen dat de kansverdeling van $\overline{x}$ bij benadering
-normaal verdeel is, omdat de centrale limietstelling alleen normaliteit garandeert voor grote steekproeven ($n >30$). De vorm
-van de kansverdeling van het steekproefgemiddelde $\overline{x}$ hangt nu af van de vorm van de verdeling van de populatie waaruit de
-steekproef genomen wordt. Alhoewel nog steeds geldt dat $\sigma_{\overline{x}} = \frac{\sigma}{\sqrt{n}}$ kan
-de standaardafwijking $s$ een slechte benadering zijn voor $\sigma$ als de steekproef klein is.
+In the case of a small sample, we can no longer assume that the probability distribution of $\overline{x}$ approximates the normal distribution. 
+The central limit theorem only holds for large sample sizes of about $n > 30$.
 
-Als oplossing kunnen we een nieuwe grootheid bepalen. In plaats van
+The shape of the probability distribution of $\overline{x}$ now depends of the shape of the underlying probability distribution of the population. 
+Although $\sigma_{\overline{x}} = \frac{\sigma}{\sqrt{n}}$ still holds, the standard deviation of the sample $s$ 
+could be a bad estimate for $\sigma$ if the sample is small.
 
+However, there is a solution in the form of the so-called Student's $t$ distribution. Instead of calculating the z-score:
 \[ z = \frac{\overline{x} - \mu}{\frac{\sigma}{\sqrt{n}}} \]
 
-construeren we
-
+we can use the $t$-score:
 \[ t = \frac{\overline{x} - \mu}{\frac{s}{\sqrt{n}}} \]
 
-Deze heeft een kansverdeling die beschreven wordt door een Student-t verdeling. Deze lijkt zeer goed op de normale verdeling: klokvormig, symmetrisch en met verwachtingswaarde 0.
+The probability density of the Student's $t$ distribution is very similar to the standard normal distribution: 
+bell-shaped, symmetrical, and with an expected value of 0.
 
-De precieze vorm van de kansverdeling $t$ hang af van de steekproefomvang $n$. We zeggen dat de t-verdeling $(n-1)$ vrijheidsgraden heeft (afgekort $df$).
-Merk op dat:
+The exact shape depends on the sample size $n$, or more precisely on the degrees of freedom\index{degrees of freedom} $(n-1)$ (abbreviated as $df$).
+
+Note that:
 \begin{itemize}
-  \item $(n-1)$ ook gebruikt werd om $s^{2}$ te berekenen
-  \item als $n \rightarrow \infty$ we de standaardnormale verdeling verkrijgen.
+  \item $(n-1)$ is also used to calculate the sample variance $s^{2}$;
+  \item When $n \rightarrow \infty$ this converges to the standard normal distribution.
 \end{itemize}
 
-Indien we nu een betrouwbaarheidsinterval willen bepalen voor een steekproef met een klein aantal waarden moeten we het volgende doen:
+To calculate a confidence interval for a sample with a small number of observations, we need to do the following:
 
-\begin{definition}[Betrouwbaarheidsinterval kleine steekproef]
-  Om een betrouwbaarheidsinterval voor het gemiddelde te bepalen op basis van een klein steekproef bepalen we:
+\begin{definition}[Confidence Interval for a Small Sample]
+  To determine a confidence interval for the average based on a small sample, we calculate:
   \[ \overline{x} \pm t_{\frac{\alpha}{2}}(\frac{s}{\sqrt{n}}) \]
-  waarbij $t_{\frac{\alpha}{2}}$ gebaseerd is op $(n-1)$ vrijheidsgraden. We veronderstellen wel dat we een aselecte steekproef genomen hebben uit
-  een populatie die bij benadering normaal verdeeld is.
+  in which $t_{\frac{\alpha}{2}}$ is based on $(n-1)$ degrees of freedom. 
+  We still assume that the sample is random and drawn from a population that is approximately normally distributed.
 \end{definition}
 
 \begin{table}
   \centering
   \begin{tabular}{ll}
-  	\textbf{Functie} & \textbf{Betekenis}                                             \\ \midrule
-  	\verb|pt(x, df)| & Linkerstaartkans, $P(X<\mathtt{x})$                            \\
-  	\verb|dt(x, df)| & Hoogte van de curve op punt \texttt{x}                         \\
-  	\verb|qt(p, df)| & Onder welke grens zal \texttt{p}\% van de waarnemingen liggen? \\
-  	\verb|rt(n, df)| & Genereer \texttt{n} random getallen volgens deze verdeling
+    \textbf{Function}     & \textbf{Description}                                      \\
+    \midrule
+  	\verb|pt(x, df)| & Left tail probability, $P(X<\mathtt{x})$                       \\
+  	\verb|dt(x, df)| & Altitude of the Gaussian curve at point \texttt{x}             \\
+  	\verb|qt(p, df)| & What boundary value contains \texttt{p}\% of the observations? \\
+  	\verb|rt(n, df)| & Generate \texttt{n} random numbers using the $t$ distribution  \\ 
   \end{tabular}
 
-  \caption{Kansberekeningsfuncties in R voor de Student-$t$ verdeling met \texttt{df} vrijheidsgraden, verwachte waarde 0 en standaardafwijking 1.}
+  \caption{Functions for calculating the probability in R for the Student-$t$ distribution with \texttt{df} degrees of freedom, expected value 0 and standard deviation 1.}
   \label{tab:t-prob-r}
 \end{table}
 
-\subsection{Betrouwbaarheidsinterval voor populatiefractie bij een grote steekproef}
-\label{ssec:betrouwbaarheidsinterval-populatiefractie}
+\subsection{Confidence interval for a population fraction of a large sample}
+\label{ssec:confidence-interval-pop-fraction-large-sample}
 
-Indien je een variabele wil meten als een fractie, bijvoorbeeld \% mensen die ja geantwoord heeft op een bepaalde vraag, dan willen we in feite de kans $p$ op succes in een bernouilli experiment schatten, waarbij $p$ de kans is dat een willekeurig geselecteerde respondent (of element van de populatie) een succes is (succes in termen van binomiaal experiment). We kunnen $p$ dan schatten door bijvoorbeeld:
+If you want to measure a variable as a fraction, for example the percentage of people that responded with ``yes'' to a specific question, this is equivalent to estimating the probability $p$ on success in a binomial experiment, i.e.~an experiment with a sample space consisting of two elements, ``success'' and ``failure''. 
+If the probability of ``success'' is $p$, the probability of ``failure'' is $q = 1 - p$. 
+The value of $p$ can be estimated based on the sample:
 
-\[ \overline{p} = \frac{\textnormal{aantal successen}}{n} \]
+\[ \overline{p} = \frac{\textnormal{number of successes}}{n} \]
 
-Om nu de betrouwbaarheid van de schatter $\overline{p}$ te bepalen moeten we de kansverdeling kennen van $\overline{p}$. Dit kunnen we beredeneren door toepassing van de centrale limietstelling op het gemiddelde aantal successen in de steekproef van omvang $n$. Indien succes = 1 en faling = 0, dan hebben we een steekproef van $n$ elementen, ieder met dezelfde verdeling (kans op 1 is $p$ en kans op 0 is $q=1-p$).  Het gemiddelde $\overline{p}$ heeft dan bij benadering een normale verdeling. Of dus:
+In order to calculate a confidence interval for $\overline{p}$, we need to know the probability distribution of $\overline{p}$. 
+The central limit theory can then be applied to the average number of successes in a sample of size $n$. 
+If success = 1 and failure = 0, we have a sample of $n$ elements, each having the same distribution (probability of 1 is $p$ and probability of 0 is $q=1-p$).
+The probability distribution of $\overline{p}$ has the following properties:
 
 \begin{itemize}
-  \item Verwachting van kansverdeling van $\overline{p}$ is $p$.
-  \item De standaardafwijking van kansverdeling $\overline{p} = \sqrt{\frac{pq}{n}}$
-  \item Voor grote steekproeven is $\overline{p}$ bij benadering normaal verdeeld.
+  \item The expected value of the probability distribution of $\overline{p}$ is $p$.
+  \item The standard deviation of the probability distribution of $\overline{p}$ is $\sqrt{\frac{pq}{n}}$.
+  \item For large samples, $\overline{p}$ is approximately normally distributed.
 \end{itemize}
 
-Aangezien $\overline{p}$ een steekproefgemiddelde is van het aantal successen, stelt dit ons in staat een betrouwbaarheidsinterval te berekenen analoog als die voor de intervalschatting van $\mu$ voor grote steekproeven.
+Since $\overline{p}$ is the sample mean of the number of successes, this allows us to calculate a confidence interval, analougous to the one for $\mu$ for large samples.
 
-\begin{definition}[Betrouwbaarheidsinterval voor $p$ gebaseerd op grote steekproef]
+\begin{definition}[Confidence interval for $p$ for a large sample]
   \[ \overline{p} \pm z_{\frac{\alpha}{2}} \sqrt{\frac{\overline{p}\overline{q}}{n}} \]
-  met $\overline{p} = \frac{x}{n}$ en $\overline{q} = 1- \overline{p}$
+  with $\overline{p} = \frac{x}{n}$ and $\overline{q} = 1- \overline{p}$
 \end{definition}
 
 
 \section{R}
-We kijken naar enkele basisoperaties die verband houden met enkele distributies. Er zijn een groot aantal verdelingen beschikbaar, maar we kijken maar naar een paar. Als u wilt weten welke distributies beschikbaar zijn, kunt u een zoekopdracht uitvoeren met behulp van de opdracht
+We take a look at some basic operations related to several probability distributions.
+Although R knows many different distributions, we will only focus on the main ones.
+To find out all supported distributions, you can use the following command in R:
 
 \begin{lstlisting}
-> help.search ("distribution").
+> help.search ("distribution")
 \end{lstlisting}
 
+In this section we will provide some details about the command used for a normal distribution, and briefly mention the command for other distributions.
+The functions for the different distributions are very similar.
 
-Hier geven we details over de commando's die verband houden met de normale distributie en vermelden kort de commando's voor andere distributies. De functies voor verschillende verdelingen zijn zeer vergelijkbaar.
-
-De prefixen zijn als volgt:
+The prefixes are as follows:
 \begin{description}
-	\item[d] geeft de hoogte van de respectievelijke kansdichtheidsfunctie
-	\item[p] geeft de cumulatieve kansdichtheidsfunctie
-	\item[q] geeft de omgekeerde cumulatieve dichtheidsfunctie
-	\item[r] geeft een willekeurige waarde
+	\item[d] returns the altitude of the selected curve
+	\item[p] returns the cumulative probability density function
+	\item[q] returns the reverse cumulative density function
+	\item[r] returns a random value
 \end{description}
 
-\subsection{De normale verdeling}
-Er zijn vier functies die kunnen worden gebruikt om de waarden geassocieerd met de normale distributie te genereren.
+\subsection{The Normal Distribution}
+There are four functions to generate values associated with the normal distribution.
 \subsubsection{dnorm}
 
-De eerste functie waarnaar we kijken, is \texttt{dnorm}. Gegeven een waarde geeft het de hoogte van de kansverdeling op elk punt terug. Als u alleen de punten zonder gemiddelde en standaardafwijking ingeeft wordt een gemiddelde van nul en standaardafwijking van 1 beschouwd. Er zijn opties om verschillende waarden voor de gemiddelde en standaardafwijking te gebruiken.
+When a value is provided, this function returns the height of the probability distribution for each requested point.
+If no other parameters are provided, without mean or standard deviation, the standard normal distribution is used (with mean 0 and standard deviation 1).
+However, it is also possible to use a different value for the average and standard deviation by adding the corresponding parameters.
 
-%\lstinputlisting{data/norm.R}
+\lstinputlisting{data/norm.R}
 
 \subsubsection{pnorm}
 
-Dit is de cumulatieve kansdichtheidsfunctie, of anders gezegd de linkerstaartkans: \texttt{pnorm(x)} is $P(Z < x)$.
+This function returns the cumulative probability density function, or in other words the left tail probability: \texttt{pnorm(x)} is $P(Z < x)$.
 
 \subsubsection{qnorm}
-De volgende functie die we bekijken is \texttt{qnorm}, die de inverse van \texttt{pnorm} is. Het idee achter \texttt{qnorm} is dat je het een kans $\alpha$ geeft, en het geeft het getal weer waarvan de cumulatieve distributie overeenkomt met de waarschijnlijkheid $\alpha$.
+The function \texttt{qnorm} is the inverse of \texttt{pnorm}.
+The main idea behind \texttt{qnorm} is that when you provide a probability $\alpha$, 
+this function returns the value for which the left tail probability is $\alpha$.
+
+\lstinputlisting{data/qnorm.R}
 
 \subsubsection{rnorm}
 
-%\lstinputlisting{data/qnorm.R}
-De laatste functie die we onderzoeken is de \texttt{rnorm} functie die willekeurige getallen kan genereren waarvan de distributie normaal is. Het argument dat je ingeeft is het aantal willekeurige getallen dat u wilt, met optionele argumenten om de gemiddelde en standaardafwijking op te geven:
+The \texttt{rnorm} function can generate random values using a normal distribution.
+The first argument is the required number of values, and a custom average and standard deviation can also be supplied as optional parameters.
 
-%\lstinputlisting{data/rnorm.R}
+\lstinputlisting{data/rnorm.R}
 
-\section{Oefeningen}
-\label{sec:steekproefonderzoek-oefeningen}
+\section{Exercises}
+\label{sec:sampling-exercises}
 
 \begin{exercise}
   \label{ex:prob-norm-dist}
