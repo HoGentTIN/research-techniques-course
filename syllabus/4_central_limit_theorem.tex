@@ -1,7 +1,7 @@
 \chapter{The Central Limit Theorem}
 \label{ch:central-limit-theorem}
 
-In this chapter the central limit theorem in introduced (cfr. Section~\ref{sec:central-limit-theorem}). This theorem is a key concept in probability theory, because multiple statistical testing procedures (cfr. Chapter~\ref{ch:testing_procedures}) are based on this. The central limit theorem allows you to generalize measurements obtained from a sample to the full population under certain conditions.
+In this chapter the central limit theorem in introduced (cfr. Section~\ref{sec:central-limit-theorem}). This theorem is a key concept in probability theory, because multiple statistical testing procedures (cfr. Chapter~\ref{ch:testing-procedures}) are based on this. The central limit theorem allows you to generalize measurements obtained from a sample to the full population under certain conditions.
 
 We also discuss the concept of point estimators and confidence intervals. A point estimator is a number that is calculated from the sample, which can be used to estimate a property of the population. For example, the mean/average of a sample $\overline{x}$ is a point estimator for the mean/average of the population $\mu$. A confidence interval is used to propose a range of plausible values for an unknown parameter together with an associated confidence level. For example, a 95\% confidence interval for the mean of a population is an interval derived from the sample, of which we can say that - under clear conditions - the population mean has a 95\% chance to be in the proposed range.
 
@@ -360,7 +360,7 @@ Because of the desirable properties of the normal distribution, it's often good 
     \includegraphics[width=.45\textwidth]{sampling-qqplot-good}
     \includegraphics[width=.45\textwidth]{sampling-qqplot-bad}
   \end{center}
-  \caption{The Q-Q plot on the left is based on a sample of 50 observations drawn from a normal distribution with mean 1000 and standard deviation 50. The plot on the right is based on a sample of 50 observations drawn from Student's $t$ distribution with 15 degrees of freedom, with the same mean and standard deviation. The lines in red indicate where the observations should theoretically be situated. In the plot on the left, this is more or less the case, but on the right, especially in the extremes, observations deviate from the line.}
+  \caption{The Q-Q plot on the left is based on a sample of 50 observations drawn from a normal distribution with mean 1000 and standard deviation 50. The plot on the right is based on a sample of 50 observations drawn from Student's $t$-distribution with 15 degrees of freedom, with the same mean and standard deviation. The lines in red indicate where the observations should theoretically be situated. In the plot on the left, this is more or less the case, but on the right, especially in the extremes, observations deviate from the line.}
   \label{fig:qqplot}
 \end{figure}
 
@@ -505,13 +505,13 @@ The shape of the probability distribution of $\overline{x}$ now depends of the s
 Although $\sigma_{\overline{x}} = \frac{\sigma}{\sqrt{n}}$ still holds, the standard deviation of the sample $s$ 
 could be a bad estimate for $\sigma$ if the sample is small.
 
-However, there is a solution in the form of the so-called Student's $t$ distribution. Instead of calculating the z-score:
+However, there is a solution in the form of the so-called Student's $t$-distribution. Instead of calculating the z-score:
 \[ z = \frac{\overline{x} - \mu}{\frac{\sigma}{\sqrt{n}}} \]
 
 we can use the $t$-score:
 \[ t = \frac{\overline{x} - \mu}{\frac{s}{\sqrt{n}}} \]
 
-The probability density of the Student's $t$ distribution is very similar to the standard normal distribution: 
+The probability density of the Student's $t$-distribution is very similar to the standard normal distribution: 
 bell-shaped, symmetrical, and with an expected value of 0.
 
 The exact shape depends on the sample size $n$, or more precisely on the degrees of freedom\index{degrees of freedom} $(n-1)$ (abbreviated as $df$).
@@ -542,7 +542,7 @@ To calculate a confidence interval for a sample with a small number of observati
   	\verb|rt(n, df)| & Generate \texttt{n} random numbers using the $t$ distribution  \\ 
   \end{tabular}
 
-  \caption{Functions for calculating the probability in R for the Student-$t$ distribution with \texttt{df} degrees of freedom, expected value 0 and standard deviation 1.}
+  \caption{Functions for calculating the probability in R for the Student's $t$-distribution with \texttt{df} degrees of freedom, expected value 0 and standard deviation 1.}
   \label{tab:t-prob-r}
 \end{table}
 

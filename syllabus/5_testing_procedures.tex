@@ -1,0 +1,633 @@
+\chapter{Testing Procedures}
+\label{ch:testing-procedures}
+
+In previous chapters we introduced an approach for estimating certain key metrics about a population based on a sample, for example using point estimators or confidence intervals.
+We can also use this information to test certain hypotheses about a population. A hypothesis is an assumption that has yet to be proven.
+The purpose of a testing procedure is to test a hypothesis regarding the value of 1 or more population parameters.
+
+\begin{definition}[Statistical Hypothesis]
+  A statistical hypothesis\index{hypothesis!statistical} is a statement about the numerical value of a population parameter.
+\end{definition}
+
+Examples of hypotheses:
+
+\begin{itemize}
+  \item On average, a superhero rescues at least 3.3 people a day.
+  \item The average height of a superhero is at least 120 cm.
+  \item \dots
+\end{itemize}
+
+In this chapter we will formulate the general theory of testing using hypotheses about the population mean $\mu$, the $Z$-test.
+Apart from the $Z$-test, there are many other statistical hypothesis tests that can be used in specific cases.
+The most appropriate statistical test depends, among other things, on the population size in question (average, standard deviation, etc.),
+and assumptions regarding the underlying stochastic distribution of the population (normally distributed or not, etc.).
+
+\section{Learning Goals}
+\label{sec:testing-procedures-learning-goals}
+
+By the end of this chapter you must be able to:
+
+\begin{itemize}
+  \item Explain the following concepts:
+  \begin{itemize}
+    \item hypothesis test, statistical hypothesis, null hypothesis, alternative hypothesis;
+    \item test statistics, region of acceptance, region of rejection / critical region, probability value;
+    \item $Z$-test, $t$-test, left tail, right tail, two tail;
+    \item Type I and Type II errors;
+  \end{itemize}
+  \item Describe the general procedure for a statistical test;
+  \item Based on the description of a situation in which you are asked to verify a statement about the population mean:
+  \begin{itemize}
+    \item to determine whether a $z$- or $t$-test could be used;
+    \item to deduce from the research question whether the left, right of two tail variant should be used;
+  \end{itemize}
+  \item To correctly apply the $z$- or $t$-test for a given situation, i.e.:
+  \begin{itemize}
+    \item Formulate the null and alternative hypotheses (mathematical notation);
+    \item Calculate the test statistic
+    \item Calculate the critical value(s) and determine whether the test statistic is inside the region of acceptance or rejection;
+    \item Calculate the probability value;
+    \item Formulate a correct conclusion (reject null hypothesis or not);
+    \item Formulate an answer to the research question.
+  \end{itemize}
+\end{itemize}
+
+\section{Elements of a hypothesis test}
+\label{sec:elements-hypothesis-test}
+
+In general, a testing procedure consists of 4 elements:
+\begin{enumerate}
+  \item \textbf{Null Hypothesis}\index{null hypothesis}\index{hypothesis!null} $H_{0}$: We will try to disprove this hypothesis using proof by contradiction. We will accept this hypothesis, unless observations from the sample convincingly point to the contrary.
+  \item \textbf{Alternative hypothesis}\index{hypothesis!alternative} $H_{1}$: In general, this is the hypothesis the researcher wants to prove. However, this hypothesis will only be accepted if the observations from the sample convincingly indicate its correctness.
+  \item \textbf{Test Statistic}: The variable that is derived from the sample
+  \item Region of acceptance and region of rejection / critical region:
+  \begin{itemize}
+    \item \textbf{Region of Acceptance\index{region of acceptance}}: The region of values supporting the null hypothesis $H_{0}$
+    \item \textbf{Region of Rejection\index{region of rejection}}: The region containing the values that reject the null hypothesis. Also referred to as critical region\index{region!critical}.
+  \end{itemize}
+\end{enumerate}
+
+An alternative for the last step is calculating the \emph{probability value} (see further).
+
+The decision to reject or accept the null hypothesis $H_{0}$ is based on information from a sample, drawn from a population on which the hypothesis is based.
+The sample values are used to calculate a single value of a test statistic that will determine the decision. 
+To this end, all possible values for the test statistic are divided into two regions, the region of acceptance and the region of rejection.
+If the value of the test statistic is inside the region of rejection, the null hypothesis is rejected and the alternative hypothesis accepted.
+If the value of the test statistis is inside the region of acceptance, the null hypothesis accepted.
+
+\section{Testing Procedure for the \texorpdfstring{$z$}{z}-test}
+\label{sec:testing-procedure-z-test}
+
+For the first test procedure we will discuss in this course, we will verify a statement about the population mean $\mu$.
+This test procedure is commonly known as the $Z$-test\index{$Z$-test}\index{test!$Z$}.
+
+\begin{enumerate}
+  \item The suspicions about the population are described using two hypotheses $H_{0}$ and $H_{1}$. For the (right-tail) $Z$-test the null hypothesis states that the population mean $\mu$ has a certain value, and the alternative hypothesis states that $\mu$\ is \emph{greater} than this value.
+  \item The significance level\index{significance level}\index{level!significance} $\alpha$ and sample size $n$ are determined. In principle, you can choose a value for $\alpha$ (e.g. 0.05)\footnote{Note that the significance level is related to the confidence interval $1-\alpha$, cfr. Section~\ref{ssec:confidence-interval-pop-mean-large-sample}}. The closer the significance level is to 0, the less doubt there is about the result of the test, but on the other hand it becomes more difficult to reject the null hypothesis.
+  \item The value of the test statistic for the sample is calculated. The result determines whether we can reject the null hypothesis $H_{0}$ or not. Thanks to the central limit theorem we know that the probability distribution of the sample mean is normally distributed, $M \sim Nor( \mu, \frac{\sigma}{\sqrt{n}})$.
+  \item We determine the critical region, or more specifically the boundary between the region of acceptance and the region of rejection. We look for a critical value $g$ so that:
+  
+  \begin{align}
+  P(M > g) = \alpha & \Leftrightarrow P\left(Z> z=\frac{g-\mu}{\sigma/\sqrt{n}}\right) = \alpha & \mathrm{(standardization)}\\
+  & \Leftrightarrow P\left(Z < z = \frac{g-\mu}{\sigma/\sqrt{n}}\right) = 1-\alpha & \mathrm{(100\%-rule)}
+  \end{align}
+  
+  The $z$-value depends on the chosen significance level, and can be found using a $z$-table or calculated using the R function \texttt{qnorm(1-alpha)}. From this we can derive $g$:
+  
+  \begin{equation}
+  z = \frac{g-\mu}{\sigma/\sqrt{n}} \Leftrightarrow g = \mu + z \frac{\sigma}{\sqrt{n}}
+  \label{eq:critical-calue-z-test}
+  \end{equation}
+
+  All values \emph{left} of $g$ form the region of acceptance. Value on the right, which are far away from the assumed population mean $H_0$, form the region of rejection, cfr. Section~\ref{sec:critical-region}.
+\end{enumerate}
+
+\begin{example}
+  \label{ex:hypothesis-test-daily-rescues}
+  In general we assume that superheroes rescue 3.3 people per day on average. However, researchers are getting the feeling that this is not the case: they have the impression that a superhero rescues \emph{more} than $3.3$ people per day.
+
+  The researchers want to to investigate this and take a sample of $n = 30$ superheroes. For this sample, the sample mean is $\overline{x} = 3,483$. The standard deviation of the population is assumed to be known and is equal to $\sigma = 0.55$.
+  
+  Using these results, can the researchers conclude that superheroes rescue on average more than 3.3 people per day?
+
+  \begin{enumerate}
+    \item We assume that the number of people a superhero rescues on average is normally distributed and formulate two hypotheses regarding the parameter $\mu$.
+    \begin{itemize}
+      \item $H_{0}$ = the null hypothesis (that we want to reject). In this case: \[ H_{0} : \mu = 3.3 \]
+      \item $H_{1}$ = alternative hypothesis (suspect that we want to prove). In this case: \[H_{1}= \mu > 3.3 \]
+    \end{itemize}
+  
+    We initially assume that the null hypothesis $H_{0}$ is true. If the average number of people rescued per day of the sample ($\overline{x}$) differs a lot from the assumed value, we reject the null hypothesis $H_{0}$ and accept the alternative hypothesis $H_{1}$.
+
+    But how do we define ``differs a lot''? Would it be easy to draw a sample with a mean of $3.483$ based on a population with a mean of $3.3$? The central limit theorem (cfr. Section~\ref{ch:central-limit-theorem}) allows for calculating the probability of this.
+    
+    \item Determine significance level $\alpha$ and sample size $n$. We want to have a significance level of 5\%, so $\alpha = 0.05$. The sample size is provided for this case, and is equal to $n = 30$.
+    
+    \item Calculate the value of the test statistic in the sample. For this example, we take the sample mean: $\overline{x} = 3.483$
+    
+    We assume that the null hypothesis $H_{0}$ is true and that we have a good estimate for $\sigma$ ($\sigma = 0,55$). Then, according to the central limit theorem, we can say about the sample mean $M$ that:
+
+    \[M \sim  Nor(\mu = 3.3; \sigma = \frac{0.55}{\sqrt{30}})\]
+
+    The value $\overline{x} = 3,483$ is located on the far right (see Figure~\ref{fig:hypothesis-test-daily-rescues}). $\overline{x} $ is so far to the right that the probability to get this or a greater value, is very small (if $H_{0}$ is true). As a result, it is very difficult to explain such a value based on mere coincidence. Intuitively we feel that the further the observed value of $\overline{x}$ is located in the right direction, the more inclined we are to reject the null hypothesis. But what is too far and what is not?
+    
+    \item Calculate the critical value. The $z$=value for a significance level of $0,05$ equals 1.654\footnote{This can be calculated in R using \texttt{qnorm(1 - 0.05)}}.
+    
+    \[ g = \mu + z \times \frac{\sigma}{\sqrt{n}} = 3.3 + 1.645 \times \frac{0.55}{\sqrt{30}} \approx 3.45 \]
+    
+    The sample mean $\overline{x} = 3.483 $ is even further away from $\mu = 3.3$ than the limit value $g = 3.45$. It is therefore very unlikely that such a sample can be drawn from a population with this average. Such an event will only occur in 34 samples out of 1000. In other words, the sample value is in the rejection area. Because of this, we can reject $H_0$ and conclude that superheroes indeed rescue \emph{more} than 3.3 people a day.
+
+  \end{enumerate}
+
+\end{example}
+
+\begin{exercise}
+  Can we assume in Example~\ref{ex:hypothesis-test-daily-rescues} that the mean has a normal distribution? Why (not)?
+\end{exercise}
+
+\begin{figure}
+  \centering
+  \begin{tikzpicture}
+    \begin{axis}[
+        domain=3:3.6, samples=100,
+        axis lines*=left, xlabel=$x$,
+        every axis y label/.style={at=(current axis.above origin),anchor=south},
+        every axis x label/.style={at=(current axis.right of origin),anchor=west},
+        height=5cm, width=12cm,
+        xtick={3.3,3.483}, ytick=\empty,
+        xticklabels={$\mu$,$\overline{x}$},
+        enlargelimits=false, clip=false, axis on top,
+        grid = minor
+      ]
+      \addplot [fill=cyan!20, draw=none, domain=3:3.465] {gauss(3.3,0.1004)} \closedcycle;
+      \addplot [fill=none, draw=black, domain=3:3.6] {gauss(3.3,0.1004)} \closedcycle;
+      \draw [-](axis cs:3.465,1.6) -- (axis cs:3.465,0);
+      \node at (axis cs:3.465,1.8) {3.465};
+      \node at (axis cs:3.483,-0.7) {3.483};
+      \node at (axis cs:3.3,-0.7) {3.3};
+    \end{axis}
+  \end{tikzpicture}
+  \caption{Distribution of the number of people rescued by a superhero on average per day (Example~\ref{ex:hypothesis-test-daily-rescues}). The probability distribution of the sample mean is normally distributed with $\mu = 3.3$ and $\sigma = 0.55$. The sample mean is $\overline{x} = 3.483$. The critical value for acceptance/recjection of $H_{0}$ is 3.465.}
+  \label{fig:hypothesis-test-daily-rescues}
+\end{figure}
+
+\section{Critical Region}
+\label{sec:critical-region}
+
+The formula for calculating the critical value (cfr. Equation~\ref{eq:critical-calue-z-test}) is based on the central limit theorem, and in particular on confidence intervals.
+
+The critical value defines a confidence interval around $\mu$ for a selected significance level. For example, if we assume that $\alpha = 0.05$, the central limit theorem states that if we repeatedly take enough samples from this population, we can expect that in 95\% of cases the sample mean will be located within this confidence interval.
+
+If we reverse this reasoning, and took a sample for which the mean $\overline{x}$ is \emph{not} located within this confidence interval, then the chance is very small (less than 5\%) that the sample has been drawn from a population with assumed mean $\mu$. Therefore, in this case we can reject the null hypothesis.
+
+In Example~\ref{ex:hypothesis-test-daily-rescues} the critical value is the value of $g$ for which:
+
+\[ P(M > g) = \alpha \]
+
+This can be converted to:
+
+\[ P(Z > \frac{g - \mu}{\frac{\sigma}{\sqrt{n}}}) = \alpha \]
+
+And as a result:
+
+\begin{equation}
+  \label{eq:critical-value-right-tail}
+  g = \mu + z \times \frac{\sigma}{\sqrt{n}}
+\end{equation}
+
+\section{Probability Value}
+\label{sec:probability-value}
+
+A characteristic that is often used to show how strongly the observed value deviates from $H_{0}$ is the probability value (also known as $p$-value\index{$p$-value}). This is an alternative way to determine whether the null hypothesis can be rejected or not.
+
+\begin{definition}[probability value]
+  The \emph{probability value}\index{probability value} is the probability, if the null hypothesis is true, to obtain a value for the test statistic that is at least as extreme as the observed value.
+\end{definition}
+
+\begin{definition}[statistical significance]
+  In statistical hypothesis testing, a result has a \emph{statistical significance}\index{significance} when the observed probability value $p$ of the test statistic is lower than the significance level $\alpha$.
+  A $p$-value below the selected signifance level is considered to be too extreme to hold to the assumption that the null hypothesis is true.
+\end{definition}
+
+\begin{example}
+  In the research regarding the daily number of rescues by superheroes (cfr. Example~\ref{ex:hypothesis-test-daily-rescues}) the probability value can be calculated as follows:
+  
+  \[ P(M > 3.483) = P \left(Z> \frac{3.483 - 3.3}{\frac{\sigma}{\sqrt{n}}}\right) = P (Z > 1.822) = 0.0344 \]
+\end{example}
+
+If the probability value (or $p$-value) is less than the significance level, $H_{0}$ is rejected, if the $p$-value is equal or greater than $\alpha$ we cannot reject $H_{0}$.
+In our example the $p$-value is $0.0344$, which is less than $\alpha = 0.05$, so we have to reject $H_{0}$.
+
+\begin{itemize}
+  \item $p$-value $< \alpha \Rightarrow$ reject $H_{0}$, because the obtained value for $\overline{x}$ is too extreme;
+  \item $p$-value $\geq \alpha \Rightarrow$ not rejecting $H_{0}$, because the obtained value for $\overline{x}$ can still be explained by coincidence.
+\end{itemize}
+
+\section{One- or two-tailed tests}
+\label{sec:one-or-two-tailed-tests}
+
+Example~\ref{ex:hypothesis-test-daily-rescues} focuses on a hypotheses where we suspect that the population mean is \emph{greater than} a certain value. We doubt the correctness of the null hypotheses if our sample mean is significantly greater than the target average $\mu = 3.3; \alpha = 0.05$. The critical region to reject $H_{0}$ is on the right side of the curve and therefore we call this test right-tailed.
+
+We could also create a test in which we suspect that the superheroes on average rescue \emph{fewer} people a day. In this case, the critical region is on the left side of the curve and we call this test left-tailed.
+
+\begin{exercise}
+  \label{ex:critical-value-left-tail}
+  
+  What would you have to change in Equation~\ref{eq:critical-value-right-tail} in order to calculate a correct value for a left-tailed $Z$-test?
+\end{exercise}
+
+Sometimes it might be necessary to perform a two-tailed test. 
+In this case, the alternative hypothesis states that the population mean is different from a certain value.
+Two critical values must then be calculated, namely the left and right value:
+
+\begin{equation}
+  g = \mu \pm z \times \frac{\sigma}{\sqrt{n}}
+  \label{eq:critical-value-two-tailed}
+\end{equation}
+
+The critical region has a total area of $1 - \alpha$, and consists of two regions with an area of $\alpha / 2$, one on the left and one on the right.
+We therefore have to pick the corresponding $z$-values. For example, if the significance level $\alpha = 0.05$, we look for the $z$-value for which:
+
+\[P(Z < -z) + P(Z > z) = \alpha \Leftrightarrow 2 P(Z>z) = \alpha \Leftrightarrow P(Z < z) = 1-\frac{\alpha}{2} = 0,975\]
+
+The corresponding $z$-value is about $1.96$ (can be found in the $z$-table or in R by using \texttt{qnorm(.975)}).
+
+The three types of the $Z$-test are summarized in Table~\ref{tab:z-test-types}.
+
+\begin{table}
+  \centering
+  \begin{tabular}{l|ccc}
+    \toprule
+    Goal              & \multicolumn{3}{l}{\parbox{.5\textwidth}{Test a statement regarding the mean of the population $\mu$ by using a sample of $n$ random values}} \\
+    \midrule
+    Condition         & \multicolumn{3}{l}{\parbox{.5\textwidth}{The population has a random distribution, $n$ is sufficiently large}} \\
+    \midrule
+    Test Type         & Two-Tailed           & Left-Tailed     & Right-Tailed     \\
+    \midrule
+    $H_{0}$           & $\mu = \mu_{0}$      & $\mu = \mu_{0}$ & $\mu = \mu_{0}$  \\
+    $H_{1}$           & $\mu \neq \mu_{0}$   & $\mu < \mu_{0}$ & $\mu > \mu_{0}$  \\
+    Critical Region   & $\left|z\right| > g$ & $z< -g $        & $z>g$            \\
+    Test Statistic    & \multicolumn{3}{c}{$z = \frac{\overline{x} - \mu_{0}}{\frac{\sigma}{\sqrt{n}}}$} \\
+    \bottomrule
+  \end{tabular}
+  \caption{Summary of the different types of the $Z$-test.}
+  \label{tab:z-test-types}
+\end{table}
+
+\section{The \texorpdfstring{$z$}{z}-test in R}
+\label{sec:z-test-R}
+
+The code example below is the elaboration of Example~\ref{ex:hypothesis-test-daily-rescues} in R.
+
+\lstinputlisting{data/z-test.R}
+
+\begin{figure}
+  \centering
+  \includegraphics[width=\textwidth]{z-toets-reddingen}
+  \caption{R Plot for the case study of Example~\ref{ex:hypothesis-test-daily-rescues}}
+\end{figure}
+
+\section{Examples}
+\label{sec:testing-procedures-examples}
+
+\begin{example}
+  For a random sample consisting of 50 observations we have that:
+  \begin{itemize}
+    \item $\overline{x} = 25$
+    \item $s = \sqrt{55} = 7,41$
+  \end{itemize}
+  
+  We want to find out if there is a reason to assume that the popolation mean $\mu$ is smaller than 27.
+  
+  \begin{enumerate}
+    \item Formulate both hypotheses. 
+    
+    $H_{0} : \mu = 27$ and $H_{1}: \mu < 27$.
+    
+    \item Determine significance level $\alpha$ and sample size $n$.
+    
+    $\alpha = 0.05$ and $n=50$.
+    
+    \item Calculate the value of the test statistic.
+    
+    For this we select the sample mean $M$. According to the central limit theorem, we have that:
+    
+    \[ M \sim Nor(\mu = 27, \frac{\sigma}{\sqrt{n}}) \]
+    
+    The test statistic is:
+    \[ Z = \frac{\overline{x} - \mu}{\frac{\sigma}{\sqrt{n}}} = \frac{25-27}{\sqrt\frac{55}{50}} \approx -1.91\]
+    
+    \item Calculate the critical value.
+    
+    We discover a critical value for the mean of \texttt{pnorm(-1.91)} or about $0.0281$. Given a significance level of 0.05, this indicates that we can reject $H_{0}$.
+    
+    \item Calculate and plot the critical region.
+    
+    \[ g = \mu - z \times \frac{\sigma}{\sqrt{n}} \]
+    
+    and therefore:
+    
+    \[ g = 27 - 1.645 \times \sqrt{\frac{55}{50}} \]
+    \[ g =  25.27470944 \]
+    
+    We discover that $\overline{x} < g$, and therefore we can make the same conclusion, to reject $H_{0}$.
+    
+  \end{enumerate}
+\end{example}
+
+\begin{example}
+  In a reseach about the amount of change in the pockets of our superheroes, researchers state that on average a superhero carries 25 euro of cash.
+  They assume that the population variance $\sigma = 7$.
+  For a random sample of size $n=64$, the average amount of money a superhero carries is $\overline{x} = 23$ euro. 
+  For the significance level, $\alpha = 0,05$ is selected.
+  
+  \begin{enumerate}
+    \item Formulate both hypotheses.
+    
+    $H_{0} : \mu = 25$ and $H_{1}: \mu \neq 25$.
+    
+    \item Determine significance level $\alpha$ and sample size $n$.
+    
+    $\alpha = 0.05$ and $n=64$.
+    
+    \item Calculate the critical values.
+    
+    \[ g_{1} = \mu - z \times \frac{\sigma}{\sqrt{n}} = 23.28 \]
+    
+    \[ g_{2} = \mu + z \times \frac{\sigma}{\sqrt{n}} = 26.72 \]
+    
+    \item Critical region.
+    
+    We discover that $\overline{x}$ is inside the critical region (because $\overline{x} = 23 < g_1 = 23.28$), so we can reject $H_{0}$.
+    
+  \end{enumerate}
+\end{example}
+
+\section{The \texorpdfstring{$t$}{t}-test}
+\label{sec:t-test}
+
+For the $Z$-test there are a few assumptions that we need to take into account:
+
+\begin{itemize}
+  \item The sample size needs to be sufficiently large ($n \ge 30$);
+  \item The test statistic needs to have a normal distribution;
+  \item The variance of the population, $\sigma$, is known.
+\end{itemize}
+ 
+Because of these, we can apply the central limit theorem.
+
+Sometimes these assumptions will not hold and therefore we can \emph{not} use the $Z$-test! In this scenario we can use the Student's $t$-distribution. However, note that the $t$-test\index{$t$-test}\index{test!$t$-} assumes that the investigated variable has a normal distribution.
+
+The Student's $t$-distribution is named after statisticus William Sealy Gosset\index{Gosset, William Sealy}. He was working in the Guiness brewery and applied statistical methods to guarantee the quality of the beer. His employer considered this to be a company secret and did not allow Gosset to publish using his own name. Therefore, he used the pseudonym Student\index{Student}.
+
+For the $t$-test, the formula to calculate the critical value is adjusted to: 
+
+\begin{equation}
+  g = \mu \pm t \times \frac{s}{\sqrt{n}}
+  \label{eq:critical-value-t-test}
+\end{equation}
+
+To determine the corresponding $t$-value, we need the number of degrees of freedom, $n-1$.
+To estimate the standard deviation, we use the sample standard deviation, $s$.
+
+\begin{example}
+  \label{ex:t-toets-dagelijkse-reddingen}
+  Stel dat de onderzoekers van de superhelden uit Voorbeeld~\ref{ex:hypothesis-test-daily-rescues} door tijdsdruk niet in staat waren om een voldoende grote steekproef te nemen en slechts $n = 25$ observaties gedaan hebben, met hetzelfde steekproefgemiddelde $\overline{x} = 3,483$. De standaardafwijking in deze steekproef bleek $s = 0,55$.
+  
+  Kunnen we in deze omstandigheden, met eenzelfde significantieniveau $\alpha = 0,05$, het besluit dat superhelden dagelijks \emph{meer} dan 3,3 mensen redden aanhouden?
+  
+  \begin{enumerate}
+    \item Bepalen van de hypothesen.
+    
+      $H_{0} : \mu = 3,3$ en $H_{1}: \mu > 3,3$.
+    
+    \item Vastleggen significantieniveau $\alpha$ en steekproefomvang $n$.
+    
+    $\alpha = 0,05$ en $n=25$.
+    
+    \item Bepalen van de kritieke grenswaarde.
+    
+    \[ g_{2} = \mu + t \times \frac{s}{\sqrt{n}} \approx 3,3 + 1,711 \times \frac{0,55}{\sqrt{25}} \approx 3.488 \]
+    
+    De waarde voor $t$ wordt in R berekend met \texttt{qt(1-a, df = n - 1)} (met \texttt{a} het significantieniveau en \texttt{df} het aantal vrijheidsgraden.)
+    
+    \item Conclusie.
+    
+    We vinden dat $\overline{x} = 3,483$ kleiner is dan de kritieke grenswaarde en dus in het aanvaardingsgebied ligt. Met andere woorden, we mogen $H_{0}$ \emph{niet} verwerpen.
+  \end{enumerate}
+
+  Met andere woorden, ook al krijgen we gelijkaardige resultaten in onze steekproef, kunnen we niet hetzelfde besluit trekken. Omdat onze steekproef te klein is, is er grotere onzekerheid of de waarde van het steekproefgemiddelde extreem genoeg is om de nulhypothese te verwerpen.
+  
+  Hieronder vind je de uitwerking van dit voorbeeld in R.
+\end{example}
+
+\lstinputlisting{data/t-test.R}
+
+\begin{figure}
+  \centering
+  \includegraphics[width=\textwidth]{t-toets-reddingen}
+  \caption{Plot in R van de situatie van Voorbeeld~\ref{ex:t-toets-dagelijkse-reddingen}}
+\end{figure}
+
+\begin{example}
+  Een uitbraak van een door Salmonella veroorzaakte ziekte werd toegeschreven aan vanille-ijs van een bepaalde fabriek~\autocite{Lindquist}. Wetenschappers hebben het niveau van Salmonella gemeten in 9 willekeurig genomen steekproeven.
+  
+  De niveaus (in MPN/g\footnote{Most Probable Number. Zie bv.~\url{http://www.microbiologie.info/mpn-methode.html} voor meer uitleg over deze methode.}) zijn de volgende:
+  
+    \begin{center}
+    \begin{tabular}{|l|l|l|l|l|}
+      \hline
+      0,593 & 0,142 & 0,329 & 0,691 & 0,231 \\ \hline
+      0,793 & 0,519 & 0,392 & 0,418 &       \\ \hline
+    \end{tabular}
+  \end{center}
+
+  Is er reden om aan te nemen dat het Salmonella-niveau in het ijs significant groter is dan 0,3 MPN/g? We zullen gebruik maken van de R-functie \texttt{t.test} om deze vraag te beantwoorden. Lees zelf de help-pagina van deze functie om de mogelijke opties te leren kennen.
+  
+  \begin{enumerate}
+    \item Bepalen van de hypothesen
+    
+    $H_0: \mu = 0.3, H_1: \mu > 0,3$
+    
+    \item Vastleggen significantieniveau $\alpha = 0.05$ (in R moet je het betrouwbaarheidsniveau $1-\alpha$ opgeven, dus 0,95) en steekproefomvang $n = 9$
+    
+    \item Bepalen overschrijdingskans. Het gaat hier over een rechtszijdige toets, wat aangegeven wordt met de optie \texttt{alternative="greater"}. Het gekozen betrouwbaarheidsniveau is de standaardwaarde voor deze functie en moet niet expliciet meegegeven worden.
+    
+\begin{lstlisting}
+x <- c(0.593, 0.142, 0.329, 0.691, 0.231, 0.793, 0.519, 0.392, 0.418)
+t.test(x, alternative = "greater", mu = 0.3)
+\end{lstlisting}
+    
+    Het resultaat is:
+    
+\begin{verbatim}
+One Sample t-test
+
+data:  x
+t = 2.2051, df = 8, p-value = 0.02927
+alternative hypothesis: true mean is greater than 0.3
+95 percent confidence interval:
+0.3245133       Inf
+sample estimates:
+mean of x 
+0.4564444 
+\end{verbatim}
+    \item Conclusie. De overschrijdingskans $p = 0,029 < \alpha = 0,05$. We kunnen dus de nulhypothese verwerpen; er is met ander worden en vrij sterke aanwijzing dat het gemiddelde Salmonella-niveau in het ijs groter is dan 0,3 MPN/g.
+  \end{enumerate}
+\textbf{Opmerking}: \texttt{``confidence interval: 0.3245133 Inf''} heeft niet rechtstreeks met het
+aanvaardingsgebied of het kritieke gebied te maken.
+Het staat ook los van de waarde $\mu_{0}=0,3$.
+Het zegt enkel dat vermits $\overline{x}=0,45644$,
+dat we met 95\% procent zekerheid kunnen zeggen dat het \textit{\'echte} gemiddelde ($\mu$) van de populatie
+tussen $0,3245133$ en $+\infty$ ligt.
+Zie paragraaf \ref{ssec:betrouwbaarheidsinterval-grote-steekproef} (p. \pageref{ssec:betrouwbaarheidsinterval-grote-steekproef})
+en \ref{ssec:betrouwbaarheidsinterval-kleine-steekproef} (p. \pageref{ssec:betrouwbaarheidsinterval-kleine-steekproef})
+over betrouwbaarheidsintervallen.
+\end{example}
+
+
+\section{Fouten in hypothesetoetsen}
+
+Bij het uitvoeren van een hypothesetoets kunnen altijd nog fouten optreden. Indien we $H_{0}$ verwerpen wanneer ze in werkelijkheid juist is, spreken we van een fout van type I en wanneer we $H_{0}$ ten onrechte aanvaarden van een fout van type II.
+
+Het significatieniveau $\alpha$ bepaalt bij het uitvoeren van een hypothesetoets wanneer de nulhypothese precies verworpen kan worden. Stel dat we een significatieniveau van 5\% kiezen. Als de nulhypothese waar is, dan is de kans dat we een steekproef trekken met een toetsingswaarde die in het verwerpingsgebied terecht komt 5\%. M.a.w. de kans om de nulhypothese te verwerpen terwijl ze waar is, is 5 \% of in het algemeen: het significantieniveau van een toets is gelijk aan de kans op het maken van een fout van type I.
+
+Het is vanzelfsprekend dat we de kans op een fout van type I zo klein mogelijk willen houden. Jammer genoeg is dit ten koste van de kans op een type II fout, aangeduid met $\beta$, die hierdoor groter wordt. Het verband tussen $\alpha$ en $\beta$ is niet triviaal en we gaan hier in deze cursus niet verder op in.
+
+In vele gevallen is het maken van een fout van type I erger dan een van type II. Denk maar aan een rechtszaak waarbij de nulhypothese is dat de persoon onschuldig is. Indien we toetsen op een 5\% significantieniveau is de kans op een type I fout 5 op 100. M.a.w. er is een betrouwbaarheid van 95\% dat de juiste beslissing wordt genomen indien $H_{0}$ correct is. Daarom vermijden we liever de conclusie dat $H_{0}$ geaccepteerd wordt, maar eerder dat de steekproef onvoldoende bewijs bevat om $H_{0}$ bij een bepaald significantieniveau te verwerpen.
+
+\begin{table}
+  \centering
+  \begin{tabular}{@{}l|cc@{}}
+    \toprule
+    & \multicolumn{2}{c}{\textbf{Werkelijke stand van zaken}} \\
+    \textbf{Conclusies}          & \textbf{$H_{0}$ correct} & \textbf{$H_{1}$ correct}     \\
+    \midrule
+    \textbf{$H_{0}$ geaccepteerd}& Juist                    & Fout van type II \\
+    \textbf{$H_{0}$ verworpen}   & Fout van type I          & Juist            \\
+    \bottomrule
+  \end{tabular}
+  \caption{Conclusies en consequenties bij toetsen van een hypothese; types van fouten.}
+  \label{tab:hypfouten}
+\end{table}
+
+\section{Oefeningen}
+\label{sec:toetsingsprocedures-oefeningen}
+
+Datasets voor deze oefeningen zijn te vinden in de Github repo, onder \texttt{oefeningen/datasets/}.
+
+
+
+\begin{exercise}
+  \label{oef:bindend-studieadvies}
+  
+  Er wordt gezegd dat het invoeren van een bindend studieadvies (BSA) een rendementsverhoging tot gevolg heeft in slaagkans. Voor het invoeren van het BSA was in de studentenpopulatie het gemiddelde aantal behaalde studiepunten per jaar per student gelijk aan 44 met een standaardafwijking van 6,2. Na invoering van het BSA wijst een onderzoek uit onder 72 studenten dat deze een gemiddeld aantal studiepunten haalden van 46,2.
+  
+  \begin{enumerate}
+    \item Toets of er bewijs is dat het invoeren van een BSA leidt tot een rendementsverhoging. Gebruik methode van kritieke grenswaarde. ($\sigma = 6,2, \alpha = 2,5\%$).
+    \item Toon hetzelfde aan met de methode van de overschrijdingskans.
+    \item Geef een interpretatie wat de betekenis is van $\alpha = 2,5 \%$.
+  \end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+  \label{oef:prijsverschil-autos}
+  
+  Eén van de motieven voor het kiezen van een garage is de inruilprijs voor de oude auto. De importeur van Ford wil graag dat de verschillende dealers een gelijk prijsbeleid voeren. De importeur vindt dat het gemiddelde prijsverschil tussen de dichtstbijzijnde Ford-dealer en de dealer waar men de auto gekocht heeft hoogstens \euro{300} mag bedragen. De veronderstelling is dat als het verschil groter is, potentiële klanten eerder geneigd zullen zijn om bij hun vorige dealer te blijven.
+  
+  In een steekproef worden volgende verschillen genoteerd:
+  
+  \begin{center}
+    \begin{tabular}{|l|l|l|l|l|l|l|}
+      \hline
+      400 & 350 & 400 & 500 & 300 & 350 & 200 \\ \hline
+      500 & 200 & 250 & 250 & 500 & 350 & 100 \\ \hline
+    \end{tabular}
+  \end{center}
+
+  Toets of er reden is om aan te nemen dat het gemiddelde prijsverschil in werkelijkheid significant groter is dan \euro{300}. Gebruik een significantieniveau van 5\%. 
+  
+\end{exercise}
+
+\begin{exercise}
+  \label{ex:z-toets-rlanders}
+  Lees de dataset \texttt{rlanders-generated.csv} in\footnote{Deze dataset bevat synthetische data, gegenereerd met hulp van \url{https://rlanders.net/dataset-generator/}}.
+  
+  De variabele \emph{Money} stelt een bruto-jaarsalaris voor ($\times 100\$$). We gaan er van uit dat het deze variabele een gemiddelde $\mu = 490$ heeft en standaardafwijking $\sigma = 98$. Als we het steekproefgemiddelde berekenen over de gehele dataset (doe dit zelf!), lijkt dat de veronderstelling te ondersteunen. Maar wat als we naar de mannen en de vrouwen afzonderlijk zouden kijken (variabele \emph{Gender})?
+  
+  Gebruik een geschikte statistische toets om de uitspraken hieronder te verifiëren. Gebruik daarbij significantieniveau $\alpha = 5\%$. Bereken telkens de kritieke grenswaarde(n) en de p-waarde.
+  
+  \begin{enumerate}
+    \item Het gemiddelde jaarsalaris van de mannen lijkt hoger dan de verwachte waarde. Is het ook significant hoger?
+    \item Het gemiddelde jaarsalaris van de vrouwen lijkt \emph{lager}. Is het ook significant lager?
+    \item Bepaal tenslotte het aanvaardingsgebied voor het gemiddelde jaarsalaris over de gehele steekproef (vrouwen en mannen samen) als we zouden willen bepalen of het steekproefgemiddelde significant afwijkt van de verwachte waarde, zonder een uitspraak te doen of die al dan niet hoger of lager ligt.
+  \end{enumerate}
+  
+\end{exercise}
+
+\section{Antwoorden op geselecteerde oefeningen}
+\label{sec:toetsingsprocedures-antwoorden}
+
+\paragraph{Oefening~\ref{ex:kritieke-waarde-linkszijdig}:}
+
+\begin{equation}
+g = \mu - z \times \frac{\sigma}{\sqrt{n}}
+\label{eq:kritiekeRechtseWaarde2}
+\end{equation}
+
+want
+
+\[ P(M < g) = P\left(Z < \frac{g - \mu}{\frac{\sigma}{\sqrt{n}}}\right) = 0,05 \]
+Wegens de symmetrieregel kunnen we zeggen
+\[ P\left(Z > - \left( \frac{g - \mu}{\frac{\sigma}{\sqrt{n}}} \right) \right) = 0,05 \]
+De z-waarde die ermee overeen komt is 1,645 dus hebben we
+\[ z = \frac{-g + \mu}{\frac{\sigma}{\sqrt{n}}} \]
+\[ \Leftrightarrow -g = \frac{\sigma}{\sqrt{n}} z - \mu \]
+\[ \Leftrightarrow g = -\frac{\sigma}{\sqrt{n}} z + \mu \]
+
+\paragraph{Oefening~\ref{oef:bindend-studieadvies}}
+
+\begin{enumerate}
+  \item $g \approx 45,4 < \overline{x} = 46,2$.
+  
+  $\overline{x}$ ligt in het kritieke gebied, dus we mogen de nulhypothese verwerpen. We hebben dus redenen om aan te nemen dat bindend studieadvies inderdaad het studierendement significant verhoogt.
+  
+  \item $P(M > 46.2) \approx 0,0013 < \alpha = 0,025$. De overschrijdingskans is kleiner dan het significantieniveau, dus we mogen de nulhypothese verwerpen.
+  
+  \item  $\alpha$ is de kans dat je $H_{0}$ ten onrechte verwerpt. Er is m.a.w.~een kans van 2,5\% dat je ten onrechte de conclusie trekt dat het studierendement hoger is geworden.
+\end{enumerate}
+
+\paragraph{Oefening~\ref{oef:prijsverschil-autos}}
+
+In deze situatie ($n = 14 < 30$) mogen we geen $z$-toets gebruiken, maar vallen we terug op de $t$-toets.
+
+\begin{itemize}
+  \item $\overline{x} \approx 332,143$
+  \item $s \approx 123,424$
+  \item $g \approx 358,42$. Het steekproefgemiddelde ligt niet in het kritieke gebied, dus we kunnen $H_0$ \emph{niet} verwerpen.
+  \item $p \approx 0,1738$. $p \nless \alpha$, dus we kunnen $H_0$ \emph{niet} verwerpen.
+\end{itemize}
+
+Er is op basis van deze steekproef dus geen reden om aan te nemen dat het gemiddelde prijsverschil op de inruilprijs van oude wagens significant groter is dan door de importeur aanbevolen.
+
+\paragraph{Oefening \ref{ex:z-toets-rlanders}}
+
+Het gemiddelde van de hele steekproef is $\overline{x} \approx 501,156$
+
+\begin{enumerate}
+  \item Voor de mannen (rechtszijdige $z$-toets):
+    \begin{itemize}
+      \item $\overline{x}_m \approx 507,535$
+      \item $g_m \approx 511,456$
+      \item $p_m \approx 0,1396$
+      \item We mogen de nulhypothese \textit{niet} verwerpen. Het bruto jaarsalaris van de mannen in de steekproef is niet significant hoger dan verwacht.
+    \end{itemize}
+  \item Voor de vrouwen (linkszijdige $z$-toets):
+    \begin{itemize}
+      \item $\overline{x}_f \approx 472,058$
+      \item $g_f \approx 477,646$
+      \item $p_f \approx 0,0199$
+      \item We mogen de nulhypothese verwerpen. Het bruto jaarsalaris van de vrouwen in de steekproef is significant lager dan verwacht.
+    \end{itemize}
+  \item Het aanvaardingsgebied is het interval [487,852; 512,148]. 
+\end{enumerate}

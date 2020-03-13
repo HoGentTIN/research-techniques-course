@@ -1,66 +1,67 @@
-# De z-toets
+# The z-test
 
-# We hebben een steekproef met
-n <- 30      # steekproefgrootte
-sm <- 3.483  # steekproefgemiddelde
-s <- 0.55    # standaardafwijking (verondersteld gekend)
-a <- 0.05    # significantieniveau (gekozen door de onderzoeker)
-m0 <- 3.3    # hypothetisch populatiegemiddelde (H0)
+# We have a sample with 
+n <- 30      # sample size
+sm <- 3.483  # sample mean
+s <- 0.55    # standard deviation (assumed to be known)
+a <- 0.05    # significance level (selected by the researcher)
+m0 <- 3.3    # hypothetical population mean (H0)
 
-# Kunnen we vanuit deze steekproef besluiten dat mu > 3.3?
-# H0: mu = 3.3    -> nulhypothese, willen we ontkrachten
-# H1: mu > 3.3    -> alternatieve hypothese, willen we aantonen
+# Can we conclude from this sample that mu > 3.3?
+# H0: mu = 3.3    -> null hypothesis, which we want to reject
+# H1: mu > 3.3    -> alternative hypothesis to prove
 
 #
-# Methode 1. Overschrijdingskans
+# Method 1. Probability Value
 #
-# Wat is de kans dat je in een steekproef het gegeven steekproefgemiddelde
-# ziet? P(M > sm) in een verdeling M ~ Nor(m0, s/sqrt(n))
+# What is the probability of obtaining this sample mean?
+# P(M > sm) for a distribution M ~ Nor(m0, s/sqrt(n))
 p <- 1 - pnorm(sm, m0, s/sqrt(n))  # => 0.03419546
 
-# De gevonden kans is bijzonder klein, kleiner dan het significantieniveau
+# The resulting probability is very small, 
+# smaller than the significance level
 if(p < a) {
-  print("H0 verwerpen")
+  print("Reject H0")
 } else {
-  print("H0 niet verwerpen")
+  print("Do not reject H0")
 }
 
 #
-# Methode 2. Kritieke grensgebied
+# Method 2. Critical Region
 #
-# Onder welke waarde kan je H0 niet verwerpen?
+# What is the critical value for rejecting H0?
 g <- m0 + qnorm(1-a) * s / sqrt(n)
 
-# Als het gevonden steekproefgemiddelde onder g ligt, kan je H0 niet verwerpen
+# If the resulting probability is below g, we cannot reject H0
 if (sm < g) {
-  print("H0 niet verwerpen")
+  print("Do not reject H0")
 } else {
-  print("H0 verwerpen")
+  print("Reject H0")
 }
 
 #
-# Plot van deze casus
+# Plot 
 #
 
-# grenzen van de plot (x-waarden)
+# boundary values of the plot (x values)
 x <- seq(m0-4*s/sqrt(n), m0+4*s/sqrt(n), length=200)
-# y-waarden (volgen de Gauss-curve)
+# y-values (using a normal distribution)
 dist <- dnorm(x, m0, s/sqrt(n))
 plot (x, dist, type = 'l', xlab = '', ylab = '')
 
-# Toon het gevonden steekproefgemiddelde ahv rode vertikale lijn
+# Show the obtained sample mean using a vertical red line
 abline(v=sm, col='red')
 text(sm, 2, sm)
 
-# Het aanvaardingsgebied plotten
-i <- x <= g                    # Waarden van x links van g
-polygon(                       # Plot deze waarden op de grafiek
+# Plot the region of acceptance
+i <- x <= g                    # x values left of g 
+polygon(                       # plot these values 
   c(x[i],    g,                       g),
   c(dist[i], dnorm(g, m0, s/sqrt(n)), 0),
   col = 'lightgreen')
-text(g,.5,signif(g, digits=4)) # Toon grenswaarde
+text(g,.5,signif(g, digits=4)) # show critical value
 
-text(m0, 0.1, m0)              # Hypothetisch populatiegemiddelde
-abline(v=m0)                   # Trek daar een vertikale lijn
+text(m0, 0.1, m0)              # Hypothetical population mean
+abline(v=m0)                   # Draw a vertical line
 
-text(m0, 1.5, 'aanvaardingsgebied (H0)')
+text(m0, 1.5, 'region of acceptance (H0)')
