@@ -1,6 +1,6 @@
 # The z-test
 
-# We have a sample with 
+# We have a sample with
 n <- 30      # sample size
 sm <- 3.483  # sample mean
 s <- 0.55    # standard deviation (assumed to be known)
@@ -55,13 +55,13 @@ text(sm, 2, sm)
 
 # Plot the region of acceptance
 i <- x <= g                    # x values left of g 
-polygon(                       # plot these values 
+polygon(                       # plot these values
   c(x[i],    g,                       g),
   c(dist[i], dnorm(g, m0, s/sqrt(n)), 0),
   col = 'lightgreen')
 text(g,.5,signif(g, digits=4)) # show critical value
 
 text(m0, 0.1, m0)              # Hypothetical population mean
-abline(v=m0)                   # Draw a vertical line
+abline(v=m0)                   #  -> Draw a vertical line
 
 text(m0, 1.5, 'region of acceptance (H0)')

@@ -73,7 +73,7 @@ The decision to reject or accept the null hypothesis $H_{0}$ is based on informa
 The sample values are used to calculate a single value of a test statistic that will determine the decision. 
 To this end, all possible values for the test statistic are divided into two regions, the region of acceptance and the region of rejection.
 If the value of the test statistic is inside the region of rejection, the null hypothesis is rejected and the alternative hypothesis accepted.
-If the value of the test statistis is inside the region of acceptance, the null hypothesis accepted.
+If the value of the test statistis is inside the region of acceptance, the null hypothesis is accepted.
 
 \section{Testing Procedure for the \texorpdfstring{$z$}{z}-test}
 \label{sec:testing-procedure-z-test}
@@ -391,34 +391,35 @@ To determine the corresponding $t$-value, we need the number of degrees of freed
 To estimate the standard deviation, we use the sample standard deviation, $s$.
 
 \begin{example}
-  \label{ex:t-toets-dagelijkse-reddingen}
-  Stel dat de onderzoekers van de superhelden uit Voorbeeld~\ref{ex:hypothesis-test-daily-rescues} door tijdsdruk niet in staat waren om een voldoende grote steekproef te nemen en slechts $n = 25$ observaties gedaan hebben, met hetzelfde steekproefgemiddelde $\overline{x} = 3,483$. De standaardafwijking in deze steekproef bleek $s = 0,55$.
+  \label{ex:t-test-daily-rescues}
+
+  Suppose the researchers from Example~\ref{ex:hypothesis-test-daily-rescues} were unable to take a sufficiently large sample due to time constraints, and only made $n = 25$ observations, with the same sample mean of $\overline{x} = 3.483$. The standard deviation of this sample is $ s = 0.55 $.
   
-  Kunnen we in deze omstandigheden, met eenzelfde significantieniveau $\alpha = 0,05$, het besluit dat superhelden dagelijks \emph{meer} dan 3,3 mensen redden aanhouden?
+  Given these circumstances, can we still conclude for a same significance level $\alpha = 0.05$ that on average, superhereos rescue \emph{more} than 3.3 people a day?
   
   \begin{enumerate}
-    \item Bepalen van de hypothesen.
+    \item Formulate both hypotheses.
     
-      $H_{0} : \mu = 3,3$ en $H_{1}: \mu > 3,3$.
+      $H_{0} : \mu = 3.3$ en $H_{1}: \mu > 3.3$.
     
-    \item Vastleggen significantieniveau $\alpha$ en steekproefomvang $n$.
+    \item Determine significance level $\alpha$ and sample size $n$.
     
-    $\alpha = 0,05$ en $n=25$.
+    $\alpha = 0.05$ en $n=25$.
     
-    \item Bepalen van de kritieke grenswaarde.
+    \item Calculate the critical value.
     
-    \[ g_{2} = \mu + t \times \frac{s}{\sqrt{n}} \approx 3,3 + 1,711 \times \frac{0,55}{\sqrt{25}} \approx 3.488 \]
+    \[ g_{2} = \mu + t \times \frac{s}{\sqrt{n}} \approx 3.3 + 1.711 \times \frac{0.55}{\sqrt{25}} \approx 3.488 \]
     
-    De waarde voor $t$ wordt in R berekend met \texttt{qt(1-a, df = n - 1)} (met \texttt{a} het significantieniveau en \texttt{df} het aantal vrijheidsgraden.)
+    In R, the value of $t$ is calculated using \texttt{qt(1-a, df = n - 1)} (with \texttt{a} the significance level and \texttt{df} the number of degrees of freedom.)
     
-    \item Conclusie.
+    \item Conclusion.
     
-    We vinden dat $\overline{x} = 3,483$ kleiner is dan de kritieke grenswaarde en dus in het aanvaardingsgebied ligt. Met andere woorden, we mogen $H_{0}$ \emph{niet} verwerpen.
+    We have that $\overline{x} = 3.483$ is smaller than the critical value, and therefore is inside the region of acceptance. Therefore we do \emph{not} reject $H_{0}$.
   \end{enumerate}
 
-  Met andere woorden, ook al krijgen we gelijkaardige resultaten in onze steekproef, kunnen we niet hetzelfde besluit trekken. Omdat onze steekproef te klein is, is er grotere onzekerheid of de waarde van het steekproefgemiddelde extreem genoeg is om de nulhypothese te verwerpen.
+  In other words, although the results are similar in our sample, we can not make the same conclusion. Because our sample is too small, there is greater uncertainty as to whether the value of the sample mean is extreme enough to reject the null hypothesis.
   
-  Hieronder vind je de uitwerking van dit voorbeeld in R.
+  The code example below is the elaboration of Example~\ref{ex:t-test-daily-rescues} in R.
 \end{example}
 
 \lstinputlisting{data/t-test.R}
@@ -426,39 +427,42 @@ To estimate the standard deviation, we use the sample standard deviation, $s$.
 \begin{figure}
   \centering
   \includegraphics[width=\textwidth]{t-toets-reddingen}
-  \caption{Plot in R van de situatie van Voorbeeld~\ref{ex:t-toets-dagelijkse-reddingen}}
+  \caption{R Plot for the case study of Example~\ref{ex:t-test-daily-rescues}}
 \end{figure}
 
 \begin{example}
-  Een uitbraak van een door Salmonella veroorzaakte ziekte werd toegeschreven aan vanille-ijs van een bepaalde fabriek~\autocite{Lindquist}. Wetenschappers hebben het niveau van Salmonella gemeten in 9 willekeurig genomen steekproeven.
+  An outbreak of a Salmonella-induced disease was attributed to vanilla ice cream from a particular factory~\autocite{Lindquist}.
+  Scientists measured the level of Salmonella in 9 random samples.
   
-  De niveaus (in MPN/g\footnote{Most Probable Number. Zie bv.~\url{http://www.microbiologie.info/mpn-methode.html} voor meer uitleg over deze methode.}) zijn de volgende:
+  The levels (in MPN/g\footnote{Most Probable Number. See eg.~\url{http://www.microbiologie.info/mpn-methode.html} for more explanation about this method.}) are the following:
   
-    \begin{center}
+  \begin{center}
     \begin{tabular}{|l|l|l|l|l|}
       \hline
-      0,593 & 0,142 & 0,329 & 0,691 & 0,231 \\ \hline
-      0,793 & 0,519 & 0,392 & 0,418 &       \\ \hline
+      0.593 & 0.142 & 0.329 & 0.691 & 0.231 \\ \hline
+      0.793 & 0.519 & 0.392 & 0.418 &       \\ \hline
     \end{tabular}
   \end{center}
 
-  Is er reden om aan te nemen dat het Salmonella-niveau in het ijs significant groter is dan 0,3 MPN/g? We zullen gebruik maken van de R-functie \texttt{t.test} om deze vraag te beantwoorden. Lees zelf de help-pagina van deze functie om de mogelijke opties te leren kennen.
+  Is there a reason to assume that the Salmonella level in the ice is significantly higher than 0.3 MPN/g? 
+  We will use the R function \texttt{t.test} to answer this question.
+  Read the help page of this function, to get an overview of all possible options.
   
   \begin{enumerate}
-    \item Bepalen van de hypothesen
+    \item Formulate both hypotheses.
     
     $H_0: \mu = 0.3, H_1: \mu > 0,3$
     
-    \item Vastleggen significantieniveau $\alpha = 0.05$ (in R moet je het betrouwbaarheidsniveau $1-\alpha$ opgeven, dus 0,95) en steekproefomvang $n = 9$
+    \item Determine significance level $\alpha = 0.05$ and sample size $n = 9$. In R you need to use $1-\alpha = 0.95$.
     
-    \item Bepalen overschrijdingskans. Het gaat hier over een rechtszijdige toets, wat aangegeven wordt met de optie \texttt{alternative="greater"}. Het gekozen betrouwbaarheidsniveau is de standaardwaarde voor deze functie en moet niet expliciet meegegeven worden.
+    \item Calculate the probability value. This is a right-tailed test, which can be indicated in R using \texttt{alternative="greater"}. The selected confidence level is the default value of this function and therefore we don't need to add it explicitly.
     
 \begin{lstlisting}
 x <- c(0.593, 0.142, 0.329, 0.691, 0.231, 0.793, 0.519, 0.392, 0.418)
 t.test(x, alternative = "greater", mu = 0.3)
 \end{lstlisting}
     
-    Het resultaat is:
+    The result is:
     
 \begin{verbatim}
 One Sample t-test
@@ -472,49 +476,56 @@ sample estimates:
 mean of x 
 0.4564444 
 \end{verbatim}
-    \item Conclusie. De overschrijdingskans $p = 0,029 < \alpha = 0,05$. We kunnen dus de nulhypothese verwerpen; er is met ander worden en vrij sterke aanwijzing dat het gemiddelde Salmonella-niveau in het ijs groter is dan 0,3 MPN/g.
+    \item Conclusion. The probability value $p = 0.029 < \alpha = 0.05$. Therefore we can reject the null hypothesis; in other words there is a strong indication that the average Salmonella level in the ice is greater than 0.3 MPN/g.
   \end{enumerate}
-\textbf{Opmerking}: \texttt{``confidence interval: 0.3245133 Inf''} heeft niet rechtstreeks met het
-aanvaardingsgebied of het kritieke gebied te maken.
-Het staat ook los van de waarde $\mu_{0}=0,3$.
-Het zegt enkel dat vermits $\overline{x}=0,45644$,
-dat we met 95\% procent zekerheid kunnen zeggen dat het \textit{\'echte} gemiddelde ($\mu$) van de populatie
-tussen $0,3245133$ en $+\infty$ ligt.
-Zie paragraaf \ref{ssec:betrouwbaarheidsinterval-grote-steekproef} (p. \pageref{ssec:betrouwbaarheidsinterval-grote-steekproef})
-en \ref{ssec:betrouwbaarheidsinterval-kleine-steekproef} (p. \pageref{ssec:betrouwbaarheidsinterval-kleine-steekproef})
-over betrouwbaarheidsintervallen.
+\textbf{Remark}: \texttt{``confidence interval: 0.3245133 Inf''} has no direct link with the region of acceptance or the critical region.
+Is is also unrelated to the value $\mu_{0}=0.3$. 
+It only indicates that because $\overline{x}=0.45644$,
+we can say with 95\% confidence that the \textit{\'real\'} mean of the population ($\mu$) is between $0.3245133$ and $+\infty$.
+
+
+See Section~\ref{ssec:confidence-interval-pop-mean-large-sample} (p.~\pageref{ssec:confidence-interval-pop-mean-large-sample}) and Section~\ref{ssec:confidence-interval-pop-mean-small-sample} (p.~\pageref{ssec:confidence-interval-pop-mean-small-sample}) for more information about confidence intervals.
 \end{example}
 
 
-\section{Fouten in hypothesetoetsen}
+\section{Errors in Hypothesis Tests}
 
-Bij het uitvoeren van een hypothesetoets kunnen altijd nog fouten optreden. Indien we $H_{0}$ verwerpen wanneer ze in werkelijkheid juist is, spreken we van een fout van type I en wanneer we $H_{0}$ ten onrechte aanvaarden van een fout van type II.
+In statistical hypothesis testing, errors can still occur. A type I error occurs when we reject a true null hypothesis $H_{0}$ (also known as a false positive). If we do not reject a false hypothesis $H_{0}$, we make a type II error (or false negative).
 
-Het significatieniveau $\alpha$ bepaalt bij het uitvoeren van een hypothesetoets wanneer de nulhypothese precies verworpen kan worden. Stel dat we een significatieniveau van 5\% kiezen. Als de nulhypothese waar is, dan is de kans dat we een steekproef trekken met een toetsingswaarde die in het verwerpingsgebied terecht komt 5\%. M.a.w. de kans om de nulhypothese te verwerpen terwijl ze waar is, is 5 \% of in het algemeen: het significantieniveau van een toets is gelijk aan de kans op het maken van een fout van type I.
+When performing a hypothesis test, the significance level $\alpha$ determines when exactly the null hypothesis can be rejected. Suppose we select a significance level of 5\%.
+If the null hypothesis is true, the probability of taking a sample in the region of rejection is 5\%. 
+In other words, the probability of rejecting a true null hypothesis is 5\%, or in general: the significance level of a test is equal to the probability of making a type I error.
 
-Het is vanzelfsprekend dat we de kans op een fout van type I zo klein mogelijk willen houden. Jammer genoeg is dit ten koste van de kans op een type II fout, aangeduid met $\beta$, die hierdoor groter wordt. Het verband tussen $\alpha$ en $\beta$ is niet triviaal en we gaan hier in deze cursus niet verder op in.
+Obviously, we want to minimize the risk of making a type I error.
+Unfortunately, this is at the cost of a higher chance of making a type II error, denoted by $\beta$.
+The relationship between $\alpha$ and $\beta$ is not trivial and out of scope for this course.
 
-In vele gevallen is het maken van een fout van type I erger dan een van type II. Denk maar aan een rechtszaak waarbij de nulhypothese is dat de persoon onschuldig is. Indien we toetsen op een 5\% significantieniveau is de kans op een type I fout 5 op 100. M.a.w. er is een betrouwbaarheid van 95\% dat de juiste beslissing wordt genomen indien $H_{0}$ correct is. Daarom vermijden we liever de conclusie dat $H_{0}$ geaccepteerd wordt, maar eerder dat de steekproef onvoldoende bewijs bevat om $H_{0}$ bij een bepaald significantieniveau te verwerpen.
+In many cases a type I error is worse than a type II error.
+Think of a lawsuit where the null hypothesis states that the person is innocent.
+If we test using a confidence level of 5\%, the probability of making a type I error is 5 out of 100.
+In other words, there is a confidence of 95\% that the correct decision is made if $H_{0}$ is correct.
+Because of this we try to avoid the conclusion that $H_{0}$ is accepted, 
+but rather that the sample contains insufficient evidence to reject $H_{0}$ for a given significance level.
 
 \begin{table}
   \centering
   \begin{tabular}{@{}l|cc@{}}
     \toprule
-    & \multicolumn{2}{c}{\textbf{Werkelijke stand van zaken}} \\
-    \textbf{Conclusies}          & \textbf{$H_{0}$ correct} & \textbf{$H_{1}$ correct}     \\
+    & \multicolumn{2}{c}{\textbf{Reality}} \\
+    \textbf{Decision}             & \textbf{$H_{0}$ True} & \textbf{$H_{1}$ True}     \\
     \midrule
-    \textbf{$H_{0}$ geaccepteerd}& Juist                    & Fout van type II \\
-    \textbf{$H_{0}$ verworpen}   & Fout van type I          & Juist            \\
+    \textbf{$H_{0}$ not rejected} & Correct                       & Type II error (false negative) \\
+    \textbf{$H_{0}$ rejected}     & Type I error (false positive) & Correct            \\
     \bottomrule
   \end{tabular}
-  \caption{Conclusies en consequenties bij toetsen van een hypothese; types van fouten.}
+  \caption{Conclusions and consequences when thesting a hypothesis; error types.}
   \label{tab:hypfouten}
 \end{table}
 
-\section{Oefeningen}
-\label{sec:toetsingsprocedures-oefeningen}
+\section{Exercises}
+\label{sec:testing-procedures-exercises}
 
-Datasets voor deze oefeningen zijn te vinden in de Github repo, onder \texttt{oefeningen/datasets/}.
+Source files for these exercises can be found in the Github repo, folder \texttt{exercises/datasets/}.
 
 
 
@@ -565,10 +576,10 @@ Datasets voor deze oefeningen zijn te vinden in de Github repo, onder \texttt{oe
   
 \end{exercise}
 
-\section{Antwoorden op geselecteerde oefeningen}
-\label{sec:toetsingsprocedures-antwoorden}
+\subsection{Solutions to selected exercises}
+\label{sec:testing-procedures-solutions}
 
-\paragraph{Oefening~\ref{ex:kritieke-waarde-linkszijdig}:}
+\paragraph{Exercise~\ref{ex:critical-value-left-tail}:}
 
 \begin{equation}
 g = \mu - z \times \frac{\sigma}{\sqrt{n}}
@@ -585,7 +596,7 @@ De z-waarde die ermee overeen komt is 1,645 dus hebben we
 \[ \Leftrightarrow -g = \frac{\sigma}{\sqrt{n}} z - \mu \]
 \[ \Leftrightarrow g = -\frac{\sigma}{\sqrt{n}} z + \mu \]
 
-\paragraph{Oefening~\ref{oef:bindend-studieadvies}}
+\paragraph{Exercise~\ref{oef:bindend-studieadvies}}
 
 \begin{enumerate}
   \item $g \approx 45,4 < \overline{x} = 46,2$.
@@ -597,7 +608,7 @@ De z-waarde die ermee overeen komt is 1,645 dus hebben we
   \item  $\alpha$ is de kans dat je $H_{0}$ ten onrechte verwerpt. Er is m.a.w.~een kans van 2,5\% dat je ten onrechte de conclusie trekt dat het studierendement hoger is geworden.
 \end{enumerate}
 
-\paragraph{Oefening~\ref{oef:prijsverschil-autos}}
+\paragraph{Exercise~\ref{oef:prijsverschil-autos}}
 
 In deze situatie ($n = 14 < 30$) mogen we geen $z$-toets gebruiken, maar vallen we terug op de $t$-toets.
 
@@ -610,7 +621,7 @@ In deze situatie ($n = 14 < 30$) mogen we geen $z$-toets gebruiken, maar vallen 
 
 Er is op basis van deze steekproef dus geen reden om aan te nemen dat het gemiddelde prijsverschil op de inruilprijs van oude wagens significant groter is dan door de importeur aanbevolen.
 
-\paragraph{Oefening \ref{ex:z-toets-rlanders}}
+\paragraph{Exercise~\ref{ex:z-toets-rlanders}}
 
 Het gemiddelde van de hele steekproef is $\overline{x} \approx 501,156$
 

@@ -1,23 +1,23 @@
-# De t-toets
+# The t-test
 
-# We hebben een steekproef met
-n <- 25      # steekproefgrootte
-sm <- 3.483  # steekproefgemiddelde
-ss <- 0.55  # standaardafwijking van de steekproef
-a <- 0.05    # significantieniveau (gekozen door de onderzoeker)
-m0 <- 3.3    # hypothetisch populatiegemiddelde (H0)
+# We have a sample with
+n <- 25      # sample size
+sm <- 3.483  # sample mean
+ss <- 0.55   # sample standard deviation
+a <- 0.05    # significance level (selected by the researcher)
+m0 <- 3.3    # hypothetical population mean (H0)
 
-# Kunnen we vanuit deze steekproef besluiten dat mu > 3.3?
-# H0: mu = 3.3    -> nulhypothese, willen we ontkrachten
-# H1: mu > 3.3    -> alternatieve hypothese, willen we aantonen
+# Can we conclude from this sample that mu > 3.3?
+# H0: mu = 3.3    -> null hypothesis, which we want to reject
+# H1: mu > 3.3    -> alternative hypothesis to prove
 
 #
-# Methode 1. Kritieke grensgebied
+# Method 1. Critical region
 #
-# Onder welke waarde kan je H0 niet verwerpen?
+# What is the critical value for rejecting H0?
 g <- m0 + qt(1-a, df = n-1) * ss / sqrt(n)
 
-# Als het gevonden steekproefgemiddelde onder g ligt, kan je H0 niet verwerpen
+# If the resulting sample mean is below g, we cannot reject H0
 if (sm < g) {
   print("H0 niet verwerpen")
 } else {
@@ -25,43 +25,44 @@ if (sm < g) {
 }
 
 #
-# Methode 2. Overschrijdingskans
+# Method 2. Probability Value
 #
-# Wat is de kans dat je in een steekproef het gegeven steekproefgemiddelde
-# ziet? P(M > sm) in een verdeling M ~ T(m0, ss/sqrt(n), df=n-1)
+# What is the probability of obtaining this sample mean?
+# P(M > sm) for a distribution M ~ T(m0, ss/sqrt(n), df=n-1)
 p <- 1 - pt((sm - m0) / (ss/sqrt(n)), df = n-1)
 
-# De gevonden kans is bijzonder klein, kleiner dan het significantieniveau
+# The resulting probability is very small, 
+# smaller than the significance level
 if(p < a) {
-  print("H0 verwerpen")
+  print("Reject H0")
 } else {
-  print("H0 niet verwerpen")
+  print("Do not reject H0")
 }
 
 #
-# Plot van deze casus
+# Plot 
 #
 
-# grenzen van de plot (x-waarden)
+# boundary values of the plot (x values)
 x <- seq(m0-4*ss/sqrt(n), m0+4*ss/sqrt(n), length=200)
-# y-waarden (volgen de Gauss-curve van de t-verdeling)
+# y-values (using the Gauss curve of the t-distribution)
 dist <- dt((x-m0)/(ss/sqrt(n)), df = n-1) * ss/sqrt(n)
 plot (x, dist, type = 'l', xlab = '', ylab = '')
 
-# Het aanvaardingsgebied plotten
-i <- x <= g                    # Waarden van x links van g
-polygon(                       # Plot deze waarden op de grafiek
+# Plot the region of acceptance
+i <- x <= g                    # x values left of g 
+polygon(                       # plot these values
   c(x[i],    g,                              g),
   c(dist[i], dt((g-m0)/(ss/sqrt(n)),df=n-1), 0),
   col = 'lightgreen')
 
-text(m0, 0.01, m0) # Hypothetisch populatiegemiddelde
-abline(v=m0)       # Trek daar een vertikale lijn
+text(m0, 0.01, m0) # Hypothetical population mean
+abline(v=m0)       #  -> Draw a vertical line
 
-text(g+.025,.02,signif(g, digits=4)) # Toon grenswaarde
+text(g+.025,.02,signif(g, digits=4)) # Show critical value
 
-# Toon het gevonden steekproefgemiddelde ahv rode vertikale lijn
+# Show the obtained sample mean using a vertical red line
 abline(v=sm, col='red')
 text(sm-.025, .005, sm, col = 'red')
 
-text(m0, 0.02, 'aanvaardingsgebied (H0)')
+text(m0, 0.02, 'region of acceptance (H0)')
