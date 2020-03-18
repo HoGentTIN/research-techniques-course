@@ -360,7 +360,7 @@ Because of the desirable properties of the normal distribution, it's often good 
     \includegraphics[width=.45\textwidth]{sampling-qqplot-good}
     \includegraphics[width=.45\textwidth]{sampling-qqplot-bad}
   \end{center}
-  \caption{The Q-Q plot on the left is based on a sample of 50 observations drawn from a normal distribution with mean 1000 and standard deviation 50. The plot on the right is based on a sample of 50 observations drawn from Student's $t$-distribution with 15 degrees of freedom, with the same mean and standard deviation. The lines in red indicate where the observations should theoretically be situated. In the plot on the left, this is more or less the case, but on the right, especially in the extremes, observations deviate from the line.}
+  \caption{The Q-Q plot on the left is based on a sample of 50 observations drawn from a normal distribution with mean 1000 and standard deviation 50. The plot on the right is based on a sample of 50 observations drawn from a Student's $t$-distribution with 15 degrees of freedom, with the same mean and standard deviation. The lines in red indicate where the observations should theoretically be situated. In the plot on the left, this is more or less the case, but on the right, especially in the extremes, observations deviate from the line.}
   \label{fig:qqplot}
 \end{figure}
 
@@ -407,7 +407,7 @@ The proof of the central limit theorem is outside the scope of this course, even
 When drawing a random sample of a sufficiently large size $n$ form a population with an unknown $\mu$ and (known) standard deviation $\sigma$, the probability distribution of the sample mean is a stochastic variable $M \sim N (\overline{x}, \frac{\sigma}{\sqrt{n}})$.
 
 \begin{example}
-  Let's consider the reaction times of all our superheroes and assume we have drawn a random sample with $n = 100$, $\overline{x} = 90, and \sigma = 60$ (ms).
+  Let's consider the reaction times of all our superheroes and assume we have drawn a random sample with $n = 100$, $\overline{x} = 90$, and $\sigma = 60$ (ms).
   We can then ask ourselves: what is the probability that the average reaction time of a superhero is below $104$ ms?
 
   \begin{enumerate}
@@ -622,12 +622,16 @@ The first argument is the required number of values, and a custom average and st
 
 \lstinputlisting{data/rnorm.R}
 
+
+
+
+% Exercises 
 \section{Exercises}
 \label{sec:sampling-exercises}
 
 \begin{exercise}
   \label{ex:prob-norm-dist}
-  Bereken ook elke keer het gevraagde gebied.
+  Calculate the following probabilities, either using a $z$ table, or using the appropriate R function. Also draw a sketch of the area.
   \begin{enumerate}[label=\alph*.]
     \item $P(Z < 1.33)$
     \item $P(Z > 1.33)$
@@ -643,91 +647,104 @@ The first argument is the required number of values, and a custom average and st
 \end{exercise}
 
 \begin{exercise}
-	Bepaal de dichtheid en de cumulatieve waarschijnlijkheidscurve voor een normale verdeling met een gemiddelde $\mu$
-	van 2,5 en $\sigma = 1,5$. Bepaal de oppervlakte voor het gebied onder de dichtheidscurve tussen
-	$x = 0.5$ en $x = 4$. Controleer uw antwoord door de berekening te doen.
+  Determine the probability distribution and the cumulative probability curve for a normal distribution with mean $\mu = 2.5$ and standard deviation $\sigma = 1.5$.
+  Determine the area of the surface below the density curve between $ x = 0.5 $ and $ x = 4 $.
+  Verify your answer by doing the calculation.
 \end{exercise}
 
 \begin{exercise}
-	Bepaal de dichtheid en de cumulatieve waarschijnlijkheidscurve voor een t-verdeling met $df = 3$. Teken ook een normale verdeling met een $\mu = 0$  en $\sigma = 1$.
+  Determine the probability distribution and cumulative probability curve for a $t$-distribution with $df = 3$.
+  Also draw a normal distribution with $\mu = 0$ and $\sigma = 1$.
 \end{exercise}
 
 \begin{exercise}
-Gebruik de functie \verb|rnorm()| een willekeurige steekproef van 25 waarden uit een normale verdeling te tekenen met een gemiddelde van 0 en een standaardafwijking gelijk aan 1,0. Gebruik een histogram, met \verb|probability = TRUE|.
+  Use the \verb|rnorm()| function to generate a random sample of 25 values based on a normal distribution with mean $\mu = 0$ and standard deviation $\sigma = 1$.
+  Draw a histogram, using \verb|probability = TRUE|.
 
-Maak een overlay over het histogram met: (a) de theoretische dichtheidscurve voor een normale verdeling met gemiddelde 0 en standaardafwijking gelijk aan 1,0; (b) een ``geschatte'' dichtheidscurve op basis van het gemeten steekproefgemiddelde en -standaardafwijking.
+  Draw an overlay on the histogram consisting of (a) the theoretical probability distribution curve of a normal distribution with mean $\mu = 0$ and standard deviation $\sigma = 1$;
+  and (b) an ``estimated'' probability distribution curve based on the measured sample mean and standard deviation.
 
-Herhaal dit voor een steekproef van 100 en 500 waarden.
+  Repeat this for a sample consisting of 100 and 500 values.
 \end{exercise}
 
 \begin{exercise}
-  In de  Hogeschool zijn er twee klassen voor het vak onderzoekstechnieken. De studenten werden willekeurig over de klassen verdeeld, zodat we mogen veronderstellen dat de ene klas niet slimmer is dan de andere. In de A-klas geeft mevr. X les, in de B-klas geeft mr. Y les. X is nogal streng en op het einde van het schooljaar behaalt haar klas een gemiddelde van 54 op 100 met een standaardafwijking van 11.
 
-  Y is iets losser en stimuleert de leerlingen al gauw met een puntje meer. Op het einde van het schooljaar behaalt zijn klas een gemiddelde van 62 op 100 en een standaardafwijking van 7.
+  The course of research techniques at a college is organised in two separate classes. 
+  Students were distributed at random over the two classes, A and B, so we can assume that one class is not significantly better than the other. 
+  Class A is lectured by Mrs. X, class B by Mr. Y.
 
-  Wouter zit in de A-klas en heeft $\frac{63}{100}$ voor wiskunde. Stijn zit in de B-klas en behaalt $\frac{67}{100}$. Wie heeft volgens jou het beste gescoord binnen de eigen klas?
+  Mrs. X is rather strict and her group gets grades with an average of 54/100 and a standard deviation of 11.
+
+  Y is less strict and is known for stimulating his students by giving them a bonus point at times. By the end of the academic year, the grades for his group have an average of 62/100 with a standard deviation of 7.
+
+  Wouter is a student of class A and got a grade of $\frac{63}{100}$, Stijn from class B got $\frac{67}{100}$. Who has the best result?
 \end{exercise}
 
 \begin{exercise}
-  Een gezondheidsonderzoek tussen 1988 en 1994 gaf aan dat de gemiddelde cholesterolwaarde bij vrouwen tussen 20 en 29 jaar 183 mg/dl bedroeg, met een standaardafwijking gelijk aan 36. We nemen nu een aselecte steekproef van 81 vrouwen. Los volgende vragen op:
+  A survey conducted between 1988 and 1994 indicated that the average cholesterol level of women between 20 and 29 years was 183 mg/dl, with a standard deviation of 36. 
+  The sample consisted of 81 women, and we assume that the sample was taken at random.
 
   \begin{enumerate}[label=\alph*.]
-    \item Schets de kansdichtheidsfunctie voor de populatie en de kansverdeling van het steekproefgemiddelde $\overline{x}$.
-    \item Bepaald de kans dat $\overline{x}$ kleiner is dan 185.
-    \item Bepaal de kans dat $\overline{x}$ tussen 175 en 185 ligt.
-    \item Bepaal de kans dat $\overline{x}$ groter is dan 190.
+    \item Plot the probability distribution for the sample mean $\overline{x}$.
+    \item What is the probability that $\overline{x}$ is smaller than 185?
+    \item What is the probability that $\overline{x}$ is between 175 and 185?
+    \item What is the probability that $\overline{x}$ is larger than 190? 
   \end{enumerate}
 \end{exercise}
 
 \begin{exercise}
-  Een aselecte steekproef van 64 stuks wordt getrokken uit een populatie met onbekende verdeling. De verwachting en de standaardafwijking van de populatie
-  zijn wel gekend: $\mu = 20$ en $\sigma=16$. Los volgende vragen op:
+  A random sample consisting of 64 observations is drawn from a population with an unknown distribution. 
+  However, the population mean and standard deviation are known: $\mu = 20$ and $\sigma = 16$.
 
   \begin{enumerate}[label=\alph*.]
-    \item Bepaal de verwachting en standaardafwijking van het steekproefgemiddelde.
-    \item Beschrijf de vorm van de verdeling van het steekproefgemiddelde. In hoeverre hangt je antwoord af van de grootte van de steekproef?
-    \item Bereken de $z$ score bij $\overline{x_{1}} = 15.5$ en $\overline{x_{2}} = 23$.
-    \item Bepaal kans dat $\overline{x} <16$.
-    \item Bepaal kans dat $\overline{x} > 23$.
-    \item Bepaal kans dat $16< \overline{x}< 22$.
+    \item What are the mean and standard deviation of the sample?
+    \item Describe the shape of the probability distribution of the sample mean. Does this depend on the sample size?
+    \item Calculate the $z$-score for $\overline{x_{1}} = 15.5$ and $\overline{x_{2}} = 23$.
+    \item Calculate the probability that $\overline{x} < 16$.
+    \item Calculate the probability that $\overline{x} > 23$.
+    \item Calculate the probability that $16 < \overline{x} < 22$.
   \end{enumerate}
 \end{exercise}
 
 \begin{exercise}
-  Verkeersdrempels zijn bedoeld om de snelheid van automobilisten te be\"invloeden. Afhankelijk van de gewenste snelheid in een straat worden de drempels steiler of minder steil gemaakt. Drempel A is zo ontworpen dat 85 \% van de automobilisten de drempel passeert met een snelheid van minder dan 50 km per uur. In de praktijk blijkt dat de passeersnelheid bij een drempel normaal verdeeld is. Bij drempel A werd een gemiddelde passeersnelheid van 43,1 km/h gevonden met standaardafwijking 6,6 km/h.
+  Speed bumps are designed to influence the speed of drivers. 
+  Depending on the desired speed in a street, speed bumps can be made steeper or more gradual.
+  Speed bump A is designed so that 85\% of drivers pass over with a maximum speed of 50 km/h. 
+  The speed of the drivers appears to be normally distributed. A sample indicates that the average speed is 43.1 km/h with a standard deviation of 6.6 km/h.
 
   \begin{enumerate}[label=\alph*.]
-    \item Toon aan dat 85\% van de automobilisten niet harder dan 50 km/h rijdt.
-    \item Bij hoeveel van de 1200 metingen kan, op grond van eerdere ervaringen, een snelheid van meer dan 55 km/h worden verwacht?
+    \item Prove that 85\% of drivers actually do not drive faster than 50 km/h.
+    \item If the sample size was 1200, what is the expected probability of a driver passing with a speed of at least 55 km/h?
   \end{enumerate}
 \end{exercise}
 
 \begin{exercise}
-  Een conservenfabrikant krijgt de laatste tijd klachten over de netto inhoud van zijn conserven met wortelen en erwtjes, die volgens de verpakking netto 1 liter zouden moeten bevatten. Daarom laat hij een steekproef nemen waarin de netto inhoud van 40 willekeurig gekozen blikjes wordt gecontroleerd. De resultaten worden samengevat in Tabel~\ref{tab:Steekproefwaarden}.
+  Lately, a canned goods manufacturer received complaints about the net contents of their carrot and peas cans. 
+  According to the label, the can should contain 1 liter. 
+  To verify these complaints, the QA department draws a random sample of 40 cans and checks the contents. 
+  The results are provided in Table~\ref{tab:canned-goods-sample-values}.
 
-Vraag A:
-\begin{itemize}
-  \item Vul de tabel aan met de cumulatieve absolute frequentie
-  \item Vul de tabel aan met de relatieve frequentie
-  \item Vul de tabel aan met de cumulatieve relatieve frequentie.
-\end{itemize}
-Vraag B:
+  A. Add the following data to the table:
+  \begin{itemize}
+    \item the cumulative absolute frequency
+    \item the relative frequency
+    \item the cumulative relative frequency
+  \end{itemize}
 
-\begin{itemize}
-  \item Bereken het gemiddelde
-  \item Bereken de standaardafwijking
-  \item Hoeveel procent van de blikken bevatten te weinig wortelen en erwtjes.
-  \item Teken een histogram van de absolute frequentie.
-  \item Zijn de gegevens normaal verdeeld?  Hoe zie je dat?
-\end{itemize}
-
+  B. Calculate:
+  \begin{itemize}
+    \item The mean and standard deviation of the sample
+    \item The percentage of cans for which the contents are too low
+    \item Plot a histogram of the absolute frequency
+    \item Are the observations normally distributed? How can you determine this?
+  \end{itemize}
 \end{exercise}
 
-  \begin{table}
+\begin{table}
   \centering
   \begin{tabular}{lr}
     \toprule
-    Inhoud & $n_{i}$ \\
+    Contents & $n_{i}$ \\
     \midrule
     $[970,980[$ & 3 \\
     $[980,990[$ & 5 \\
@@ -737,38 +754,81 @@ Vraag B:
     $[1020,1030[$ & 3 \\
     \bottomrule
   \end{tabular}
-  \caption{Steekproefwaarden}
-  \label{tab:Steekproefwaarden}
+  \caption{Sample Values}
+  \label{tab:canned-goods-sample-values}
 \end{table}
 
 \begin{exercise}
-  Een webhostingfirma heeft een Service Level Agreement met een klant voor een gegarandeerde uptime van ``five nines'' (99,999\%).  Die wordt aan het einde van elk jaar gecontroleerd en als de minimale uptime niet gehaald wordt, moet de hostingfirma een boete betalen.
+  Confidence intervals.
+  
+  \begin{enumerate}
+    \item What are the lower and upper boundary values for a confidence interval of 99\%?
+    \item A confidence interval of 99\% is wider than a confidence interval for 95\%. Why?
+    \item What would a confidence interval of 100\% look like?
+  \end{enumerate}
+  
+\end{exercise}
 
-  Om de uptime te meten, voert een monitoringsysteem elke minuut een \texttt{HTTP GET /} uit en controleert het resultaat a.h.v.
-  de HTTP return code. In de maand januari is er één enkele HTTP request onsuccesvol geweest.
+\begin{exercise}
+  \label{ex:confidence-money}
+  
+  Import the dataset \texttt{money.csv} in R. 
+  We assume that the values of this sample are normally distributed with 
+  an unknown population mean $\mu$, but the standard deviation of the population
+  is supposed to be known; $\sigma = 99$. 
+  
+  \begin{enumerate}
+    \item Determine a 99\% confidence interval for the population mean.
+    \item Determine a 95\% confidence interval for the population mean.
+    \item Suppose that $\sigma$ is also unkown. In this case, determine a 95\% confidence interval for the population mean.
+    \item Determine a 95\% confidence interval for the population mean, assuming that the sample consists of only the 25 first values of the imported file.
+  \end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+  A web hosting company has a Service Level Agreement with a customer that guarantees an uptime of ``five nines'' (99.999\%). 
+  This is verified at the end of each year and if the minimal uptime is not met, a fine is imposed.
+
+  To measure the uptime, a monitoring system queries the web server every minute using a \texttt{HTTP GET /} request and verifies the result using the HTTP return code. 
+  In january, a single HTTP request was unsuccesful.
 
   \begin{itemize}
-    \item Als deze trend zich voortzet, wat is de kans dat de SLA niet gehaald wordt aan het einde van het jaar? Gebruik de formule voor de kansverdeling van een fractie.
-    \item De gebruikte formule is eigenlijk niet geschikt in dit specifieke geval en geeft een vertekend beeld. Wat zou de reden kunnen zijn?
+    \item If the current trend continues, what is the probability that the SLA is not met at the end of the year? Use the formula for the probability distribution of a fraction.
+    \item In this particular case, the formula actually isn't suitable, and gives a slightly distorted result. Why?
   \end{itemize}
 \end{exercise}
 
-\section{Antwoorden op geselecteerde oefeningen}
+
+
+
+
+
+% Answers
+\section{Solutions to selected exercises}
 \label{sec:oplossingen-steekproefonderzoek}
 
-\paragraph{Oefening \ref{ex:prob-norm-dist}}
+\paragraph{Exercise \ref{ex:prob-norm-dist}}
 
 \begin{enumerate}[label=\alph*.]
-  \item $0,908$
-  \item $0,092$
-  \item $0,092$
-  \item $0,908$
-  \item $0,674$
-  \item $0,853$
-  \item $0,742$
-  \item $0,559$
-  \item $0,372$
-  \item $0,166$
+  \item $0.908$
+  \item $0.092$
+  \item $0.092$
+  \item $0.908$
+  \item $0.674$
+  \item $0.853$
+  \item $0.742$
+  \item $0.559$
+  \item $0.372$
+  \item $0.166$
+\end{enumerate}
+
+\paragraph{Exercise \ref{ex:confidence-money}}
+
+\begin{enumerate}
+  \item $[481.725; 523.368]$
+  \item $[486.704; 518.390]$
+  \item $[486.476; 518.617]$
+  \item $[485.761; 519.332]$
 \end{enumerate}
 
    
