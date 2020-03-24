@@ -1,0 +1,503 @@
+%%----------------------------------------------------------------------------
+%% Onderzoekstechnieken: Toetsingsprocedures
+%%----------------------------------------------------------------------------
+
+\documentclass[aspectratio=169]{beamer}
+
+%==============================================================================
+% Aanloop
+%==============================================================================
+
+%---------- Vormgeving --------------------------------------------------------
+
+\usetheme{hogent}
+
+\usecolortheme{hgwhite} % witte achtergrond, zwarte tekst
+
+\usepackage{graphicx,multicol}
+\usepackage{comment,enumerate,hyperref}
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage[dutch]{babel}
+\usepackage{multirow}
+\usepackage{eurosym}
+\usepackage{listings}
+\usepackage{textcomp}
+\usepackage{framed}
+\usepackage{wrapfig}
+\usepackage{tabu} %needed for \tabulinesep
+\usepackage{wrapfig}
+\usepackage{pgf-pie}
+\usepackage{pgfplots}
+\usepackage{booktabs}
+\usepackage{pgfplotstable}
+\usepackage{changepage}
+\usepackage{ulem} % for \sout{text} (strikethrough)
+\usepackage{fancyvrb} % for \begin{Verbatim} (LaTeX controls within verbatim)
+
+%---------- Configuratie ------------------------------------------------------
+
+\pgfplotsset{compat=1.16}
+\usetikzlibrary{arrows,shapes,backgrounds,positioning,shadows}
+\usetikzlibrary{pgfplots.statistics}
+
+%---------- Commando-definities -----------------------------------------------
+
+\newcommand{\tabitem}{~~\llap{\textbullet}~~}
+\newcommand{\alertbox}[2][hgblue]{%
+  \setbeamercolor{alertbox}{bg=#1,fg=white}
+  \begin{beamercolorbox}[sep=2pt,center]{alertbox}
+    \textbf{#2}
+  \end{beamercolorbox}
+}
+\pgfmathdeclarefunction{gauss}{2}{%
+  \pgfmathparse{1/(#2*sqrt(2*pi))*exp(-((x-#1)^2)/(2*#2^2))}%
+}
+
+%---------- Info over de presentatie ------------------------------------------
+
+\title{Chapter 5. Testing Procedures}
+\subtitle{Research techniques}
+\include{authors}
+
+%==============================================================================
+% Inhoud presentatie
+%==============================================================================
+
+\begin{document}
+
+\begin{frame}
+  \maketitle
+\end{frame}
+
+\begin{frame}
+  \frametitle{What's on the menu?}
+  
+  \tableofcontents
+\end{frame}
+
+\begin{frame}
+  \frametitle{Learning Goals}
+  
+  \begin{itemize}
+    \item Statistical tests: concepts
+    \item Procedure for statistical tests
+    \item Apply the $z$- and $t$-test
+  \end{itemize}
+\end{frame}
+
+
+\section{Hypothesis Tests}
+
+\begin{frame}
+  \frametitle{Statistical test for a hypothesis}
+  
+  \begin{description}
+    \item[Hypothesis] Idea that has yet to be proven: statement regarding the numeric value of a population parameter
+    \item[Hypothesis Test] verification of a statement about the values of one or multiple population parameters
+    \item[Null Hypothesis ($H_0$)]  We will try to disprove this hypothesis using proof by contradiction
+    \item[Alternative Hypothesis ($H_1$, $H_a$)] We want to prove this hypothesis
+  \end{description}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Elements of a testing procedure}
+  
+  \begin{description}
+    \item[Test Statistic] The variable that is calculated from the sample
+    \item[Region of Acceptance] The region of values \alert{supporting} the null hypothesis
+    \item[Critical Region / Region of Rejection] The region of values \alert{rejecting} the null hypothesis
+    \item[Significance Level] The probability of rejecting a true null hypothesis $H_0$
+  \end{description}
+\end{frame}
+
+\section{Method}
+
+\begin{frame}
+  \frametitle{Method}
+  
+  \begin{enumerate}
+    \item Formulate both hypotheses ($H_0$ en $H_1$)
+    \item Determine the significance level ($\alpha$)
+    \item Calculate the test statistic
+    \item Determine the critical region or the probability value
+    \item Draw conclusions
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}[plain]
+  \frametitle{Hypotheses about superheroes}
+  \centering
+  \includegraphics[height=.85\textheight]{les5-heroes}
+\end{frame}
+
+\begin{frame}
+  \frametitle{A superhero rescues 3.3 persons a day}
+  
+  \begin{columns}
+    \column{.5\textwidth}
+    \centering
+    \includegraphics[width=3cm]{les5-gered1}
+    
+    \includegraphics[width=3cm]{les5-gered2}
+    \column{.5\textwidth}
+    \centering
+    \includegraphics[width=3cm]{les5-gered3}
+    
+    \includegraphics[width=3cm]{les5-gered4}
+  \end{columns}
+  
+  \vfill
+  \centering
+  \small{Source: \url{http://www.cracked.com/quick-fixes/4-people-who-saved-day-while-dressed-as-superheroes/}}
+\end{frame}
+
+\begin{frame}
+  Assume that, over a period of 30 days, $3.483$ people were saved a day on average ($\overline{x}=3.483$, $n=30$)
+  \vfill
+  \begin{enumerate}
+    \item Hypothesis: $H_0: \mu = 3.3$; $H_1: \mu > 3.3$
+    \item Significance level: $\alpha = 0.05$
+    \item Test statistic: $\overline{x} = 3.483$
+  \end{enumerate}
+  \vfill
+  Standard deviation of the population (assumed to be known): $\sigma = 0.55$
+\end{frame}
+
+\begin{frame}
+  \frametitle{Calculate test statistic}
+  
+  \bigskip
+  
+  Based on the central limit theorem, we know that: $M \sim Nor(\mu = 3.3; \sigma = \frac{0.55}{\sqrt{30}}=0.1)$
+  
+  \centering
+  \begin{tikzpicture}[scale=.8]
+  \begin{axis}[domain=3.0:3.6, ymax=4.2, samples=100, enlargelimits=false ]
+  \addplot [very thick,smooth,draw=hgblue] {gauss(3.3, 0.10041580220928045413)};
+  \node [coordinate, pin={$\overline{x}= 3.483$}] at (axis cs: 3.483, 0){};
+  \end{axis}
+  \end{tikzpicture}
+\end{frame}
+
+\section{Probability Value}
+
+\begin{frame}
+  \frametitle{Probability Value}
+  
+  \alertbox{The \textcolor{hgyellow}{$p$-value} is the probability, if the null hypothesis is true, to obtain a value for the test statistic that is at least as extreme as the observed value.}
+  
+  \begin{itemize}
+    \item $p$-value $< \alpha \Rightarrow$ reject $H_{0}$: the discovered value of $\overline{x}$ is too extreme;
+    \item $p$-value $\geq \alpha \Rightarrow$ do not reject $H_{0}$: the discoverd value of $\overline{x}$ can still be explained by coincidence.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Probability Value}
+  
+  \bigskip
+  
+  \centering
+  \begin{tikzpicture}[scale=0.6]
+  \begin{axis}[domain=-3.5:3.5, ymax=0.42, samples=100, enlargelimits=false, clip=false ]
+  \addplot [smooth, fill=black!20, domain=1.822:3.5] {gauss(0,1)} \closedcycle;
+  \addplot [very thick,smooth,draw=hgblue] {gauss(0, 1)};
+  \node  at (axis cs: 1.822, -.04){\small 1.822};
+  \draw [-latex](axis cs:2.1,0.02) -- (axis cs:2.35,0.06);
+  \node [text width=0.5cm] at (axis cs: 2.5, .095){$p= 0.0344$};
+  \end{axis}
+  \end{tikzpicture}
+  
+  \[ P(M > 3.483) = P \left(Z> \frac{3.483 - 3.3}{\frac{\sigma}{\sqrt{n}}}\right) = P (Z > 1.822) = 0.0344 \]
+\end{frame}
+
+\section{Critical Region}
+
+\begin{frame}
+  \frametitle{Critical Region}
+  
+  \bigskip
+  
+  \alertbox{The \textcolor{hgyellow}{critical region} is the collection of all values of the test statistic for which we can reject the null hypothesis.}
+  
+  We look for a critical value $g$ for which:
+  \[ P(M > g) = \alpha \]
+  
+  Determine $z_\alpha$ for which:
+  \[ P(Z > z_\alpha) = \alpha \Rightarrow g = \mu + z_\alpha . \frac{\sigma}{\sqrt{n}} \]
+  
+  \begin{itemize}
+    \item Left of $g$: region of acceptance (do not reject $H_0$)
+    \item Right of $g$: critical region (reject $H_0$)
+  \end{itemize}
+  
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{Critical Region}
+  
+  \centering
+  \begin{tikzpicture}[scale=.9]
+  \begin{axis}[domain=-3.5:3.5, ymax=0.42, samples=100, enlargelimits=false, clip=false ]
+  \draw [-](axis cs:1.645,-0.03) -- (axis cs:1.645,0.06);
+  \addplot [smooth, fill=black!20, domain=1.645:3.5] {gauss(0,1)} \closedcycle;
+  \addplot [very thick,smooth,draw=hgblue] {gauss(0, 1)};
+  \node [text width=0.8cm] at (axis cs: 1.645, -.06){$z_{\alpha}= 1.645$};
+  \draw [-latex](axis cs:2.1,0.02) -- (axis cs:2.35,0.06);
+  \node [text width=0.5cm] at (axis cs: 2.5, .095){$\alpha= 0.05$};
+  \end{axis}
+  \end{tikzpicture}
+  
+  significance level $\alpha = 0.05$ $\Rightarrow$ critical value $z_{\alpha}$=1.645\\
+  ($z_{\alpha} = $\texttt{qnorm(0.95)})
+  
+\end{frame}
+
+\begin{frame}
+  \frametitle{Left-tailed testing}
+  
+  What would you have to change in the equation in order to calculate the correct critical value?
+  \pause
+  Answer:
+  \[g = \mu \alert{-} z \times \frac{\sigma}{\sqrt{n}} \]
+  because
+  \[ P(M < g) = P\left(Z < \frac{g - \mu}{\frac{\sigma}{\sqrt{n}}}\right) = 0.05 \]
+  
+\end{frame}
+
+\begin{frame}
+  \frametitle{Left-tailed testing}
+  Because of symmetry: 
+  \[ P\left(Z > - \left( \frac{g - \mu}{\frac{\sigma}{\sqrt{n}}} \right) \right) = 0.05 \]
+  
+  The corresponding $z$-value is 1.645, and therefore:
+  
+  \begin{align*}
+  z = \frac{-g + \mu}{\frac{\sigma}{\sqrt{n}}} &\Leftrightarrow -g = \frac{\sigma}{\sqrt{n}} z_\alpha - \mu \\
+  & \Leftrightarrow g = \mu - z_\alpha \frac{\sigma}{\sqrt{n}}
+  \end{align*}
+  
+\end{frame}
+
+\begin{frame}
+  \frametitle{Two-tailed testing}
+  Sometimes it can be necessary to perform a two-tailed test. In this case, two critical values need to be calculated, namely the left and right critical value.
+  
+  \begin{equation}
+  g = \mu \pm z_{\alpha/2} \times \frac{\sigma}{\sqrt{n}}
+  \label{eq:critical-values}
+  \end{equation}
+\end{frame}
+
+\begin{frame}[plain]
+  \frametitle{Summary}
+  
+  \begin{table}
+    \centering
+    \begin{tabular}{l|ccc}
+      \toprule
+      Goal              & \multicolumn{3}{l}{\parbox{.7\textwidth}{Test regarding the value of the population mean $\mu$ using a sample of $n$ independent values}} \\
+      \midrule
+      Prerequisite      & \multicolumn{3}{l}{\parbox{.7\textwidth}{De population has a random distribution, $n$ is sufficiently large}} \\
+      \midrule
+      Test Type         & Two-tailed           & Left-tailed & Right-tailed \\
+      \midrule
+      $H_{0}$           & $\mu = \mu_{0}$      & $\mu = \mu_{0}$ & $\mu = \mu_{0}$  \\
+      $H_{1}$           & $\mu \neq \mu_{0}$   & $\mu < \mu_{0}$ & $\mu > \mu_{0}$  \\
+      Critical Region   & $\left|\overline{x}\right| > g$ & $\overline{x}< -g $        & $\overline{x}>g$            \\
+      Test statistic    & \multicolumn{3}{c}{$z = \frac{\overline{x} - \mu_{0}}{\frac{\sigma}{\sqrt{n}}}$} \\
+      \bottomrule
+    \end{tabular}
+    \caption{Summary of Testing Procedures}
+    \label{tab:testing-procedures}
+  \end{table}
+\end{frame}
+
+\section{Examples}
+
+\begin{frame}
+  \frametitle{Example 1}
+  Using a random sample consisting of 50 observations, we obtain the following values: mean $\overline{x} = 25$ and standard deviation s = $\sqrt{55} = 7.41$
+  We want to find out if there is a reason to assume that the population mean is smaller than 27.
+  
+\end{frame}
+
+\begin{frame}
+  \frametitle{Example 1}
+  
+  \begin{description}
+    \item[1] Formulate both hypotheses
+    
+    $H_{0} : \mu = 27$ en $H_{1}: \mu < 27$.
+    
+    \item[2] Determine significance level $\alpha$ and sample size $n$
+    
+    $\alpha = 0.05$ en $n=50$
+    
+    \item[3] Test statistic \& value: sample mean $\overline{x} = 25$
+    
+    
+  \end{description}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Example 1 (cont.)}
+  
+  \begin{description}
+    \item[4a] Probability Value
+    
+    According to the central limit theorem:
+    
+    \[ M \sim Nor(\mu = 27, \frac{\sigma}{\sqrt{n}}) \]
+    \[ z = \frac{\overline{x} - \mu}{\frac{\sigma}{\sqrt{n}}} = \frac{25-27}{\sqrt\frac{55}{50}} \approx -1.91\]
+    
+    We therefore have a probability value of $0.0281$.
+    
+    Using a significance level of 0.05, we can reject $H_{0}$.
+  \end{description}
+  
+\end{frame}
+
+\begin{frame}
+  \frametitle{Example 1 (cont.)}
+  
+  \begin{description}
+    
+    \item[4b] Calculate and plot the critical region
+    
+    \begin{align*}
+    g &= \mu - z \times \frac{\sigma}{\sqrt{n}} \\
+    &= 27 - 1.645 \times \sqrt{\frac{\sigma}{n}} \\
+    &= 25.27470944
+    \end{align*}
+    
+    We have that $\overline{x} < g$ and therefore we can reject $H_{0}$.
+  \end{description}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Example 1 (cont.)}
+  
+  \bigskip
+  \centering
+  \begin{tikzpicture}
+  \begin{axis}[domain=24:30, samples=100, enlargelimits=false, clip=false ]
+  \addplot [smooth, fill=cyan!20, domain=24:25.27] {gauss(27,1.048808848)} \closedcycle;
+  \addplot [very thick,smooth,draw=hgblue] {gauss(27, 1.048808848)};
+  \node  at (axis cs: 25.27, -.04){\small 25.27};
+  \end{axis}
+  \end{tikzpicture}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Example 1 (cont.)}
+  
+  \begin{description}
+    
+    \item[5] Conclusion
+    
+    We can conclude, based on the sample, that $\mu < 27$ for a significance level of $0.05$
+  \end{description}
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{Example 2}
+  In a reseach about the amount of change in the pockets of our superheroes, researchers state that on average a superhero carries \euro{25} of cash.
+  We assume that the standard deviation of the population $\sigma = 7$.
+  For a random sample of size $n=64$, the average amount of money a superhero carries is $\overline{x} = $ \euro{23}. 
+  For the significance level, $\alpha = 0.05$ is selected.
+\end{frame}
+
+\begin{frame}
+  \frametitle{Example 2}
+  
+  \begin{description}
+    \item[1] Formulate both hypotheses
+    
+    $H_{0} : \mu = 25$ en $H_{1}: \mu \neq 25$
+    
+    \item[2] Determine significance level $\alpha$ and sample size $n$
+    
+    $\alpha = 0.05$ en $n=64$.
+    
+    \item[3] Test statistic \& value: $\overline{x} = 23$
+  \end{description}
+  
+\end{frame}
+
+\begin{frame}
+  \frametitle{Example 2 (cont.)}
+  
+  \begin{description}
+    \item[4b] Calculate the critical region
+    
+    \[ g_{1} = \mu - z \times \frac{\sigma}{\sqrt{n}} = 23.28 \]
+    \[ g_{2} = \mu + z \times \frac{\sigma}{\sqrt{n}} = 26.72 \]
+    
+    We have that $\overline{x}$ is inside the critical region (because $23 < 23.28$) so we can reject $H_{0}$.
+    \item[5] Based on this sample we can conclude that superheroes carry on average \textit{less} than \EUR{25}, using a significance level of 5\%
+  \end{description}
+\end{frame}
+
+\section{The $t$-test}
+
+\begin{frame}
+  \frametitle{Requirements for $z$-test}
+  
+  
+  \begin{itemize}
+    \item The sample needs to be random
+    \item The sample size needs to be sufficiently large ($n \ge 30$)
+    \item The test statistic needs to have a normal distribution
+    \item The standard deviation of the population, $\sigma$, is known
+  \end{itemize}
+  
+  Sometimes these assumptions will not hold and in this case we can \emph{not} use the $Z$-test!
+\end{frame}
+
+\begin{frame}
+  \frametitle{The $t$-test}
+  
+  Determine critical value:
+  
+  \[ g = \mu \pm t \times \frac{s}{\sqrt{n}} \]
+  
+  \begin{itemize}
+    \item $t$-value is derived from the Student's $t$-distribution, based on the number of \textit{degrees of freedom}, $n-1$
+    \item Look for value using $t$-table or using the function \texttt{pt} in R
+    \item Apart from this, the procedure is identical to the procedure of the $z$-test
+  \end{itemize}
+  
+\end{frame}
+
+\section{Errors in Hypothesis Tests}
+
+\begin{frame}
+  \frametitle{Errors in Hypothesis Tests}
+  
+  \begin{table}
+    \centering
+    \resizebox{\textwidth}{!}{%
+      \begin{tabular}{@{}l|cc@{}}
+        \toprule
+        & \multicolumn{2}{c}{\textbf{Reality}} \\
+        \textbf{Conclusion}          & \textbf{$H_{0}$ True} & \textbf{$H_{1}$ True}     \\
+        \midrule
+        \textbf{$H_{0}$ not rejected}& Correct                       & Type II error (false negative) \\
+        \textbf{$H_{0}$ rejected}    & Type I error (false positive) & Correct                        \\
+        \bottomrule
+      \end{tabular}
+    }
+    \label{tab:hypfouten}
+  \end{table}
+  
+  P(type I error) = $\alpha$ (= significance level)
+  
+  P(type II error) = $\beta$
+  
+  Calculating $\beta$ is \textbf{\textit{not}} trivial, but if $\alpha \searrow$ then $\beta \nearrow$ 
+\end{frame}
+
+\end{document}

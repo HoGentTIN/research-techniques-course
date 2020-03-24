@@ -337,7 +337,7 @@ The code example below is the elaboration of Example~\ref{ex:hypothesis-test-dai
 
 \begin{example}
   In a reseach about the amount of change in the pockets of our superheroes, researchers state that on average a superhero carries 25 euro of cash.
-  They assume that the population variance $\sigma = 7$.
+  They assume that the standard deviation of the population $\sigma = 7$.
   For a random sample of size $n=64$, the average amount of money a superhero carries is $\overline{x} = 23$ euro. 
   For the significance level, $\alpha = 0,05$ is selected.
   
@@ -371,7 +371,7 @@ For the $Z$-test there are a few assumptions that we need to take into account:
 \begin{itemize}
   \item The sample size needs to be sufficiently large ($n \ge 30$);
   \item The test statistic needs to have a normal distribution;
-  \item The variance of the population, $\sigma$, is known.
+  \item The standard deviation of the population, $\sigma$, is known.
 \end{itemize}
  
 Because of these, we can apply the central limit theorem.
@@ -512,7 +512,7 @@ but rather that the sample contains insufficient evidence to reject $H_{0}$ for 
   \begin{tabular}{@{}l|cc@{}}
     \toprule
     & \multicolumn{2}{c}{\textbf{Reality}} \\
-    \textbf{Decision}             & \textbf{$H_{0}$ True} & \textbf{$H_{1}$ True}     \\
+    \textbf{Conclusion}             & \textbf{$H_{0}$ True} & \textbf{$H_{1}$ True}     \\
     \midrule
     \textbf{$H_{0}$ not rejected} & Correct                       & Type II error (false negative) \\
     \textbf{$H_{0}$ rejected}     & Type I error (false positive) & Correct            \\
