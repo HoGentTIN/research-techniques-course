@@ -1,0 +1,171 @@
+---
+title: "Exercise 3.7. The ais dataset"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+**Remark:** Before running this code in RStudio, first do (from the menu): *Session > Set Working Directory > To Source File Location*. This allows loading the .csv file from the current directory.
+
+## Question
+
+Consider the following subsets of the data frame `ais`:
+
+1. the rowers;
+2. the rowers, the netballers and the tennis players combined;
+3. the female basketball players and rowers.
+
+## Loading the data
+
+```{r}
+# Load data from csv
+ais <- read.csv("../../../onderzoekstechnieken-cursus/oefeningen/datasets/ais.csv", sep = ",")
+# Allows the columns to be accessed directly instead of with table$column notation
+attach(ais)
+```
+
+## Rowers
+
+The data set consists of 13 variables, 11 quantitative and 2 qualitative variables.
+As an example, we will look at 2 quantitative variables and 1 qualitative variable.
+
+1. Select all rowers from the dataset
+    
+    ```{r}
+    roeiers <- ais[ais$sport == 'Row',]
+    ```
+
+2. Calculate the appropriate measures for central tendency and dispersion for the variable `ht` and visualize the results.
+
+    ```{r}
+    summary(roeiers$ht)  # min, max, quartiles, mean
+    mean(roeiers$ht)     # mean
+    sd(roeiers$ht)       # standard deviation of a sample
+    min(roeiers$ht)      # smallest value
+    median(roeiers$ht)   # median
+    IQR(roeiers$ht)      # interquartile range
+    max(roeiers$ht)      # largest value
+    quantile(roeiers$ht, c(0,0.25,0.5,0.75,1)) # Quantiles
+    
+    boxplot(roeiers$ht, horizontal = T)        # Boxplot of the dispersion
+    ```
+
+3. Calculate the appropriate measures for central tendency and dispersion for the variable `hc` and visualize the results.
+
+    ```{r}
+    summary(roeiers$hc)  # min, max, quartiles, mean
+    mean(roeiers$hc)     # mean
+    sd(roeiers$hc)       # standard deviation of a sample
+    min(roeiers$hc)      # smallest value
+    median(roeiers$hc)   # median
+    IQR(roeiers$hc)      # interquartile range
+    max(roeiers$hc)      # largest value
+    quantile(roeiers$hc, c(0,0.25,0.5,0.75,1)) # Quantiles
+    
+    boxplot(roeiers$hc, horizontal = T)        # Boxplot of the dispersion
+    ```
+
+4. Calculate the appropriate measures for central tendency and dispersion for the variable `sex` and visualize the results.
+
+    ```{r}
+    roeiers_sex_frq <- table(roeiers$sex)       # frequency table
+    roeiers_sex_frq[which.max(roeiers_sex_frq)] # mode
+    
+    barplot(roeiers_sex_frq)    # Barplot of the frequency table
+    mosaicplot(roeiers_sex_frq) # Mosaic Plot
+    ```
+
+## Rowers, the netballers and the tennis players combined
+
+In this example we will split the values over the three groups.
+
+1. Select all data for the three groups from the dataset:
+    
+    ```{r}
+    sporters <- ais[ais$sport == 'Row' |
+                    ais$sport == 'Netball' |
+                    ais$sport == 'Tennis',]
+    # The following function is used to omit sports that are not
+    # included in the subset in e.g. plots.
+    sporters$sport <- factor(sporters$sport)
+    View(sporters)
+    ```
+
+2. Calculate the appropriate measures for central tendency and dispersion for the variable `ht` and visualize the results
+
+    ```{r}
+    # min, max, quartiles, mean
+    aggregate(ht ~ sport, data = sporters, FUN = summary)
+    # mean
+    aggregate(ht ~ sport, data = sporters, FUN = mean)
+    # standard deviation of a sample
+    aggregate(ht ~ sport, data = sporters, FUN = sd)
+    # median
+    aggregate(ht ~ sport, data = sporters, FUN = median)
+    # interquartile range
+    aggregate(ht ~ sport, data = sporters, FUN = IQR)
+    # quantiles
+    aggregate(ht ~ sport, data = sporters, FUN = quantile)
+
+    # Boxplot of the dispersion
+    boxplot(sporters$ht ~ sporters$sport, horizontal = T)       
+    ```
+
+3. Analysis of the variable `sex`
+
+    ```{r}
+    # Frequency table for distribution of m/f for each sport
+    ft <- table(sporters$sex, 
+                sporters$sport)
+    ft
+    # Mosaic Plot
+    mosaicplot(sporters$sport ~ sporters$sex,
+               main = "Distribution of m/f for each sport",
+               xlab = "sport", ylab = "sex")
+    # Bar Plot
+    barplot(ft, legend = TRUE,
+            main = "Distribution of m/f for each sport",
+            xlab = "sport", ylab = "sex")
+    ```
+
+## The female basketball players and rowers.
+
+1. Select all data from the dataset
+   
+    ```{r}
+    vrouwen <- ais[ais$sex == 'f' & 
+                     (ais$sport == 'B_Ball' | 
+                      ais$sport == 'Row'),]
+    vrouwen$sex <- factor(vrouwen$sex)
+    vrouwen$sport <- factor(vrouwen$sport)
+    View(vrouwen)
+    ```
+    
+2. Calculate the appropriate measures for central tendency and dispersion for the variable `ht` and visualize the results
+
+    ```{r}
+    # min, max, quartiles, mean
+    aggregate(ht ~ sport, data = vrouwen, FUN = summary)
+    # mean
+    aggregate(ht ~ sport, data = vrouwen, FUN = mean)
+    # standard deviation of a sample
+    aggregate(ht ~ sport, data = vrouwen, FUN = sd)
+    # quantiles
+    aggregate(ht ~ sport, data = vrouwen, FUN = quantile)
+
+    # Boxplot of the dispersion
+    boxplot(vrouwen$ht ~ vrouwen$sport, horizontal = T)       
+    ```
+
+3. Analysis of the variable `sport`
+
+    ```{r}
+    # Frequency table
+    ft_2 <- table(vrouwen$sport)
+    ft_2
+    # Bar Plot
+    barplot(ft_2, legend = TRUE)
+    ```
+

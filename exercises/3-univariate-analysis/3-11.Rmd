@@ -1,0 +1,46 @@
+---
+title: "Exercise 3.11. Mean and Range"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Question
+
+Use the functions `mean` and `range` in R to determine the mean and range of:
+
+1. The numbers 1,2, ..., 21
+2. 50 random values, generated using a normal distribution with mean 0 and variance 1 (function `rnorm`)
+3. Columns `height` and `weight` in the data frame `women` (default in R)
+
+
+## Oplossing
+
+1. The numbers 1,2, ..., 21
+
+    ```{r}
+    # Create a list containing these numbers and calculate mean and range
+    numbers <- 1:21
+    mean(numbers)
+    range(numbers)
+    ```
+
+2. 50 random values, generated using a normal distribution with mean 0 and variance 1
+
+    ```{r}
+    # Generate random values, parameters can be omitted (default values)
+    numbers2 <- rnorm(50, mean = 0, sd = 1)
+    mean(numbers2)
+    range(numbers2)
+    ```
+
+3. Columns `height` and `weight` in the data frame `women`
+
+    ```{r}
+    mean(women$height)
+    range(women$height)
+    mean(women$weight)
+    range(women$weight)
+    ```

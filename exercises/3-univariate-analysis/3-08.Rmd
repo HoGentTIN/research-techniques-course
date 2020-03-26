@@ -1,0 +1,82 @@
+---
+title: "Exercise 3.8. Formula variance"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Why does the formula for the variance use the square of the differences? 
+Why not the actual values themselves (i.e. $(\overline{x} - x_i)$) or the absolute value of the difference (i.e. $\left|\overline{x} - x_i\right|$)?
+
+```{r}
+variance1 <- function(x) {
+  m <- mean(x)
+  
+  sum(m - x) / (length(x) - 1)
+}
+
+variance2 <- function(x) {
+  m <- mean(x)
+  
+  sum(abs(m - x)) / (length(x) - 1)
+}
+
+variance3 <- function(x) {
+  m <- mean(x)
+  
+  sum((m-x)^2) / (length(x) - 1)
+}
+```
+
+Try out each variant of the equation for both datasets $X = \left\{4,4,-4,-4\right\}$ and $Y = \left\{7,1,-6,-2\right\}$.
+
+```{r}
+x <- c(4, 4, -4, -4)
+y <- c(7, 1, -6, -2)
+```
+
+## Results formula 1:
+
+```{r}
+variance1(x)
+variance1(y)
+```
+
+The data is both datasets is obviously spread, but the formula returns the result 0 because the data points are both on the left and right side of the mean and cancel out each other.
+
+## Results formula 2
+
+```{r}
+variance2(x)
+variance2(y)
+```
+
+The dispersion of both datasets is clearly different, min and max are more spread in `y`.
+
+
+```{r}
+range(x)
+range(y)
+```
+
+The formula however returns 16/3 for both datasets. Therefore, this is not a good measure for the dispersion.
+
+## Results formula 3
+
+```{r}
+variance3(x)
+variance3(y)
+```
+
+For dataset `y`, in which the points are more spread, the result is effectively larger than for dataset `x`.
+By taking the squared difference, points that are further away from the mean will increase the result.
+
+### Results using var
+We could also use the built-in function `var` to calculate the variance. 
+
+```{r}
+var(x)
+var(y)
+```

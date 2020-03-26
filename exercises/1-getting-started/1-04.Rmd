@@ -10,7 +10,7 @@ knitr::opts_chunk$set(echo = TRUE)
 1. Generate a $4\times5$ array and call it `x`.
 
     ```{r}
-    # 20 willekeurige getallen, volgens de standaardnormaalverdeling
+    # 20 random values using a normal distribution
     x <- matrix(rnorm(20), 
                 nrow = 4,
                 ncol = 5)
@@ -19,7 +19,7 @@ knitr::opts_chunk$set(echo = TRUE)
 2.  Next, generate a $3 \times 2$ array $i$ where the first column can be the row index of $x$
 and the second column a column index for $x$. 
     ```{r}
-    # Let op: de matrix i wordt kolom per kolom ingevuld
+    # Remark: matrix i is filled column per column
     i <- matrix(
       c(1, 2, 3,
         4, 3, 1), 
@@ -30,7 +30,6 @@ and the second column a column index for $x$.
 3. Replace the elements in $x$ defined by the index in $i$ by 0. 
 
     ```{r}
-    # Kan je een efficiëntere manier vinden?
     x[i[1,1], i[1,2]] = 0
     x[i[2,1], i[2,2]] = 0
     x[i[3,1], i[3,2]] = 0

@@ -19,7 +19,7 @@ You can use `with`, `table`, and `complete.cases` to achieve this.
 
     ```{r}
     # Load data from csv
-    rainforest <- read.csv("../../datasets/rainforest.csv", sep = ",")
+    rainforest <- read.csv("../datasets/rainforest.csv", sep = ",")
     # Allows the columns to be accessed directly instead of with table$column notation
     attach(rainforest)
 

@@ -1,0 +1,76 @@
+---
+title: "Exercise 3.7. Mean and variance for a frequency table"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Question
+
+The formulas for the sample mean $\overline{x}$, variance $s^2$ and standard deviation $s$ can be found in Section 3.4 of the syllabus.
+How should these formulas be adapted to be used with a frequency table? 
+Apply these formulas to the data provided in the table below.
+
+| Pins (*x*)                | Frequency (*f_x*)  |
+| :---                      | :---               |
+|			0               | 2                  |
+|			1               | 1                  |
+|			2               | 2                  |
+|			3               | 0                  |
+|			4               | 2                  |
+|			5               | 4                  |
+|			6               | 9                  |
+|			7               | 11                 |
+|			8               | 13                 |
+|			9               | 8                  |
+|			10              | 8                  |
+
+## Solution
+
+
+We first create two variables to represent the data:
+
+```{r}
+# The possible scores (number of pins)
+x <- 0:10
+# Frequency of each score
+f_x <- c(2,1,2,0,2,4,9,11,13,8,8)
+```
+
+1. Mean:
+    
+    The mean is calculated by dividing the sum of the values by the number of values.
+
+    Therefore, for the provided frequency table we have to calculate the sum of the product of the number of pins and the corresponding frequency, and divide this sum by the sum of the different frequencies.
+    $\sum_{i=1}^n f_i x_i$ 
+    
+    ```{r}
+    m <- sum(x * f_x) / sum(f_x)
+    m
+    ```
+    
+2. Variance:
+
+    The variance is calculated by taking the sum of the differences between the value and the mean, and divide this sum by the number of samples minus 1.
+
+    Applied to a frequancy table, we have to calculate the sum of the product of the squared difference and the corresponding frequancy, and divide this by the sum of the frequencies minus 1.
+    
+    $\frac{1}{(\sum_{i = 1}^n f_i) -1 } \sum_{i = 1}^n f_i \times (\overline{x} - x_i)^2)$
+    
+    ```{r}
+    v <- sum(f_x * (x - m)^2) / (sum(f_x) - 1)
+    v
+    ```
+
+3. Standard deviation:
+
+    The standard deviation is the square root of the variance. This formula does not change for a frequency table.
+
+    ```{r}
+    stdev <- sqrt(v)
+    stdev
+    ```
+    
+    
