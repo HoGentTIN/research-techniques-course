@@ -1,0 +1,90 @@
+---
+title: "Exercise 4.5"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+```
+
+## Exercise 4.5
+The course of research techniques at a college is organised in two separate classes. 
+Students were distributed at random over the two classes, A and B, so we can assume that one class is not significantly better than the other. 
+Class A is lectured by Mrs. X, class B by Mr. Y.
+
+Mrs. X is rather strict and her group gets grades with an average of 54/100 and a standard deviation of 11.
+Y is less strict and is known for stimulating his students by giving them a bonus point at times. By the end of the academic year, the grades for his group have an average of 62/100 with a standard deviation of 7.
+
+Wouter is a student of class A and got a grade of $\frac{63}{100}$, Stijn from class B got $\frac{67}{100}$. Who has the best result?
+
+## Solution
+
+At first sight, it looks like Stijn has a better grade, as he has more points than Wouter.
+But is this correct? We have to investigate how well both students performed, compared to the rest of their class.
+In other words, how extreme are the values of Wouter and Stijn compared to the mean of the class.
+This can be done by standardizing: we have to calculate the $z$-score for both values and compare them.
+
+\[ Z = \frac{x - \mu}{\sigma} \]
+
+```{r cars}
+score_wouter = 63
+score_stijn = 67
+m_wouter = 54
+m_stijn = 62
+s_wouter = 11
+s_stijn = 7
+
+normalisation <- function(x,m,s){
+  y <- (x-m)/s
+  return (y)
+}
+
+z_wouter = normalisation(score_wouter,m_wouter,s_wouter)
+z_stijn = normalisation(score_stijn, m_stijn,s_stijn)
+
+z_wouter
+z_stijn
+
+perc_wouter <- 1-z_wouter
+perc_stijn <- 1 -z_stijn
+```
+
+We have that the standardized score of Wouter is larger than the score of Stijn, and therefore Wouter did better than Stijn, although Stijn had a higher grade. Furthermore:
+
+- Wouter is in the top `r 100*round(perc_wouter,2)` % of the class
+- Stijn in in the top `r 100*round(perc_stijn,2)` % of the class
+
+We can also illustrate this by plotting graphs:
+
+```{r }
+plotNormal <- function(x,m,s){
+  # Area left of x
+xvals <- seq(from = m-4*s,
+             to = m+4*s,
+             length.out = 201)
+i <- xvals >= x
+
+ggplot(mapping = aes(x = xvals)) +
+  # Show the area left of x and below the Gauss-curve in green
+  geom_area(mapping = aes(x = xvals[i], y = dnorm(xvals[i], m, s)), 
+            color = "black", fill = "cornflowerblue") +
+  # Plot the Gauss-curve
+  stat_function(fun = dnorm, args = list(mean = m, sd = s)) +
+  # Draw the mean using a red vertical line
+  geom_vline(xintercept = m, color = "red") +
+  # Adjust the axis labels
+  xlab("x") + ylab("densiteit") +
+  # Add text to the plot
+  annotate("text", x = x, y = .02, label = x) +
+  annotate("text", x = m+.1, y = .02, label = m, color = "red")
+}
+
+plotNormal(score_wouter,m_wouter,s_wouter)
+```
+
+## Wouter
+```{r }
+plotNormal(score_wouter,m_wouter,s_wouter)
+plotNormal(score_stijn,m_stijn,s_stijn)
+```

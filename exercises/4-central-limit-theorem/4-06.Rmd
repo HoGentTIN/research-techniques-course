@@ -1,0 +1,49 @@
+---
+title: "Exercise 4.6"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+```
+
+> A survey conducted between 1988 and 1994 indicated that the average cholesterol level of women between 20 and 29 years was 183 mg/dl, with a standard deviation of 36. The sample consisted of 81 women, and we assume that the sample was taken at random.
+
+```{r}
+m <- 183
+s <- 36
+n <- 81
+```
+
+# probability distribution
+
+> Plot the probability distribution for the sample mean $\overline{x}$.
+
+```{r}
+sn <- s/sqrt(n)
+ggplot(data = data.frame(x = c(m-4*sn, m+4*sn)), mapping = aes(x)) +
+  stat_function(fun = dnorm, n = 201, args = list(mean = m, sd = sn)) +
+  geom_vline(xintercept = m, color = "green")
+```
+
+# Calculating probabilities
+
+> What is the probability that $\overline{x}$ is smaller than 185?
+
+```{r}
+pnorm(185, mean = m, sd = s / sqrt(n))
+```
+
+> What is the probability that $\overline{x}$ is between 175 and 185?
+
+```{r}
+pnorm(185, mean = m, sd = s / sqrt(n)) - pnorm(175, mean = m, sd = s / sqrt(n))
+```
+
+> What is the probability that $\overline{x}$ is larger than 190? 
+
+```{r}
+1 - pnorm(190, mean = m, sd = s / sqrt(n))
+```
+

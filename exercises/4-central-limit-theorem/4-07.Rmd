@@ -1,0 +1,71 @@
+---
+title: "Oefening 4.7"
+author: "Bert Van Vreckem"
+date: "20/3/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+```
+
+> A random sample consisting of 64 observations is drawn from a population with an unknown distribution. However, the population mean and standard deviation are known: $\mu = 20$ and $\sigma = 16$.
+
+```{r}
+m <- 20
+s <- 16
+n <- 64
+
+```
+
+# Probability distribution sample mean
+
+> What are the mean and standard deviation of the sample?
+
+- Expected value for population mean: $\mu = 20$
+- Standard deviation: $\sigma/\sqrt{n} = 16/\sqrt{64} = 2$
+
+```{r}
+sn <- s / sqrt(n)
+```
+
+> Describe the shape of the probability distribution of the sample mean. Does this depend on the sample size?
+
+\[ M \sim Nor(\mu = 20, \sigma = 16/\sqrt{64}))$ \]
+
+```{r}
+ggplot(data = data.frame(x = c(m-4*sn, m+4*sn)), mapping = aes(x)) +
+  stat_function(fun = dnorm, n = 201, args = list(mean = m, sd = sn)) +
+  geom_vline(xintercept = m, color = "green")
+```
+
+
+# z-score
+
+> Calculate the $z$-score for $\overline{x_{1}} = 15.5$ and $\overline{x_{2}} = 23$.
+
+```{r}
+(15.5 - m) / sn
+(23 - m) / sn
+```
+
+# Calculating probabilities
+
+> Calculate the probability that $\overline{x} < 16$.
+
+```{r}
+pnorm(16, mean = m, sd = sn)
+```
+
+> Calculate the probability that $\overline{x} > 23$.
+
+```{r}
+1 - pnorm(23, mean = m, sd = sn)
+```
+
+> Calculate the probability that $16 < \overline{x} < 22$.
+
+```{r}
+pnorm(22, mean = m, sd = sn) - pnorm(16, mean = m, sd = sn)
+```

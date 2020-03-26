@@ -1,0 +1,120 @@
+---
+title: "Exercise 4.9"
+output: html_document
+---
+
+Lately, a canned goods manufacturer received complaints about the net contents of their carrot and peas cans.
+According to the label, the can should contain 1 liter.  
+To verify these complaints, the QA department draws a random sample of 40 cans and checks the contents. 
+The results are provided in the table below.
+
+
+| Contents      | $n_i$ |
+| :---          | :---  |
+| $[970,980[$   | 3     |
+| $[980,990[$   | 5     |
+| $[990,1000[$  | 13    |
+| $[1000,1010[$ | 11    |
+| $[1010,1020[$ | 5     |
+| $[1020,1030[$ | 3     |
+    
+## Question A:
+
+
+- Add the cumulative absolute frequency to the table
+
+    We can calculate this using the `cumsum` function:
+
+    ```{r}
+    n_i <- c(3,5,13,11,5,3)         # Given frequencies
+    cf  <- c(cumsum(n_i))           # Cumulative absolute Frequencies
+    cf
+    ```
+    
+- Add the relative frequencies
+
+    The relative frequency is the absolute frequency, normalised by the total amount.
+    $f_i = n_i/N$
+
+    In this example, $N = 40$ or the sample size. 
+   
+    
+    ```{r}
+    f_i <- n_i / sum(n_i)
+    f_i
+    ```
+
+- Add the cumulative relative frequencies
+
+    These can also be calculated using the `cumsum` function
+    
+    ```{r}
+    crf <- c(cumsum(f_i))
+    crf
+    ```
+    
+    Note that the last value needs to be 1! (why?)
+    
+Full table:
+    
+
+| Contents      | $n_i$ | CF   | $f_i$ | CRF   |  
+| :---          | :---  | :--- | :---  | :---  |
+| $[970,980[$   | 3     | 3    | 0.075 | 0.075 |
+| $[980,990[$   | 5     | 8    | 0.125 | 0.200 |
+| $[990,1000[$  | 13    | 21   | 0.325 | 0.525 |
+| $[1000,1010[$ | 11    | 32   | 0.275 | 0.800 |
+| $[1010,1020[$ | 5     | 37   | 0.125 | 0.925 |
+| $[1020,1030[$ | 3     | 40   | 0.075 | 1.000 |
+
+In R:
+
+```{r}
+conserven <- tibble(
+  category = c("[970,980[","[980,990[","[990,1000[","[1000,1010[","[1010,1020[","[1020,1030["),
+  n_i = c(3,5,13,11,5,3),
+  cf  = cumsum(n_i),
+  f_i = n_i / sum(n_i),
+  crf = cumsum(f_i)
+)
+```
+
+## Question B:
+
+- Calculate the mean
+
+    Cfr. Exercise 3.07. For the x values we take the mean of the interval.
+    
+    ```{r}
+    x <- c(975,985,995,1005,1015,1025)
+    m <- sum(x * n_i) / sum(n_i)
+    m
+    ```
+
+- Calculate the standard deviation
+
+    Cfr. Exercise 3.07.
+    
+    ```{r}
+    v <- sum(n_i * (x - m)^2) / (sum(n_i) - 1)
+    stdev <- sqrt(v)
+    stdev
+    ```
+    
+- What percentage of cans does not contain sufficient carrots and peas?
+
+    There are 3 cans with contents $[970,980[$, 5 cans with $[980,990[$ and 13 cans with contents $[990,1000[$.
+    There are 21 with not insufficient contents, this corresponds to the 3rd value of the cumulative absolute frequencies.
+    
+    ```{r}
+    cf[3]/sum(n_i)
+    ```
+    
+    $52.5\%$ of the cans is not sufficiently filled.
+    
+- Plot a histogram of the absolute frequency
+
+  ```{r}
+  names(n_i) <- c("[970,980[","[980,990[","[990,1000[","[1000,1010[","[1010,1020[","[1020,1030[")
+  barplot(n_i)
+  ```

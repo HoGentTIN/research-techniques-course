@@ -1,0 +1,36 @@
+---
+title: "Exercise 4.10"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## What are the lower and upper bounds for a confidence interval of 99%?
+
+This is only dependent of the $z$-value:
+
+```{r}
+z_99 <- qnorm(1 - .01/2)
+z_99
+```
+
+The boundaries are $\pm 2.575829$.
+
+We can also calculate this for a confidence interval of 95%:
+
+```{r}
+z_95 <- qnorm(1 - .05/2)
+z_95
+```
+
+## A confidence interval of 99% is wider than a confidence interval for 95%. Why?
+
+If you want to be more sure that the (unknown) population mean is inside the interval, you need to increase the width of the interval.
+
+## What would be the confidence interval for a confidence level of 100\%?
+
+As the confidence interval approaches 100%, the interval gets wider.
+There is no hard boundary, so the interval becomes $]-\infty, +\infty[$.
+You can never be a 100% certain that the population mean is located in a finite interval, hence the use of infinity.

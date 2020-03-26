@@ -1,0 +1,30 @@
+---
+title: "Exercise 4.03"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+```
+
+> Determine the probability distribution and cumulative probability curve for a $t$-distribution with $df = 3$.
+  Also draw a normal distribution with $\mu = 0$ and $\sigma = 1$.
+
+## probability distribution
+
+```{r}
+# Source: codevoorbeelden/4-centrale-limietstelling.Rmd
+ggplot(data = data.frame(x = c(-4, +4)), mapping = aes(x)) +
+  stat_function(fun = dt, n = 201, args = list(df = 3)) +
+  stat_function(fun = dnorm, n = 201, linetype = "dashed")
+```
+
+## cumulative probability distribution
+
+```{r}
+# Source: codevoorbeelden/4-centrale-limietstelling.Rmd
+ggplot(data = data.frame(x = c(-4, +4)), mapping = aes(x)) +
+  stat_function(fun = pt, n = 201, args = list(df = 3)) +
+  stat_function(fun = pnorm, n = 201, linetype = "dashed")
+```

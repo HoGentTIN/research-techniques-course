@@ -1,0 +1,83 @@
+---
+title: "Exercise 4.11"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+# Exercise 4.11 - Confidence intervals for "money.csv"
+
+Import the dataset `money.csv` in R. We assume that the values of this sample are normally distributed with 
+  an unknown population mean $\mu$, but the standard deviation of the population
+  is supposed to be known; $\sigma = 99$. 
+
+```{r}
+money <- read_csv("../../../onderzoekstechnieken-cursus/oefeningen/datasets/money.csv")
+
+pop_sd <- 99  # standard deviation of the population (supposed to be known)
+
+n <- length(money$Money)
+sample_mean <- mean(money$Money) # sample mean
+sample_sd <- sd(money$Money)     # standard deviation of the sample
+```
+
+## 99% confidence interval
+
+> Calculate a 99\% confidence interval for the population mean
+
+```{r}
+z_99 <- qnorm(1 - 0.01/2)
+
+sprintf("99%% CI : [%.3f,%.3f]",
+        sample_mean - z_99 * pop_sd / sqrt(n),
+        sample_mean + z_99 * pop_sd / sqrt(n))
+```
+
+## 95% confidence interval
+
+> Calculate a 95\% confidence interval for the population mean
+
+```{r}
+z_95 <- qnorm(1 - 0.05/2)
+
+sprintf("95%% CI : [%.3f,%.3f]",
+  sample_mean - z_95 * pop_sd / sqrt(n),
+  sample_mean + z_95 * pop_sd / sqrt(n))
+
+```
+
+## Unknown σ
+
+> Suppose that $\sigma$ is unknown. Calculate a 95\% confidendce interval for the population mean.
+
+If $\sigma$ is unknown, we cannot use the z-score, but have to use the t-score instead.
+
+```{r}
+t_95 <- qt(1 - 0.05/2, df = n-1)
+
+sprintf("Unknown σ, 95%% CI : [%.3f,%.3f]",
+        sample_mean - t_95 * sample_sd / sqrt(n),
+        sample_mean + t_95 * sample_sd / sqrt(n))
+```
+
+## Small sample
+
+> Finally, calculate a 95% confidence interval for the population mean, assuming that the sample only consists of the first 25 values of the file.
+
+For a small sample we also need to use the t-score.
+
+```{r}
+small_sample <- money$Money[1:25]
+small_sample_mean <- mean(small_sample)
+small_sample_sd <- sd(small_sample)
+small_sample_n <- length(small_sample)
+
+t_95 <- qt(1 - 0.05/2, df = small_sample_n - 1)
+
+sprintf("Small sample, 95%% CI : [%.3f,%.3f]",
+        small_sample_mean - t_95 * small_sample_sd / sqrt(small_sample_n),
+        small_sample_mean + t_95 * small_sample_sd / sqrt(small_sample_n))
+```

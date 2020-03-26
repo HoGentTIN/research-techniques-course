@@ -1,0 +1,94 @@
+---
+title: "Exercise 4.1"
+output: html_document
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+a. $P(Z < 1.33)$
+
+    This is a left tailed probability, and can be calculated directly in R:
+
+    ```{r}
+    pnorm(1.33)
+    ```
+
+b. $P(Z > 1.33)$
+
+    This is a right tailed probability, but can be converted to a left tailed probability using the 100% rule.
+
+    ```{r}
+    1-pnorm(1.33)
+    ```
+
+c. $P(Z < -1.33)$
+
+    This is a left tailed probability, and can be calculated directly in R:
+
+    ```{r}
+    pnorm(-1.33)
+    ```
+    
+    We get the same result as in question b., which is expected because of symmetry.
+  
+
+d.  $P(Z > -1.33)$
+
+    This is a right tailed probability, but can be converted to a left tailed probability using the 100% rule.
+
+    ```{r}
+    1-pnorm(-1.33)
+    ```
+    
+    We get the same result as in question 1., which is expected because of symmetry.
+
+e. $P(Z < 0.45)$
+
+    This is a left tailed probability, and can be calculated directly in R:
+
+    ```{r}
+    pnorm(.45)
+    ```
+
+f. $P(Z > -1.05)$
+
+    This is a right tailed probability, but can be converted to a left tailed probability using the 100% rule.
+
+    ```{r}
+    1 - pnorm(-1.05)
+    ```
+    
+g. $P(Z < 0.65)$
+
+    ```{r}
+    pnorm(.65) 
+    ```
+
+h. $P(-0.45 < Z < 1.20)$
+
+    We can calculate this probability by taking the difference of 2 left tailed probabilities:
+    
+    $P(-0.45 < Z < 1.20) = P(Z < 1.20) - P(Z < -0.45)$ 
+    
+    ```{r}
+    pnorm(1.2) - pnorm(-.45)
+    ```
+    
+i. $P(-1.35 < Z < -0.10)$
+
+    Similar to previous question
+    
+    ```{r}
+    pnorm(-.1) - pnorm(-1.35)
+    ```
+    
+j. $P(-2.10 < Z < -0.90)$
+
+    Similar to previous question
+    
+    ```{r}
+    pnorm (-.9) - pnorm(-2.1)
+    ```

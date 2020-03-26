@@ -1,0 +1,72 @@
+---
+title: "Exercise 4.4"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+```
+
+## Solution 4.4
+
+For this exercise you will need the package ggplot2 Information can be found [here](https://www.dummies.com/programming/r/how-to-install-and-load-ggplot2-in-r/)
+
+
+## Part 1
+
+Use the `rnorm()` function to generate a random sample of 25 values based on a normal distribution with mean $\mu = 0$ and standard deviation $\sigma = 1$.
+
+```{r }
+
+theme <- theme(plot.title = element_text(family = "Helvetica", face = "bold", size = (15)), 
+                 legend.title = element_text(colour = "steelblue",  face = "bold.italic", family = "Helvetica"), 
+                 legend.text = element_text(face = "italic", colour="steelblue4",family = "Helvetica"), 
+                  axis.title = element_text(family = "Helvetica", size = (10), colour = "steelblue4"),
+                  axis.text = element_text(family = "Courier", colour = "cornflowerblue", size = (10)))
+  
+
+
+overlayplot <- function(n,m,s){
+  data <- rnorm(n,m,s)
+  ggplot(mapping = aes(x=data)) + 
+    geom_histogram(aes(y = ..density.. ), alpha = 0.7, fill = "#333333") + 
+    labs(y="observed", x="observations", title = "Histogram")+
+    geom_density(fill = "#ff4d4d",alpha = 0.5) + 
+    stat_function(fun = dnorm, args = list(mean = m, sd = s),
+                  colour = "red")+
+    theme
+}
+
+overlayplot(25,0,1)
+
+```
+
+## Part 2 
+
+Draw an overlay on the histogram consisting of:
+
+- (a) the theoretical probability distribution curve of a normal distribution with mean $\mu = 0$ and standard deviation $\sigma = 1$
+- (b) an ``estimated'' probability distribution curve based on the measured sample mean and standard deviation.
+
+### 100
+```{r }
+overlayplot(100,0,1)
+```
+
+
+### 500
+```{r }
+overlayplot(500,0,1)
+```
+
+
+### 1000
+```{r }
+overlayplot(1000,0,1)
+```
+
+### 10000
+```{r }
+overlayplot(10000,0,1)
+```

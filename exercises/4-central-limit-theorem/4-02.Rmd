@@ -1,0 +1,40 @@
+---
+title: "Exercise 4.02"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+```
+
+> Determine the probability distribution and the cumulative probability curve for a normal distribution with mean $\mu = 2.5$ and standard deviation $\sigma = 1.5$.
+
+```{r}
+m <- 2.5
+s <- 1.5
+```
+
+Probability Distribution:
+
+```{r}
+# Source: codevoorbeelden/4-centrale-limietstelling.Rmd
+ggplot(data = data.frame(x = c(m-4*s, m+4*s)), mapping = aes(x)) +
+  stat_function(fun = dnorm, n = 201, args = list(mean = m, sd = s)) +
+  geom_vline(xintercept = m, color = "green")
+```
+
+Cumulative probability curve (can be done using `pnorm` function):
+
+```{r}
+ggplot(data = data.frame(x = c(m-4*s, m+4*s)), mapping = aes(x)) +
+  stat_function(fun = pnorm, n = 201, args = list(mean = m, sd = s)) +
+  geom_vline(xintercept = m, color = "green")
+```
+
+> Determine the area of the surface below the density curve between $ x = 0.5 $ and $ x = 4 $. Verify your answer by doing the calculation.
+
+```{r}
+pnorm(4, m, s) - pnorm(.5, m, s)
+```
+
