@@ -1,0 +1,110 @@
+---
+title: "Exercise 5.4"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+```
+
+> One of the motives for choosing a car dealership is the resale value of the previous car, or more specifically the price a dealer wants to pay for the old car when the customer buys a new one. The importer of Ford wants that all dealers implement the same price policy. The importer is of the opinion that the average price difference between the closest Ford dealer and the dealer where the old car was purchased should be at most \euro{300}. It is assumed that, if the difference is larger, potential customers will be more inclined to stay with their previous dealer.
+> In a random sample, the following price differences are recorded:
+
+```{r}
+price_diff <- c(400,350,400,500,300,350,200,
+                500,200,250,250,500,350,100)
+```
+
+Test whether there is reason to assume that the average price difference in reality is significantly greater than €300, using a significance level of 5%.
+
+## Test and hypotheses
+
+In this situation ($n = 14 < 30$ and $\sigma$ unknown) we can NOT use the $Z$-test, but instead we need to use the $t$-test.
+
+- $H_0: \mu = 300$
+- $H_1: \mu > 300$
+
+```{r}
+m0 <- 300  # Hypothetical population mean
+```
+
+## Determine significance level and sample size
+
+```{r}
+alpha <- 0.05
+n <- length(price_diff)
+```
+
+## Calculate test statistic
+
+```{r}
+m <- mean(price_diff)  # sample mean
+s <- sd(price_diff)    # standard deviation of sample
+c(m, s)
+```
+
+## Plot of this casus
+
+```{r}
+ggplot(data = data.frame(x = c(-4, 4)), mapping = aes(x)) +
+  stat_function(fun = dt, n = 201, args = list(df = n - 1)) +
+  geom_vline(xintercept = (m - m0)/(s/sqrt(n)), color = "green")
+```
+
+
+## Can we reject H0?
+
+### Method 1: probability value
+
+The probability value is the probability $p = P(M > \overline{x})$. We can use the function `pt()` for this. 
+As we cannot add the mean and standard deviation as parameters (like we can do when using the  `pnorm()` function), we have to normalize the value of the sample mean (cfr. calculation of the $z$-score).
+
+```{r}
+# Probability value p = P(M > m)
+p <- 1 - pt((m - m0) / (s / sqrt(n)), df = n - 1)
+p
+```
+
+Or, using the function `t.test`:
+
+```{r}
+ttest_result <- t.test(price_diff,
+                       mu = 300,
+                       alternative = "greater",
+                       conf.level = 1 - alpha, 
+                       df = n-1)
+ttest_result$p.value
+```
+
+If $p < \alpha$, we can reject $H_0$.
+
+```{r}
+if(p < alpha) {
+  print("Reject H0")
+} else {
+  print("Do NOT reject H0")
+}
+```
+
+
+### Method 2: critical value
+
+```{r}
+t <- qt(1-alpha, df = n - 1)
+g <- m0 + t * (s / sqrt(n))
+```
+
+If $\overline{x} > g$, we can reject $H_0$.
+
+```{r}
+if (m > g){
+  print("Reject H0")
+} else {
+  print("Do NOT reject H0")
+}
+```
+
+## Conclusion
+
+Based on this sample there is no reason to assume that Ford-dealers offer a significant lower resale value compared to other dealers. 

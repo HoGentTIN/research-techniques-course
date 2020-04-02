@@ -1,0 +1,77 @@
+---
+title: "Exercise 5.3"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+```
+
+> It is being said that introducing a "binding recommendation on continuation of studies" (refusing enrollment in the next academic year if a student did not complete a certain level of credits) has a positive effect on the study efficiency and success rate. Before the introduction of binding recommendations, the number of completed credits per student per year was 44 with a standard deviation of 6.2. After the introduction, a sample of 72 random students has an average number of completed credits of 46.2.
+> Test whether there is evidence that the introduction of binding recommendations has improved the success rate among students. Calculate the critical value for a significance level of $\alpha = 2.5\%$.
+
+
+## Data
+
+```{r}
+m <- 44     # Population mean
+s <- 6.2    # Standard deviation population
+a <- 0.025  # Significance level
+
+n <- 72     # Sample size
+sm <- 46.2  # Sample mean
+```
+
+## Plot for this casus
+
+```{r}
+sn <- s/sqrt(n)
+ggplot(data = data.frame(x = c(m-4*sn, m+4*sn)), mapping = aes(x)) +
+  stat_function(fun = dnorm, n = 201, args = list(mean = m, sd = sn)) +
+  geom_vline(xintercept = m) +
+  geom_vline(xintercept = sm, color = "orange")
+```
+
+## Hypotheses
+
+The sample is sufficiently large (n > 30) and $\sigma$ is known. We will apply a right-tailed z-test. The hypotheses are:
+
+\[ H_0: \mu = 44 \]
+\[ H_1: \mu > 44 \]
+
+# Critical value
+
+> Calculate the critical value.
+
+```{r}
+g <- m + qnorm(1-a) * s/sqrt(n)
+g
+
+sn <- s/sqrt(n)
+ggplot(data = data.frame(x = c(m-4*sn, m+4*sn)), mapping = aes(x)) +
+  stat_function(fun = dnorm, n = 201, args = list(mean = m, sd = sn)) +
+  geom_vline(xintercept = m) +
+  geom_vline(xintercept = sm, color = "orange") +
+  geom_vline(xintercept = g, color = "red")
+```
+
+The sample mean $\overline{x}$ is inside the critical region ($g < \overline{x}$), so we can reject the null hypothesis.
+
+# Probability value
+
+> Do the same by calculating the $p$-value.
+
+```{r}
+p <- 1-pnorm(sm, m, s/sqrt(n))
+p
+```
+
+The Probability value is smaller than the significance level ($p < \alpha$) so we can reject the null hypothesis.
+
+# Interpretation of alpha
+
+>  Explain what $\alpha = 2.5 \%$ means.
+
+The significance level denotes the Probability of making a Type I error if we assume that the null hypothesis is true. In other words, this is the probability, if $H_0$ is true, to have a sample with such extreme values that the calculated sample mean is inside the critical region.
+

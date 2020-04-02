@@ -1,0 +1,226 @@
+---
+title: "Exercise 5.5 - the z-test"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+Import the dataset `rlanders-generated.csv` in R.
+
+```{r}
+sample_data <- read_csv("../../../onderzoekstechnieken-cursus/oefeningen/datasets/rlanders-generated.csv")
+glimpse(sample_data)
+```
+
+> The variable *Money* represents a gross annual salary ($\times 100\$$). We assume this variable has a mean of $\mu = 500$ with standard deviation $\sigma = 98$.
+
+```{r}
+mu <- 500
+sigma <- 98
+```
+
+> If we calculate the sample mean over the total dataset, it seems to support our assumptions. But what if we looked at men and women separately (variable *Gender*)?
+
+```{r}
+mean_general <- mean(sample_data$Money)
+money_female <- sample_data$Money[sample_data$Gender == "Female"]
+mean_female <- mean(money_female)
+money_male   <- sample_data$Money[sample_data$Gender == "Male"]
+mean_male <- mean(money_male)
+
+c(mean_general, mean_male, mean_female)
+```
+
+We have that:
+
+- the mean (in general) is : `mean_general` dollar
+- the mean for women is : `mean_female` dollar
+- the mean for men is : `mean_male` dollar
+
+Use an appropriate statistical test to verify the statements below, usinge a significance level of $\alpha = 5\%$. For each statement, calculate the critical value(s) and the p-value.
+
+```{r}
+alpha <- 0.05
+```
+
+# Visualization of the dataset
+
+Before starting the calculations, we first visualize the dataset.
+A boxplot of the full dataset:
+
+```{r}
+ggplot(data = sample_data, mapping = aes(y = Money)) +
+  geom_boxplot() +
+  coord_flip()
+```
+
+Divided by gender:
+
+```{r}
+ggplot(data = sample_data,
+       mapping = aes(y = Money, x = Gender, color = Gender)) +
+  geom_boxplot() +
+  coord_flip()
+```
+
+We already see an indication: at first sight, men earn more than women.
+
+A density plot provides an even better view on the distribution. First we plot all data. The theoretical distribution function for *Nor*$(\mu = 500, \sigma = 98)$ is added in blue. The orange dashed line indicates the mean of the sample.
+
+```{r}
+ggplot(data = sample_data, mapping = aes(x = Money)) +
+  geom_density() +
+  geom_vline(xintercept = mu,
+             color = "blue") +
+  geom_vline(xintercept = mean(sample_data$Money),
+             color = "orange", linetype = "dashed") +
+  stat_function(fun = dnorm,
+                args = list(mean = mu, sd = sigma),
+                color = "blue")
+```
+
+Density plot of Money, divided by Gender. The sample mean is indicated by a vertical dashed line. The theoretical distribution function is added in blue.
+
+```{r}
+ggplot(data = sample_data, mapping = aes(x = Money, color = Gender)) +
+  geom_density() +
+  geom_vline(xintercept = mean(money_female),
+             color = "red1", linetype = "dashed") +
+  geom_vline(xintercept = mean(money_male),
+             color = "green1", linetype = "dashed") +
+  stat_function(fun = dnorm,
+                args = list(mean = mu, sd = sigma),
+                color = "blue")
+```
+
+# Gross annual salary of men
+
+> The gross annual salary for men seems higher than the average. Is it significantly higher?
+
+For this research question we use a right-tailed z-test. The hypotheses are ($\mu_m$ is the sample mean for men):
+
+\[ H_0: \mu_m = 500 \]
+\[ H_1: \mu_m > 500 \]
+
+## Critical Value
+
+```{r}
+n <- length(money_male)
+z <- qnorm(1 - alpha)
+g <- mu + z * sigma/sqrt(n)
+
+sprintf("Sample mean     : %.3f", mean_male)
+sprintf("Critical value g: %.3f", g)
+
+if(mean_male < g) {
+  print("Do NOT reject H0")
+} else {
+  print("Reject H0")
+}
+```
+There is no evidence to assume that the mean gross annual salary of men is higher than 500 (x100) dollar. 
+
+## Probability Value
+
+```{r}
+p <- 1 - pnorm(mean_male, mean = mu, sd = sigma / sqrt(n))
+
+sprintf("p = %.4f", p)
+
+if(p > alpha) {
+  print("Do NOT reject H0")
+} else {
+  print("Reject H0")
+}
+```
+
+## Conclusion
+
+We can NOT reject the null hypothesis. The gross annual salary of men in the sample is not significantly higher than expected.
+
+# Gross annual salary of women
+
+> The gross annual salary of women seems *lower*. Is it significantly lower?
+
+For this we use a left-tailed z-test. The hypotheses are (with $\mu_v$ the mean gross annual salary of women):
+
+\[ H_0: \mu_v = 500 \]
+\[ H_1: \mu_v < 500 \]
+
+## Critical Value
+
+```{r}
+n <- length(money_female)
+
+gf <- mu - qnorm(1 - alpha) * sigma / sqrt(n)
+
+sprintf("Sample mean     : %.3f", mean_female)
+sprintf("Critical value g: %.3f", gf)
+
+if(mean_female > gf) {
+  print("Do NOT reject H0")
+} else {
+  print("Reject H0")
+}
+```
+
+## Probability Value
+
+```{r}
+pf <- pnorm(mean_female, mean = mu, sd = sigma / sqrt(n))
+
+sprintf("p = %.4f", pf)
+
+if(pf > alpha) {
+  print("Do NOT reject H0")
+} else {
+  print("Reject H0")
+}
+```
+
+## Conclusion
+
+We can reject the null hypothesis. The gross annual salary of women in the sample is significantly lower than expected.
+
+# Two-tailed test
+
+> Calculate the region of acceptance for the average gross annual salary for the sample (men and women combined). In this case we want to verify if the sample mean is significantly different from the expected value, but it can be lower or higher.
+
+For this we need a two-tailed test. The hypotheses are:
+
+\[ H_0: \mu = 500 \]
+\[ H_1: \mu \ne 500 \]
+
+## Critical Value
+
+We calculate the lower and upper limit of the critical region:
+
+```{r}
+n <- length(sample_data$Money)
+g_lo <- mu - qnorm(1 - alpha/2) * sigma / sqrt(n)
+g_hi <- mu + qnorm(1 - alpha/2) * sigma / sqrt(n)
+```
+
+Visualization of the region of acceptance:
+
+```{r}
+ggplot(data = sample_data, mapping = aes(x = Money)) +
+  geom_density() +
+  geom_vline(xintercept = g_lo) +
+  geom_vline(xintercept = g_hi) +
+  stat_function(fun = dnorm,
+                args = list(mean = mu, sd = sigma),
+                color = "blue") +
+#    stat_function(fun = dnorm,
+#               args = list(mean = mu, sd = sigma/sqrt(n)),
+#              color = "red") #This is the distribution of the sample mean, but this makes the plot unreadable
+  geom_vline(xintercept = mean(sample_data$Money),
+             color = "orange", linetype = "dashed")
+```
+
+In black the density plot of the variable *Money* over the whole dataset. The black vertical lines indicate the boundaries of the region of acceptance. The orange dotted line indicates the sample mean.
+
+Note that the blue line is the theoretical distribution of the variable *Money* and not the distribution of the sample mean! The sample mean is clearly inside the region of acceptance, so we cannot reject the null hypothesis. In other words, the gross annual salary over the whole sample is not significantly different from the expected value.
+
