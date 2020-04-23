@@ -16,17 +16,17 @@ The techniques covered in this chapter deal with the analysis of a single variab
 By the end of this chapter you must be able to:
 
 \begin{itemize}
-    \item Specify the appropriate central tendency and dispersion for each measurement level;
-    \item Reproduce and understand the formules for calculating the mean, variance, and standard deviation of a sample;
+    \item Specify the appropriate measures for central tendency and dispersion for each measurement level;
+    \item Reproduce and understand the formulas for calculating the mean, variance, and standard deviation of a sample;
     \item Calculate the central tendency and dispersion of a given variable;
     \item Identify suitable visualization techniques for each measurement level;
-    \item Apply visualization techniques suitable for a given variable;
+    \item Apply suitable visualization techniques for a given variable;
     \item Interpret a given graph, this includes naming the graph type, and deriving the central tendency and dispersion.
 \end{itemize}
 
 \section{Central Tendency and Dispersion}
 
-Imagine a group of researchers want to conduct a study on superheroes. Questions they could ask include:
+Imagine a group of researchers wants to conduct a study on superheroes. Questions they could ask include:
 
 \begin{itemize}
     \item How tall are superheroes usually?
@@ -38,7 +38,7 @@ Imagine a group of researchers want to conduct a study on superheroes. Questions
 
 To summarize the results of measurements, there are different methods that depend on the measurement level of the variable in question. On the one hand we look for a value that is representative of the entire group, the \index{central tendency}\emph{central tendency}, and on the other hand we are looking for a value that indicates how large the mutual differences are within the group, the \index{dispersion}\emph{dispersion}. The combination of central tendency and dispersion is often used when summarizing a series of measurements.
 
-Table~\ref{tab:centrum-spreidingsmaten} provides an overview of suitable measures for the central tendency and the dispersion. These are defined later in this chapter.
+Table~\ref{tab:centrum-spreidingsmaten} provides an overview of suitable measures for central tendency and dispersion. These are defined later in this chapter.
 
 
 \begin{table}
@@ -93,10 +93,10 @@ With quantitative variables, there  are more possibilities for describing the ce
 
 \begin{itemize}
     \item a mean and standard deviation;
-    \item a median and interquartila range.
+    \item a median and interquartile range.
 \end{itemize}
 
-Suppose the researchers carried out a number of measurements regarding the length of superheroes. The results can be found in Figure~\ref{fig:heroes-size}.
+Suppose the researchers carried out a number of measurements regarding the size of superheroes. The results can be found in Figure~\ref{fig:heroes-size}.
 
 \begin{figure}
   \centering
@@ -141,7 +141,7 @@ Suppose the researchers carried out a number of measurements regarding the lengt
     \label{eq:Mean}
     \end{equation}
     
-    With:
+    with:
     \begin{itemize}
         \item $x_{i}$ the different values of a set (in the example of Figure~\ref{fig:heroes-size}: 141, 198, 143, etc.)
         \item $n$ the number of values (in the example is $n = 5$).
@@ -156,7 +156,7 @@ Suppose the researchers carried out a number of measurements regarding the lengt
 \end{remark}
 
 \begin{exercise}
-    What is the average length of the superheroes in Figure~\ref{fig:heroes-size}?
+    What is the average size of the superheroes in Figure~\ref{fig:heroes-size}?
 \end{exercise}
 
 \begin{exercise}
@@ -166,13 +166,13 @@ Suppose the researchers carried out a number of measurements regarding the lengt
 \begin{exercise}
     The arithmetic mean is sensitive to outliers, i.e. values far away from the mean. Extreme values can heavily influence the arithmetic mean.
     
-    Assume that Kabout Wesley (10 cm) is added to the team of superheroes. What happens to the arithmetic mean?
+    Assume that Kabouter Wesley (10 cm) is added to the team of superheroes. What happens to the arithmetic mean?
 \end{exercise}
 
 \subsection{Variance and standard deviation}
 \label{ssec:variance-and-standard-deviation}
 
-The dispersion measure that is typically associated with the average is the standard deviation.
+The measure for dispersion that is typically associated with the average is the standard deviation.
 Before defining the standard deviation, we first provide the definition of the \emph{variance}.
 
 \begin{definition}[Variance]
@@ -185,16 +185,16 @@ Before defining the standard deviation, we first provide the definition of the \
 
 You may have noticed that in the formula the denominator is $n-1$ and not $n$, which you would expect. However, there is a variant of the formula with $n$ in the denominator. This latter one is called the population variance, indicated by $\sigma^2 $ (the Greek letter sigma).
 
-The variance of a sample is used in practice as an estimate for the (unknown) population variance. The formula with $n-1$ in the denominator is a so-called \textit{pure estimator}, which means that in many repetitions the average of the estimates converges to the population variance. You can prove this mathematically, but this is beyond the scope of this course.
+The variance of a sample is used in practice as an estimation for the (unknown) population variance. The formula with $n-1$ in the denominator is a so-called \textit{pure estimator}, which means that in many repetitions the average of the estimates converges to the population variance. You can prove this mathematically, but this is beyond the scope of this course.
 
 \begin{example}
     The variance of the length of our superheroes is calculated as follows:
     
     \begin{align*}
-    s^{2} & =  \frac{(173,4 - 141)^{2} + (173,4 - 198 )^{2} + (173,4 - 143)^{2} + (173,4 - 201)^{2} + (173,4 - 184 )^{2}}{4} \\
-    & =  \frac{(-32,4)^{2} + (24,6)^{2} + (-30,4)^{2} + (27,6)^{2} + (10,6)^{2}}{4}                                    \\
-    & = \frac{1049,76 + 605,16 + 924,16 + 761,76 + 112,36}{4}                                                          \\
-    & = \frac{3453,2}{4} = 863,3
+    s^{2} & =  \frac{(173.4 - 141)^{2} + (173.4 - 198 )^{2} + (173.4 - 143)^{2} + (173.4 - 201)^{2} + (173.4 - 184 )^{2}}{4} \\
+    & =  \frac{(-32.4)^{2} + (24.6)^{2} + (-30.4)^{2} + (27.6)^{2} + (10.6)^{2}}{4}                                    \\
+    & = \frac{1049.76 + 605.16 + 924.16 + 761.76 + 112.36}{4}                                                          \\
+    & = \frac{3453.2}{4} = 863.3    
     \end{align*}
 \end{example}
 
@@ -222,14 +222,14 @@ The standard deviation provides insight into what is normal and abnormal:
 A small standard deviation indicates that the values are close to the central tendency (arithmetic mean, $\overline{x}$),while  a large standard deviation indicates that the values are dispersed over a larger range of values. In some cases, a small standard deviation is desired, in other cases, it may not be that important, as illustrated below.
 
 \begin{example}
-  In the manufacturing process of screw drivers, the size of the head is important for its functioning. When the heads of a batch of 1000 screw drivers is measured, their sizes should be very similar, so a very small standard deviation is an indication of good quality.    
+  In the manufacturing process of screw drivers, the size of the head is important for its functioning. When the sizes of the heads of a batch of 1000 screw drivers are measured, these should be very similar, so a very small standard deviation is an indication of good quality.    
 \end{example}
 
 \begin{example}
-  Super heroes are a very diverse group. Some are very rich (e.g.~Batman, Iron Man), some are middle class (e.g.~Spiderman), others are quite poor (e.g.~Arsenal). The dispersion of their income would be very large, but that isn't necessarily a bad thing.
+  Superheroes are a very diverse group. Some are very rich (e.g.~Batman, Iron Man), some are middle class (e.g.~Spiderman), others are quite poor (e.g.~Arsenal). The dispersion of their income would be very large, but that isn't necessarily a bad thing.
 \end{example}
 
-An interesting property of the standard deviation is that it is expressed in the same unit as the measured data. In the example (size of superheroes), the standard deviation is 29,38 cm. 
+An interesting property of the standard deviation is that it is expressed in the same unit as the measured data. In the example (size of superheroes), the standard deviation is 29.38 cm. 
 
 Just like the arithmetic mean, the variance and standard deviation are sensitive to outliers. The variance is even more sensitive than the mean, because of the squared differences.
 
@@ -239,11 +239,11 @@ Just like the arithmetic mean, the variance and standard deviation are sensitive
 The median is also a measure for central tendency. Compared to the arithmetic mean, the median is much less sensitive to outliers.
 
 \begin{definition}[Median]
-    The \emph{median}\index{median} is the value separating the higher half of a data set from the lower half. When you sort the values from low to high, the median will be the value in the middle. If the set has an even number of values, the median is the average of the two values in the middle. 
+    The \emph{median}\index{median} is the value separating the higher half of a data set from the lower half. When you sort the values from low to high, the median will be the value in the middle. If the set has an even number of values, the median is the arithmetic mean of the two middle values. 
 \end{definition}
 
 \begin{exercise}
-    What is de median of the sizes of our superheroes?
+    What is the median of the sizes of our superheroes?
 \end{exercise}
 
 \begin{exercise}
@@ -274,9 +274,9 @@ To understand the interquartile range, we first have to introduce the concept of
     The \emph{quartiles}\index{quartiles} of a sorted set of numbers are the three values that divide the set into 4 equally large subsets.
     
     \begin{itemize}
-        \item the first/lower quartile ($Q_{1}$) is the value that separates the lowest quarter of values from the rest
-        \item the second quartile ($Q_{2}$) is the value that separates the lowest half of values from the highest half.
-        \item the third/higher quartile ($Q_{3}$) is the value that separates the highest quarter of values from the rest
+        \item The first/lower quartile ($Q_{1}$) is the value that separates the lowest quarter of values from the others.
+        \item The second quartile ($Q_{2}$) is the value that separates the lowest half of values from the highest half.
+        \item The third/higher quartile ($Q_{3}$) is the value that separates the highest quarter of values from the others.
     \end{itemize}
 \end{definition}
 
@@ -349,7 +349,7 @@ To draw a \index{bar chart}\emph{bar chart} (cfr. Figure~\ref{fig:barchart}), th
 
 \subsection{Box Plot}
 
-A \index{box plot}\emph{box plot} is a chart that shows the dispersion of a set of values (cfr. Figure~\ref{fig:boxplot}). It is formed by a rectangle with sides at the quartiles ($Q_1$ and $Q_3$). Inside the rectangle, the median is drawn as well. The whiskers attached to the upper and lower sides of the rectangle cover the rest of the observations, except for outliers and extremes.
+A \index{box plot}\emph{box plot} is a chart that shows the dispersion of a set of values (cfr. Figure~\ref{fig:boxplot}). It consists of a rectangle with sides at the quartiles ($Q_1$ and $Q_3$). Inside the rectangle, the median is also plotted. The whiskers attached to the upper and lower sides of the rectangle cover the remaining observations, except for outliers and extremes.
 
 \begin{itemize}
     \item An \emph{outlier}\index{outlier} is a value that is more than 1.5 times the IQR below the lower quartile or above the higher quartile. It is indicated by a circle.
@@ -404,7 +404,7 @@ The range of the variable is subdivided into a number of, typically equal, inter
 
 \subsection{Density Graph}
 
-The clarity of a histogram largely depends on the choice of intervals. If these are chosen too large, you will lose precision, and if they are too small, different intervals will not contain any observations. As an alternative to a histogram, you can also plot a \index{density graph}\emph{density graph} (cfr. Figure~\ref{fig:dichtheidsgrafiek}). In this graph, the X-axis is not subdivided into classes. Instead, a continuous curve is drawn, and the height of this curve corresponds to the amount of observations ``in the neighborhood''. A density graph typically shows even better how the observations are spread.
+The clarity of a histogram largely depends on the choice of intervals. If these are chosen too large, you will lose precision, and if they are too small, different intervals will not contain any observations. As an alternative to a histogram, you can also plot a \index{density graph}\emph{density graph} (cfr. Figure~\ref{fig:dichtheidsgrafiek}). In this graph, the X-axis is not subdivided into classes. Instead, a continuous curve is drawn, and the height of this curve corresponds to the amount of observations ``in the neighborhood''. A density graph typically illustrates even better the dispersion of the observations.
 
 \begin{figure}
     \centering
@@ -496,8 +496,8 @@ The clarity of a histogram largely depends on the choice of intervals. If these 
 
 
 In previous exercises we described the different measures for central tendency and dispersion.
-As you might have notices, these metrics are also used in the research of~\textcite{Akin2016}.
-In the next exercies, we will try to reproduce the results.
+As you might have noticed, these metrics are also used in the research of~\textcite{Akin2016}.
+In the next exercises, we will try to reproduce the results.
 
 For this, we need the file \texttt{android\_persistence\_cpu.csv}.
 This file can also be found inside the folder \texttt{exercises/datasets} on GitHub.
@@ -517,9 +517,9 @@ We will be using the \texttt{R} programming language for statistical computing w
 \end{lstlisting}
 
 You can use the above code to import the file in R. 
-After importing the file, try to calculate the average execution time, the standard deviation, the different quantiles, etc.
+After importing the file, try to calculate the average execution time, the standard deviation, the different quartiles, etc.
 Use the commands \texttt{mean}, \texttt {median}, \texttt {quantile}, \texttt {min}, \texttt{max}, \texttt{var}, \texttt{sd}. 
-You can also use the \texttt{summary} command to get a nice overviw.
+You can also use the \texttt{summary} command to get a nice overview.
 
 Tips:
 
@@ -550,7 +550,7 @@ A histogram is a plot that shows the frequencies of observations between specifi
 
 \subsubsection{Boxplot}
 
-A boxplot shows the median, quartiles, and extremes in a dataset. 
+A boxplot shows the median, quartiles, and extreme values of a dataset. 
 It provides a good overview of the distribution of the data.
 
 \begin{lstlisting}[breaklines=true]
@@ -562,7 +562,7 @@ It provides a good overview of the distribution of the data.
   By default, boxplots are drawn vertically. Use the help function in RStudio to find out how to draw it horizontally.
 \end{exercise}
 
-In the previous exercises, when we tried to analyse the dataset as a whole, we noticed that this is pretty much useless, since the data set is divided into several categories. 
+In the previous exercises, when we tried to analyze the dataset as a whole, we noticed that this is pretty much useless, since the dataset is divided into several categories. 
 Let's create separate boxplots for each category.
 
 \begin{lstlisting}[breaklines=true]
@@ -604,13 +604,13 @@ There are several ways of selecting data that meets specific criteria, a.o.~the 
 \end{exercise}
 
 \begin{exercise}[Retrieval practice]
-  Use the procedure for retrieval practice from exercise~\ref{ex:retrieval-practice-meetniveaus} 
-  to study the \emph{techqniques for analysis and visualization of a single variable}.
+  Use the procedure for retrieval practice from Exercise~\ref{ex:retrieval-practice-measurement-levels} 
+  to study the \emph{techniques for analysis and visualization of a single variable}.
   
   Provide for each measurement level:
   
   \begin{itemize}
-    \item The appropriate measurements for central tendency and dispersion (name + definitions and formulas)
+    \item The appropriate measures for central tendency and dispersion (name + definitions and formulas)
     \item The appropriate graph types
   \end{itemize}
 \end{exercise}
