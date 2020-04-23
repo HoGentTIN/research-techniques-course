@@ -11,11 +11,3 @@ plot(x, y,
 # Calculate regression (lm = "Linear Model")
 regr <- lm(y ~ x)
 abline(regr, col = 'red') # Plot regression line
-
-# Manual calculation
-xm <- mean(x)
-ym <- mean(y)
-beta1 <- sum((x - xm) * (y - ym)) / sum((x - xm) ^ 2)
-beta0 <- ym - beta1 * xm
-
-abline(a = beta0, b = beta1, col = 'green')

@@ -12,7 +12,7 @@ By the end of this chapter you must be able to:
     \item Explain the following concepts:
     \begin{itemize}
         \item dependent variable, independent variable;
-        \item a relationship (correlation, association) between two variables, ascending/descending relationship, linear relationship;
+        \item a relationship (correlation, association) between two variables, increasing/decreasing relationship, linear relationship;
     \end{itemize}
     \item Identify suitable analysis techniques for the combinations of measurement levels discussed in this chapter;
     \item For a combination of two qualitative variables:
@@ -38,8 +38,8 @@ By the end of this chapter you must be able to:
     \item Explain, based on a given situation, that correlation does not imply a causal relationship, and why;
 \end{itemize}
 
-\section{Inleiding}
-\label{sec:analyse2var-inleiding}
+\section{Introduction}
+\label{sec:bivariate-analysis-introduction}
 
 When describing a relationship between variables, we make a distinction between:
 
@@ -123,7 +123,7 @@ In this section we investigate methods for researching the relationship between 
     \label{tab:crosstable0}
 \end{table}
 
-How can we determine, based on a cross table, whether there is a relationship between two variables? For example, take a look at the crosstable of Table~\ref{tab:crosstable0}. This table summarizes the results of a survey in which 49 persons (22 woman and 27 men) were asked to give a rating (good, sufficient, bad) for a particular range of products. If there is a relationship between the two variables, namely the gender (independent) and the rating (dependent), we should be able to see that women and men gave fundamentally different ratings. On the other hand, if the proportions of the different ratings are (approximately) the same for both women and men, there is \emph{no} relationship.
+How can we determine, based on a cross table, whether there is a relationship between two variables? For example, take a look at the cross table of Table~\ref{tab:crosstable0}. This table summarizes the results of a survey in which 49 persons (22 woman and 27 men) were asked to give a rating (good, sufficient, bad) for a particular range of products. If there is a relationship between the two variables, namely the gender (independent) and the rating (dependent), we should be able to see that women and men gave fundamentally different ratings. On the other hand, if the proportions of the different ratings are (approximately) the same for both women and men, there is \emph{no} relationship.
 
 An ordinary cross table cannot be directly used for drawing conclusions, as analyzing a possible coherence between variables is not straightforward based on absolute frequencies. After all, there are more men than women in the survey! Instead, we have to calculate the percentages, i.e.~within each column we need to calculate how often each rating occurs \emph{in proportion}. The sum of all percentages in a column needs to be equal to 100\%. A quick review of the rules regarding calculating percentages:
 
@@ -146,7 +146,7 @@ Table~\ref{tab:crosstable1} provides an overview of the percentages per gender f
   	      Total &    22 &  27 &     49 &    100\% & 100\% &  100\% \\
   	\bottomrule
   \end{tabular}
-  \caption{The crosstable, including percentages of the different values.}
+  \caption{The cross table, including percentages of the different values.}
   \label{tab:crosstable1}
 \end{table}
 
@@ -155,12 +155,12 @@ We can now ask ourselves whether the choice of rating depends on the gender of t
 \subsection{\texorpdfstring{$\chi^{2}$}{chi-square}}
 \label{ssec:chi-square}
 
-The previous section indicates the need for a measure to express the difference between the ratios in both columns. One way to express this is the so-called \emph{chi-square} statistic (notation: $\chi^{2}$). The value of $\chi^2$ equals 0 when there is no difference between the proportions in the columns of a crosstable, and therefore when there is absolutely no coherence between the variables. If there is a difference, $\chi^2$ will be a positive number. The larger the value, the greater the mutual differences between both columns, and the stronger the relationship.
+The previous section indicates the need for a measure to express the difference between the ratios in both columns. One way to express this is the so-called \emph{chi-square} statistic (notation: $\chi^{2}$). The value of $\chi^2$ equals 0 when there is no difference between the proportions in the columns of a cross table, and therefore when there is absolutely no coherence between the variables. If there is a difference, $\chi^2$ will be a positive number. The larger the value, the greater the mutual differences between both columns, and the stronger the relationship.
 
-The procedure for calculating the value of $\chi^2$ based on a crosstable is as follows:
+The procedure for calculating the value of $\chi^2$ based on a cross table is as follows:
 
 \begin{enumerate}
-  \item First, create a crosstable containing the marginal totals (cfr. Table.\ref{tab:crosstable0}).
+  \item First, create a cross table containing the marginal totals (cfr. Table.\ref{tab:crosstable0}).
   \item Next, calculate the so-called \emph{expected frequency} of each cell (notation: $e$). This is the absolute frequency you would \emph{expect} if you assume there is no relationship at all between the variables. You can calculate the expected frequency as follows:
   
   \begin{equation}
@@ -191,13 +191,13 @@ The procedure for calculating the value of $\chi^2$ based on a crosstable is as 
           Total &                        $22$ &                         $27$ &   $49$ &  $100$\% & $100$\% & $100$\% \\
     \bottomrule
     \end{tabular}
-    \caption{The crosstable, with the expected frequency $e$ (indicated in red) subtracted from the observed frequency $o$ for each cell.}
+    \caption{The cross table, with the expected frequency $e$ (indicated in red) subtracted from the observed frequency $o$ for each cell.}
     \label{tab:crosstable2}
   \end{table}
 
   \item The final step involves calculating a measure for the dispersion of each cell. Similar to calculating the variance of a sample (cfr. Section~\ref{ssec:variance-and-standard-deviation}), we calculate the squared difference so that the result is always positive and larger deviations will have a greater influence in the result.
 
-  We will also divide the dispersion by the expected frequency to make them both relatively equally important. For example: a standard deviation of 5 for an expected frequency of 20 is bigger than for an expected frequency of 200. The resulting equation for each cell of the crosstable is (cfr. Table~\ref{tab:crosstable3}):
+  We will also divide the dispersion by the expected frequency to make them both relatively equally important. For example: a standard deviation of 5 for an expected frequency of 20 is bigger than for an expected frequency of 200. The resulting equation for each cell of the cross table is (cfr. Table~\ref{tab:crosstable3}):
 
   \begin{equation}
     \frac{(o - e)^{2}}{e}
@@ -215,7 +215,7 @@ The procedure for calculating the value of $\chi^2$ based on a crosstable is as 
           Total &                     $22$ &                     $27$ &   $49$ &  $100$\% & $100$\% & $100$\% \\
     	\bottomrule
     \end{tabular}
-    \caption{The crosstable, with the squared difference divided by the expected frequency, $\frac{(o - e)^2}{e}$ (in blue). Note that these values are rounded to two decimal places, so we lose some of the precision.}
+    \caption{The cross table, with the squared difference divided by the expected frequency, $\frac{(o - e)^2}{e}$ (in blue). Note that these values are rounded to two decimal places, so we lose some of the precision.}
     \label{tab:crosstable3}
   \end{table}
 
@@ -228,7 +228,7 @@ The procedure for calculating the value of $\chi^2$ based on a crosstable is as 
     In our example: $\chi^2 \approx 3.8105$.
 \end{enumerate}
 
-However, this value $\chi^2 \approx 3,8105$ itself \emph{still} does not say much. Under what conditions can we say whether there is a relationship between the two variables? And how strong is this relationship? This will also depend on the size of the table and the total number of observations. In a crosstable consisting of more rows/columns, the value of $\chi^2$ will have to be larger to conclude that there is a relationship.
+However, this value $\chi^2 \approx 3,8105$ itself \emph{still} does not say much. Under what conditions can we say whether there is a relationship between the two variables? And how strong is this relationship? This will also depend on the size of the table and the total number of observations. In a cross table consisting of more rows/columns, the value of $\chi^2$ will have to be larger to conclude that there is a relationship.
 
 \subsection[Chi-squared Distribution]{$\chi^{2}$-distribution}
 \label{ssec:chi-squared-distribution}
@@ -256,7 +256,7 @@ To determine the necessary values within the $\chi^{2}$-distribution (e.g. right
 \subsection{Test of Independence}
 \label{ssec:test-of-independence}
 
-A test of independence\index{test of independence} is used to determine if there is a relationship between two qualitative variables by using the $\chi^2$ statistic. This test is also called the $\chi^2$-test\index{$\chi^2$-test}\index{test!$\chi^2$-} of association, or the $\chi^2$ crosstable test, and was developed by the English mathematician and statistician Karl Pearson\index{Pearson!Karl}.
+A test of independence\index{test of independence} is used to determine if there is a relationship between two qualitative variables by using the $\chi^2$ statistic. This test is also called the $\chi^2$-test\index{$\chi^2$-test}\index{test!$\chi^2$-} of association, or the $\chi^2$ cross table test, and was developed by the English mathematician and statistician Karl Pearson\index{Pearson!Karl}.
 
 \subsubsection{Testing Procedure}
 
@@ -276,7 +276,7 @@ The testing procedure is as follows:
   \item \textbf{Calculate the value of the test statistic in the sample}
   \[ \chi^{2} = \sum_{i} \frac{(o_{i} - e_{i})^{2}}{e_{i}} \]
 
-  \item The value of $\chi^2$ follows the $\chi^2$-distribution (cfr. Section~\ref{ssec:chi-squared-distribution}). This stochastic distribution has an additional parameter, the number of degrees of freedom $df$. For a crosstable test, $df = (r - 1) \times (k - 1)$ with $r$ the number of rows and $k$ the number of columns.
+  \item The value of $\chi^2$ follows the $\chi^2$-distribution (cfr. Section~\ref{ssec:chi-squared-distribution}). This stochastic distribution has an additional parameter, the number of degrees of freedom $df$. For a cross table test, $df = (r - 1) \times (k - 1)$ with $r$ the number of rows and $k$ the number of columns.
 
   Using this distribution, we can draw a conclusion in two equivalent ways:
   \begin{enumerate}
@@ -354,7 +354,7 @@ But, is this evidence that smoking \emph{causes} lung cancer, as is often assume
 
 \subsubsection{Cochran's Rule}
 
-When calculating the value of $\chi^2$, it is important to have enough observations for each cell in the crosstable. When the sample size is too small, the results of the calculation will become unreliable.
+When calculating the value of $\chi^2$, it is important to have enough observations for each cell in the cross table. When the sample size is too small, the results of the calculation will become unreliable.
 
 The statistician \textcite{Cochran1954}\index{Cochran!William G.} has formulated a number of recommendations about this, which we will refer to in this syllabus as the Rule of Cochran\index{Cochran!rule of}.
 
@@ -585,48 +585,761 @@ This result is remarkable because we did not find a significant relationship bet
 \end{table}
 
 \subsection{Visualization Techniques}
-\label{ssec:kwal-kwal-visualization}
+\label{ssec:qual-qual-visualization}
+
+The visualization of the relationship between two qualitative variables is typically based on the values in the cross table\index{cross table}. Typically, three types of charts are used: a clustered bar chart, a horizontal stacked bar chart, and a mosaic chart.
 
 \subsection{Clustered bar chart}
+
+In a clustered bar chart\index{chart!clustered bar} (cfr. Figure~\ref{fig:clustered-bar-chart}) the independent variable is typically plotted on the x-axis. On the y-axis bars are drawn that represent the frequencies in the dependent variable, side by side. As the number of categories increases, this type of graph quickly becomes unclear.
+
 \subsection{Horizontal stacked bar chart}
+
+A stacked bar chart\index{chart!stacked bar} (cfr. Figure~\ref{fig:stacked-bar-chart}) is also based on bar chart, but in this type the bars are stacked and normalized. More specifically, the length of each bar is equalized (100\%) so you see the mutual relationships between the numbers in which each value occurs.
+
+Usually a stacked bar chart is plotted horizontally. This way, relationships between the different categories in the dependent variable can be clearly seen. What this graph does not illustrate, however, are the proportions within the independent variable. For example, if one of the different values in the independent variable is very small, you will not see it in the graph.
+
 \subsection{Mosaic plot}
+
+A mosaic plot\index{plot!mosaic} (cfr. Figure~\ref{fig:mosaic-plot}) is a graphical representation of a frequency table in which the area of each tile is proportional to the frequency in the corresponding cell of the table.
+
+A mosaic plot is the clearest way to illustrate the relationship between two qualitative variables.
+
+\begin{figure}
+  \begin{subfigure}{.33\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{img/bivar-clustered-bar-chart}
+    \caption{A clustered bar chart.}
+    \label{fig:clustered-bar-chart}
+  \end{subfigure}
+  \begin{subfigure}{.33\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{img/bivar-horizontal-stacked-bar-chart}
+    \caption{A horizontal stacked bar chart.}
+    \label{fig:stacked-bar-chart}
+  \end{subfigure}
+  \begin{subfigure}{.33\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{img/bivar-mosaic-plot}
+    \caption{A mosaic plot.}
+    \label{fig:mosaic-plot}
+  \end{subfigure}
+  \caption[Visualization techniques for 2 qualitative variables]{Visualization techniques for 2 qualitative variables. In all graph types the same data is presented.}
+\end{figure}
+
 
 \section{Qualitative-Quantitative}
 \label{sec:qualitative-quantitative}
 
+In this section we look at methods for determining a relationship between a qualitative (independent) variable and a quantitative (dependent) variable. A study of gender inequality in salaries in the ICT sector is a good example of this. The independent variable \emph{gender} is nominal (possible values could for example be M/F/X), the dependent variable \emph{gross salary} is a ratio variable.
+
+The approach that is typically used is to compare the mean and/or standard deviation of the dependent variable between the different groups arising from the independent. If the differences are small, they can be attributed to random sampling errors and we conclude that there is no relationship. If the differences are large, we conclude that there \emph{is} a relationship. For example, it still is often the case that men earn significantly more than women for a similar job!
+
+In this course we will discuss the $t$-test for 2 samples to determine if there is a difference between two groups (cfr. Section~ref{ssec:t-test-two-samples}). There exist statistical tests that extend this to a larger number of groups at the same time (e.g. the ANOVA-test), but these are out of scope for this syllabus.
+
+As with Cramér'V for qualitative variables, there are also metrics that indicate the strength of the relationship between qualitative and a quantitative variables. In this context, these are often called the \emph{effect size}. In this syllabus we will investigate one metric for effect size, Cohen's $d$ (cfr. Section~\ref{ssec:cohens-d}). Again, there are multiple types of effect size, also suited for other measurement levels, but these are out of scope for this syllabus.
+
+\subsection{The \texorpdfstring{$t$}{t}-test for two samples}
+\label{ssec:t-test-two-samples}
+
+The $t$-test introduced in Section~\ref{sec:t-test} can also be used to compare two samples. This way, you can determine if the difference between the sample mean of both samples is \emph{significantly} different.
+
+A distinction is made between two cases:
+
+\begin{itemize}
+  \item Both samples are independent, taken separately. An example is a study on a medical treatment method in which a control group does \emph{not} receive the treatment and a test group does receive the treatment.
+  \item The samples are dependent or paired. An example is taking two measurements on the same member of the population, for example measuring the fever before and after taking a certain drug to measure its effect.
+\end{itemize}
+
+In R you can also use the function \texttt{t.test} to conduct a test with two samples. We provide two examples below, one for each case.
+
+\begin{example}
+  In a clinical study, the aim is to determine whether a new drug has a delayed (i.e. higher) reaction speed as a side effect~\autocite{Lindquist}. 
+  
+  Six participants were given the drug (intervention group) and six others a placebo (control group). Next their response time to a stimulus was measured (in ms). We want to determine whether there are significant differences between the intervention and control groups.
+  
+  \textbf{Remark}: The intervention group and the control group happen to be the same size (6 test subjects for each).
+  This is not necessary. For independent (unpaired) samples both groups may have a different size.
+  
+  \begin{itemize}
+    \item Control group: 91, 87, 99, 77, 88, 91 ~~~~~~~~~~~~($\overline{x}=88,83$)
+    \item Intervention group: 101, 110, 103, 93, 99, 104 ~~($\overline{y}=101,67$)
+  \end{itemize}
+  
+  We note $\mu_1$ for the mean of the untreated population (control group) and $\mu_2$ for the population mean of patients who took the drug (intervention group).
+  
+  The hypotheses are formally noted as follows:
+  
+  $H_0: \mu_1 - \mu_2 = 0$ en $H_1: \mu_1 - \mu_2 < 0$
+  
+  As test statistic we use $\overline{x}-\overline{y}$, with $\overline{x}$ and $\overline{y}$ estimations for the \textit{real} values $\mu_1$ en $\mu_2$.
+
+  Therefore, this is a left-tailed test, specified by the option \texttt{alternative = "less"}. For the null hypothesis, we assume that the difference between the population means is 0, indicated by the option \texttt{mu = 0}. Note that this is the default value for this parameter and therefore its value does not need to be specified in theory.
+
+  \begin{lstlisting}
+  control <-  c(91, 87, 99, 77, 88, 91)
+  intervention <- c(101, 110, 103, 93, 99, 104)
+  t.test(control, intervention, alternative="less", mu=0)
+  \end{lstlisting}
+  
+  The result of the test:
+  
+  \begin{verbatim}
+  t.test(control, intervention, alternative="less")
+  
+  Welch Two Sample t-test
+
+  data:  control and intervention
+  t = -3.4456, df = 9.4797, p-value = 0.003391
+  alternative hypothesis: true difference in means is less than 0
+  95 percent confidence interval:
+  -Inf -6.044949
+  sample estimates:
+  mean of x mean of y 
+  88.83333 101.66667 
+  \end{verbatim}
+  
+  The test statistic $\overline{x}-\overline{y}=-12.833$ corresponds to a $t$-value $t=-3.4456$.
+  The parameter $df=9.48$ is determined by \texttt{t.test()} based on the number of elements in the arrays $x$ and $y$.
+  The calculation of this value is \textit{not} trivial.
+
+  The $p$-value, 0.003391, is clearly below the significance level (not specified explicitly, so the default value $\alpha = 0.05$ was used).
+  
+  We can therefore reject the null hypothesis and conclude that, based on the results of this sample, the drug did have a significant effect on the reaction speed of patients.
+  
+  \textbf{Remark}: Because $\overline{x}-\overline{y}=-12.833$
+  we can say with a confidence of 95\% that the difference of the \textit{real} means ($\mu_1-\mu_2$)
+  of a larger control and intervention group will be between $-\infty$ en $-6.044949$.
+  Cfr. Section~\ref{ssec:confidence-interval-pop-mean-large-sample} (p. \pageref{ssec:confidence-interval-pop-mean-large-sample})
+  and \ref{ssec:confidence-interval-pop-mean-small-sample} (p. \pageref{ssec:confidence-interval-pop-mean-small-sample})
+  regarding confidence intervals.
+\end{example}
+
+
+\begin{example}
+  A study examined whether cars that run on petrol with additives have a lower consumption. Ten cars were first refueled with either regular petrol or petrol with additives (determined by flipping a coin), after which the consumption was measured (expressed in miles per gallon). The cars were then refueled with the other type of petrol and consumption was again measured. The results are given in the table below.
+  
+  \begin{center}
+    \begin{tabular}{|l|c|c|c|c|c|c|c|c|c|c|}
+      \hline 
+      Car & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 \\ 
+      \hline 
+      Regular petrol & 16 & 20 & 21 & 22 & 23 & 22 & 27 & 25 & 27 & 28 \\ 
+      \hline 
+      With additives & 19 & 22 & 24 & 24 & 25 & 25 & 25 & 26 & 28 & 32 \\ 
+      \hline 
+    \end{tabular} 
+    %  \caption{Consumption in miles per gallon for 2 types of petrol.}
+    %  \label{tab:petrol-consumption-additives}
+  \end{center}
+  
+  We use a \emph {paired $t$-test} to determine whether cars run significantly more efficiently when using petrol with additives.
+  
+  We select $x$ for petrol \texttt{with additives} ($\overline{x}=25.1$ miles per gallon), and $y$ for \texttt{regular} petrol ($\overline{y}=23.1$ miles per gallon).
+  
+  The null hypothesis $H_0$ states that the miles per gallon is similar for both types ($\mu_{x-y}=0$).
+  The alternative hypothesis $H_1$ states that you can drive a longer distance when using petrol with additives ($\mu_{x-y}>0$).
+  
+  The option \texttt{paired=TRUE} indicates that this is a paired $t$-test.
+  
+  \begin{lstlisting}
+  regular <- c(16, 20, 21, 22, 23, 22, 27, 25, 27, 28)
+  additives <- c(19, 22, 24, 24, 25, 25, 26, 26, 28, 32)
+  t.test(additives, regular, alternative="greater", paired=TRUE)
+  \end{lstlisting}
+  
+  Result:
+  
+  \begin{verbatim}
+  Paired t-test
+  
+  data:  additives and regular
+  t = 4.4721, df = 9, p-value = 0.0007749
+  alternative hypothesis: true difference in means is greater than 0
+  95 percent confidence interval:
+  1.180207      Inf
+  sample estimates:
+  mean of the differences 
+  2 
+  \end{verbatim}
+  
+  The test statistic $\overline{x-y}=2$. This corresponds to a $t$-value of $t=4.4721$.
+  The $p$-value, 0.0007749, is below the significance level ($\alpha=0.05$), so we can reject the null hypothesis. According to this sample, cars do drive more efficiently when using petrol with additives.
+  
+  \textbf{Remark}: For 95\% of the ``pairs'' from a larger population of cars, the difference $x-y$ will be located between $1.180207$ and $+\infty$.
+  This is the confidence interval introduced in Section \ref{ssec:confidence-interval-pop-mean-large-sample} (p. \pageref{ssec:confidence-interval-pop-mean-large-sample})
+  and \ref{ssec:confidence-interval-pop-mean-small-sample} (p. \pageref{ssec:confidence-interval-pop-mean-small-sample}).
+\end{example}
+
+
+\subsection{Effect Size - Cohen's \texorpdfstring{$d$}{d}}
+\label{ssec:cohens-d}
+
+The \emph{effect size}\index{effect size} is a metric that represents the impact (or effect) of an event. In most variants, a large value indicates a larger effect, whereas a value of 0 indicates the absence of an effect.
+
+In this section, we introduce Cohen's $d$\index{Cohen's $d$}, developed by the American psychologist and statistician Jacob Cohen\index{Cohen, Jacob}. In particular, this metric is often used in publications on research into effects on learning outcomes in education. A study in this context is often set up as follows:
+
+The researchers want to know the effect of a particular intervention on student learning. For example, they want to try out a new teaching method and determine whether it is suitable. Test subjects are selected who are typically randomly divided into two groups: a control group that gets to process a piece of learning material in a ``classic'' way and an intervention group that is presented with the same learning material using the new teaching method. After the class, a test is used to determine to what extent students of both groups have acquired the subject matter. We expect that students from the intervention group achieve a significantly better result than students from the control group. In scientific publications resulting from this type of research, the effect size will often be used.
+
+John \textcite{Hattie2012}\index{Hattie, John} has been collecting publications on research in education for decades and maintains a list of effect sizes of all kinds of things that have an impact on student outcomes. This is not just about teaching methods, but also about student learning strategies, demographic factors (gender, social status, etc.), school and class management, etc. In his meta-analysis, most of the factors studied have a positive effect on learning outcomes, which may well be due to \emph{publication bias}. 
+
+The average reported effect size is around $d = 0.4$. Hattie's recommendation therefore is that schools that want to have a positive effect on the learning outcomes of students should first look at factors that result in an effect size of at least 0.4. As a rule of thumb, you can say that an intervention with $d = 1$ means that the course material that is normally covered in one year can be processed in half the time. Table~\ref{table:effect-size} summarizes the interpretation of different values for Cohen's $d$.
+
+\begin{definition}[Cohen's $d$]
+  is defined as the difference between the two means divided by a standard deviation of the sample, or more concrete:
+  \begin{equation}
+  d = \frac{\overline{x}_1 - \overline{x}_2}{s}
+  \end{equation}
+  
+  with $\overline{x}_1$ and $\overline{x}_2$ the mean of both groups and $s$ a combined standard deviation for two independent samples:
+  
+  \begin{equation}
+  s = \sqrt{\frac{(n_1 - 1) s_1^2 + (n_2 - 1) s_2^2}{n_1 + n_2 - 2}}
+  \end{equation}
+  
+  with $s_1^2$ and $s_2^2$ the sample variance of both groups and $n_1$ and $n_2$ the number of observations in each group (sample size).
+\end{definition}
+
+\begin{table}
+  \centering
+  \begin{tabular}{rl}
+    \toprule
+    \textbf{$|d|$} & \textbf{Effect Size} \\
+    \midrule
+    0.01 & Very small \\
+    0.20 & Small \\
+    0.50 & Average \\
+    0.80 & Large \\
+    1.20 & Very large \\
+    2.00 & Huge \\
+    \bottomrule
+  \end{tabular}
+  \caption{Interpretation of the absolute value of Cohen's $d$. Note that $d$ cam also be less than 0, indicating a negative effect of the intervention.}
+  \label{table:effect-size}
+\end{table}
+
+\subsection{Visualization Techniques}
+\label{ssec:qual-quant-visualization}
+
+\subsubsection{Box Plot}
+
+% TODO   Boxplot
+
+\subsubsection{Bar chart with error bars}
+
+% TODO  Staafdiagram met error bars
+
+\section{Quantitative--Quantitative}
+
+% TODO: inleiding
+% TODO: Spreidingsdiagram
+
+\subsection{Regression}
+\label{sec:regression}
+
+With regression\index{regression} we will try to find a consistent and systematic relationship between the variables. Or more concrete: ``if we know the value of the independent variable, can we predict the value of the dependent variable?'' There are two types of relationships:
+
+\begin{description}
+  \item [Monotonic:] a monotonic relationship is a relationship in which the researcher can indicate the general direction of the relationship between the two variables, either increasing or decreasing. The direction of the relationship never changes.
+  \item[Non-monotonic:] in a non-monotonic relationship, the presence (or absence) of one variable is systematically related to the presence (or absence) of another variable. However, the direction of the relationship cannot be indicated.
+\end{description}
+
+In linear regression we will limit ourselves to a linear relationship: a linear relationship between an independent and dependent variable, where knowledge of the independent variable gives knowledge about the dependent variable.
+
+In a linear relationship, there are three characteristics:
+
+\begin{enumerate}
+  \item Presence: is there a relationship between the two variables?
+  \item Direction: is the relationship increasing or decreasing?
+  \item What is the strength of the relationship: strong, moderate or nonexistent?
+\end{enumerate}
+
+An example of a linear relationship $y = \beta_{0} + \beta_{1}x$ can be found in Figure \ref{fig:regression-example}.
+
+\begin{figure}[t]
+  \begin{tikzpicture}
+    \begin{axis}[
+        axis x line=middle,
+        axis y line=middle,
+        enlarge y limits=true,
+        width=\textwidth, height=8cm,     % size of the image
+        grid = major,
+        grid style={dashed, gray!30},
+        ylabel=$y$,
+        xlabel=$x$,
+        legend style={at={(0.1,-0.1)}, anchor=north}
+      ]
+      \addplot[only marks] table  {data/regression.dat};
+      \addplot [no markers, thick, red] table [y={create col/linear regression={y=y}}] {data/regression.dat};
+    \end{axis}
+  \end{tikzpicture}
+  \caption{Example of a linear relationship}
+  \label{fig:regression-example}
+\end{figure}
+
+We can find such a relationship using Gauss's \index{method of least squares} method of least squares. This is done as follows.
+
+\begin{theorem}
+
+  A linear relationship is represented as follows:
+
+  \begin{equation}
+    y = \beta_{0} + \beta_{1} x
+    \label{eq:lineair}
+  \end{equation}
+  with
+  \begin{itemize}
+    \item $y$ the dependent
+    \item $x$ the independent
+  \end{itemize}
+
+  We want to minimalize the squared sum of the deviations $e_{i} = y_{i} - (\beta_{0} + \beta_{1}x_{i})$. Such a deviation can also be formulated as (assume $X_{i} = x_{i} - \overline{x}$ and $Y_{i} = y_{i} - \overline{y}$):
+
+  \begin{eqnarray}
+    e_{i} & = & y_{i} - \beta_{1} x_{i} - \beta_{0} \\
+    e_{i} & = & (y_{i} - \overline{y}) - \beta_{1}(x_{i} - \overline{x}) - (\beta_{0} - \overline{y} + \beta_{1} \overline{x}) \\
+    \label{eq:regression-proof}
+    e_{i} & = & Y_{i} - \beta_{1} X_{i} - (\beta_{0} - \overline{y} + \beta_{1} \overline{x})
+  \end{eqnarray}
+
+  In step~\ref{eq:regression-proof} we actually calculate $+\overline{x}-\overline{x}+\overline{y}-\overline{y}$, which is a null operation. This step is not so obvious, but remember that this is a ``shortcut'' to the solution, and that the ``real'' proof is a lot more complicated.
+
+  We want to minimimalize the squared sum $e_i$:
+
+  \begin{eqnarray}
+    \sum_{i}^{n} e_{i}^{2} & =& \sum_{i}^{n} (y_{i} - (\beta_{0} + \beta_{1}x_{i}))^{2}\\
+    & = & \sum_{i}^{n} ((Y_{i} - \beta_{1} X_{i}) - (\beta_{0} - \overline{y} + \beta_{1}\overline{x}))^{2}\\
+    & = & \sum_{i}^{n}(Y_{i} - \beta_{1} X_{i})^2 - 2 \sum_{i}^{n}(Y_i - \beta_1 X_i)(\beta_0 - \overline{y}+ \beta_1\overline{x}) + \sum_{i}^{n}(\beta_{0} - \overline{y} + \beta_{1}\overline{x})^{2} \label{eq:step1}\\
+    & = & \sum_{i}^{n}(Y_{i} - \beta_{1} X_{i})^{2} + n(\beta_{0} - \overline{y} + \beta_{1} \overline{x})^{2} \label{eq:step2}
+  \end{eqnarray}
+
+  We can go from \ref{eq:step1} to \ref{eq:step2} as follows:
+
+  \[ \sum_{i}^{n}X_i = \sum_{i}^{n} (x_i - \overline{x}) = 0 \]
+  and equivalent
+  \[ \sum_{i}^{n}Y_i = \sum_{i}^{n} (y_i - \overline{y}) = 0 \]
+  therefore
+  \[ \sum_{i}^{n}(Y_i - \beta_1 X_i) = \sum_{i}^{n}Y_i - \beta_1 \sum_{i}^{n}X_i = 0 \]
+  and also
+  \[ 2 \sum_{i}^{n}(Y_i - \beta_1 X_i)(\beta_0 - \overline{y}) \]
+  
+
+  Now $e^{2}_{i}$ is written as a sum of two positive expressions. This sum is minimal if both expressions are minimal.
+
+  \begin{equation}
+    \begin{cases}
+      \sum_{i}^{n}( Y_{i} - \beta_{1} X_{i})^{2} \textnormal{ is minimal.}\\
+      n(\beta_{0} - \overline{y} + \beta_{1} \overline{x})^{2} \textnormal{ is minimal}
+    \end{cases}
+    \label{eq:vgl}
+  \end{equation}
+
+
+  For the first expression we actually find a quadratic function in $\beta_1$.
+  \begin{eqnarray}
+		& \sum_{i}^{n}( Y_{i} - \beta_{1} X_{i})^{2} \textnormal{ is minimal.} \label{eq:expression}\\
+		\Leftrightarrow & \sum_i^n (Y_i^2 - 2X_iY_i\beta_1 + X_i^2\beta_1^2) \textnormal{ is minimal.} \\
+		\Leftrightarrow & \beta_1^2 \sum_i^n X_i^2 - 2\beta_1 \sum_i^n X_iY_i + \sum_i^nY_i^2 \textnormal{ is minimal.} \\
+		\Leftrightarrow & \textnormal{is minimal if } \beta_{1} = \frac{\sum_{i}^{n} X_{i}Y_{i}}{\sum_{i}^{n} X_{i}^{2}}
+  \end{eqnarray}
+  
+  For the second expression we have that
+
+  \begin{eqnarray}
+		& n(\beta_{0} - \overline{y} + \beta_{1} \overline{x})^{2} \textnormal{ is minimal}
+		\Leftrightarrow & n(\beta_{0} - \overline{y} + \beta_{1} \overline{x})^{2} = 0 \\
+		\Leftrightarrow & \beta_{0} - \overline{y} + \beta_{1} \overline{x} = 0 \\
+		\Leftrightarrow & \beta_{0} = \overline{y} - \beta_{1}\overline{x} 
+  \end{eqnarray}
+  
+
+  with solution
+
+  \begin{equation}
+    \begin{cases}
+      \beta_{1} = \frac{\sum_{i}^{n} X_{i}Y_{i}}{\sum_{i}^{n} X_{i}^{2}}\\
+      \beta_{0} = \overline{y} - \beta_{1}\overline{x}
+    \end{cases}
+    \label{eq:vgl2}
+  \end{equation}
+
+  and therefore
+
+  \begin{eqnarray}
+    \beta_{1} & = & \frac{\sum_{i}^{n} (x_{i} - \overline{x})(y_{i} - \overline{y})}{\sum_{i}^{n} (x_{i} - \overline{x})^{2}} \\
+    \beta_{0} & = & \overline{y} - \beta_{1} \overline{x}
+    \label{eq:regressie}
+  \end{eqnarray}
+\end{theorem}
+
+
+\begin{table} \centering
+  \begin{tabular}{@{}rr@{}} \toprule
+    Protein content\%& Weight gain (grams)  \\
+    \midrule
+    0		&	177 \\
+    10 	&	231	\\
+    20	& 249	\\
+    30	& 348 \\
+    40	& 361 \\
+    50	& 384 \\
+    60	& 404 \\
+    \bottomrule
+  \end{tabular}
+  \caption{The data collected by Santa Claus: weight gain per protein percentage is considered.}
+  \label{tab:reindeer}
+\end{table}
 
 
 
+\begin{table} \centering
+  \begin{tabular}{@{}llllll@{}}
+    \toprule
+    $x$   & $y$     & $x-\overline{x}$    & $y - \overline{y}$        & $(x-\overline{x})(y - \overline{y})$       &  $(x-\overline{x})^{2}$    \\ \midrule
+    0  & 177 & -30 & -130,71 & 3921,3 & 900  \\
+    10 & 231 & -20 & -76,71  & 1534,2 & 400  \\
+    20 & 249 & -10 & -58,71  & 587,1  & 100  \\
+    30 & 348 & 0   & 40,29   & 0      & 0    \\
+    40 & 361 & 10  & 53,29   & 532,9  & 100  \\
+    50 & 384 & 20  & 76,29   & 1525,8 & 400  \\
+    60 & 404 & 30  & 96,29   & 2888,7 & 900  \\
+    &     &     &         & 10990  & 2800 \\ \bottomrule
+  \end{tabular}
+  \caption{Calculations required to apply the method of least squares.}
+  \label{tab:reindeer2}
+\end{table}
 
+\begin{figure}
+  \begin{tikzpicture}
+    \begin{axis}[
+        axis x line=middle,
+        axis y line=middle,
+        enlarge y limits=true,
+        width=\textwidth, height=8cm,     % size of the image
+        grid = major,
+        grid style={dashed, gray!30},
+        ylabel=weight gain (g),
+        xlabel=protein content (\%),
+        legend style={at={(0.1,-0.1)}, anchor=north}
+      ]
+      \addplot[only marks] table  {data/santa.txt};
+      \addplot [no markers, thick, red] table [y={create col/linear regression={y=y}}] {data/santa.txt};
+    \end{axis}
+  \end{tikzpicture}
 
+  \caption{Linear relationship between protein content and weight gain}
+  \label{fig:reindeerFigure}
+\end{figure}
 
+\begin{example}
+  \label{ex:reindeer}
+  We look at the example of Santa Claus and his reindeer. He wants to find out if there is a linear relationship between the protein content of the food and the weight gain of the reindeer. He performs a number of experiments and obtains the data of Table \ref{tab:reindeer}. By applying the formulas above, we have that (see Table \ref{tab:reindeer2}):
+  \[ \beta_{1} = \frac{\sum_{i=1}^{n} (x_{i}-\overline{x})(y_{i} - \overline{y})}{\sum_{i=1}^{n} (x_{i}-\overline{x})^{2}} = \frac{10990}{2800} = 3.925 \]
+  \[ \beta_{0} = \overline{y} - \beta_{1} \overline{x} = 307.7143 - 3.925 \times 30 = 189.96 \]
+  Thus, a linear relationship has been found which minimizes the squares of the residues. However, note that nothing is being said about the strength or validity of this relationship. This relationship is drawn in Figure \ref{fig:reindeerFigure}.
+\end{example}
 
+Example~\ref{ex:reindeer} solved in R (including a plot of the regression line):
 
+\lstinputlisting{data/regression.R}
 
+\subsection{Correlation}
+\label{sec:correlation}
 
+\subsection{Pearson product-moment correlation coefficient}
 
+We can determine two statistics that express the strength of a linear relationship. These are also---just like the $\chi^2$-test---developed by Karl Pearson\index{Pearson!Karl}.
 
+\begin{definition}[Pearson product-moment correlation coefficient]
+  The Pearson product-moment correlation coefficient\index{Pearson product-moment correlation coefficient} $R$ (or in short the correlation coefficient\index{correlation coefficient}) is a measure for the strength of a linear correlation between two variables X and Y. It has a value between -1 and 1.
+  
+  \begin{itemize}
+    \item A value of +1 indicates a (total) positive linear correlation.
+    \item A value of -1 indicates a (total) negative linear correlation.
+    \item A value of 0 indicates that there is no linear correlation.
+  \end{itemize}
+  
+  The closer the correlation coefficient is to 1 or -1, the better the quality of the linear model.
+\end{definition}
 
+\subsubsection{Coefficient of determination}
 
+\begin{definition}
+  The \index{Coefficient of determination}coefficient of determination ($R^{2}$) is the square of the correlation coefficient and explains the percentage of the variance of the observed values relative to the regression line.
 
+  \begin{itemize}
+    \item $R^{2}$ is the explained variance
+    \item $1-R^{2}$ is the unexplained variance
+  \end{itemize}
+\end{definition}
 
+\begin{figure}[t]
+  \begin{tikzpicture}
+    \begin{axis}[
+        axis x line=middle,
+        axis y line=middle,
+        enlarge y limits=true,
+        width=\textwidth, height=8cm,     % size of the image
+        grid = major,
+        grid style={dashed, gray!30},
+        ylabel=family size mother,
+        xlabel=family size,
+        legend style={at={(0.1,-0.1)}, anchor=north}
+      ]
+      \addplot[only marks] table  {data/families.txt};
+      \addplot [no markers, thick, red] table [y={create col/linear regression={y=y}}] {data/families.txt};
+    \end{axis}
+  \end{tikzpicture}
+  \caption{Linear relationship between the size of a family and the size of the family of the mother}
+  \label{fig:motherRelationship}
+\end{figure}
 
+\tikzset{small dot/.style={fill=black, circle,scale=0.2}}
+\tikzset{every pin/.style={draw=black,fill=yellow!10}}
 
+\begin{figure}[t]%
+  \begin{tikzpicture}
+    \begin{axis}[
+        axis x line=middle,
+        axis y line=middle,
+        enlarge y limits=true,
+        width=\textwidth, height=8cm,     % size of the image
+        grid = major,
+        grid style={dashed, gray!30},
+        ylabel=family size mother,
+        xlabel=family size,
+        legend style={at={(0.1,-0.1)}, anchor=north}
+      ]
+      \draw (axis cs:3,0)--(axis cs:3,8);
+      \draw (axis cs:0,4.3)--(axis cs:6,4.3);
+      \node[small dot, pin=120:{$III$}] at (axis cs:1.6,7) {};
+      \node[small dot, pin=120:{$I$}] at (axis cs:5.5,7) {};
+      \node[small dot, pin=120:{$II$}] at (axis cs:1.6,2) {};
+      \node[small dot, pin=120:{$IV$}] at (axis cs:5.5,2) {};
+      \addplot[only marks] table  {data/families.txt};
+    \end{axis}
+  \end{tikzpicture}
+  \caption{The figure divided into 4 quadrants}%
+  \label{fig:quadrants}%
+\end{figure}
 
+\subsubsection{Determination of $R$ and $R^{2}$}
+\label{sec:determination-coefficient}
+Consider the example of Figure \ref{fig:motherRelationship}: the size of a family vs. the size of the mother's family. We clearly see that there is a linear relationship. If we calculate the mean and divide the figure into 4 quadrants (quadrant $I$, $II$, $III$, $IV$) according to the means we get the figure of \ref{fig:quadrants}. We can then investigate the following situations.
 
+\begin{itemize}
+  \item Consider an element from area I. For this element $x_{i} - \overline{x}$ is positive and $y_{i} - \overline{y}$ also. Therefore the product $(x_{i} - \overline{x}) (y_{i} - \overline{y}) > 0$.
+  \item Consider an element from area II. For this element $x_{i} - \overline{x}$ is negative and $y_{i} - \overline{y}$ also. Therefore the product $(x_{i} - \overline{x}) (y_{i} - \overline{y}) > 0$.
+  \item Consider an element from area III. For this element $x_{i} - \overline{x}$  is negative and $y_{i} - \overline{y}$ positive. Therefore the product $(x_{i} - \overline{x}) (y_{i} - \overline{y}) < 0$.
+  \item Consider an element from area IV. For this element $x_{i} - \overline{x}$ is positive and $y_{i} - \overline{y}$ negative. Therefore the product $(x_{i} - \overline{x}) (y_{i} - \overline{y}) < 0$.
+\end{itemize}
 
+Since there are more points in areas I and II than there are in areas III and IV, the sum $\sum_{i} (x_{i} - \overline{x}) (y_{i} - \overline{y})$ will be a positive number. The more points there are in areas I and II, the larger the number will be. We therefore notice a strong positive linear relationship.
 
+If the points were evenly distributed over the four areas, we have that the value will sometimes be close to zero. On the other hand, if there is a negative linear relationship, we will have a negative number.
 
+We therefore found a measure for the relationship between two variables:
 
+\begin{itemize}
+  \item For increasing correlated relationships  $\sum_{i} (x_{i} - \overline{x}) (y_{i} - \overline{y})$ is positive and large.
+  \item For decreasing correlated relationships $\sum_{i} (x_{i} - \overline{x}) (y_{i} - \overline{y})$ is negative and large (in absolute value).
+  \item For uncorrelated variables $\sum_{i} (x_{i} - \overline{x}) (y_{i} - \overline{y})$ is small in absolute value.
+\end{itemize}
 
+We can make this measure independent of the size of the sample by dividing it by the sample size $n$. This is called the co-variance and is defined as a common distribution:
 
+\begin{equation}
+  Cov(X,Y) = \frac{\sum_{i}^{n}(x_{i} - \overline{x}) (y_{i} - \overline{y})}{n - 1}
+  \label{eq:covariance}
+\end{equation}
 
+This gives us the average deviation per measuring point.
 
+Note that for the covariance, similar to the variance, a distinction is made between the covariance of a population (denominator $n$) and a sample (denominator $n-1$). In practice you assume that you are dealing with a sample, so you will usually use the formula with $n-1$ in the denominator. The R-function \texttt{cov()} also uses this definition.
 
+To normalize again (a variation in X is not necessarily of the same magnitude as a variation in Y) we will make the criteria for the combined variation independent of the number of observations and the order of magnitude of the numeric values. This way we can make these values universally comparable. To do so, we divide the covariance by the product of the standard deviations, and we call this the relative covariance or the  Pearson correlation coefficient als known as the product-moment correlation coefficient or in short correlation coefficient.
 
+\begin{align}
+  R &=\frac{COV(X,Y)}{\sigma_{x}\sigma_{y}} \\
+    &= \frac{COV(X,Y)}{\sqrt{\frac{\sum(x_{i} - \overline{x})^{2}}{n-1}} \times \sqrt{\frac{\sum(y_{i} - \overline{y})^{2}}{n-1}}} \\
+    &= \frac{\sum_{i}^{n}(x_{i}-\overline{x})(y_{i} - \overline{y})}{\sqrt{\sum_{i}^{n} (x_{i}-\overline{x})^{2}} \sqrt{\sum_{i}^{n} (y_{i}-\overline{y})^{2}}}
+  \label{eq:relative-covariance}
+\end{align}
 
-\section{Oefeningen}
-\label{sec:analyse op 2 variabelen-oefeningen}
+The correlation coefficient is independent of the unit of measurement whereas the covariance is dependent on the unit of measurement.
+
+\subsubsection{Interpretation of $R^{2}$}
+
+If we assume that $x$ does not contribute to the prediction of $y$, the best prediction of a value of $y$ is the sample mean $\overline{y}$, illustrated in Figure \ref{fig:reindeerFigure3} as a horizontal line. The vertical line segments are the deviations from the observed points $y$ from this prediction (the sample mean). The squared sum of these deviations is:
+
+\[ SS_{yy} = \sum(y_{i} - \overline{y})^{2} \]
+
+If we assume that $x$ does play a role in the prediction of $y$, we calculate the regression line for the same data set and the deviations of the points from the line as illustrated in Figure \ref{fig:reindeerFigure2}.
+
+\[ SSE_{yy} = \sum(y_{i} - \widehat{y})^{2} \]
+
+If we now compare the deviations with each other, we see the following:
+\begin{enumerate}
+  \item If $x$ contributes little or not at all to the prediction, the squared sum of the deviations of the two lines will be almost identical:
+    \[ SS_{yy} = \sum(y_{i} - \overline{y})^{2} \] and
+    \[ SSE_{yy} = \sum(y_{i} - \widehat{y})^{2} \]
+    in which $\widehat{y}$ is the predicted value. 
+  \item If $x$ does contribute to the prediction of $y$, $SSE_{yy}$ will be smaller than $SS_{yy}$. In fact,
+    \[	SSE_{yy} = \sum(y_{i} - \widehat{y})^{2} \]
+    equals zero if all points are predicted perfectly (and therefore are located on regression line).
+\end{enumerate}
+
+The decrease in the squared sum that can be attributed to the inclusion of $x$ in the model is then (expressed as a fraction of $SS_{yy}$)
+\[ \frac{SS_{yy} - SSE_{yy}}{SS_{yy}} \]
+We call $SS_{yy}$ the total sample variance of the measurements around the sample mean $\overline{y}$ and $SSE_{yy}$ the remaining unexplained sample variance, after estimating the line $\widehat{y} = \beta_{0} + \beta_{1}x$. So $(SS_{yy} - SSE_{yy})$ is the explained variation due to the linear relationship with $x$.
+
+It is now possible to illustrate that with simple linear regression this fraction 
+\[ \frac{SS_{yy} - SSE_{yy}}{SS_{yy}} = \frac{\textnormal{explained variance}}{\textnormal{total sample variance}} \]
+is equal to the square of the Pearson correlation coefficient. (= the part of the total variance explained by the linear line).
+
+Table~\ref{tab:interpretation-correlation-coefficient} provides an overview of how the values of $R$ and $R^2$ can be interpreted, and in particular how strong the relationship between two variables is.
+
+\begin{figure}
+  \begin{tikzpicture}
+    \begin{axis}[
+        axis x line=middle,
+        axis y line=middle,
+        enlarge y limits=true,
+        width=\textwidth, height=8cm,     % size of the image
+        grid = major,
+        grid style={dashed, gray!30},
+        ylabel=protein content,
+        xlabel=weight gain (g),
+        legend style={at={(0.1,-0.1)}, anchor=north}
+      ]
+      \addplot[only marks] table  {data/santa.txt};
+      \addplot [no markers, thick, red] table [y={create col/linear regression={y=y}}] {data/santa.txt};
+      \addplot [mark=none, color=red] coordinates {
+        (0,177) (0,189.9643)
+      };
+      \addplot [mark=none, color=red] coordinates {
+        (10,231) (10,229.2143)
+      };
+      \addplot [mark=none, color=red] coordinates {
+        (20,249) (20,268.4643)
+      };
+      \addplot [mark=none, color=red] coordinates {
+        (30,348) (30,307.7143)
+      };
+      \addplot [mark=none, color=red] coordinates {
+        (40,361) (40,346.9643)
+      };
+      \addplot [mark=none, color=red] coordinates {
+        (50,384) (50,386.2143)
+      };
+      \addplot [mark=none, color=red] coordinates {
+        (60,404) (60,425.4643)
+      };
+
+    \end{axis}
+  \end{tikzpicture}
+  \caption{Deviations from the regression line: assumption that $x$ provides additional information for predicting $y$.}
+	\label{fig:reindeerFigure2}
+\end{figure}
+
+\begin{figure}
+  \begin{tikzpicture}
+    \begin{axis}[
+        axis x line=middle,
+        axis y line=middle,
+        enlarge y limits=true,
+        width=\textwidth, height=8cm,     % size of the image
+        grid = major,
+        grid style={dashed, gray!30},
+        ylabel=protein content,
+        xlabel=weight gain (g),
+      ]
+      \addplot[only marks] table  {data/santa.txt};
+      \addplot [mark=none, color=black] coordinates {
+        (0,307.71) (60,307.71)
+      };
+      \addplot [mark=none, color=red] coordinates {
+        (0,177) (0,307.71)
+      };
+      \addplot [mark=none, color=red] coordinates {
+        (10,231) (10,307.71)
+      };
+      \addplot [mark=none, color=red] coordinates {
+        (20,249) (20,307.71)
+      };
+      \addplot [mark=none, color=red] coordinates {
+        (30,348) (30,307.71)
+      };
+      \addplot [mark=none, color=red] coordinates {
+        (40,361) (40,307.71)
+      };
+      \addplot [mark=none, color=red] coordinates {
+        (50,384) (50,307.71)
+      };
+      \addplot [mark=none, color=red] coordinates {
+        (60,404) (60,307.71)
+      };
+
+    \end{axis}
+  \end{tikzpicture}
+  \caption{Deviations from the mean of y: assumption that $x$ provides no information for predicting $y$ ($\overline{y} =307.71$).}
+  \label{fig:reindeerFigure3}
+\end{figure}
+
+\begin{table} \centering \small
+  \begin{tabular}{@{}rrrl} \toprule
+    $|R|$ & $R^{2}$ & Explained variance &  Interpretation \\
+    \midrule
+    $< 0.3$       & $< 0.1$       & $< 10\%$    & very weak \\
+    $0.3 - 0.5$   & $0.1 - 0.25$ & $10 - 25\%$  & weak \\
+    $0.5 - 0.7$   & $0.25 - 0.5$  & $25 - 50\%$ & moderate \\
+    $0.7 - 0.85$  & $0.5 - 0.75$  & $50 - 75\%$ & strong\\
+    $0.85 - 0.95$ & $0.75 - 0.9$  & $75 - 90\%$ & very strong\\
+    $> 0.95$      & $> 0.9$       & $>90\%$     & exceptional(!)\\
+    \bottomrule
+  \end{tabular}
+  \caption[Interpretation of $R$ and $R^2$.]{Interpretation of $R$ and $R^2$.}
+  \label{tab:interpretation-correlation-coefficient}
+\end{table}
+
+\section{Conclusion}
+
+Different types of relationships between variables exist. We are mainly interested in monotonic and linear relationships. For this we have the correlation coefficient and linear regression. These techniques should not be used with nominal and ordinal variables. A small value $(=0)$ for a measure for the relationship only means that the corresponding relationship is absent: there can be a different type of relationship. It is therefore always recommended to use a scatter plot.
+
+The fact that two variables are correlated does not mean that one is the cause of the other.
+
+\section{Summary}
+
+In this chapter, several techniques have been proposed to determine whether there is a relationship between two variables. One variable is called the \emph{independent}, the other is called the \emph{dependent} variable. We want to find out whether the value of the independent variable has an impact on the value of the dependent.
+
+The techniques we can use (either arithmetic or for visualization) depend on the measurement level of the variables examined. Table~\ref{tab:overview-2-variables} provides an overview.
+
+\begin{table}
+
+  \begin{tabular}{llll}
+    \toprule
+    \multicolumn{2}{c}{\textbf{Measurement level variable}}             & \textbf{}                   & \textbf{}                                             \\
+    \textbf{Independent}       & \textbf{Dependent}         & \textbf{Arithmetic}           & \textbf{Visualization}                                 \\
+    \midrule
+    \multirow{3}{*}{Qualitative}  & \multirow{3}{*}{Qualitative}  & $\chi^2$                    & mosaic plot                                        \\
+    &                               & Cramér's V                  & clustered bar chart                               \\
+    &                               &                             & horizontal stacked bar chart                                          \\
+    \midrule
+    \multirow{2}{*}{Qualitative}  & \multirow{2}{*}{Quantitative} & t-test for 2 samples & boxplot                                               \\
+    &                               &                             & \parbox{4.5cm}{(alternatively bar graph mean with standard deviation)} \\
+    \midrule
+    \multirow{3}{*}{Quantitative} & \multirow{3}{*}{Quantitative} & covariance                 & scatter (XY) plot \\
+    &                               & correlation coefficient       & regression line                                       \\
+    &                               & coefficient of determination  &                                                      \\
+    \bottomrule
+  \end{tabular}
+  
+  \caption{Overview of techniques for the analysis of two variables.}
+  \label{tab:overview-2-variables}
+\end{table}
+
+\section{Exercises}
+\label{sec:bivariate-analysis-exercises}
 
 The data files for these exercises can be found on Github under \emph{exercises/datasets}
 
@@ -634,7 +1347,7 @@ The data files for these exercises can be found on Github under \emph{exercises/
 \label{ssec:ex-qualitative-qualitative}
 
 \begin{exercise}
-  \label{ex:music-wine-crosstable-manual} % $\chi^{2}$ - handmatig}
+  \label{ex:music-wine-analysis} % $\chi^{2}$ - manual}
   
   Market research suggests that background music in a supermarket has an influence on the behaviour of customers. In a study by~\textcite{Ryan1998}, three situations were compared: no music, French chansons, and Italian hits. In every case, the sales of French, Italian and other wine was recorded.
   
@@ -642,7 +1355,7 @@ The data files for these exercises can be found on Github under \emph{exercises/
   
   Questions:
   \begin{enumerate}
-    \item Generate a crosstable (contingency table) for this study using R's \texttt{table} function to obtain the frequency table.
+    \item Generate a cross table (contingency table) for this study using R's \texttt{table} function to obtain the frequency table.
     \item Calculate marginal totals (column and row sums).
     \item Determine the expected values (e).
     \item Calculate the value of $\chi^{2}$ manually, including all intermediate values. Check your result by comparing with the result of the appropriate R-function for calculating $\chi^{2}$.
@@ -652,8 +1365,7 @@ The data files for these exercises can be found on Github under \emph{exercises/
 
 \begin{exercise}
   \label{ex:ex:music-wine-crosstable-visualization}
-  Visualise the data from Exercise~\ref{ex:music-wine-crosstable-manual} using the appropriate charts:
-
+  Visualise the data from Exercise~\ref{ex:music-wine-analysis} using the appropriate charts:
   \begin{enumerate}
     \item Plot the percentages of sold wines where \emph{Music} equals \emph{None} using a bar chart.
     \item Plot the same data using a clustered bar chart.
@@ -662,9 +1374,8 @@ The data files for these exercises can be found on Github under \emph{exercises/
 \end{exercise}
 
 \begin{exercise}
-  \label{ex:earthquakes} %$\chi^{2}$ met R}
+  \label{ex:earthquakes} %$\chi^{2}$ in R}
   Import the data file \emph{earthquakes.csv} in R.
-
   \begin{enumerate}
     \item Plot a histogram and a box plot of the variable \emph{Magnitudes}.
     \item Plot a line graph with the number of recorded earthquakes per month.
@@ -672,35 +1383,35 @@ The data files for these exercises can be found on Github under \emph{exercises/
   \end{enumerate}
 \end{exercise}
 
-\begin{exercise}  % TODO VANAF HIER
+\begin{exercise}
   \label{ex:chisq-survey}
-  Voor deze oefening maken we gebruik van de dataset \texttt{survey} die is meegeleverd met R. De dataset is samengesteld uit een bevraging onder studenten. Om deze te laden, doe het volgende:
+  For this exercise we will use the dataset \texttt{survey} that is included in R. This dataset consists of a survey among students. The dataset can be imported as follows:
   
   \begin{lstlisting}
   library(MASS)
-  View(survey)  # Toont de "survey" dataset
-  ?survey       # Help-pagina voor deze dataset met uitleg over de inhoud
+  View(survey)  # Shows the "survey" dataset
+  ?survey       # Help-page with explanation on the contents
   \end{lstlisting}
   
-  Als je een foutboodschap krijgt bij het laden van de bibliotheek (eerste regel), betekent dit dat de package \texttt{MASS} nog niet geïnstalleerd is. Dit kan je alsnog doen via Tools > Install Packages en het invullen van de package-naam in het tekstveld.
+  If you get an error message when importing the library (first line), this means that the package \texttt{MASS} is not installed yet. You can fix this by selecting Tools > Install Packages and entering the package name in the text box.
   
-  We willen de relatie onderzoeken tussen enkele discrete (nominale of ordinale) variabelen in deze dataset. Voor elke hieronder opgesomde paren, volg deze stappen:
+  We want to investigate the relationship between some discrete (nominal or ordinal) variables in this dataset. For each of the pairs listed below, follow these steps:
   
   \begin{enumerate}[label=(\alph*)]
-    \item Denk eerst eens na welke uitkomst je precies verwacht voor de opgegeven combinatie van variabelen.
-    \item Stel een frequentietabel op voor de twee variabelen. De (vermoedelijk) onafhankelijke variabele komt eerst.
-    \item Plot een grafiek van de data, bv.~geclusterde staafgrafiek, gestapelde staafgrafiek van relatieve frequenties, of een ``mozaïekgrafiek'' (eenvoudig met \texttt{plot(table(data\$col1, data\$col2))}).
-    \item Als je de grafiek bekijkt, verwacht je dan een eerder hoge of eerder lage waarde voor de $\chi^2$-statistiek? Waarom?
-    \item Bereken de $\chi^2$-statistiek en de kritieke grenswaarde $g$ (voor significantieniveau $\alpha = 0.05$)
-    \item Bereken de $p$-waarde
-    \item Moeten we de nulhypothese aanvaarden of verwerpen? Wat betekent dat concreet voor de relatie tussen de twee variabelen?
+    \item First think about what outcome you expect for the given combination of variables.
+    \item Compose a frequency table for the two variables. The (suspected) independent variable comes first.
+    \item Plot a graph of the data, e.g. a clustered bar chart, stacked bar chart of the relative frequencies, or a ``mosaic plot'' (straightforward with \texttt{plot(table(data\$col1, data\$col2))}).
+    \item If you look the graph, do you expect a large or a small value for the $\chi^2$ statistic? why?
+    \item Calculate the $\chi^2$ statistic and the critical value $g$ (for a significance level $\alpha = 0.05$)
+    \item Calculate the $p$-value
+    \item Do we have to accept or reject the null hypothesis? What does this imply for the relationship between the two variables?
   \end{enumerate}
   
-  Hieronder zijn de te onderzoeken variabelen opgesomd. De vermoedelijke onafhankelijke variabele komt telkens eerst.
+  The variables to be investigated are listed below. The suspected independent variable is always mentioned first.
   
   \begin{enumerate}
-    \item \texttt{Exer} (sporten) en \texttt{Smoke} (rookgedrag)
-    \item \texttt{W.Hnd} (de hand waarmee je schrijft) en \texttt{Fold} (de hand die bovenaan komt als je de armen kruist)
+    \item \texttt{Exer} (exercising) and \texttt{Smoke} (smoking behavior)
+    \item \texttt{W.Hnd} (writing hand) and \texttt{Fold} (the upper hand when crossing your arms)
     \item \texttt{Sex} (gender) en \texttt{Smoke}
     \item \texttt{Sex} en \texttt{W.Hnd}
   \end{enumerate}
@@ -708,11 +1419,11 @@ The data files for these exercises can be found on Github under \emph{exercises/
 
 \begin{exercise}
   \label{ex:chisq-aids2}
-  Laad de dataset \texttt{Aids2} uit package \texttt{MASS} (zie Oefening~\ref{ex:chisq-survey}) die informatie bevat over 2843 patiënten die vóór 1991 in Australië met AIDS besmet werden. Deze dataset werd in detail besproken door~\textcite{Ripley2007}. Onderzoek of er een relatie is tussen de variabele geslacht (\texttt{Sex}) en de manier van besmetting (\texttt{T.categ}).
+  Import the dataset \texttt{Aids2} from the package \texttt{MASS} (cfr. Exercise~\ref{ex:chisq-survey}) that contains information on 2,843 patients infected with AIDS in Australia before 1991. This dataset was discussed in detail by~\textcite{Ripley2007}. Investigate whether there is a relationship between the variable (\texttt{Sex}) and the category of contamination (\texttt{T.categ}).
   
   \begin{enumerate}
-    \item Ga op de gebruikelijke manier te werk: visualiseren van de data, $\chi^2$, $g$ en $p$-waarde berekenen ($\alpha = 0,05$), en tenslotte een conclusie formuleren.
-    \item Bepaal de gestandaardiseerde residuën om te bepalen welke categorieën extreme waarden bevatten.
+    \item Proceed in the usual way: visualize the data, calculate $\chi^2$, $g$ and $p$-value ($\alpha = 0,05$), and finally formulate a conclusion.
+    \item Calculate the standardized residuals to determine which categories contain extreme values.
   \end{enumerate}
   
 \end{exercise}
@@ -720,24 +1431,24 @@ The data files for these exercises can be found on Github under \emph{exercises/
 \begin{exercise}
   \label{ex:chisq-digimeter}
   
-  Elk jaar voert Imec (voorheen iMinds) een studie uit over het gebruik van digitale technologieën in Vlaanderen, de Digimeter~\autocite{Vanhaelewyn2016}. In deze oefening zullen we nagaan of de steekproef van de Digimeter 2016 ($n = 2164$) representatief is voor de bevolking wat betreft de leeftijdscategorieën van de deelnemers.
+  Every year Imec (formerly iMinds) conducts a study on the use of digital technologies in Flanders, the Digimeter~\autocite{Vanhaelewyn2016}. In this exercise we will determine whether the sample used by the Digimeter 2016 ($n = 2164$) is representative of the population in terms of the age categories of the participants.
   
-  In Tabel~\ref{tab:digimeter2016} worden de relatieve frequencies van de deelnemers weergegeven. De absolute frequenties voor de verschillende leeftijdscategorieën van de Vlaamse bevolking worden samengevat in Tabel~\ref{tab:leeftijd-vlaanderen}. Deze gegevens zijn ook te vinden in bijgevoegd CSV-bestand \texttt{oefeningen/data/bestat-vl-ages.csv}.
+  Table~\ref{tab:digimeter2016} shows the relative frequencies of the participants. The absolute frequencies for the different age categories of the Flemish population are summarized in Table~\ref{tab:age-Flanders}. This information can also be found in the attached CSV file \texttt{oefeningen/data/bestat-vl-ages.csv}.
   
   \begin{enumerate}
-    \item De tabel met leeftijdsgegevens van de Vlaamse bevolking als geheel heeft meer categorieën dan deze gebruikt in de Digimeter. Maak een samenvatting zodat je dezelfde categorieën overhoudt dan deze van de Digimeter. Tip: dit gaat misschien makkelijker in een rekenblad dan in R.
-    \item Om de goodness-of-fit test te kunnen toepassen hebben we de absolute frequenties nodig van de geobserveerde waarden in de steekproef. Bereken deze.
-    \item Bereken ook de verwachte percentages ($\pi_{i}$) voor de populatie als geheel.
-    \item Voer de goodness-of-fit test uit over de verdeling van leeftijdscategorieën in de steekproef van de Digimeter. Is de steekproef in dit opzicht inderdaad representatief voor de Vlaamse bevolking?
+    \item The table with age data of the Flemish population as a whole has more categories than those used by the Digimeter. Make a summary of this table so that you have the same categories as the Digimeter. Tip: this may be easier to do in a spreadsheet than in R.
+    \item In order to apply the goodness of fit test, we need the absolute frequencies of the observed values in the sample. Calculate this.
+    \item Also calculate the expected percentages ($\pi_{i}$) for the population as a whole.
+    \item Apply the goodness of fit test on the distribution of age categories in the sample used by the Digimeter. Is the sample representative for the Flemish population in this respect?
   \end{enumerate}
 \end{exercise}
 
 \begin{table}
-  \caption{Frequenties van de leeftijd van deelnemers aan de iMec Digimeter 2016 en de Vlaamse bevolking.}
+  \caption{Frequencies of the age of participants in the iMec Digimeter 2016 and the Flemish population.}
   \label{tab:frequenties-leeftijden}
   \centering
   \begin{tabular}{cc}
-    \textbf{Leeftijdsgroep} & \textbf{Percentage} \\ \midrule
+    \textbf{Age Group} & \textbf{Percentage} \\ \midrule
     15-19 & 6,6\% \\
     20-29 & 14,2\% \\
     30-39 & 15,0\% \\
@@ -746,12 +1457,12 @@ The data files for these exercises can be found on Github under \emph{exercises/
     60-64 & 7,3\% \\
     64+   & 23,2\% \\
   \end{tabular}
-  \subcaption{Percentage van deelnemers aan de Digimeter 2016 van iMec ($n = 2164$), opgedeeld per leeftijdscategorie. \autocite{Vanhaelewyn2016}}
+  \subcaption{Percentage of participants in iMec's Digimeter 2016 ($n = 2164$), broken down by age range. \autocite{Vanhaelewyn2016}}
   \label{tab:digimeter2016}
   
   \centering
   \begin{tabular}{cc}
-    \textbf{Leeftijdsgroep} & \textbf{Aantal} \\ \midrule
+    \textbf{Age Group} & \textbf{Count} \\ \midrule
     –5            &     352017      \\
     5-9           &     330320      \\
     10-14          &     341303      \\
@@ -774,78 +1485,78 @@ The data files for these exercises can be found on Github under \emph{exercises/
     95-99          &      7678       \\
     100+           &       923
   \end{tabular}
-  \subcaption{Absolute frequentie van de Vlaamse bevolking per leeftijdscategorie. Bron: BelStat (\url{https://bestat.economie.fgov.be/bestat/}, C01.1: Bevolking volgens verblijfplaats (provincie), geslacht, positie in het huishouden (C), burgerlijke staat en leeftijd (B)).}
-  \label{tab:leeftijd-vlaanderen}
+  \subcaption{Absolute frequency of the Flemish population by age category. Source: BelStat (\url{https://bestat.economie.fgov.be/bestat/}, C01.1: Population by residence (province), gender, household position (C), marital status and age (B)).}
+  \label{tab:age-Flanders}
     
 \end{table}
 
-\subsection{Kwalitatief--kwantitatief}
-\label{ssec:oef-kwal-kwant}
+\subsection{Qualitative--Quantitative}
+\label{ssec:ex-qualitative-quantitative}
 
 \begin{exercise}
-  \label{oef:casus-akin2016-toets}
+  \label{ex:casus-akin2016-toets}
   
-  In Oefening~\ref{oef:casus-akin2016-1var} en volgende hebben we de resultaten van performantiemetingen voor persistentiemogelijkheden in Android geanalyseerd~\autocite{Akin2016}. Er werden experimenten uitgevoerd voor verschillende combinaties van hoeveelheid data (klein, gemiddeld, groot) en persistentietype (GreenDAO, Realm, SharedPreferences, SQLite). Voor elke hoeveelheid data hebben we kunnen bepalen welk persistentietype het beste resultaat gaf.
+  In Exercise~\ref{oef:casus-akin2016-1var} and the subsequent exercises, we analyzed the results of performance measurements for persistence capabilities on Android~\autocite{Akin2016}. Experiments were performed for different combinations of data size (small, medium, large) and persistence type (GreenDAO, Realm, SharedPreferences, SQLite). For each data size, we were able to determine which persistence type yielded the best results. 
   
-  Nu gaan we uitzoeken of het op het eerste zicht beste persistentietype ook \emph{significant} beter is dan de concurrentie.
+  Now we will find out if the best persistence type at first glance is also \emph{significantly} better than the competition.
   
-  Concreet: ga aan de hand van een toets voor twee steekproeven voor elke datahoeveelheid na of het gemiddelde van het best scorende persistentietype \emph{significant lager} is dan het gemiddelde van enerzijds het \emph{tweede} beste en anderzijds het slechtst scorende type.
+  In concrete: Using a two-sample test for each data size, verify that the mean of the highest scoring persistence type is \emph{significantly lower} than the mean of the \emph{second} best and the worst scoring type.
   
-  Kunnen we de conclusie aanhouden dat voor een gegeven datahoeveelheid één persistentietype het beste is, d.w.z.~significant beter is dan gelijk welk ander persistentietype?
+  Can we maintain the conclusion that for a given data size, one persistence type is best, i.e. is significantly better than any other persistence type?
 \end{exercise}
 
 \begin{exercise}
-  Een groot aantal studenten heeft deelgenomen aan een test die in verschillende opeenvolgende sessies werd georganiseerd. Omdat het opstellen van een aparte opgave voor elke sessie praktisch onhaalbaar was, is telkens dezelfde opgave gebruikt. Eigenlijk bestaat er dus het gevaar dat studenten na hun sessie info konden doorspelen aan de groepen die nog moesten komen. De latere groepen hebben dan een voordeel ten opzichte van de eerste. Blijkt dit ook uit de cijfers?
+  A large number of students participated in a test that was organized in several successive sessions. Because creating a separate test for each session was practically unfeasible, the same questions were used each time. In fact, there is a danger that students could pass on information about the test to the groups that still had to come after. Later groups then have an advantage over the first. Is this also evident from the figures?
   
-  Het bestand \texttt{puntenlijst.csv} bevat alle resultaten van de test. Elke groep wordt aangeduid met een letter, in de volgorde van de sessie.
+  The file \texttt{puntenlijst.csv} contains all results of the test. Each group is identified by a letter, in the order of the session.
   
   \begin{itemize}
-    \item Dag 1: sessies A, B
-    \item Dag 2: sessies C, D, E
-    \item Dag 3: sessies F, G, H
+    \item Day 1: sessions A, B
+    \item Day 2: sessions C, D, E
+    \item Day 3: sessions F, G, H
   \end{itemize}
   
-  Sessies A en B zijn doorgegaan op een andere campus, dus er zou kunnen verondersteld worden dat er weinig tot geen communicatie is met de studenten van de andere sessies.
+  Sessions A and B were conducted on a different campus, so it could be assumed that there is little to no communication with students from other sessions.
   
-  Als er info met succes doorgespeeld werd, dan verwachten we dat de scores van de groepen die later komen significant beter zijn dan de eerste.
+  If information was passed on successfully, we expect the scores of later groups to be significantly better than the first.
   
-  Merk op dat de omgekeerde redenering niet noodzakelijk geldt: als blijkt dat het resultaat van de latere sessies inderdaad significant beter blijkt, dan betekent dat niet noodzakelijk dat de oorzaak (enkel) het doorspelen van informatie is. Er kunnen ook andere oorzaken zijn (bv.~``zwakkere'' klasgroepen zijn toevallig eerder geroosterd).
-  
+  Note that the reverse reasoning does not necessarily hold: if it turns out that the result of later sessions is indeed significantly better, this does not necessarily mean that the (only) cause is passing on of information. There may also be other causes (e.g. ``weaker'' class groups happen to be scheduled earlier).
+
   \begin{enumerate}
-    \item Ga op verkenning in de data. Bereken de gepaste centrum- en spreidingsmaten voor de dataset als geheel en voor elke sessie afzonderlijk.
+    \item Explore the data. Calculate the appropriate measures for central tendency and dispersion for the full dataset and for each session individually.
     
-    \item Maak een staafgrafiek van de gemiddelde score per sessie. Is dit voldoende om een beeld te vormen van de resultaten? Waarom (niet)?
+    \item Plot a bar graph of the average score per session. Is this sufficient to visualize the results? Why (not)?
     
-    \item Maak een boxplot van de scores opgedeeld per groep. Vergelijk onderling de hieronder opgesomde sessies. Denk je dat er een significant verschil is tussen de resultaten? Wordt ons vermoeden dat er informatie doorgespeeld wordt bevestigd?
+    \item Make a box plot of the scores divided per group. Compare the sessions listed below. Do you think there is a significant difference between the results? Can we suspect that information has been passed on?
     
     \begin{itemize}
-      \item A en B
-      \item C, D en E
-      \item F, G en H
-      \item C en H
-      \item A en H
+      \item A and B
+      \item C, D and E
+      \item F, G and H
+      \item C and H
+      \item A and H
     \end{itemize}
     
-    \item Ga door middel van een geschikte statistische toets na of de verschillen tussen de hierboven opgesomde groepen ook \emph{significant} zijn. Kunnen we concluderen dat de latere groepen beter scoren of niet?
+    \item Use an appropriate statistical test to determine whether the differences between the groups listed above are also \emph{significant}. Can we conclude that the later groups score better or not?
   \end{enumerate}
 \end{exercise}
 
-\subsection{Kwantitatief--kwantitatief}
-\label{ssec:oef-kwant-kwant}
+\subsection{Quantitative--Quantitative}
+\label{ssec:ex-quantitative-quantitative}
 
 \begin{exercise}
   \label{ex:test-examen}
-  In onderstaande tabel vindt men voor elke rij (= persoon) het resultaat van een test en zijn examenscore. Gevraagd:
+  In Table~\ref{tab:test-exam}, each row represents the score a student received for both an intermediate test and the final exam of some course.
   \begin{itemize}
-    \item Bepaal handmatig de regressierechte $\beta_{0} + \beta_{1} x$. 
-    \item Bepaal handmatig de correlatie- en determinatieco\"effici\"ent ($R, R^{2}$) 
-    \item Geef uitleg bij de gevonden statistieken.
+    \item Calculate the parameters of the regression line $\hat{y}=\beta_{0} + \beta_{1} x$ manually. 
+    \item Calculate the correlation coefficient and the coefficient of determination manually ($R, R^{2}$).
+    \item Interpret the values of the metrics calculated in the previous steps.
   \end{itemize}
   
   % \begin{table}
   \centering
   \begin{tabular}{@{}rr@{}} \toprule
-    Resultaat Test ($X$) & Examenresultaat ($Y$) \\
+    Intermediate Test ($X$) & Final Exam ($Y$) \\
     \midrule
     10 & 11 \\
     12 & 14 \\
@@ -859,14 +1570,14 @@ The data files for these exercises can be found on Github under \emph{exercises/
     6 & 6  \\
     \bottomrule
   \end{tabular}
-  \captionof{table}{Scores test en examen voor aantal personen}
-  \label{tab:testExamen}
+  \captionof{table}{Student scores for an intermediate test and the final exam of a certain course.}
+  \label{tab:test-exam}
   % \end{table}	
 \end{exercise}
 
 \begin{exercise}
-  \label{ex:scatter-correlatiecoeff}
-  Gegeven 6 scatterplots in Figuur~\ref{fig:correlaties} en onderstaande correlatieco\"effici\"enten. Match de co\"effici\"enten met de scatterplots. Er is dus één scatterplot waarvan geen correlatie gegeven staat hieronder.
+  \label{ex:scatter-correlation-coefficient}
+  Observe the six scatter plots in Figure~\ref{fig:correlations}. Match the correlation coefficients below with the scatter plots. Note that there is one plot that has no associated correlation coefficient.
   \begin{itemize}
     \item $r_{1}$ = 0.6
     \item $r_{2}$ = 0
@@ -877,43 +1588,43 @@ The data files for these exercises can be found on Github under \emph{exercises/
   %\begin{figure}[h!]
   %	\centering
   \includegraphics[width=1.10\textwidth]{correlaties.png}
-  \captionof{figure}{Correlaties}
-  \label{fig:correlaties}
+  \captionof{figure}{Scatter plots of six data sets.}
+  \label{fig:correlations}
   %\end{figure}
 \end{exercise}
 
 \begin{exercise}
   \label{ex:cats}
-  Lees het databestand ``Cats.csv'' in. 
+  Import the data set ``Cats.csv''.
   \begin{enumerate}
-    \item Voer een lineaire regressieanalyse uit op de variabelen Lichaamsgewicht (\texttt{Bwt}, afhankelijke variabele) en Gewicht hart (\texttt{Hwt}, onafhankelijke variabele).
-    \item Maak een spreidingsdiagram van beide variabelen.
-    \item Bereken en teken de regressielijn.
-    \item Bereken de correlatie- en de determinatiecoëfficiënt.
-    \item Geef een interpretatie van deze resultaten.
+    \item Perform a linear regression analysis on the variables body weight (\texttt{Bwt}, dependent variable) and heart weight (\texttt{Hwt}, independent variabele).
+    \item Draw a scatter plot of both variables.
+    \item Calculate and draw the regression line.
+    \item Calculate the correlation coefficient and the coefficient of determination.
+    \item Interpret the results from the previous steps.
   \end{enumerate}
 \end{exercise}
 
 \begin{exercise}
-  \label{ex:cats-per-geslacht}
-  Gebruik dezelfde data als in vorige oefening.
+  \label{ex:cats-sex}
+  Use the same data set as in Exercise~\ref{ex:cats}.
   \begin{enumerate}
-    \item Voer een lineaire regressieanalyse uit op de variabelen Lichaamsgewicht (Bwt) en Gewicht hart (Hwt) per geslacht.
-    \item Maak een spreidingsdiagram van beide variabelen voor elk van de geslachten.
-    \item Bereken en teken telkens de regressielijn.
-    \item Bereken de correlatie- en de determinatiecoëfficiënt.
-    \item Geef een interpretatie aan deze resultaten.
+    \item Perform a linear regression analysis on the variables body weight (\texttt{Bwt}) and heart weight (\texttt{Hwt}), but this time \emph{subdivided by gender} (\texttt{Sex}).
+    \item Draw a scatter plot of both variables for each gender.
+    \item Calculate and draw the regression line.
+    \item Calculate the correlation coefficient and the coefficient of determination.
+    \item Interpret the results from the previous steps.
   \end{enumerate}
 \end{exercise}
 
 \begin{exercise}
   \label{ex:pizza}
-  Lees het databestand ``Pizza.csv'' in.
+  Import the data set ``Pizza.csv'' in R.
   \begin{enumerate}
-    \item Voer een volledige lineaire regressieanalyse uit op de variabelen Rating en CostPerSlice. Trek hieruit de juiste conclusies en ga deze ook grafisch na.
-    \item Onderzoek een mogelijk verband tussen Rating en Neighbourhood. Welke methode kan je hiervoor gebruiken? Kan je de gegevens van Rating hiervoor in dezelfde vorm gebruiken?
-    \item Geef een interpretatie aan deze resultaten.
-    \item Stel de kruistabel grafisch voor met een staafdiagram.  Voorzie een legende.
+    \item Perform a complete linear regression analysis on the variables  Rating and CostPerSlice. Draw the right conclusions and verify them using a plot.
+    \item Investigate a possible relationship between Rating and Neighborhood. Which method can be used for this? Can you use the Rating data in the same form?
+    \item Interpret the results.
+    \item Represent the cross table using a bar chart. Also add a legend.
   \end{enumerate}
 \end{exercise}
 
@@ -923,13 +1634,13 @@ The data files for these exercises can be found on Github under \emph{exercises/
 
 
 \section{Solutions to selected exercises}
-\label{ssec:analyse-2-variabelen-oplossingen}
+\label{ssec:bivariate-analysis-solutions}
 
-\paragraph{Oefening~\ref{ex:muziekwijn-analyse}}
+\paragraph{Exercise~\ref{ex:music-wine-analysis}}
 
-$\chi^2 \approx 18,2792$, Cramér's $V \approx 0,1939$
+$\chi^2 \approx 18.2792$, Cramér's $V \approx 0.1939$
 
-\paragraph{Oefening~\ref{ex:chisq-survey}}
+\paragraph{Exercise~\ref{ex:chisq-survey}}
 
 \begin{enumerate}
   \item \texttt{Exer}/\texttt{Smoke}: $\chi^2 = 5.4885$, $g = 12.59159$, $p = 0.4828422$
@@ -938,46 +1649,46 @@ $\chi^2 \approx 18,2792$, Cramér's $V \approx 0,1939$
   \item \texttt{Sex}/\texttt{W.Hnd}: $\chi^2 = 0.236$, $g = 3.8415$, $p = 0.627$
 \end{enumerate}
 
-\paragraph{Oefening~\ref{ex:chisq-aids2}} $\chi^2 = 1083.372914$, $g = 14.067140$, $p \approx 1.157 \times 10^{-229}$
+\paragraph{Exercise~\ref{ex:chisq-aids2}} $\chi^2 = 1083.372914$, $g = 14.067140$, $p \approx 1.157 \times 10^{-229}$
 
-\paragraph{Oefening~\ref{ex:chisq-digimeter}} $\chi^2 \approx 6.6997$ ($df = 6$), $g \approx 12.5916$, $p \approx 0.3495$
+\paragraph{Exercise~\ref{ex:chisq-digimeter}} $\chi^2 \approx 6.6997$ ($df = 6$), $g \approx 12.5916$, $p \approx 0.3495$
 
 
-\paragraph{Oefening~\ref{oef:casus-akin2016-toets}}
+\paragraph{Exercise~\ref{ex:casus-akin2016-toets}}
 
-Tabel~\ref{tab:akin2016-resultaten-ttoets} geeft een overzicht met voor elke datasetgrootte het beste en tweede beste persistentietype (op basis van het steekproefgemiddelde). De conclusie van~\textcite{Akin2016}, dat \emph{Realm} het performantste persistentietype is, blijft overeind, maar voor de kleine datasets is het verschil niet significant.
+Table~\ref{tab:akin2016-results-t-test} provides an overview of the best and second best persistence type for each data size (based on the sample mean). The conclusion of~\textcite{Akin2016}, which states that \emph{Realm} is the most efficient persistence type, still holds, but for the small data sets the difference is not significant.
 
-Merk op dat we hier niet expliciet vooraf een significantieniveau gekozen hebben. Voor $\alpha = 0,1$, $0,05$ of zelfs $0,01$, kunnen we echter dezelfde conclusie trekken.
+Note that we have not explicitly selected a specific significance level in advance. However, for $\alpha = 0.1$, $0.05$ or even $0.01$, the same conclusion can be drawn.
 
 \begin{table}
   \begin{center}
     \begin{tabular}{llll}
       \toprule
-      \textbf{Grootte} & \textbf{Beste} & \textbf{2e beste} & \textbf{$p$-waarde} \\ \midrule
+      \textbf{Data Size} & \textbf{Best} & \textbf{2nd Best} & \textbf{$p$-value} \\ \midrule
       Small            & Realm          & SharedPreferences & 0.1699     \\
       Medium           & Realm          & GreenDAO          & 0.0002506  \\
       Large            & Realm          & SQLite            & 0.0017     \\ \bottomrule
     \end{tabular}
   \end{center}
-  \caption{Resultaten $t$-toets voor de beste en 2e beste persistentietype op basis van steekproefgemiddelde~\autocite{Akin2016}.}
-  \label{tab:akin2016-resultaten-ttoets}
+  \caption{Results of the $t$-test for the best and second best persistence type, based on the sample mean~\autocite{Akin2016}.}
+  \label{tab:akin2016-results-t-test}
 \end{table}
 
-\paragraph{Oefening~\ref{ex:test-examen}}
+\paragraph{Exercise~\ref{ex:test-examen}}
 
 \begin{itemize}
-  \item $\beta_{0} \approx 0,6333$, $\beta_{1} \approx 0.9667$
-  \item $Cov \approx 6,444$, $R \approx 0,9352$, $R^2 \approx 0,8747$
+  \item $\beta_{0} \approx 0.6333$, $\beta_{1} \approx 0.9667$
+  \item $Cov \approx 6.444$, $R \approx 0.9352$, $R^2 \approx 0.8747$
 \end{itemize}
 
-\paragraph{Oefening \ref{ex:cats} en \ref{ex:cats-per-geslacht}}
+\paragraph{Exercise \ref{ex:cats} and \ref{ex:cats-sex}}
 
 \begin{center}
   \begin{tabular}{lrrrrr}
   	\toprule
-    \textbf{Selectie} & \textbf{$\beta_{0}$} & \textbf{$\beta_{1}$} & \textbf{$Cov$} & \textbf{$R$} & \textbf{$R^2$} \\
+    \textbf{Selection} & \textbf{$\beta_{0}$} & \textbf{$\beta_{1}$} & \textbf{$Cov$} & \textbf{$R$} & \textbf{$R^2$} \\
     \midrule
-  	Hele dataset & -0.3511 & 4.0318 & 0.9496 & 0.8041 & 0.6466 \\
+  	Full dataset & -0.3511 & 4.0318 & 0.9496 & 0.8041 & 0.6466 \\
   	Female       &  2.9813 & 2.6364 & 0.1979 & 0.5320 & 0.2831 \\
   	Male         & -1.1768 & 4.3098 & 0.9419 & 0.7930 & 0.6289 \\
     \bottomrule
