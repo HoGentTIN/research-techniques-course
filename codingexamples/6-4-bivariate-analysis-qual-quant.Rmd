@@ -1,0 +1,169 @@
+---
+title: "6.4 -- Relationship between a qualitative and a quantitative variabele"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## The $t$-test for two independent samples
+
+The $t$-test can also be used to compare two samples. First we illustrate the case of *independent* samples that are taken individually.
+
+A clinical study investigates whether a new drug has a reduced reaction speed as a side effect (Lindquist, g.d.). Six participants were given the drug (intervention group) and six others a placebo (control group). Next their response time to a stimulus was measured (in ms). We want to determine whether there are significant differences between the intervention and control groups.
+
+- Control group: 91, 87, 99, 77, 88, 91
+- Intervention group: 101, 110, 103, 93, 99, 104
+
+We use$\mu_1$ for the mean of the untreated population (control group) and $\mu_2$ for the population mean of patients who took the drug (intervention group). If the drug had an impact on the reaction time, the measured values will be *lower* for the control group compared to the intervention group.
+
+```{r}
+control <-      c( 91, 87, 99,77,88, 91)
+intervention <- c(101,110,103,93,99,104)
+t.test(control, intervention, alternative="less")
+```
+
+The average reaction time of the control group (88.83) indeed seems to be significantly lower than for the intervention group (101.67).
+
+Note that when calling the `t.test` function, the value for the significance level (5%) and assumed population mean ($\mu_1 - \mu_2 = 0$) were not provided. The used values are the default values of `t.test`.
+
+When using the function `t.test`, you can also use the "group by" operator (`~`). For example, for the dataset `mtcars` you could ask the question "Are cars with a manual transmission more economical than cars with automatic transmission?"
+
+```{r}
+t.test(mpg ~ am, data = mtcars, alternative = 'less')
+```
+
+The $p$-value is very small, even for a significance level of 99% you would be able to reject the null hypothesis.
+
+## The $t$-test for paired samples
+
+Om this variante of the $t$-test, each element of the sample is measured two times, one time before and one time after a certain intervention. The goal is to find out if the intervention had a significant effect on the measurement.
+
+A study examined whether cars that run on petrol with additives have a lower consumption. Ten cars were first refueled with either regular petrol or petrol with additives (determined by flipping a coin), after which the consumption was measured (expressed in miles per gallon). The cars were then refueled with the other type of petrol and consumption was again measured.
+
+We use a paired $t$-test to determine whether cars run significantly more efficiently when using petrol with additives.
+
+```{r}
+regular   <- c(16,20,21,22,23,22,27,25,27,28)
+additives <- c(19,22,24,24,25,25,26,26,28,32)
+t.test(additives, regular, alternative="greater", paired=TRUE)
+```
+
+
+The option `paired=TRUE` indicates that this is a paired t-test.
+
+The $p$-value, 0.0007749, is below the significance level 0.05, so we can reject the null hypothesis. According to this sample, cars do drive more efficiently when using petrol with additives.
+
+## Effect size
+
+If we want to know whether two groups are significantly different, we can use a statistical test like the two sample $t$-test. The result of a statistical test is generally either "true" or "false", depending on the $p$-value and the chosen significance level.
+
+*Effect size* is another metric to express the magnitude of the difference between two groups. Several definitions of effect size exist, but one of the most commonly used is *Cohen's $d$*.
+
+*Cohen's $d$* is in particular used in research in education to evaluate what factors influence learning outcomes for students. Factors include learning and teaching strategies, use of technology, classroom management, student and teacher attributes, etc.
+
+Research papers in this domain always report Cohen's $d$, which allows us to compare the results of different studies. For example, Hattie (2012) performed a massive meta-analysis that synthesises findings from 80,000 studies into what works best in education. As a rule of thumb, an influence with $d$ of at least 0.4 is considered to potentially accelerate student achievement. A value for $d$ of 1 means that students can acquire competencies in about half the time they normally would.
+
+### Cohen's $d$
+
+Cohen's $d$ is defined as the difference between the means of both groups, divided by a pooled standard deviation:
+
+```{r}
+# Pooled standard deviation for two samples x and y
+pooled_sd <- function(x, y) {
+  sd_x <- sd(x, na.rm = TRUE)
+  sd_y <- sd(y, na.rm = TRUE)
+  n_x <- length(x)
+  n_y <- length(y)
+  
+  sqrt( ((n_x - 1) * sd_x^2 + (n_y - 1) * sd_y^2)
+        / (n_x + n_y - 2))
+}
+
+# Effect size, Cohen's d
+cohens_d <- function(x, y) {
+  (mean(y, na.rm = TRUE) - mean(x, na.rm = TRUE)) / pooled_sd(x, y)
+}
+```
+
+We'll use Cohen's $d$ to measure the difference of between groups in two fictitious examples.
+
+### Example 1
+
+Researchers want to know whether "outlining and transforming" of course material can have a positive impact on student achievements. They set up an experiment with 80 students that are assigned at random to two groups of equal size. All students follow a number of classes on the same subject matter, without any prior knowledge.
+
+Students in Group A (the control group) the learning strategy they are used to. Students in Group B (the intervention group), however first follow a workshop on outlining and transforming and are asked to apply that learning strategy in the experiment. A couple of days after the class, all students get a test that assesses their knowledge of the subject matter.
+
+The results of the test are summarised in `effect-size-1.csv`. Column `method` denotes the group (A or B) and `score` the student's score on the test.
+
+```{r}
+scores <- read.csv('data/effect-size-1.csv')
+strategy_A <- scores$score[scores$method == 'A']
+strategy_B <- scores$score[scores$method == 'B']
+```
+
+Let's first visualise the results:
+
+```{r}
+# Boxplot
+boxplot(scores$score ~ scores$method, horizontal = TRUE)
+
+# Clustered bar chart (histogram)
+frequencies <- table(scores$score, scores$method)
+barplot(t(frequencies), beside = TRUE, legend = TRUE)
+```
+
+Performing a $t$-test yields the following result:
+
+```{r}
+t.test(strategy_B, strategy_A, alternative = 'greater')
+```
+
+For a significance level of $\alpha = 0.05$, the $p$-value of 0.03762 indicates a significant improvement.
+
+Finally, we calculate Cohen's $d$:
+
+```{r}
+cohens_d(strategy_A, strategy_B)
+```
+
+This value indicates a medium to large difference between the control group and the intervention group. Since it's larger than 0.4, we can conclude that outlining and transforming has the potential to considerably accelerate student achievement.
+
+### Example 2
+
+Researchers want to investigate whether giving the student control over their own learning process has a positive impact on their achievements. They set up a controlled experiment with 200 students divided into a control group (A) and an intervention group (B), like in the previous example. Again, some type of assessment is used to measure the difference between the two groups.
+
+The results are summarised in `effect-size-2.csv`. 
+
+```{r}
+scores2 <- read.csv('data/effect-size-2.csv')
+group_A <- scores2$score[scores2$group == 'A']
+group_B <- scores2$score[scores2$group == 'B']
+```
+
+
+```{r}
+# Boxplot
+boxplot(scores2$score ~ scores2$group, horizontal = TRUE)
+
+# Clustered bar chart (histogram)
+frequencies <- table(scores2$score, scores2$group)
+barplot(t(frequencies), beside = TRUE, legend = TRUE)
+```
+
+```{r}
+t.test(group_B, group_A, alternative = 'greater')
+```
+
+The resulting $p$ value does *not* indicate a statistically significant difference. Indeed, calculating Cohen's $d$ confirms this:
+
+```{r}
+cohens_d(group_A, group_B)
+```
+
+So, we can conclude that conclude that according to this study, giving students control over their own learning process has a negligable effect on student achievement.
+
+### References
+
+Hattie, J. (2012) *Visible Learning for Teachers.* Routledge.
