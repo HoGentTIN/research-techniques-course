@@ -1,0 +1,129 @@
+---
+title: "6.5 -- Relationship between two quantitative variables"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## Regression
+
+As an example for calculating the regression line we take the dataset that is also used in the slides:
+
+```{r}
+weight_gain <- read.csv("../syllabus/data/santa.txt",
+                        sep = "")
+```
+
+### Method of least squares: Elaborated calculation
+
+We try to approximate a collection of points $(x_i, y_i)$ (for $i: 1, \ldots, n$) as close as possible using a straight line $\hat{y} = \beta_0 + \beta_1 x$. The has symbol $\hat{y}$ indicates "an estimation for $y$". The parameters $\beta_0$ and $\beta_1$ are calculated as follows:
+
+$\beta_1 = \frac{\sum_{i=1}^{n}(x_i - \overline{x})(y_i - \overline{y})}{\sum_{i=1}^{n}(x_i - x)^2}$
+
+$\beta_0 = \overline{y} - \beta_1 \overline{x}$
+
+In R this can be calculated as follows:
+
+```{r}
+mx <- mean(weight_gain$x)  # mean of x
+my <- mean(weight_gain$y)  # mean of y
+xx <- weight_gain$x - mx   # x - mx
+yy <- weight_gain$y - my   # y - my
+beta_1 <- sum(xx * yy) / sum(xx^2)
+beta_0 <- my - beta_1 * mx
+```
+
+A plot illustrates that this is a good approximation:
+
+```{r}
+plot(x = weight_gain$x, y = weight_gain$y,
+     xlab = "Protein content (%)",
+     ylab = "Weight gain (g)")
+abline(a = beta_0,  # intersection y axis
+       b = beta_1,  # rico / directional coefficient
+       col = 'red')
+```
+
+### Linear regression in R
+
+Obviously, there is also an easier way to calculate this in R, by using the function `lm()`, an abbreviation for *linear model*.
+
+```{r}
+lm(weight_gain$y ~ weight_gain$x)
+```
+
+Note that the "group by" operator `~` is used. The independent variable is places on the **right** side of the tilde. The result of `lm()` can be directly used as argument for the function `abline()`:
+
+```{r}
+plot(x = weight_gain$x, xlab = "Protein content (%)",
+     y = weight_gain$y, ylab = "Weight gain (g)")
+regression <- lm(weight_gain$y ~ weight_gain$x)
+abline(regression,
+       col = 'red')
+```
+
+## Covariance and correlation
+
+```{r}
+families <- read.csv("../syllabus/data/families.txt", sep ="")
+mx <- mean(families$x)
+my <- mean(families$y)
+
+plot(families$x,families$y)
+abline(h = my, col = 'red')
+abline(v = mx, col = 'red')
+```
+
+Covariance: $Cov(X,Y) = \frac{1}{n-1}\sum_{i=1}^n(x_i - \overline{x})(y_i - \overline{y})$
+
+```{r}
+# Covariance, manual calculation
+covar <- sum((families$x - mx) * (families$y - my)) / (length(families$x) - 1)
+covar
+# R function
+cov(families$x, families$y)
+```
+
+Correlation (Person's product moment correlation coefficient):
+
+$R = \frac{Cov(X,Y)}{\sigma_x \sigma_y} = \frac{\sum(x_i - \overline{x})(y_i - \overline{y})}{\sqrt{\sum{(x_i-\overline{x})^2(y_i - \overline{y})^2}}}$
+
+```{r}
+# Calculation using covariance
+covar / (sd(families$x) * sd(families$y))
+# Elaborated equation
+sum((families$x - mx) * (families$y - my)) / 
+  sqrt(sum((families$x- mx)^2 * sum((families$y - my)^2)))
+# R function
+cor(families$x, families$y)
+```
+
+Coefficient of determination:
+
+- Define $SS_{tot} = \sum_{i=1}^{n}(y_i - \overline{y})^2$, the total variance of the sample (SS is an abbreviation for *squared sum*)
+- Definie $SS_{res} = \sum_{i=1}^{n}(y_i - \hat{y})^2$, the residues compared to the regression line, or the unexplained variance of the sample
+- The coefficient of determination can then be calculated using $R^2 = \frac{SS_{tot} - SS_{res}}{SS_{tot}}$
+
+An interesting property of the coefficient of determination, is that it is the square of the correlation coefficient (explaining the notation $R^2$). The value is a number between 0 and 1 that can be interpreted as the percentage of variance in $y$ that can be explained by $x$. This metric indicates how good the regression line approximates the individual data points. The closer the value is to 1, the better the approximation, so the closer the observed data points are to the regression line.
+
+
+```{r}
+# mean of y
+my <- mean(weight_gain$y)
+# sum of squares compared to the mean
+ss_tot <- sum((weight_gain$y - my)^2)
+# sum of squares residuals, these are the  difference between the observed value 
+# and the value predicted using regression
+regression <- lm(weight_gain$y ~ weight_gain$x) # regression model
+yy <- predict.lm(regression, weight_gain)       # predicted values
+ss_res <- sum((weight_gain$y - yy)^2)           # sum of squares
+# R^2 using the definition
+(ss_tot - ss_res) / ss_tot
+
+# R^2 using correlation:
+correlation <- cor(x = weight_gain$x, y = weight_gain$y)
+correlation^2
+```
