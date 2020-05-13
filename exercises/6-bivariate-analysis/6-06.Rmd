@@ -1,0 +1,99 @@
+---
+title: "Exercise 6.6 - Digimeter"
+author: "Bert Van Vreckem"
+date: "2020-04-22"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+> Every year, Imec (formerly iMinds) conducts a study on the use of digital technologies in Flanders, the Digimeter (Vanhaelewyn, 2016). In this exercise we will determine whether the sample used by the Digimeter 2016 ($n = 2164$) is representative of the population in terms of the age categories of the respondents.
+>
+> The file `digimeter-ages.csv` shows the relative frequencies of the participants. The absolute frequencies for the different age categories of the Flemish population are summarized in `bestat-vl-ages.csv`.
+>
+> - The table with age data of the Flemish population as a whole has more categories than those used by the Digimeter. Make a summary of this table so that you have the same categories as the Digimeter. Tip: this may be easier to do in a spreadsheet than in R.
+> - In order to apply the goodness of fit test, we need the absolute frequencies of the observed values in the sample. Calculate these.
+> - Also calculate the expected percentages ($\pi_{i}$) for the population as a whole.
+> - Apply the goodness of fit test on the distribution of age categories in the sample used by the Digimeter. Is the sample representative for the Flemish population in this respect?
+
+## Goodness-of-fit test
+
+This type of problem can be analysed with a $\chi^2$ goodness-of-fit test.
+
+The R-function `chisq.test()` needs two parameters: `x`, the absolute frequencies (observations) of all categories, and `p`, the expected percentages of each category in the population as a fraction of 1.
+
+However, the Digimeter report shows the relative frequencies, so we will need to convert these to absolute frequencies when we import the data:
+
+```{r}
+n <- 2164
+digimeter_ages <- read_csv("../datasets/digimeter-ages.csv") %>%
+  mutate(Proportion = Percentage / 100) %>%
+  mutate(Frequency = Proportion * n)
+digimeter_ages
+```
+
+Next, we import the distribution of age groups in Flanders in 2016 (retrieved from [StatBel](https://bestat.statbel.fgov.be/bestat/)):
+
+```{r}
+vl_ages <- read_csv("../datasets/bestat-vl-ages.csv")
+vl_ages
+```
+
+In this exercise, the hardest part is to put the data in the correct form. We cannot link the age groups in `vl_ages` one-to-one with those in the Digimeter report. The age categories in the Digimeter are less detailed, so we will have to convert the data. You could do this via a spreadsheet, but R can do this too. The advantage of doing this in R is that the method is then explicitly documented via the code, and is therefore also reproducible. An Excel file would not show the intermediate steps that have been made, so errors are more difficult to detect.
+
+We will immediately save the results in the table `digimeter_ages`, in a new column` Expected` (expected absolute frequencies) and `ExpectedProp` (expected relative frequencies).
+
+To sum up the categories from the BeStat data where necessary, we first define some functions to simplify the process:
+
+```{r}
+# Returns the frequency of the specified age category
+frq_age_group <- function(age_group) {
+  vl_ages$population[vl_ages$age.group == age_group]
+}
+
+# Calculate the sum of frequencies for the specified vector of age groups,
+# e.g. c("20-24", "25-29"))
+sum_age_groups <- function(x) {
+  sum(sapply(x, frq_age_group, simplify = TRUE))
+}
+
+# Calculate the expected frequencies for the age category in the Digimeter,
+# based on the BeStat data.
+digimeter_ages <- digimeter_ages %>%
+  mutate(Expected = c(
+    sum_age_groups(c("15-19")),
+    sum_age_groups(c("20-24", "25-29")),
+    sum_age_groups(c("30-34", "35-39")),
+    sum_age_groups(c("40-44", "45-49")),
+    sum_age_groups(c("50-54", "55-59")),
+    sum_age_groups(c("60-64")),
+    sum_age_groups(c("65-69", "70-74", "75-79", "80-84", "85-89",
+                     "90-94", "95-99", "100+")))) %>%
+  mutate(ExpectedProp = Expected / sum(Expected))
+```
+
+The data is now in the correct form:
+
+- observations should be given as absolute frequencies
+- expected values should be given as relative frequencies (percentages)
+
+```{r}
+digimeter_ages
+```
+
+Consequently, we can now perform the $\chi^2$ goodness-of-fit test.
+
+```{r}
+result <- chisq.test(x = digimeter_ages$Frequency,
+                     p = digimeter_ages$ExpectedProp)
+result$p.value
+```
+
+The p-value is 0.34, which supports the null hypothesis that the sample is representative for the population with regards to the distribution of age categories.
+
+## Referenties
+
+Vanhaelewyn, B. & De Marez, L. (2016). *Digimeter 2016: measuring digital media trends in Flanders.* Imec. Retrieved 22 april 2020, from <https://www.imec.be/nl/expertises/techtrends/imec-digimeter/digimeter-2016>

@@ -1,0 +1,119 @@
+---
+title: "Exercise 6-05 -- Aids"
+author: "Bert Van Vreckem"
+date: "2020-04-22"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+library(ggmosaic)
+```
+
+> Import the dataset `Aids2` from the package `MASS` that contains information on 2843 patients infected with AIDS in Australia before 1991. This dataset was discussed in detail by Ripley (2007).
+
+```{r}
+library(MASS)
+glimpse(Aids2)
+```
+
+> Investigate whether there is an association between the variable (`Sex`) and the category of contamination (`T.categ`).
+>
+> - Proceed in the usual way: visualize the data, calculate $\chi^2$, $g$ and $p$-value ($\alpha = 0,05$), and finally formulate a conclusion.
+> - Calculate the standardized residuals to determine which categories contain extreme values.
+
+## Visualisation
+
+```{r}
+categ_sex <- table(Aids2$T.categ, Aids2$sex)
+addmargins(categ_sex)
+
+ggplot(data = Aids2) +
+  geom_mosaic(mapping = aes(x = product(sex), fill = T.categ))
+```
+
+First and foremost, it is striking that there are far more men in the dataset than women. The transmission type is also different. For women, the mode is `blood` (contamination via blood transfusion, 37 observations), for men, it is `hs` (gay or bisexual contact, 2464 observations).
+
+We can therefore expect that there will be an association between the two variables.
+
+## Chi-squared test for independence
+
+Testing procedure:
+
+1. Formulate the hypotheses:
+    - $H_0:$ There is no association between sex and transmission type
+    - $H_1:$ There is an association between sex and transmission type
+2. Determine significance level
+
+    ```{r}
+    alpha <- 0.05
+    ```
+    
+3. Calculate the test statistic ($\chi^2$):
+
+    ```{r}
+    categ_sex_test <- chisq.test(categ_sex)
+    categ_sex_test$statistic
+    ```
+4. Determine critical value:
+
+    ```{r}
+    g <- qchisq(1 - alpha, df = categ_sex_test$parameter[["df"]])
+    g
+    ```
+
+5. Determine p-value:
+
+    ```{r}
+    categ_sex_test$p.value
+    ```
+
+6. Conclusion:
+
+    - $g < \chi^2$, so it is well within the critical region
+    - $p < \alpha$, which also indicates a significant association
+    - Consequently, we can reject the null hypothesis. There is an association between gender and transmission type.
+
+## Standardized residuals
+
+```{r}
+categ_sex_test$stdres
+```
+
+There are quite some values that can be considered to be extreme. Values smaller than -2 indicate underrepresented categories (e.g. `hs` for women), values greater than 2 overrepresented ones (e.g. `het` for women).
+
+## Cochran's rule
+
+As an extra, we look at whether Cochran's rule has been met. This is based on the expected values:
+
+```{r}
+categ_sex_test$expected
+```
+
+1. All expected values should be at least 1:
+
+    ```{r}
+    categ_sex_test$expected >= 1
+    ```
+
+    This rule is not met.
+
+2. At least 80% of the expected values should be at least 5:
+
+    ```{r}
+    # How many values should be >= 5?
+    ceiling(nrow(categ_sex) * ncol(categ_sex) * .80)
+    categ_sex_test$expected >= 5
+    ```
+    
+    Only 9 (instead of 13) values meet the condition, so the second rule is also not met.
+
+If Cochran's rule is not met, this often has an impact on the 
+
+Als de regel van Cochran niet voldaan is, heeft dat vaak een impact op de reliability of the results from the $\chi^2$-test. In this dataset, there are not enough observations about women.
+
+## Referenties
+
+Ripley, B. & Solomon, P. (2007). A note on Australian AIDS survival. Retrieved 2017-05-03, from
+<https://pdfs.semanticscholar.org/7d23/36da875505e66ae983a271ee6cd83ce42677.pdf>
