@@ -1,0 +1,261 @@
+---
+title: "Oefening 6-04"
+author: "Bert Van Vreckem"
+date: "2020-05-13"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(vcd)
+library(ggmosaic)
+```
+
+For this exercise, we will use the dataset `survey` that is included in R. This dataset consists of a survey among students. The dataset can be imported as follows:
+
+```{r}
+library(MASS)
+glimpse(survey)
+
+# Make Exer and Smoke into ordinal variables, i.e. with ordering
+survey$Exer <- factor(survey$Exer,
+    levels = c("None", "Some", "Freq")
+)
+survey$Smoke <- factor(survey$Smoke,
+    levels = c("Never", "Occas", "Regul", "Heavy")
+)
+```
+
+You can view the entire dataset with `View(survey)` and get help on the contents with `?survey`.
+
+> We want to investigate the relationship between some qualitative (nominal or ordinal) variables in this dataset. For each of the pairs listed below, follow these steps:
+>
+> - First think about what outcome you expect for the given combination of variables.
+> - Compose a contingency table for the two variables. The (suspected) independent variable comes first.
+> - Plot a graph of the data, e.g. a clustered bar chart, stacked bar chart of the relative frequencies, or a ``mosaic plot''
+> - If you look at the graph, do you expect a large or a small value for the $\chi^2$ statistic? why?
+> - Calculate the $\chi^2$ statistic and the critical value $g$ (for a significance level $\alpha = 0.05$)
+> - Calculate the $p$-value
+> - Do we have to accept or reject the null hypothesis? What does this imply for the relationship between the two variables?
+>
+> The variables to be investigated are listed below. The suspected independent variable is always mentioned first.
+>
+> The variables to be investigated are listed below.
+
+| Independent variable    | Dependent variable                         |
+|:------------------------|:-------------------------------------------|
+| `Exer` (exercising)     | `Smoke` (smoking behavior)                 |
+| `Sex` (gender)          | `Smoke`                                    |
+| `W.Hnd` (dominant hand) | `Fold` (upper hand when folding your arms) |
+| `Sex`                   | `W.Hnd`                                    |
+
+# Exer vs Smoke
+
+We stellen eerst de kruistabel op (eerst de afhankelijke, daarna de onafhankelijke variabele):
+
+```{r}
+exer_smoke <- table(survey$Smoke, survey$Exer)
+addmargins(exer_smoke)
+```
+
+## Visualisation
+
+Mosaic plot of the contingency table:
+
+```{r}
+ggplot(data = survey) +
+    geom_mosaic(mapping = aes(x = product(Exer), fill = Smoke))
+```
+
+The plot indicates thtat the proportions of smoking behaviour between each category of variable `Sport` is similar. Consequently, we expect a relatively small value for $\chi^2$ and a weak association.
+
+## Chi-squared test
+
+The $\chi^2$-test goes as follows:
+
+1. Hypotheses:
+
+    - $H_0:$ There is no association between `Exer` and `Smoke`
+    - $H_1:$ There is an association between `Exer` and `Smoke`
+
+2. Calculate the test statistic:
+
+    ```{r}
+    smoke_exer_test <- chisq.test(
+        survey$Smoke,
+        survey$Exer
+    )
+
+    smoke_exer_test$statistic
+    ```
+
+3. Calculate the critical value:
+
+    ```{r}
+    alpha <- 0.05
+    l <- (length(levels(survey$Smoke)) - 1) *
+        (length(levels(survey$Exer)) - 1)
+
+    g <- qchisq(p = 1 - alpha, df = l)
+    g
+    ```
+
+4. Calculate the p-value
+
+    ```{r}
+    smoke_exer_test$p.value
+    ```
+
+5. Conclusion.
+
+    ```{r}
+    # Critical value $g$
+    paste(ifelse(smoke_exer_test$statistic < g, "Accept", "Reject"), "the null hypothesis")
+    # Probability value $p$
+    paste(ifelse(smoke_exer_test$p.value > alpha, "Accept", "Reject"), "the null hypothesis")
+    ```
+
+    $\chi^2 < g$ and $p > \alpha$, so we can not reject the null hypothesis. Consequently, there is no significant association between the respondents' exercise habits (`Exer`) and smoking behaviour (`Smoke`).
+
+Plot of this case (green: $\chi^2$, blue: $g$):
+
+```{r}
+xvals <- seq(0, 15, length = 200)
+ggplot(mapping = aes(x = xvals)) +
+    stat_function(fun = dchisq, args = list(df = l)) +
+    geom_vline(xintercept = g, color = "blue") +
+    annotate("text",
+        x = g, y = .05,
+        label = g, color = "blue"
+    ) +
+    geom_vline(xintercept = smoke_exer_test$statistic, color = "green") +
+    annotate("text",
+        x = smoke_exer_test$statistic, y = .02,
+        label = smoke_exer_test$statistic, color = "green"
+    )
+```
+
+## Cramér's V
+
+```{r}
+assocstats(exer_smoke)
+```
+
+Cramér's V is small ($V = 0,108$), which indicates a weak association. This corresponds with the result of the $\chi^2$-test.
+
+# Sex vs Smoke
+
+We first set up the contingency table (first the dependent, then the independent variable):
+
+```{r}
+gender_smoke <- table(survey$Smoke, survey$Sex)
+addmargins(gender_smoke)
+```
+
+## Visualisation
+
+Mosaic plot of the contingency table:
+
+```{r}
+ggplot(data = survey) +
+    geom_mosaic(mapping = aes(x = product(Sex), fill = Smoke))
+```
+
+The graph indicates that the proportions of smoking behaviour within each category of variable `Sex` is similar. Consequently, we expect a relatively small value for $\chi^2$ and a weak association.
+
+## Chi-squared test
+
+The $\chi^2$-test goes as follows:
+
+1. The hypotheses:
+
+    - $H_0:$ There is no association between `Sex` and `Smoke`
+    - $H_1:$ There is no association between `Sex` and `Smoke`
+
+2. Calculate the test statistic:
+
+    ```{r}
+    gender_smoke_test <- chisq.test(
+        survey$Smoke,
+        survey$Sex
+    )
+
+    gender_smoke_test$statistic
+    ```
+
+3. Calculate the critical value:
+
+    ```{r}
+    alpha <- 0.05
+    l <- (length(levels(survey$Smoke)) - 1) *
+        (length(levels(survey$Sex)) - 1)
+
+    g <- qchisq(p = 1 - alpha, df = l)
+    g
+    ```
+
+4. Calculate the p-value
+
+    ```{r}
+    gender_smoke_test$p.value
+    ```
+
+5. Conclusion.
+
+    ```{r}
+    # Critical value $g$
+    paste(ifelse(gender_smoke_test$statistic < g, "Accept", "Reject"), "the null hypothesis")
+    # Probability value $p$
+    paste(ifelse(gender_smoke_test$p.value > alpha, "Accept", "Reject"), "the null hypothesis")
+    ```
+
+    $\chi^2 < g$ and $p > \alpha$, so we can not reject the null hypothesis. Consequently, there is no significant association between the respondents’ gender (`Sex`) and smoking behaviour (`Smoke`).
+
+Plot of this case (green: $\chi^2$, blue: $g$):
+
+```{r}
+xvals <- seq(0, 15, length = 200)
+ggplot(mapping = aes(x = xvals)) +
+    stat_function(fun = dchisq, args = list(df = l)) +
+    geom_vline(xintercept = g, color = "blue") +
+    annotate("text",
+        x = g, y = .05,
+        label = g, color = "blue"
+    ) +
+    geom_vline(xintercept = smoke_exer_test$statistic, color = "green") +
+    annotate("text",
+        x = smoke_exer_test$statistic, y = .02,
+        label = smoke_exer_test$statistic, color = "green"
+    )
+```
+
+## Cramér's V
+
+```{r}
+assocstats(exer_smoke)
+```
+
+Cramér's V is small ($V = 0,108$), which indicates a weak association. This corresponds with the result of the $\chi^2$-test.
+
+# W.Hnd vs Fold
+
+Deze oefening doen we iets compacter.
+
+```{r}
+whnd_fold <- table(survey$Fold, survey$W.Hnd)
+chisq.test(whnd_fold)
+assocstats(whnd_fold)
+```
+
+Again, we find no significant association.
+
+# Sex vs W.Hnd
+
+```{r}
+gender_whnd <- table(survey$W.Hnd, survey$Sex)
+chisq.test(gender_whnd)
+assocstats(gender_whnd)
+```
+
+Again, we find no significant association.

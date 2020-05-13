@@ -1,0 +1,137 @@
+---
+title: "Exercise 6-03 -- Earthquakes"
+author: "Bert Van Vreckem"
+date: "2020-05-13"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(lubridate) # Manipulate dates
+library(ggmosaic)  # Mosaic plot
+library(vcd)       # Calculation of Cramér's V
+```
+
+> Import the data file “earthquakes.csv”.
+> 1. Plot a histogram and a boxplot of variable “Magnitude”.
+> 2. Plot a line plot with the number of earthquakes per month.
+> 3. Investigate if there is an association between variables “Type” and “Source". Calculate Cramér’s V. What is your conclusion?
+
+```{r}
+earthquakes <- read_csv("../datasets/earthquakes.csv")
+```
+
+## Visualisation of Magnitudes
+
+Histogram:
+
+```{r}
+ggplot(data = earthquakes, mapping = aes(x = Magnitude)) +
+  geom_histogram()
+```
+
+Boxplot:
+
+```{r}
+ggplot(data = earthquakes, mapping = aes(y = Magnitude)) +
+  geom_boxplot() +
+  coord_flip()
+```
+
+## Earthquakes per month
+
+First, we convert the variable `Date` (parsed as a string) to a correctly formatted date. We also round the date to the month in which the earthquake occurred and add that as a new column.
+
+```{r}
+earthquakes <- earthquakes %>%
+  mutate(Date = parse_date(Date, format = "%m/%d/%Y")) %>%
+  mutate(Month = floor_date(Date, unit = "month"))
+```
+
+In the graph, we put the month on the X axis and the number of times this month occurs in the table on the Y axis. This is easier as a bar graph, but if we want to show this in a line graph, we have to add some extra options. `..count..` counts the number of occurrences of a value, but the function `geom_line()` allows this only with the option `stat = "bin"`.
+
+```{r}
+ggplot(data = earthquakes, mapping = aes(x = Month, y = ..count..)) +
+  geom_line(stat = "bin") +
+  ylim(0, 1200)
+```
+
+## Association between Type and Source
+
+Type and Source are both qualitative (also: categorical) variables. To determine if there is an association between these two variables, we can draw a mosaic diagram (or any other plot type suitable for 2 qualitative variables), perform a $\chi^2$ test for independence and calculate Cramér's V.
+
+### Visualisating the data
+
+```{r}
+ggplot(data = earthquakes) +
+  geom_mosaic(mapping = aes(x = product(Type), fill = Source))
+```
+
+We notice in the graph that one category dominates the data set. The contingency table confirms this:
+
+```{r}
+# When generating a contingency table, put the dependent variable first
+# (= rows), then the independent variable (= columns)
+table(earthquakes$Source, earthquakes$Type)
+```
+
+Earthquakes in the US make up the bulk of the observations in the dataset. This undoubtedly has a negative effect on the results of the investigation into the association.
+
+### Chi-squared test for independence
+
+We perform the $\chi^2$ test:
+
+```{r}
+source_type <- table(earthquakes$Source, earthquakes$Type)
+source_type_test <- chisq.test(source_type)
+```
+
+The p-value is:
+
+```{r}
+source_type_test$p.value
+```
+
+This is a number that is very close to 0 and shows a significant association with any chosen significance level. However, we should not just accept this. Running the `chisq.test()` function gave a warning that the approximation may be incorrect. The reason is that the expected values of the table are generally too small:
+
+```{r}
+source_type_test$expected
+```
+
+Chochran's rule states that the expected values should be at least 1. Is this the case?
+
+```{r}
+source_type_test$expected >= 1
+```
+
+The condition is not met wherever the result shows "FALSE".
+
+The second rule states that at least 80% of the expected values should be greater than 5.
+
+```{r}
+source_type_test$expected >= 5
+```
+
+This condition is only met for about a fourth of the cells in the table with expected values!
+
+If we check the standardised resituals:
+
+```{r}
+source_type_test$stdres
+```
+
+Values outside of the interval [-2, 2] are under-, or overrepresented. This is the case for several categories.
+
+The conclusion from the test is that there is in fact an association between Type en Source. However, because the contents of the dataset is too unvaried, this result is not very trustworthy.
+
+### Cramér's V
+
+Cramér's V can be calculated as follows:
+
+```{r}
+source_type_stats <- assocstats(source_type)
+source_type_stats$cramer
+```
+
+Cramér's V is about 0,067. This value is close to 0, which does not indicate any association. This seems to contradict our conclusion from the $\chi^2$-test. Again, we point out that the contingency table contrains very extreme values, which certainly has an influence on the reliability of the calculation of Cramér's V.
