@@ -1,0 +1,453 @@
+---
+title: "6.3 -- Relationship between two qualitative variables"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+As a case study, we take the results of a survey taken among clients of a restaurant at a university.
+
+```{r, message=FALSE}
+library(foreign)
+resto <- read.spss("../syllabus/data/catering_college.sav",
+                   to.data.frame = TRUE)
+```
+
+## Chi-square and Cramér's V
+
+Chi-square and Cramér's V are metrics to determine whether there is a relationship between two qualitative variables (in R: factors).
+
+Suppose we want to determine whether women and men (variable `Geslacht`) have different opinions about the options in the basic range (variable ` Keuze_basis`). If so, we conclude that there is a relationship between the variables `Geslacht` and `Keuze_basis`. If the answers between the two groups are (approximately) the same, then we conclude that there is *no* relationship.
+
+The results of the survey are:
+
+```{r}
+# Calculate a frequency table. 
+# First the dependent, next the independent variable.
+observed <- table(resto$Keuze_basis,
+                  resto$Geslacht)
+# Add row- and column totals to the table
+addmargins(observed)
+```
+
+### Elaborated calculation
+
+A first step to determine if there are differences is to first consider what the values in this frequency table should be if women and men answer the question in a similar way. In this case, you should get a table with the same row and column totals, but evenly spaced. You can obtain these numbers by taking the product of the row and column total in each cell and dividing it by the total number of respondents. For example, for the top left cell (women who answered "Goed") you would get `22 * 17 / 49`. You can calculate the entire table as follows:
+
+```{r}
+row_sums <- rowSums(observed)              # row totals
+col_sums <- colSums(observed)              # column totals
+n <- sum(observed)                         # total full table
+expected <- outer(row_sums, col_sums) / n  # expected values
+addmargins(expected)                       # add totals
+```
+
+As you can see, the row- and column totals are identical to the observed values. What is the difference between both?
+
+
+```{r}
+expected - observed
+```
+
+Some values seem to deviate more (e.g. "Goed"), others less (e.g. "Sufficient"). A metric for determining the total dispersion in a frequency table, can be calculated by taking the squared sum of the differences between the expected and observed values (similar to the calculation of variance/standard deviation) and dividing this by the expected value:
+
+```{r}
+diffs <- (expected - observed)^2 / expected
+diffs
+```
+
+The sum of all these values is called $\chi^2$ ("shi-squared").
+
+```{r}
+chi_squared <- sum(diffs)
+chi_squared
+```
+
+Now this value itself still does not say much. Under what conditions can we conclude that there is a connection between the two variablesor not? The answer will also depend on the size of the table and the total number of observations. In a cross table with more rows/columns, you will need a larger value for $\chi^2$ to conclude that there is a relationship.
+
+*Cramér's V* is a formula that can be used to normalize $\chi^2$ to a value between 0 and 1, independent of the size of the table:
+
+```{r}
+k <- min(nrow(observed), ncol(observed))
+cramers_v <- sqrt(chi_squared / ((k - 1) * n))
+cramers_v
+```
+
+To formulate a conclusion based on this value, you can compare it to the values in the table below:
+
+| Cramér's V | Conclusion                |
+| :---:      | :---                      |
+| 0          | No relationship           |
+| 0.1        | Weak relationship         |
+| 0.25       | Fairly strong relationship|
+| 0.50       | Strong relationship       |
+| 0.75       | Very strong relationship  |
+| 1          | Complete relationship     |
+
+We can therefore conclude that there is a fairly strong relationship between the variables Geslacht` and `Keuze_basis`.
+
+### R functions
+
+R already contains functions for the calculation of $\chi^2$ and Cramér's V. Therefore, you do not have to repeat the calculations above, but instead you can calculate the result directly using the function `assocstats` of the library `vcd`:
+
+```{r}
+library(vcd)
+assocstats(observed)
+```
+
+This function returns both the value of "Pearson's $\chi^2$" (third line, first number), as well as  Cramér's V (last line). Both values are identical to the values calculated manually before.
+
+
+## The chi-squared test
+
+The figure below shows the density function of the $\chi^2$-distribution for several degrees of freedom.
+
+```{r}
+x <- seq(0, 8, length=100)  # x-values
+degf <- c(1, 2, 3, 5, 10)   # degrees of freedom to be plotted
+
+# line colors and legend labels
+colors <- c("black", "red", "blue", "darkgreen", "gold")
+labels <- c("df=1", "df=2", "df=3", "df=5", "df=10")
+
+# plot of the distribution with df = 1
+plot(x, dchisq(x, degf[1]),
+     col = colors[1],
+     type = "l", lwd = 2,
+     ylim = c(0, .5),
+     xlab = "chi-squared",
+     ylab = "density",
+     main = "Comparison of chi-squared distributions")
+
+# plots of the distribution with higher degrees of freedom
+for (i in 2:5){
+  lines(x, dchisq(x, degf[i]), lwd=2, col=colors[i])
+}
+
+legend("topright", inset=.05, title="Verdelingen",
+       labels, lwd=2, lty=c(1, 1, 1, 1, 2), col=colors,
+       cex = .5)
+```
+
+R has several functions for calculations related to the $\chi^2$ density function, just like those for the normal and $t$ distributions.
+
+- `dchisq(x, df)`: the density function
+- `pchisq(x, df)`: the left-tail probability $P(\chi^2 < x)$
+- `qchisq(p, df)`: the inverse of `pchisq`, "find a number $x$ so that $P(\chi^2 < x) = p$"
+- `rchisq(n, df)`: generate $n$ random numbers for a $\chi^2$ distribution
+
+The parameter `df` denotes the degrees of freedom. The value depends on the contingency table. In the case of a goodness of fit test (see below), `df` is the number of cells minus one. In the case of a chi-squared test for independence of categorical data, `df` is the product of the number of rows ($r$) minus one and the number of columns ($l$) minus one: $df = (r - 1) (l - 1)$.
+
+### Goodness of fit test
+
+In a sample of super heroes, the following types were observed:
+
+```{r}
+types      <- c("mutant", "human", "alien", "god", "demon")
+observed   <- c(   127,      75,      98,     27,     73)
+expected_p <- c(   .35,     .17,     .23,    .08,    .17)
+```
+
+The question now is, is this sample representative for the population w.r.t. the different types? I.e. does each type of super hero occur in the sample proportional to the expected percentages in the population as a whole?
+
+#### Test procedure
+
+The *goodness of fit test* is suitable to answer this type of question. The procedure is as follows:
+
+1. Formulate the hypotheses:
+    - $H_0$: the sample is representative for the population (i.e. the proportions of each class in the sample closely matches those of the population)
+    - $H_1$: the sample is **not** representative for the population (i.e. the proportions diverge *significantly*)
+2. Determine a significance level, e.g. $\alpha = 0.05$ and the sample size
+
+    ```{r}
+    alpha <- 0.05
+    n <- sum(observed)
+    expected <- n * expected_p
+    expected
+    ```
+
+3. Calculate the test statistic, in this case $\chi^2$:
+
+    ```{r}
+    chisq <- sum((observed - expected)^2 / expected)
+    chisq
+    ```
+
+4. Determine the $p$-value or the critical value $g$.  Remark that in practice, you only need to calculate **one** of the two. Both methods are equivalent.
+
+    a. In a $\chi^2$-test, the critical value is a number $g$ with property $P(\chi^2 > g) = \alpha$ (where $\alpha$ is our chosen significance level). *Left* of $g$ is the acceptance region, *right* of $g$ the critical region (see the plot below). This number can be calculated with:
+
+        ```{r}
+        k <- length(types)
+        g <- qchisq(p = 1 - alpha, df = k - 1)
+        g
+        ```
+    
+    b. The $p$-value is given by:
+    
+        ```{r}
+        p <- 1 - pchisq(chisq, df = k - 1)
+        p
+        ```
+ 
+ 5. Draw a conclusion:
+ 
+    a. In the case of the critical value $g$:
+        - if $\chi^2 < g$, accept the null hypothesis,
+        - if $\chi^2 > g$, reject the null hypothesis
+    b. In the case of the $p$-value:
+        - if $p > \alpha$, accept the null hypothesis,
+        - if $p < \alpha$, reject the null hypothesis
+        
+    ```{r}
+    # Critical value $g$
+    paste(ifelse(chisq < g, "Accept", "Reject"), "the null hypothesis")
+    # Probability value $p$
+    paste(ifelse(p > alpha, "Accept", "Reject"), "the null hypothesis")
+    ```
+
+#### Plot of this case
+
+```{r}
+# Plot the chi-squared density function
+x <- seq(0, 15, length = 100)
+dist <- dchisq(x, df = k - 1)
+plot (x, dist, type = 'l', xlab = '', ylab = '')
+
+# The acceptance region (where H_0 is accepted)
+i <- x <= g
+polygon(c(x[i],    g,                     g),
+        c(dist[i], dchisq(g, df = k - 1), 0),
+        col = 'lightgreen')
+text(x = 4, y = 0.05, 'Acceptance region (H0)')
+text(x = g, y = 0.01, paste('g = ', round(g, digits=2)))
+
+# The test statistic (chi squared)
+abline(v = chisq, col = 'red')
+text(x = chisq, y = 0.15, paste('chi^2 = ', round(chisq, digits=2)))
+
+```
+
+#### Using the R function `chisq.test`
+
+The `chisq.test` function automates the entire process. You can provide it with the observed values in the sample and the expected proportions in the population, and it will perform all calculations. The most important part of the output is the $p$-value.
+
+```{r}
+chisq_test_result <- chisq.test(observed, p = expected_p)
+chisq_test_result
+```
+
+It's useful to assign the result of the `chisq.test` function to a variable, since it contains information that isn't printed:
+
+```{r}
+chisq_test_result$statistic # The value of chi squared
+chisq_test_result$p.value   # The p-value
+chisq_test_result$parameter # The degrees of freedom
+chisq_test_result$residuals # Residuals (o - e) / sqrt(e)
+chisq_test_result$stdres    # Standardised residuals
+```
+
+The standardised residuals are noteworthy: they indicate the categories that are over- or underrepresented in the sample. If the value is between $[-2, 2]$, the category is considered to be well represented in the sample. Below -2, it's underrepresented, above 2, it is overrepresented.
+
+### Another example
+
+```{r, include=FALSE}
+rm(list = ls())
+```
+
+In some research project, 1022 families with (exactly) five children are selected in a sample. The families are categorised according to the number of boys. Below, the frequencies for each category are given:
+
+```{r}
+num_boys <- c( 0,   1,   2,   3,   4,  5)
+observed <- c(58, 149, 305, 303, 162, 45)
+n <- sum(observed)
+```
+
+The expected number of boys (assuming the probability of conceiving either a boy or a girl is 50%) can be calculated as follows:
+
+```{r}
+prob_boy <- 0.5
+
+expected_p <- choose(n = 5, k = num_boys) * 
+  prob_boy^num_boys * 
+  prob_boy^(5-num_boys)
+expected_p
+expected <- expected_p * n
+expected
+```
+
+The test procedure:
+
+1. $H_0$: the sample is representative; $H_1$: it is *not* representative
+2. Choose significance level:
+
+    ```{r}
+    alpha <- 0.01
+    ```
+    
+3. Calculate the test statistic
+    
+    ```{r}
+    chisq <- sum((observed - expected)^2 / expected)
+    chisq
+    ```
+    
+4. Calculate $g$ or $p$
+
+    ```{r}
+    k <- length(num_boys)
+    g <- qchisq(p = 1 - alpha, df = k - 1)
+    g
+    p <- 1 - pchisq(chisq, df = k - 1)
+    p
+    ```
+    
+5. Draw a conclusion:
+
+    ```{r}
+    # Critical value $g$
+    paste(ifelse(chisq < g, "Accept", "Reject"), "the null hypothesis")
+    # Probability value $p$
+    paste(ifelse(p > alpha, "Accept", "Reject"), "the null hypothesis")
+    ```
+
+In order to find out which categories of families are under- or overrepresented, take a look at the standardized residuals:
+
+```{r}
+stres <- (observed - n * expected_p) /
+  sqrt(n * expected_p * (1 - expected_p))
+stres
+```
+
+The standardised residuals for the families with either only girls (~4.69) or only boys (~2.35) are outside of the interval [-2, 2]. Consequently, these families are overrepresented in the sample.
+
+#### Plot of this case
+
+```{r}
+# Plot the chi-squared density function
+x <- seq(0, 35, length = 100)
+dist <- dchisq(x, df = k - 1)
+plot (x, dist, type = 'l', xlab = '', ylab = '')
+
+# The acceptance region (where H_0 is accepted)
+i <- x <= g
+polygon(c(x[i],    g,                     g),
+        c(dist[i], dchisq(g, df = k - 1), 0),
+        col = 'lightgreen')
+abline(v = g)
+text(x = 4, y = 0.05, '(H0)')
+text(x = g, y = 0.02, paste('g = ', round(g, digits=2)))
+
+# The test statistic (chi squared)
+abline(v = chisq, col = 'red')
+text(x = chisq, y = 0.1, paste('chi^2 = ', round(chisq, digits=2)))
+
+```
+
+## Chi-squared test for independence of categorical data
+
+With this variant of the Chi-squared test, we can determine whether two categorical (i.e. qualitative) variables are associated.
+
+The null hypothesis in this case is that the two variables are independent, i.e. all columns in the contingency table have similar distributions of frequencies. The alternative hypothesis is that there is an association between the two variables.
+
+### Example
+
+We'll take the `MASS::survey` dataset as an example and will try to determine if variables `Smoke` and `Exer` are associated.
+
+```{r}
+library(MASS)
+exer_smoke <- table(survey$Smoke, survey$Exer)
+plot(exer_smoke)
+exer_smoke_test <- chisq.test(exer_smoke)
+exer_smoke_test
+```
+
+Since the p-value is approximately 0.483, the null hypothesis cannot be rejected. So, there is no association between smoking habits and exercise. Or, smokers do not have significantly different exercise habits from non-smokers.
+
+Remark that the degrees of freedom is 6, i.e.:
+
+```{r}
+df_exer_smoke <- (nrow(exer_smoke) - 1) * (ncol(exer_smoke) - 1)
+df_exer_smoke
+```
+
+### Cochran's rule
+
+A chi-squared test only gives good results if you have enough observations in each category. A rule of thumb for what exactly is *enough* was formulated by Cochran, and applies to contingency tables larger than 2x2:
+
+* All expected values should be at least 1
+* At most 20% of the expected values should be below 5
+
+Let's check whether the previous case satisfies Cochran's rule.
+
+```{r}
+# Function that checks whether the specified contingency table x
+# satisfies Cochran's rule.
+cochrans_rule <- function(x) {
+  test <- chisq.test(x)
+  EXPECTED = test$expected
+  
+  # Rule 1. None of the expected values should be less than 1
+  EXP_LT_1 = table(EXPECTED < 1)
+  NUM_LT_1 = as.numeric(EXP_LT_1['TRUE'])
+  if(is.na(NUM_LT_1)) {
+    NUM_LT_1 = 0
+  }
+  SAT_LT_1 = NUM_LT_1 == 0
+  
+  # Rule 2. At most 20% of expected values should be less than 5
+  EXP_LT_5 = table(EXPECTED < 5)
+  PCT_LT_5 = as.numeric(EXP_LT_5['TRUE']) / sum(EXP_LT_5)
+  if(is.na(PCT_LT_5)) {
+    PCT_LT_5 = 0
+  }
+  SAT_LT_5 = PCT_LT_5 < .2
+  
+  # Return final result and intermediate steps
+  structure(list(
+    satisfied = SAT_LT_1 & SAT_LT_5,
+    
+    expected = EXPECTED,
+    
+    expected.lt.1 = EXP_LT_1,
+    satisfied.lt.1 = SAT_LT_1,
+    
+    expected.lt.5 = EXP_LT_5,
+    satisfied.lt.5 = SAT_LT_5
+  ))
+}
+
+cochrans_rule(exer_smoke)
+```
+
+So, Cochran's rule was NOT satisfied. Specifically, 4 out of 12 expected values are less than 5, or 33%.
+
+### Another example
+
+As another example, we take a study by Doll and Hill, who in 1951 conducted a survey among British general practicioners with the request for data about their age and whether they smoked or not. They then followed up on the respondents for years and recorded whether they died of lung cancer or not.
+
+The results of the survey are given in the following table:
+
+```{r}
+doll_hill <- matrix(data = c(21178, 83, 3092, 1),
+                    ncol = 2,
+                    byrow = TRUE,
+                    dimnames = list(c("Smoker", "Non-smoker"),
+                                 c("No Cancer", "Cancer")))
+doll_hill
+```
+
+The research question now is: "is there an association with smoking and dying of lung cancer?"
+
+```{r}
+doll_hill_result <- chisq.test(doll_hill)
+doll_hill_result
+```
+
+```{r}
+doll_hill_result$expected
+doll_hill_result$stdres
+```
