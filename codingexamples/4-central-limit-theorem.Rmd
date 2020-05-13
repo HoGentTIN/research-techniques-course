@@ -1,0 +1,272 @@
+---
+title: "4 -- The Central Limit Theorem"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+```
+
+## The normal distribution
+
+In this file you will find some examples in R for the concepts introduced in the chapter about the Central Limit Theorem. More specifically:
+
+- plotting a normal distribution
+- plotting a histogram of a sample with the theoretical probability distribution
+- calculate probabilities using the normal distribution
+- calculate confidence intervals
+
+### Plot of the standard normal distribution
+
+You can plot the standard normal distribution $Z \sim Nor(\mu = 0, \sigma = 1)$ as follows:
+
+```{r}
+# We first create a data frame with the interval of the x-as we want to plot
+
+ggplot(data = data.frame(x = c(-4, 4)), mapping = aes(x)) +
+  # Next we plot 201 points of the 'dnorm' function, for the provided arguments
+  # (mean 0 and standard deviation 1)
+  stat_function(fun = dnorm, n = 201, args = list(mean = 0, sd = 1))
+```
+
+### Plot of a normal distribution
+
+We can also use this approach for a generic normal distribution. As example, we use $X \sim Nor(\mu = 5, \sigma = 1.5)$. All "intersting" points on the Gauss curve are located a maximum of 4 times the standard deviation on the left or right of the mean. We will calculate the X-values this way. The `dnorm` function can be used with a custom mean and standard deviation. 
+
+```{r}
+m <- 5000    # mean
+s <- 165     # Standard deviation
+
+ggplot(data = data.frame(x = c(m-4*s, m+4*s)), mapping = aes(x)) +
+  stat_function(fun = dnorm, n = 201, args = list(mean = m, sd = s)) +
+  # Plot the mean using a green line
+  geom_vline(xintercept = m, color = "green")
+```
+
+The *shape* of this graph is identical to the shape of the *standard* normal distribution, only the scale (on both x- and y-axis) is different.
+
+### Histogram with density function
+
+The following example illustrates how you can plot a histogram of data with a normal distribution, and also plots the "theoretical" density function.
+
+```{r}
+# Generate 10000 random numbers with a normal distribution:
+n <- 10000
+observaties <- rnorm(n, m, s)
+
+# Plot a histogram
+ggplot(mapping = aes(x = observaties)) +
+  geom_histogram(bins = 20)
+```
+
+If you would plot a Gauss-curve on top of this histogram, you would not see much. The scale on the y-axis for the Gauss curve is much smaller than the scale of the histogram (cfr. the previous plot for a normal distribution).
+
+We can also plot a histogram with *densities*. In this case, the *area* of a single bar is equal to the *relative* frequency of that class. (The *density* is the *relative* frequency divided by the *width* if the class). The sum of all areas of all bars is 1. This is equal to the total area of the Gauss curve (which is also 1). The histogram and the Gauss curve can now use the same y-axis.
+
+```{r}
+# Generate 10000 random numbers with a normal distribution:
+n <- 10000
+observations <- rnorm(n, m, s)
+
+# First plot the observations on the x-axis
+ggplot(mapping = aes(x = observations)) +
+  # Plot a histogram of the relative frequencies of the observations
+  # ..density.. is a variable that is automatically calculated based on the observations
+  geom_histogram(mapping = aes(y = ..density..), bins = 30) +
+  # Finally plot the function `dnorm` (so the Gauu-curve for the normal distribution)
+  # with mean `m` and standard deviation `s`
+  stat_function(fun = dnorm, args = list(mean = m, sd = s),
+                colour = "red")
+```
+
+## Probability distribution in the normal distribution
+
+Suppose, the reaction speed of Superman has a normal distribution with mean 5 ms and standard deviation 1.5 ms.
+
+```{r}
+m <- 5
+s <- 1.5
+```
+
+What is the probability that his reaction speed is greater than 6.5 ms? Mathematical notation: $P(X > 6.5)$
+
+```{r}
+# First calculate the z-score
+x <- 6.5
+z <- (x - m) / s
+z
+```
+
+The `pnorm` function can only be used to calculate the *left* tail probability $P(X < 6.5)$ or $P(Z < 1)$. We however need to calculate the probability that the reaction speed is ***greater*** than 6.5 ms, so we calculate $1-P(X<6.5)$ or $1-P(Z<1)$:
+
+```{r}
+1-pnorm(z)
+1-pnorm(x, m, s)
+```
+
+Graphical representation of this situation:
+
+```{r}
+# Select the area left of x
+xvals <- seq(from = m-4*s,
+             to = m+4*s,
+             length.out = 201)
+i <- xvals <= x
+
+ggplot(mapping = aes(x = xvals)) +
+  # Fill the area left of x and below the Gauss-curve in green.
+  geom_area(mapping = aes(x = xvals[i], y = dnorm(xvals[i], m, s)), 
+            color = "black", fill = "lightgreen") +
+  # Plot the Gauss curve
+  stat_function(fun = dnorm, args = list(mean = m, sd = s)) +
+  # Indicate the mean as a red vertical line
+  geom_vline(xintercept = m, color = "red") +
+  # Adjust the titles of the x- and y-axis
+  xlab("x") + ylab("density") +
+  # Add text to the plot
+  annotate("text", x = x, y = .02, label = x) +
+  annotate("text", x = m+.1, y = .02, label = m, color = "red")
+```
+
+The left tail probability $P(X < 6.5)$ is the green area on this plot.
+
+### Other examples of calculating probabilities:
+
+1. What is the probability that the reaction speed of SUperman is *less* than 4 ms?
+
+    ```{r}
+    pnorm(4, m, s)
+    ```
+
+2. What is the probability that he reacts in *more* than 7 ms?
+
+    ```{r}
+    1 - pnorm(7, m, s)
+    ```
+
+3. What is the probability that Superman reacts in *less* than 3 ms?
+
+    ```{r}
+    pnorm(3, m, s)
+    ```
+
+4. What is the probability that he reacts between 2 and 6.5 ms?
+
+    ```{r}
+    pnorm(6.5, m, s) - pnorm(2, m, s)
+    ```
+
+5. Below what limit is 80% of his reaction speed?
+
+    ```{r}
+    qnorm(.8, m, s)
+    ```
+
+## Confidence Interval
+
+A confidence interval is an estimation, based on an area for which you can say with a chosen confidence that the unknown population mean will be located in this interval.
+
+Suppose that we have *n* = 100 observations of the reaction speed of Superman, and the outcome is a sample mean of 5.2 ms. We assume that the actual standard devation of his reaction speed is known and equal to 1.5 ms.
+
+In order to determine a confidence interval:
+
+1. As a first estimation, we take the sample mean and select a certain confidence level, e.g. $1 - \alpha = 0.95$ (or 95%).
+2. Next, we look for the $z$-score containing 95% of all values for a standard normal distribution.
+3. We use this to determine values left and right of the sample mean, for which we expect 95% of the values to be located for the probability function obtained from the *central limit theorem*.
+
+
+```{r}
+# Step 1
+m <- 5.2      # sample mean
+s <- 1.5      # standard deviation population
+n <- 100      # sample size
+alpha <- 0.05 # 1 - alpha is the confidence level
+# Step 2
+z <- qnorm(1-alpha/2) # why divide by 2?
+z
+# Step 3: the confidence interval
+low  <- m - z * s / sqrt(n)
+high <- m + z * s / sqrt(n)
+c(low, high)
+```
+
+We can conclude, for a confidence interval of 95%, that the reaction speed of superheroes is between 4.91 and 5.49 ms.
+
+## Confidence interval for small samples
+
+Whan we have a small sample (< 30), the assumptions required for applying the central limit theorem no longer hold. Therefore, we can no longer use the normal distribution.
+
+However, we can construct a confidence interval using the so-called Student $t$ distribution. This distribution is similar to the normal distribution, as it is also similar to the Gauss curve. The Student $t$ distribution however takes the sample size into account ($n$). The distribution function has an additional parameter for this, called the *degrees of freedom* or in short `df`, and the value is equal to $n-1$.
+
+The smaller the number of degrees of freedom, the flatter the curve and the wider the confidence intervals obtained. This models the greater uncertainty we get because of the small sample size. The larger $n$, the closer the curve will be to that of the normal distribution.
+
+The plot belows illustrated the probability distribution of the Student $t$ distributino for a different number of degrees of freedom:
+
+```{r}
+# Determine the x-values for which we want to plot the density function
+x <- seq(-4, 4, length=200)
+
+# Determine the range of x-values for the plot
+ggplot(mapping = aes(x = x)) +
+  # Plot the Student-t distribution using 1, 3, 8 and 30 degrees of freedom
+  stat_function(fun = dt, args = list(df = 1), color ="red") +
+  stat_function(fun = dt, args = list(df = 3), color ="orange") +
+  stat_function(fun = dt, args = list(df = 8), color ="yellow") +
+  stat_function(fun = dt, args = list(df = 30), color ="blue") +
+  # Finally plot the standard normal distribution
+  stat_function(fun = dnorm, color = "black", linetype = "dashed") +
+  ylab("density")
+```
+
+To illustrate this, we take the previous example, but assume that the sample size was only 15.
+
+```{r}
+# Step 1
+m <- 5.2      # sample mean
+s <- 1.5      # standard deviation population
+n <- 15       # sample size
+alpha <- 0.05 # 1 - alpha is the confidence level
+# Step 2, but now using the Student t distribution!
+t <- qt(1-alpha/2, df = n - 1)
+t
+# Step 3: the confidence level
+low  <- m - t * s / sqrt(n)
+high <- m + t * s / sqrt(n)
+c(low, high)
+```
+
+For a confidence level of 95%, we have that the reaction speed of superheroes is between 4.37 and 6.03 ms.
+
+This interval is much wider than the interval obtained using a larger sample. Therefore, we are less certain about the position of the population mean.
+
+
+## Confidence interval for fractions
+
+Some variables only have 2 possible values, e.g. yes/no, true/false, pass/fail, 1/0, etc. Using a sample, we want to estimate what the actual relationship is between these two outcomes across the entire population.
+
+Assume that we want to know what percentage of superheroes can fly (on its own). 100 superheroes were questioned, and 6 of them could demonstrate that they can fly. Construct a 95% confidence interval for the expected percentage of superheroes in the full population.
+
+
+```{r}
+# Step 1.
+n <- 100   # sample size
+k <- 6     # number of "successes" in the sample
+a <- 0.05  # confidence level 95%
+
+p <- k / n # estimation for the percentage of success
+q <- 1 - p # estimation for the percentage of fail
+c(p, q)    # show the value of p and q
+
+# Step 2. We (again) use the normal distribution
+z <- qnorm(1-a/2)
+
+# Step 3.
+low <- p - z * sqrt(p*q/n)
+high <- p + z * sqrt(p*q/n)
+c(low, high)
+```
+
+For a confidence level of 95%, we have that between 1.3% and 10.6% of superheroes can fly.

@@ -1,0 +1,373 @@
+---
+title: "5 -- Testing Procedures"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+```
+
+## The $Z$-test
+
+The $Z$-test attempts to accept or reject a presumption regarding the *population mean* using a sufficiently large sample.
+
+### The right-tailed $Z$-test
+
+In general, we assume that superheroes rescue on average $\mu = 3.3$ people a day. Researchers want to verify this by taking a sample of 30 superheroes. For this sample, the mean is $\overline{x} = 3.483$. We can therefore suspect that on average, superheroes recue *more* people in a single day.
+
+The standard deviation of the population is supposed to be known, $\sigma = 0.55$.
+
+The testing procedure is as follows:
+
+1. Formulate both hypotheses:
+    - $H_0: \mu = 3.3$
+    - $H_1: \mu > 3.3$
+2. Determine the confidence level, e.g. $\alpha = 0.05$
+
+    ```{r}
+    # We have a sample with
+    n <- 30      # sample size
+    sm <- 3.483  # sample mean
+    s <- 0.55    # standard deviation (supposed to be known)
+    a <- 0.05    # significance level (selected by the researcher)
+    m0 <- 3.3    # hypothetical population mean (H0)
+    ```
+
+3. Calculate the value of the test statistic, in this case $\overline{x} = 3.483$
+4. Calculate the $p$-value and reject $H_0$ if $p < \alpha$.
+
+    ```{r}
+    p <- 1 - pnorm(sm, m0, s/sqrt(n))
+    p
+    if(p < a) {
+      print("Reject H0")
+    } else {
+      print("Do not reject H0")
+    }
+    ```
+    
+    A different approach is to calculate the critical region, this is the area for which $H_0$ can be rejected. The bounday of this area is called the critical value $g$. Left of this value, you can not reject $H_0$ (region of acceptance), but you can reject the null hypothesis on the right of $g$ (critical region). The area of the region of acceptance is $1 - \alpha$, the area of the critical region is $\alpha$.
+    
+    ```{r}
+    g <- m0 + qnorm(1-a) * s / sqrt(n)
+    g
+    # If the obtained sample mean is below g, we cannot reject H0
+    if (sm < g) {
+      print("Do not reject H0")
+    } else {
+      print("Reject H0")
+    }
+    ```
+
+We can conclude that, based on $H_0$, the probability of obtaining a sample from the population with this sample mean is very small. We can therefore reject the null hypothesis for the selected significance level.    
+
+Note that the conclusion should be identical for both methods (critical value and probability value)!
+
+Below you can find a plot of this case:
+
+```{r}
+# x-values
+x <- seq(m0-4*s/sqrt(n), m0+4*s/sqrt(n), length=200)
+# x values left of g (region of acceptance)
+i <- x <= g
+# Density normal distribution
+dist <- dnorm(x, m0, s/sqrt(n))
+
+# Plot
+ggplot() +
+  # Gauss curve
+  geom_line(aes(x, dist)) +
+  # Plot the region of acceptance in green
+  geom_polygon(aes(x = c(x[i],    g,                       g),
+                   y = c(dist[i], dnorm(g, m0, s/sqrt(n)), 0)),
+               fill = 'lightgreen',
+               colour = 'black') +
+  # Show the critical value
+  geom_text(label = round(g, 3), aes(x = g, y = .5)) +
+  geom_text(label = "Region of acceptance", aes(x = m0, y = .75)) +
+  geom_text(label = "Critical region", aes(x = 3.6, y = .75)) +
+  # Show the hypothetical population mean
+  geom_vline(xintercept = m0) +
+  geom_text(label = m0, aes(x = m0+.02, y = 2)) +
+  # Show the sample mean
+  geom_vline(xintercept = sm, colour = 'red') +
+  geom_text(label = sm, aes(x = sm+.04, y = 3), colour = 'red') +
+  theme(axis.title = element_blank())
+```
+
+### The left-tailed $Z$-test
+
+Suppose that the result of the sample was $\overline{x} = 3.117$. In this case, we can suspect that the population mean is *smaller* than 3.3. We can verify this using a left-tailed $Z$-test.
+
+1. Formulate both hypotheses:
+    - $H_0: \mu = 3.3$
+    - $H_1: \mu < 3.3$
+2. Select significance level, e.g. $\alpha = 0.05$
+
+    ```{r}
+    # We have a sample with 
+    n <- 30      # sample size
+    sm <- 3.117  # sample mean
+    s <- 0.55    # standard deviation (supposed to be known)
+    a <- 0.05    # significance level (selected by researcher)
+    m0 <- 3.3    # hypothetical population mean (H0)
+    ```
+
+3. Calculate the value of the test statistic, in this case $\overline{x} = 3.117$
+4. Calculate the $p$-value and reject $H_0$ if $p < \alpha$.
+
+    ```{r}
+    p <- pnorm(sm, m0, s/sqrt(n))  # Note! NOT 1 - pnorm(...). Why?
+    p
+    if(p < a) {
+      print("Reject H0")
+    } else {
+      print("Do not reject H0")
+    }
+    ```
+    
+    The critical value $g$ is now left of the mean. You cannot reject $H_0$ for a value on the right (region of acceptance), but you can for a value on the left of $g$ (critical region).
+    
+    ```{r}
+    g <- m0 - qnorm(1-a) * s / sqrt(n)
+    g
+    # If the obtained sample mean is >g, we cannot reject H0
+    if (sm < g) {
+      print("Reject H0")
+    } else {
+      print("Do not reject H0")
+    }
+    ```
+
+We can conclude that, based on $H_0$, the probability to obtain a sample with this sample mean is very small. We can therefore reject the null hypothesis for the selected significance level.
+
+Plot of this case:
+
+```{r}
+# x-values for the plot
+x <- seq(m0-4*s/sqrt(n), m0+4*s/sqrt(n), length=200)
+# y-values (using the Gauss-curve)
+dist <- dnorm(x, m0, s/sqrt(n))
+# x values on the right of g
+i <- x >= g
+
+ggplot() +
+  # Gauss curve
+  geom_line(aes(x, dist)) +
+  # Plot the region of acceptance in green
+  geom_polygon(aes(c(x[i],    g),
+                   c(dist[i], 0)),
+               fill = 'lightgreen',
+               colour = 'black') +
+  # Show the critical value
+  geom_text(label = round(g, 3), aes(x = g, y = .5)) +
+  geom_text(label = "Region of acceptance", aes(x = m0, y = .75)) +
+  geom_text(label = "Critical region", aes(x = 3, y = .75)) +
+  # Show the hypothetical population mean
+  geom_vline(xintercept = m0) +
+  geom_text(label = m0, aes(x = m0+.02, y = 2)) +
+  # Show the sample mean
+  geom_vline(xintercept = sm, colour = 'red') +
+  geom_text(label = sm, aes(x = sm+.04, y = 3), colour = 'red') +
+  theme(axis.title = element_blank())
+```
+
+### The two-tailed $Z$-test
+
+In this case, we do not want to test if the population mean is smaller/larger than a certain value, but instead we want to test if the obtained sample mean is similar to the population mean.
+
+1. Formulate both hypotheses:
+    - $H_0: \mu = 3.3$
+    - $H_1: \mu \ne 3.3$
+2. Select significance level, e.g. $\alpha = 0.05$
+
+    ```{r}
+    # We have a sample with
+    n <- 30      # sample size
+    sm <- 3.483  # sample mean
+    s <- 0.55    # standard deviation (supposed to be known)
+    a <- 0.05    # significance level (selected by researcher)    
+    m0 <- 3.3    # hypothetical population mean (H0)
+    ```
+
+3. Calculate the value of the test statistic, in this case $\overline{x} = 3.483$
+4. Calculate the probability value $p$ and reject $H_0$ if $p < \alpha/2$ (why do we divide by 2?).
+
+    ```{r}
+    p <- 1 - pnorm(sm, m0, s/sqrt(n))
+    p
+    if(p < a/2) {
+      print("Reject H0")
+    } else {
+      print("Do not reject H0")
+    }
+    ```
+    
+    There are now two critical values:  $g_1$ is located on the left of the mean and $g_2$ on the right. The critical area still has a total area of $\alpha$.
+    
+    ```{r}
+    g1 <- m0 - qnorm(1-a/2) * s / sqrt(n) # lower bound region of acceptance
+    g2 <- m0 + qnorm(1-a/2) * s / sqrt(n) # upper bound region of acceptance
+    c(g1, g2)
+    
+    # If the obtained sample mean is between g1 and g2, we cannot reject H0
+    if (g1 < sm & sm < g2) {
+      print("Do not reject H0")
+    } else {
+      print("Reject H0")
+    }
+    ```
+
+Plot for this case:
+
+```{r}
+# Boundaries of the plot (x values)
+x <- seq(m0-4*s/sqrt(n), m0+4*s/sqrt(n), length=200)
+# y values using the Gauss curve
+dist <- dnorm(x, m0, s/sqrt(n))
+# x values between g1 and g2
+i <- g1 <= x & x <= g2
+# Probability of g1 and g2
+dg1 <- dnorm(g1, m0, s/sqrt(n))
+dg2 <- dnorm(g2, m0, s/sqrt(n))
+
+# Plot
+ggplot() +
+  # Gauss curve
+  geom_line(aes(x, dist)) +
+  # Plot the region of acceptance in green
+  geom_polygon(aes(c(g1, g1,  x[i],    g2,  g2),
+                   c(0,  dg1, dist[i], dg2, 0)),
+               fill = 'lightgreen',
+               colour = 'black') +
+  # Show the critical values
+  geom_text(label = round(g1, 3), aes(x = g1, y = .3)) +
+  geom_text(label = round(g2, 3), aes(x = g2, y = .3)) +
+  
+  geom_text(label = "Region of acceptance", aes(x = m0, y = .75)) +
+  geom_text(label = "Critical region", aes(x = 3, y = .75)) +
+  geom_text(label = "Critical region", aes(x = 3.6, y = .75)) +
+  
+  # Show the hypothetical population mean
+  geom_vline(xintercept = m0) +
+  geom_text(label = m0, aes(x = m0+.02, y = 2)) +
+  # Show the sample mean
+  geom_vline(xintercept = sm, colour = 'red') +
+  geom_text(label = sm, aes(x = sm+.04, y = 3), colour = 'red') +
+  theme(axis.title = element_blank())
+```
+
+If we do not say a priori whether the actual population mean will be smaller or greater, the obtained sample mean could be obtained from this population. In other words: we can *not* reject the null hypothesis.
+ 
+
+## The $t$-test
+
+If the conditions applying the $z$-test do *not* hold (e.g. sample size is too small and/or standard deviation of the population is unknown), the $t$-test could be used instead. Similar to the $Z$-test, there are three alternatives: left-tailed, right-tailed or two-tailed. In this section, we will only illustrate the right-tailed test.
+
+
+### Right-tailed $t$-test
+
+Suppose that the researchers did not have enough time to take a sufficiently large sample, and only have $n = 20$ observations. The obtained sample mean is the same, 
+$\overline{x} = 3.483$. The standard deviation of the sample is $s = 0.55$.
+
+Can we - given these conditions - conclude the same for a same significance level of $\alpha = 0.05$, namely that superheroes rescue *more* than 3.3 people a day?
+
+The testing procedure is as follows:
+
+1. Formulate both hypotheses:
+    - $H_0: \mu = 3.3$
+    - $H_1: \mu > 3.3$
+2. Select significance level, e.g. $\alpha = 0.05$
+
+    ```{r}
+    # We have a sample with
+    n <- 20      # sample size
+    sm <- 3.483  # sample mean
+    ss <- 0.55   # standard deviation sample
+    a <- 0.05    # significance level (selected by researcher)
+    m0 <- 3.3    # hypothetical population mean (H0)
+    ```
+
+3. Calculate the value of the test statistic, in this case $\overline{x} = 3.483$
+4. Calculate the probability value $p$ and reject $H_0$ if $p < \alpha$. Note: the function `pt` does not allow for using a custom mean and standard deviation, therefore we have to normalize the values ourselves.
+
+    ```{r}
+    p <- 1 - pt((sm - m0) / (s/sqrt(n)), df = n-1)
+    p
+    if(p < a) {
+      print("Reject H0")
+    } else {
+      print("Do not reject H0")
+    }
+    ```
+    
+    For calculating the critical value, we use the `qt` function with $n - 1$ degrees of freedom.
+    
+    ```{r}
+    g <- m0 + qt(1-a, df = n-1) * s / sqrt(n)
+    g
+    # If the obtained sample mean is below g, we cannot reject H0
+    if (sm < g) {
+      print("Do not reject H0")
+    } else {
+      print("Reject H0")
+    }
+    ```
+    
+Plot for this case:
+
+```{r}
+# Boundaries of plot (x values)
+x <- seq(m0-4*ss/sqrt(n), m0+4*ss/sqrt(n), length=200)
+# y-values according to gauss curve of the t-distribution
+dist <- dt((x-m0)/(ss/sqrt(n)), df = n-1) * ss/sqrt(n)
+# x values left of g
+i <- x < g   
+# value of probability function for g
+dg <- dt((g-m0)/(ss/sqrt(n)),df=n-1) * ss/sqrt(n)
+
+# Plot
+ggplot() +
+  # Gauss curve
+  geom_line(aes(x, dist)) +
+  # Plot region of acceptance in green
+  geom_polygon(aes(x = c(x[i],    g, g),
+                   y = c(dist[i], dg, 0)),
+               fill = 'lightgreen',
+               colour = 'black') +
+  # Show critical value
+  geom_text(label = round(g, 3), aes(x = g, y = .005)) +
+  geom_text(label = "Region of acceptance", aes(x = m0, y = .0075)) +
+  geom_text(label = "Critical region", aes(x = 3.7, y = .0075)) +
+  # Show the hypothetical population mean
+  geom_vline(xintercept = m0) +
+  geom_text(label = m0, aes(x = m0+.02, y = .02)) +
+  # Show the sample mean
+  geom_vline(xintercept = sm, colour = 'red') +
+  geom_text(label = sm, aes(x = sm+.04, y = .03), colour = 'red') +
+  theme(axis.title = element_blank())
+```
+
+In other words, although we get similar results in our sample, we cannot draw the same conclusion. Because our sample is too small, there is a large uncertainty whether the value of the sample mean is extreme enough to reject the null hypothesis.
+
+### Use of the function `t.test`
+
+In R, there is also a function `t.test` that can be used to apply the test on a collection of observations.
+
+```{r}
+test_sample <- c(                # sample
+  3, 2, 3, 1, 10, 4, 2, 7, 3, 0,
+  3, 1, 2, 3,  4, 0, 3, 8, 3, 7)
+a <- 0.05                        # significance level
+m0 <- 3.3                        # hypothetical population mean (H0)
+
+t.test(test_sample, 
+       alternative = "greater",  # right-tailed test
+       mu = m0,                  # hypothesis about mean
+       conf.level = 1 - a)       # confidence level
+```
+
+In this case, we conclude that the sample mean of 3.45 does not indicate that we can reject the null hypothesis, as the probability value $p = 0.4013$ is larger than the significance level $\alpha = 0.05$.
