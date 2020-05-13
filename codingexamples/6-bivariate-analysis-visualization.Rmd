@@ -1,0 +1,230 @@
+---
+title: "6 -- Bivariate Analysis"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+# Visualization of relationships between two variables
+
+If you want to visualize the relationship between two variables, the most suitable graph type depends on the measurement level of the independent and the dependent variable.
+
+You can find a summary in the table below:
+
+| Independent    | Dependent    | Graph type                              |
+| :---           | :---         | :---                                    |
+| Qualitative    | Qualitative  | Mosaic plot                             |
+|                |              | Clustered bar chart                     |
+|                |              | Horizontal stacked bar chart            |
+| Qualitative    | Quantitative | boxplot                                 |
+|                |              | density plot                            |
+|                |              | (bar chart mean + error bars)           |
+| Qualitative    | Quantitative | scatter/XY plot                         |
+
+# Qualitative - Qualitative
+
+As an example, we use the dataset `mpg` that contains information about 38 popular car brands in the US. Suppose we want to know if there is a connection between the type of drive (`drv`, the independent variable) and the fuel type (`fl`, the dependent variable). In other words, we want to know if the fuel type used between the different types of drives is significantly different.
+
+Below, the crosstable is shown with the independent variable as columns and the dependent as rows. The marginal totals are also added. If there is no relationship between both variables, the the proportions across all columns will be about the same.
+
+```{r}
+addmargins(table(mpg$drv, mpg$fl))
+```
+
+For your information: meaning of the abbreviations:
+
+- `drv`
+    - `f`: front wheel drive
+    - `r`: rear wheel drive
+    - `4`: four wheel drive
+- `fl`
+    - `c`: compressed natural gas (CNG)
+    - `d`: diesel
+    - `e`: electric
+    - `p`: "premium" fuel
+    - `r`: "regular" fuel
+
+## Clustered bar chart
+
+In a clustered bar chart, the independent variable is typically plotted on the x axis. On the y axis, bars are drawn that represent the frequencies in the dependent variable, side by side.
+
+```{r}
+ggplot(data = mpg, mapping = aes(x = drv)) +
+  geom_bar(mapping = aes(fill = fl),
+           position = "dodge")
+```
+
+The option `position = "dodge"` is used to plot the bars side by side, instead of stacked.
+
+As the number of categories increases, this type of graph quickly becomes unclear.
+
+## Horizontal stacked bar chart
+
+A horizontal stacked bar chart is also a bar chart, but this time the bars are stacked and normalized.
+
+```{r}
+ggplot(data = mpg, mapping = aes(x = drv)) +
+  geom_bar(mapping = aes(fill = fl), position = "fill") +
+  coord_flip()
+```
+
+Typically, the bars are plotted horizontally (`coord_flip()`). This way, relationships between the different categories in the dependent variable can be clearly seen. What this graph does not illustrate, however, are the proportions within the independent variable.
+
+
+## Mosaic plot
+
+A mosaic plot is a graphical representation of a frequency table in which the area of each tile is proportional to the frequency in the corresponding cell of the table.
+
+```{r}
+my_mpg <- mpg %>%
+  group_by(drv, fl) %>%
+  summarise(count = n()) %>%
+  mutate(drv.count = sum(count),
+         prop = count / sum(count)) %>%
+  ungroup()
+
+ggplot(data = my_mpg, mapping = aes(x = drv, y = prop, 
+                                    fill = fl, width = drv.count)) +
+  geom_bar(stat = "identity", position = "fill") +
+  facet_grid(~drv, scales = "free_x", space = "free_x")
+```
+
+A mosaic plot is the clearest way to illustrate the relationship between two qualitative variables, but is not straightforward to plot using `ggplot`. The method used above is based on [this StackOverflow discussion](https://stackoverflow.com/questions/19233365/how-to-create-a-marimekko-mosaic-plot-in-ggplot2).
+
+As an alternative, the package `ggmosaic` can be used:
+
+```{r}
+library(ggmosaic)
+
+ggplot(data = mpg) +
+  geom_mosaic(mapping = aes(x = product(drv), fill = fl))
+```
+
+The independent variable needs to be indicated using `x = product(var1)` (so not using `x = var1`), the dependent using `fill = var2`.
+
+# Qualitative - Quantitative
+
+Suppose we want to know whether in the dataset `mpg` cars with manual gearing are more economical than cars with automatic transmission. The variable `trans` contains the necessary information, but is too detailed:
+
+```{r}
+unique(mpg$trans)
+```
+
+We will therefore first add a new column, `trans_type` where the info in parentheses is omitted:
+
+```{r}
+mpg2 <- mpg %>%
+  mutate(trans_type = sub("\\(.*", "", trans))
+```
+
+There are two variables that measure the consumption of the cars, namely `cty` (in the city) and` hwy` (on the highway). Both variables are expressed in miles per gallon, so more fuel efficient cars have higher values. In the examples below we will use `hwy`, but you can try this yourself using `cty`.
+
+## Bar chart of means
+
+A graph type that is often used for this type of research questions is a bar chart of means for each group:
+
+```{r}
+ggplot(data = mpg2, mapping = aes(x = trans_type, y = hwy,
+                                  fill = trans_type)) +
+  geom_bar(stat = "summary", fun.y = "mean")
+```
+
+This graph is missing an extremely important element, the dispersion (spread). In its current format, the graph **does not provide sufficient information** about the difference between both groups.
+
+**Therefore: never use a graph of means without showing the dispersion!**
+
+One way to show the dispersion is by using so-called *error bars*. These provide an idea of the distribution of the data based on a chosen metric. Typical values are:
+
+- the standard deviation (of the sample)
+- 2x the standard deviation
+- the standard error on the mean ($s/\sqrt{n}$)
+- a confidence interval (e.g. 95%)
+
+As there are several possible interpretations that can be given to the error bars, it is important to provide sufficient explanation in the caption of the graph about what exactly is shown.
+
+In order to draw the graph easily, we first calculate the necessary values. We create a new table containing the mean, standard deviation, standard error and the size of the 95% confidence interval. We will only use the standard deviation in the graph, but you can experiment with the other values yourself.
+
+```{r}
+mpg_summary <- mpg2 %>%
+  group_by(trans_type) %>%
+  summarise(hwy_mean = mean(hwy),       # mean
+            hwy_sd = sd(hwy),           # standard deviation
+            hwy_se = sd(hwy)/sqrt(n()), # standard error
+            # 95% confidence interval using t-score (because σ is unknown):
+            hwy_ci_95 = qt(1-.05/2, df = n() - 1) * sd(hwy)/sqrt(n()))
+mpg_summary
+```
+
+The following graph shows the standard deviation:
+
+```{r}
+ggplot(data = mpg_summary, mapping = aes(x = trans_type, y = hwy_mean, 
+                                         fill = trans_type)) +
+  geom_bar(stat = "identity") +
+  geom_errorbar(mapping = aes(ymin = hwy_mean - hwy_sd, 
+                              ymax = hwy_mean + hwy_sd),
+                width = .3)
+```
+
+If we only look at the means for both groups, cars with manual transmission are more economical. The error bars qualify this statement: there seems to be quite some overlap between the distributions of both categories...
+
+A bar chart with error bars assumes that the variable has a normal distribution. If this is not the case, this type of graph will give a distorted picture of the situation. This is especially true in case of outliers, a skewed distribution or observations that are simply not normally distributed...
+
+## Grouped boxplot
+
+In most cases, a boxplot is a better choice as it contains more information, more concrete the dispersion.
+
+```{r}
+ggplot(data = mpg2, mapping = aes(x = trans_type, fill = trans_type, y = hwy)) +
+  geom_boxplot() +
+  coord_flip()
+```
+
+This graph shows a clear difference between manual and automatic transmission.
+
+With ggplot you can also plot the individual data points in the graph and possibly add additional information (e.g. the category of cars):
+
+```{r}
+ggplot(data = mpg2, mapping = aes(x = trans_type, fill = trans_type, y = hwy)) +
+  geom_boxplot() +
+  geom_jitter(mapping = aes(color = class)) +
+  coord_flip()
+```
+
+The function `geom_jitter()` plots each individual observation as a point relative to the x axis, but adds some random variation in the y direction. Except that this prevents points from being plotted on top of each other, it has no further significance.
+
+## Density diagram
+
+Finally, a density diagram can provide an even better picture of the distribution of the data:
+
+```{r}
+ggplot(data = mpg2, mapping = aes(x = hwy, color = trans_type)) +
+  geom_density()
+```
+
+This shows that the data is not normally distributed, but has a certain bimodal distribution!
+
+# Quantitative - Quantitative
+
+For this type of relationships, an XY plot (scatter plot) is typcally used. The independent variable is typically plotted on the X axis, the dependent on the Y axis.
+
+For example, let's look in the dataset `mpg` if there is a relationship between the engine capacity (variable `displ`, *displacement*, expressed in liters) and the consumption on the highway (variable `hwy`, in miles per gallon):
+
+```{r}
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy,
+                                 color = class)) +
+  geom_point()
+```
+
+Indeed, it appears that cars with a larger engine capacity are less economical. By using the category of cars as color, we also see patterns emerge: the sub-compact and compact has a small engine capacity and also drives economically. SUVs and pickups have a large engine capacity, but are the least economical.
+
+Om the following graph we also ad a regression line (`lm` indicates *linear model*, the function in R for calculating a regression line):
+
+```{r}
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) +
+  geom_point() +
+  geom_smooth(method = "lm", formula = y ~ x, se = FALSE)
+```
