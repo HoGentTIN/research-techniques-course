@@ -1,0 +1,236 @@
+---
+title: "Exercise 7.2 - Budget"
+author: "Bert Van Vreckem"
+date: '2020-05-14'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(TTR)
+library(forecast)
+```
+
+> The file `Budget.csv` contains the turnover, advertising budget and GNP (Dutch: BNP) of a medium sized compay per quarter between 1981 and 2005.
+
+```{r}
+budget <- read_csv("datasets/Budget.csv") %>%
+  mutate(Date = parse_date(Quarter, format = "%b-%y"))
+
+glimpse(budget)
+```
+
+In the dataset, the column Quarter is formatted as "Mar-81", i.e. the abbreviated name of the month, and the year (without the century). We convert these into a valid date with `mutate()`.
+
+Let's take a look at the time series `Revenue`:
+
+```{r}
+ggplot(data = budget, mapping = aes(x = Date, y = Revenue)) +
+  geom_line()
+```
+
+For several of the calculations in this exercise, it is useful to create a time series object (`ts`). We do this for the Revenue first:
+
+- `frequency` indicates that the time series has four time units per cycle (a year has 4 quarters)
+- `start` denotes the time series starts in the first tume unit of cycle 1981
+- `end` denotes the last observation is for the fourth time unit of cycle 2005
+
+```{r}
+revenue <- ts(budget$Revenue, frequency = 4,
+              start = c(1981, 1), end = c(2005, 4))
+revenue
+```
+
+R has apparently deduced that the dataset contains quarterly figures!
+
+In what follows, we'll investigate the variable `Revenue` more closely. You can repeat the exercise for yourself with `AdBudget` and `GNP`.
+
+# Moving average
+
+> Calculate the simple moving average for periods of 4 and 12 months, respectively. Use the function `SMA()`. Plot a line chart of the observations, SMA(4) and SMA(12).
+
+```{r warning=FALSE}
+budget_sma <- budget %>%
+  mutate(revenue_sma_4 = SMA(Revenue, n = 4),
+         revenue_sma_12 = SMA(Revenue, n = 12))
+ggplot(data = budget_sma, mapping = aes(x = Date, y = Revenue)) +
+  geom_line() +
+  geom_line(mapping = aes(y = revenue_sma_4), color = "orange") +
+  geom_line(mapping = aes(y = revenue_sma_12), color = "blue")
+```
+
+# Regression
+
+> Which technique we have discussed earlier in the course is also suitable to
+make predictions about future values of X? Work this out using the appropriate function and plot the result in the graph.
+
+We are talking about regression here. A time series that continues to fluctuate around a certain "equilibrium point" can be approximated with a regression law.
+
+```{r}
+ggplot(data = budget, mapping = aes(x = Date, y = Revenue)) +
+  geom_line() +
+  geom_smooth(method = "lm", formula = y ~ x)
+```
+
+The parameters of the regression line can be calculated with `lm()`:
+
+```{r}
+lm(revenue ~ time(revenue))
+```
+
+Remark that we don't use the data in the tibble (variable `budget`, created with the function `read_csv()`), but the time series object `revenue`. The function `lm()` expects a formula in the format `y ~ x`. `y` is the time series, `x` is the time on the x-axis. The date in the `budget` tibble can't be used for this. One could create a time index (`1:n`) instead, but the function `time()` always gives a useable result for `lm()` when provided with a time series.
+
+# Forecasting
+
+>  Use function `forecast()` to predict the next 10 periods. Draw these on the graph.
+
+```{r}
+revenue_fc <- forecast(revenue, h = 10)
+revenue_fc
+plot(revenue_fc)
+```
+
+This plot was not generated using `ggplot()`, but with the `plot()` function from base-R. `ggplot2` was designed specifically to work with tibbles and data frames and cannot be used with time series objects. For plotting time series, we often need to revert to the base-R plotting system. You could convert the time series data into a tibble, but that would lead us too far.
+
+> Is one of these techniques useful to make a forecast for this time series?
+
+The time series seems to fluctuate around about 950, but there is a lot of variance between individual observations. There also seems to be a recurring seasonal trend in the time series, which makes linear regression less suitable for predictions.
+
+# Seasonal fluctuations
+
+> Use the `decompose()` function to, well, decompose the time series and to get an idea of any long term trend and seasonal fluctuations.
+
+The result of `decompose()` is:
+
+```{r}
+plot(decompose(revenue, type = "multiplicative"))
+```
+
+The seasonal trend estimate is a vector of as many numbers as the specified `frequency`, so here 4. If we had passed parameter `type = "additive"`, then the estimate of the seasonal trend is added to the estimate on basis of the underlying linear trend. With type "multiplicative" like here, the estimate is multiplied.
+
+# Exponential smoothing
+
+> Calculate the exponential moving average (EMA) using the `HoltWinters()` method. Again, use `forecast()` to make a prediction for 20 quarters. Use start values $s_1 = x_1$ and $\alpha$ the value calculated by R. Plot the result along with the observed time series.
+
+```{r}
+revenue_ema <- HoltWinters(revenue, beta = FALSE, gamma = FALSE,
+                           seasonal = "multiplicative", s.start = revenue[1])
+plot(revenue_ema)
+revenue_ema_fc <- forecast(revenue_ema, h = 20)
+plot(revenue_ema_fc)
+```
+
+Simple exponential smoothing works from the assumption that the time series fluctuates around a constant, and consequently has no trend (neither linear, nor seasonal).
+
+\[x_t = a + u_t\]
+
+with $a$ a constant and $u_t$ noise. The prediction, therefore, is also a constant:
+
+```{r}
+revenue_ema_fc$mean
+```
+
+> Now do the same with $\alpha = 0,1$
+
+```{r}
+revenue_ema_2 <- HoltWinters(revenue, alpha = 0.1, beta = FALSE, gamma = FALSE,
+                           seasonal = "multiplicative", s.start = revenue[1])
+plot(revenue_ema_2)
+revenue_ema_fc_2 <- forecast(revenue_ema_2, h = 20)
+plot(revenue_ema_fc_2)
+```
+
+The prediction becomes:
+
+```{r}
+revenue_ema_fc_2$mean
+```
+
+# Double exponential smoothing
+
+> Do the same with double exponential smoothing. Bootstrap with $s_1 = x_1$ and $b_1 = \frac{x_n−x_1}{n-1}$, $\alpha = 0,05$ and $\beta = 0,2$. Plot the result.
+
+Double exponential smoothing assumes that the data has a linear trend and can be modelled with equation:
+
+\[x_t = a + bt + u_t\]
+
+with met $a$ again a constant (intercept with the y-axis), $b$ the slope and $u_t$ noise.
+
+```{r}
+n <- length(revenue)
+revenue_dema <- HoltWinters(revenue, alpha = 0.05, beta = 0.2, gamma = FALSE,
+                            seasonal = "multiplicative",
+                            s.start = revenue[1], 
+                            b.start = (revenue[100]-revenue[1])/100)
+plot(revenue_dema)
+```
+
+> Use double exponential smoothing to make a prediction for 20 quarters. Plot the values. Is this technique better or worse than the previous one for this dataset?
+
+```{r}
+revenue_dema_fc <- forecast(revenue_dema, h = 20)
+plot(revenue_dema_fc)
+```
+
+The estimate of the slope $b$ is adapted each time unit. Because there is so much fluctuation in the data, $b$ will alternate between positive and negative values, depending on where we are in the seasonal cycle. The forecast will therefore be a rising or falling line, which makes little sense for this data.
+
+> Play around with the values for $\alpha$ and $\beta$ and look at the results, both for simple and double exponential smoothing.
+
+Do this yourself! Use the code above and adapt. The result will be that the predictions are higher or lower with single EMA, or that we will see a rising of falling line with a different slope with double EMA.
+
+# Seisonal trend
+
+Holt-Winters' method, or triple exponential smoothing, assumes the observations follow this model:
+
+\[x_t = (a + bt) s_t + u_t \]
+
+with $a$, $b$ and $u_t$ as before and $s$ a list of numbers as long as the `frequency`, $k$ (= 4 in this time series). At time $t$, the element $t \mod k$ from this list, $s_t$, is multiplied with the original value.
+
+> Use the `HoltWinters()` function without a trend, i.e. set $\beta =$ `FALSE`. Bootstrap with $\alpha = 0.05$ and $\gamma = 0.9$. Plot the result.
+
+```{r}
+revenue_hw <- HoltWinters(revenue, alpha = 0.05, beta = FALSE, gamma = 0.9,
+                          seasonal = "multiplicative")
+plot(revenue_hw)
+```
+
+We now see that the estimates are pretty close to the observed values, at least compared with the previoous models.
+
+The estimates of the parameters can be retrieved with:
+
+```{r}
+revenue_hw
+```
+
+We see an estimate for the underlying constant, `a` = `r revenue_hw$coefficients[["a"]]` and seasonal parameters (`s1` to `s4`). The first quarter always has the highest revenue, the third quarter the lowest. The second and fourth quarter are "normal", i.e. close to `a`.
+
+> Recalculate the forecast for 20 time units. Plot the results. Is this technique better or worse than the previous ones for this dataset?
+
+```{r}
+revenue_hw_fc <- forecast(revenue_hw, h = 20)
+plot(revenue_hw_fc)
+```
+
+The predicted values are much closer to the observations. You can see the seasonal trend in the forecasted values. The forecasts are calculated from `a` and `s1` to `s4`. For the first quarter of a year, that's `a * s1`, for the second `a * s2`, etc.
+
+> Play around with the values for $\alpha$ and $\beta$ and look at the results.
+
+Do this yourself! Adapt the values and look at the results on the chart.
+
+> Use `HoltWinters()` with the smoothing parameters $\alpha$ and $\gamma$ as determined by R. Turn off long term trend, i.e. set `beta = FALSE`. Plot the result.
+
+```{r}
+revenue_hw_2 <- HoltWinters(revenue, beta = FALSE, seasonal = "multiplicative")
+plot(revenue_hw_2)
+# Model, berekende parameters
+revenue_hw_2
+```
+The smoothing parameter $\alpha$ calculated by R, and the estimates for seasonal parameters `s1` to `s4` are close to the values in the previous model. Parameter $\gamma$ is close to 0, while we had set it to 0.9 previously. Apart from that, the model seems to be performing similarly. 
+
+```{r}
+revenue_hw_2_pr <- predict(revenue_hw_2, n = 20)
+plot(revenue_hw_2_pr)
+```
+
+We see forecasted values similar to the ones in the previous model.
