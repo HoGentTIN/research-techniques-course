@@ -1,0 +1,143 @@
+---
+title: "Exercise 6-11 en 12 -- Cats"
+author: "Bert Van Vreckem"
+date: "2020-04-22"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+>  Import data file “Cats.csv”.
+
+```{r}
+cats <- read_csv("../datasets/Cats.csv")
+```
+
+> 1. Perform a linear regression analysis on the variables body weight (`Bwt`, dependent variable) and heart weight (`Hwt`, independent variabele).
+> 2. Draw a scatter plot of both variables.
+> 3. Calculate and draw the regression line.
+> 4. Calculate the correlation coefficient and the coefficient of determination.
+> 5. Interpret the results from the previous steps.
+
+## Data visualisation
+
+The independent variable (`Hwt`) is mapped on the X-axis, the independent variable (`Bwt`) on the Y axis. We also draw the regression line:
+
+```{r}
+ggplot(data = cats, mapping = aes(x = Hwt, y = Bwt)) +
+  geom_point() +
+  geom_smooth(method = "lm", formula = y ~ x)
+```
+
+## Regression line
+
+```{r}
+#              dependent ~ independent
+regr_cats <- lm(cats$Bwt ~ cats$Hwt)
+```
+
+The parameters of the regression line are:
+
+```{r}
+regr_cats
+```
+
+If we want to calculate this ourselves:
+
+```{r}
+mx <- mean(cats$Hwt)  # mean of x
+my <- mean(cats$Bwt)  # mean of y
+xx <- cats$Hwt - mx   # x - mx
+yy <- cats$Bwt - my   # y - my
+beta_1 <- sum(xx * yy) / sum(xx^2)
+beta_0 <- my - beta_1 * mx
+```
+
+Which yields identical results.
+
+## Correlation and determination
+
+The correlation coefficient is:
+
+```{r}
+cor_Hwt_Bwt <- cor(x = cats$Hwt, y = cats$Bwt)
+```
+
+A correlation coefficient of about 0.804 indicates a strong linear and increasing relation.
+
+**Please note!** You should not say a "strongly increasing relation". The correlation coefficient says nothing about the slope of the increase, only about how close the observations are to regression line.
+
+The determination coefficient:
+
+```{r}
+cor_Hwt_Bwt^2
+```
+
+We conclude that about 64,66% of the variance in the observations can be explained by the regression line.
+
+## Exercise 6.12 - Grouped by gender
+
+First, an overview of the numbers of observations:
+
+```{r}
+addmargins(table(cats$Sex))
+```
+
+Compound plot wit regression lines:
+
+```{r}
+ggplot(data = cats, mapping = aes(x = Hwt, y = Bwt, color = Sex)) +
+  geom_point() +
+  geom_smooth(method = "lm", formula = y ~ x)
+```
+
+### Male
+
+```{r}
+m_cats <- cats[cats$Sex == 'M',]
+regr_m_cats <- lm(m_cats$Bwt ~ m_cats$Hwt)
+regr_m_cats
+cor(x = m_cats$Hwt, y = m_cats$Bwt)
+cor(x = m_cats$Hwt, y = m_cats$Bwt)^2
+```
+
+The correlation coefficient here is 0.79, indicating a strong linear and increasing relation. About 62.89% of the variance in the observations can be explained by the regression line.
+
+### Female
+
+```{r}
+f_cats <- cats[cats$Sex == 'F',]
+regr_f_cats <- lm(f_cats$Bwt ~ f_cats$Hwt)
+regr_f_cats
+cor(x = f_cats$Hwt, y = f_cats$Bwt)
+cor(x = f_cats$Hwt, y = f_cats$Bwt)^2
+```
+
+The correlation coefficient here is 0,53, indicating a moderate linear and increasing relation. About 28,31% of the variance in the observations can be explained by the regression line.
+
+There are far fewer observations of female cats than of males, so there is not such a clear pattern. Tomcats apparently also have a significantly heavier heart and body weight.
+
+## Summary
+
+```{r include=FALSE}
+cats_b0 <- regr_cats$coefficients[["(Intercept)"]]
+cats_b1 <- regr_cats$coefficients[["cats$Hwt"]]
+mcats_b0 <- regr_m_cats$coefficients[["(Intercept)"]]
+mcats_b1 <- regr_m_cats$coefficients[["m_cats$Hwt"]]
+fcats_b0 <- regr_f_cats$coefficients[["(Intercept)"]]
+fcats_b1 <- regr_f_cats$coefficients[["f_cats$Hwt"]]
+
+cor_f <- cor(x = f_cats$Hwt, y = f_cats$Bwt)
+cor_m <- cor(x = m_cats$Hwt, y = m_cats$Bwt)
+```
+
+To finish off, a summary of the most important results:
+
+| Selectie     |    $\beta_0$ |    $\beta_1$ |             $R$ |             $R^2$ |
+|:-------------|-------------:|-------------:|----------------:|------------------:|
+| Hele dataset |  `r cats_b0` |  `r cats_b1` | `r cor_Hwt_Bwt` | `r cor_Hwt_Bwt^2` |
+| Male         | `r mcats_b0` | `r mcats_b1` |       `r cor_m` |       `r cor_m^2` |
+| Female       | `r fcats_b0` | `r fcats_b1` |       `r cor_f` |       `r cor_f^2` |

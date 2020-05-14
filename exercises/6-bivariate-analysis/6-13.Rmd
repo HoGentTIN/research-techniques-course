@@ -1,0 +1,139 @@
+---
+title: "Exercise 6-13 -- Pizza"
+author: "Bert Van Vreckem"
+date: "2020-04-22"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(ggmosaic)
+```
+
+> Import data file “Pizza.csv”.
+>
+> 1. Perform a complete linear regression analysis on the variables `Rating` and `CostPerSlice`. Draw the right conclusions and verify them using a plot.
+> 2. Investigate a possible relationship between `Rating` and `Neighborhood`. Which method can be used for this? Can you use the Rating data in the same form?
+> 3. Interpret the results.
+> 4. Represent the cross table using a bar chart. Also add a legend.
+
+```{r}
+pizza <- read_csv("../datasets/Pizza.csv")
+```
+
+## Regression-analysis `Rating` vs `CostPerSlice`
+
+Is there a relation between `Rating` and `CostPerSlice` of pizzas?
+
+### Data visualisation
+
+We show `Rating` (which we consider to be the independent variable) on the X-axis and `CostPerSlice` on the Y-axis. 
+
+```{r}
+ggplot(data = pizza, mapping = aes(x = Rating, y = CostPerSlice)) +
+  geom_point() +
+  geom_smooth(method =  "lm", formula = y ~ x)
+```
+
+The observations are widely scattered w.r.t the regression line. The regression line has the following parameters:
+
+```{r}
+lm(pizza$CostPerSlice ~ pizza$Rating)
+```
+
+Because we can, we also show `HeatSource` in color. You could also show one of the other variables as a color (`BrickOven`, `Neighborhood`). A separate regression line will then be shown for each group:
+
+```{r}
+ggplot(data = pizza, mapping = aes(x = Rating, y = CostPerSlice,
+                                   color = HeatSource)) +
+  geom_point() +
+  geom_smooth(method =  "lm", formula = y ~ x)
+```
+
+### Correlation
+
+In order to know whether there is a linear relation and how strong that relation is, we can calculate the correlation and determination coefficients:
+
+```{r}
+cor_rating_cost <- cor(pizza$Rating, pizza$CostPerSlice)
+
+cor_rating_cost
+cor_rating_cost^2
+```
+
+The correlation coefficient $R \approx$ `r round(cor_rating_cost, 3)`. This indicates a very weak linear relation. The determination coefficient $R^2 \approx$ `r round(cor_rating_cost^2, 3)`. Only `r round(cor_rating_cost^2, 3)*100`% of the variance in the observations is explained by the regression line.
+
+## `Rating` vs `Neighborhood`
+
+The question is whether there is a (linear) relation between `Rating` and `Neighborhood`. Although it is not mentioned explicitly, the most likely candidate for the independent variable is `Neighborhood`.  This is a qualitative (discrete) variable. The dependent variabele, then, is `Rating`, a quantitative variabele (ratio). The research question is whether there is a difference in the ratings of pizza restaurants in the different neighbourhoods of Manhattan, New York.
+
+The best way to show this visually is with a grouped box plot. In the plot below, we sort the groups by the median of `Rating`.
+
+```{r}
+ggplot(data = pizza, mapping = aes(x = reorder(Neighborhood, Rating,
+                                               FUN = median),
+                                   color = Neighborhood, y = Rating)) +
+  geom_boxplot() +
+  geom_jitter(width = 0.25) +
+  coord_flip()
+```
+
+Strangely enough, Little Italy appears to get the lowest `Rating`s, but there is quite a bit of variance on the data. SoHo gets the best `Rating`s. You can compare each combination of two neighborhoods with a t-test for two independent samples. If you have more than two groups, an ANOVA test is typically performed (ANalysys Of VAriance). This is beyond the scope of this course, but we'll show you how to do it here:
+
+```{r}
+anova_rating_neighborhood <- aov(Rating ~ Neighborhood, data = pizza)
+summary(anova_rating_neighborhood)
+```
+
+The p-value can be read on the right (under `Pr (> F)`), viz. 0.0194. For a significance level of 5%, we could reject the null hypothesis (that all groups have the same average). This is not the end of the story, because we still have to investigate which groups show a mutually significant difference and which do not. However, that would lead us too far.
+
+An alternative approach is to convert `Rating` to a qualitative variable, e.g. by rounding the value to an integer and converting it to a *factor* (R terminology for qualitative variables).
+
+```{r}
+pizza <- pizza %>%
+  mutate(RRating = factor(round(Rating)))
+
+sort(unique(pizza$RRating))
+```
+
+We then get an ordinal variable. The contingency table for both variables is:
+
+```{r}
+addmargins(table(pizza$RRating, pizza$Neighborhood))
+```
+
+We now look for a relation between two qualitative variables, which we can test with a $\chi^2$-test for independence:
+
+```{r}
+rrating_neighborhood_chisq <- chisq.test(pizza$RRating, pizza$Neighborhood)
+rrating_neighborhood_chisq
+```
+
+We finde $p \approx$ `r rrating_neighborhood_chisq$p.value`, which even for a significance level of 1% would lead to rejecting the null hypothesis that there is no relation between `Neighborhood` and `Rating`.
+
+Visualisation of the data:
+
+```{r}
+ggplot(data = pizza) +
+  geom_mosaic(mapping = aes(x = product(RRating), fill = Neighborhood))
+```
+
+The difference in proportions within each `Neighborhood` also indicates a relation.
+
+The assignment asks to draw a bar chart. There ar two variants for this type of data: a clustered or a stacked bar chart.
+
+The clustered bar chart for these variables:
+
+```{r}
+ggplot(data = pizza, mapping = aes(x = Neighborhood, fill = RRating)) +
+  geom_bar(position = "dodge")
+```
+
+The stacked bar chart:
+
+```{r}
+ggplot(data = pizza, mapping = aes(x = Neighborhood)) +
+  geom_bar(mapping = aes(fill = RRating), position = "fill") +
+  coord_flip()
+```

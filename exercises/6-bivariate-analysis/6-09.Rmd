@@ -1,0 +1,108 @@
+---
+title: "Exercise 6.9"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+The table below contains for each row a student's result on a test and on the final exam.
+
+```{r}
+results <- tibble(
+  test = c(10, 12, 8, 13, 9, 10, 7, 14, 11, 6),
+  exam = c(11, 14, 9, 13, 9,  9, 8, 14, 10, 6)
+)
+```
+
+## Regression line
+
+> Calculate the regression line $y = \beta_0 + \beta_1 x$.
+
+We take *test* as the independent ($x$) variable, *exam* as the dependent ($y$)
+
+Check <6-09.ods> for the calculation in a spreadsheet (OpenDocument format). We'll use R here. Look for the similarities between the R code and the spreadsheet formulas!
+
+The formulas for the parameters of this linear equation are:
+
+\[ \beta_{1} = \frac{\sum_{i}^{n} (x_{i} - \overline{x})(y_{i} - \overline{y})}{\sum_{i}^{n} (x_{i} - \overline{x})^{2}} \]
+
+Converted to R code, this becomes:
+
+```{r}
+mean_test <- mean(results$test)
+mean_exam <- mean(results$exam)
+
+beta_1 <- sum((results$test - mean_test) *
+              (results$exam - mean_exam)) /
+          sum((results$test - mean_test)^2)
+```
+
+\[ \beta_{0} = \overline{y} - \beta_{1} \overline{x} \]
+
+```{r}
+beta_0 <- mean_exam - beta_1 * mean_test
+```
+
+The equation of the regression line becomes:
+
+```{r}
+sprintf("y = %.4f + %.4f * x", beta_0, beta_1)
+```
+
+### Calculation in R
+
+In R, you would calculate the regressin line equation with the `lm()`-function (short for linear model):
+
+```{r}
+examen_test_lm <- lm(results$exam ~ results$test)
+examen_test_lm
+```
+
+Intercept is $\beta_0$, the other coefficient is $\beta_1$. The values correspond with what we found above.
+
+A plot of this case:
+
+```{r}
+ggplot(data = results, mapping = aes(x = test, y = exam)) +
+  geom_point() +
+  geom_smooth(method = "lm", formula = y ~ x, se = FALSE)
+```
+
+## Correlation
+
+> Calculate the correlation and determination coefficient by hand ($R$, $R^2$). Interpret the values of these statistics.
+
+See tab "Correlation" in the spreadsheet <6-09.ods>.
+
+The correlation coefficient is given by this formula:
+
+\[ R = \frac{\sum_{i}^{n}(x_{i}-\overline{x})(y_{i} - \overline{y})}{\sqrt{\sum_{i}^{n} (x_{i}-\overline{x})^{2}} \sqrt{\sum_{i}^{n} (y_{i}-\overline{y})^{2}}} \]
+
+```{r}
+cor_exam_test <-
+  sum((results$test - mean_test) * (results$exam - mean_exam)) /
+      (sqrt(sum((results$test   - mean_test)^2)) * 
+       sqrt(sum((results$exam - mean_exam)^2)))
+cor_exam_test
+```
+
+Let's check using the `cor()`-function:
+
+```{r}
+cor(results$test, results$exam)
+```
+
+The value of R indicates a very strong linear relationship between the test and exam results!!
+
+### Determination coefficient
+
+De determination coefficient is the square of $R$:
+
+```{r}
+cor_exam_test^2
+```
+
+The value of $R^2$ indicates that ~87% of the variance in the results can be explained by the regression line. This is high, which indicates a very strong linear relation between test and exam result.
