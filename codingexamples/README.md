@@ -15,7 +15,7 @@ The documents are formatted in R Markdown (.Rmd) and can be opened using RStudio
   - Sample, importing a dataset, working with a data table/tibble.
 - Chapter 3: Univariate analysis
   - [Central tendency and dispersion](3-analysis-1-variable.Rmd)
-  - [Visualization](3-visualisation-1-variable.Rmd)
+  - [Visualization](3-visualization-1-variable.Rmd)
 - [Chapter 4: The Central Limit Theorem](4-central-limit-theorem.Rmd)
 - [Chapter 5: Testing Procedures](5-testing-procedures.Rmd)
 - Chapter 6: Bivariate Analysis

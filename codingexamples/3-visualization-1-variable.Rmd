@@ -1,0 +1,167 @@
+---
+title: "Visualization of 1 variable"
+output: learnr::tutorial
+runtime: shiny_prerendered
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+library(dplyr) # For the `starwars` dataset
+library(ggplot2)
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Learning goals
+
+After completing this tutorial you should be able to:
+
+- identify the most appropriate graph type for a given variable based on the measurement level
+- generate a bar chart for a qualitative variable
+- Plot a box plot, histogram, or probability density for a quantitative variable
+
+## Qualitative variables
+
+To visualize the values of a qualitative variable (which is called a *factor* in R), a bar chart is typically used:
+
+```{r, echo=TRUE}
+ggplot(data = starwars, mapping = aes(x = gender)) +
+  geom_bar()
+```
+
+Each bar in the chart represents the number of times each possible value occurs in the data set.
+
+In practice, a pie chart is also often used. However, there are several reasons to avoid this type of graph. We will therefore *not* discuss it here.
+
+### Exercise
+
+Plot a bar chart for the variable `homeworld`:
+
+```{r barchart-homeworld, exercise=TRUE}
+ggplot(data = starwars)
+```
+
+## Quantitative variables
+
+The following graph types are used for quantitative variables:
+
+- boxplot (`geom_boxplot()`)
+- histogram (`geom_histogram()`)
+- probability density (`geom_density()`)
+
+We first give an example of each, for the variable `height`.
+
+### Boxplot
+
+A **boxplot** is a one-dimensional graph that shows the distribution of the values of the variable. In the figure below the box plot is plotted horizontally. The left side of the central rectangle (the *box*) corresponds to the first quartile (Q1 = 167), the inner line with the median (Q2 = 180), and the right side with the third quartile (Q3 = 191). The horizontal lines to the left and right, called *whiskers*, indicate what the minimum and maximum values are respectively. However, the length of the *whiskers* is limited to a maximum of 1.5 times the interquartile range (IQR). Values that are even further from the median are considered *outliers* and are plotted on the graph as a point.
+
+```{r, echo=TRUE, warning=FALSE}
+ggplot(data = starwars, mapping = aes(x = "", y = height)) +
+  geom_boxplot() +
+  coord_flip()
+```
+
+In this example, the boxplot is plotted horizontally (using `coord_flip()`) for better readability.
+
+### Histogram
+
+A **histogram** is a bar graph for quantitative variables. The full range of the values of the variable is divided into equally sized intervals, and for each interval we count how many values it contains. A bar graph is then drawn of these frequencies.
+
+In R you can specify in how many intervals (*bins*) the range should be divided, or you can specify the width of each interval (*binwidth*).
+
+```{r, echo=TRUE, warning=FALSE}
+ggplot(data = starwars, mapping = aes(x = height)) +
+  geom_histogram(bins = 10)
+```
+
+### Probability density
+
+You can also plot the probability density using R. This graph gives an even clearer picture of the distribution of the data compared to a boxplot or histogram. The total area under the function is 1.
+
+```{r, echo=TRUE, warning=FALSE}
+ggplot(data = starwars, mapping = aes(x = height)) +
+  geom_density()
+```
+
+### Exercises
+
+1. Create a boxplot of the variable `mass`.
+
+```{r boxplot-mass, exercise = TRUE}
+ggplot(data = starwars)
+
+```
+
+2. Create a histogram of the variable `mass`, using 40 *bins*.
+
+```{r hist-mass, exercise = TRUE}
+ggplot(data = starwars)
+```
+
+3. Create a plot of the probability density of the variable `mass`.
+
+```{r density-mass, exercise = TRUE}
+ggplot(data = starwars)
+```
+
+## Suitable chart types
+
+Can you determine which graph type is most suitable for the given variables? Note: if you see radio buttons, there is only one correct answer, if there are checkboxes, multiple answers are correct.
+
+```{r suitable-chart-types}
+quiz(
+  question("The age of Star Wars characters (`birth_year`)",
+    answer("Boxplot", correct = TRUE),
+    answer("Histogram", correct = TRUE),
+    answer("Probability Density", correct = TRUE),
+    answer("Bar chart", message = "A bar chart is used for *qualitative* variables!"),
+    answer("Pie chart", message = "Although it is sometimes used in practice, it is best to avoid using a pie chart!"),
+    random_answer_order = TRUE,
+    allow_retry = TRUE
+  ),
+  question("The race (`species`) of Star Wars characters (e,g,. Ewok, Wookiee, Droid, etc.)",
+    answer("Boxplot", message = "A boxplot is used for *quantitative* variables!"),
+    answer("Histogram", message = "A histogram is used for *quantitative* variables!"),
+    answer("Probability Density", message = "You plot the probability density for *quantitative* variables!"),
+    answer("Bar chart", correct = TRUE),
+    answer("Pie chart", message = "Although it is sometimes used in practice, it is best to avoid using a pie chart!"),
+    random_answer_order = TRUE,
+    allow_retry = TRUE
+  ),
+  question("Length in cm",
+    answer("Boxplot", correct = TRUE),
+    answer("Histogram", correct = TRUE),
+    answer("Probability Density", correct = TRUE),
+    answer("Bar chart", message = "A bar chart is used for *qualitative* variables!"),
+    answer("Pie chart", message = "Although it is sometimes used in practice, it is best to avoid using a pie chart!"),
+    random_answer_order = TRUE,
+    allow_retry = TRUE
+  ),
+  question("Education Level (e.g. *primary*, *secondary*, *bachelor*, etc.)",
+    answer("Boxplot", message = "A boxplot is used for *quantitative* variables!"),
+    answer("Histogram", message = "A histogram is used for *quantitative* variables!"),
+    answer("Probability Density", message = "You plot the probability density for *quantitative* variables!"),
+    answer("Bar chart", correct = TRUE),
+    answer("Pie chart", message = "Although it is sometimes used in practice, it is best to avoid using a pie chart!"),
+    random_answer_order = TRUE,
+    allow_retry = TRUE
+  ),
+  question("A temperature in °C",
+    answer("Boxplot", correct = TRUE),
+    answer("Histogram", correct = TRUE),
+    answer("Probability Density", correct = TRUE),
+    answer("Bar chart", message = "A bar chart is used for *qualitative* variables!"),
+    answer("Pie chart", message = "Although it is sometimes used in practice, it is best to avoid using a pie chart!"),
+    random_answer_order = TRUE,
+    allow_retry = TRUE
+  )
+)
+```
+
+## Summary
+
+We summarize the most important graph types for visualizing one variable:
+
+| Measurement level | Graph Type                              |
+|:------------------|:----------------------------------------|
+| Qualitative       | Bar Chart                               |
+| Quantitative      | Boxplot, Histogram, Probability density |
