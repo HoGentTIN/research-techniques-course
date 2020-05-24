@@ -1,0 +1,240 @@
+---
+title: "Exercise 6-01"
+author: "Jens Buysse, Pieter-Jan Maenhaut"
+date: "01/04/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+library(tidyverse)
+library(dplyr)
+library(ggpubr)
+library(ggthemes)
+theme_stata()
+```
+
+# Opgave
+> Market research suggests that background music in a supermarket has an influence on the behaviour of customers. In a study, three situations were compared: no music, French chansons, and Italian hits. In every case, the sales of French, Italian and other wine was recorded.
+
+The results of this study can be found in the csv file musicwine.csv. 
+
+## Questions
+
+1. Generate a crosstable (contingency table) for this study using R's table function to obtain the frequency table.
+2. Calculate marginal totals (column and row sums).
+3. Determine the expected values (e).
+4. Calculate the value of $\chi^{2}$ manually, including all intermediate values. Check your result by comparing with the result of the appropriate R-function for calculating $\chi^{2}$.
+5. Calculate Cramér's V manually. What can you conclude from its value?
+
+We start by importing the dataset. Note that factors are used as variabele type. This is the internal representation of nominal or ordinal variables in R. More information can be found [here](https://swcarpentry.github.io/r-novice-inflammation/12-supp-factors/)
+12-supp-factors/)
+```{r}
+
+music_wine <- read_csv("../../../research-techniques-course/exercises/datasets/MusicWine.csv", 
+     col_types = cols(Music = col_factor(levels = c("None", 
+         "French", "Italian")), Wine = col_factor(levels = c("French", 
+         "Italian", "Other"))))
+```
+
+We will now generate the crosstable
+```{r }
+observed <- table(music_wine$Music, music_wine$Wine)
+# Crosstable of observed values
+observed
+# We can also aggregate this data in a data-frame: for each combinations we print the number of elements
+agg <- count(music_wine,Music,Wine)
+agg
+```
+
+```{r }
+# You can also generate a crosstable using xtabs, including titles
+tabel <- xtabs(n ~ Music + Wine, data = agg)
+tabel
+```
+
+
+Next we will calculate the marginal totals:
+```{r}
+addmargins(tabel)
+
+row_sums <- rowSums(tabel)              # row totals
+col_sums <- colSums(tabel)              # column totals
+```
+
+## Visualization of the data
+We can show the frequency for each variable, for example by music type.
+```{r }
+ggplot(music_wine) + geom_bar(aes(x = Music)) +
+  ylab("Amount of wine sold")+
+  xlab("Type of music")+
+  theme_economist()+ scale_fill_economist()
+
+ggplot(music_wine) + geom_bar(aes(x = Wine))+ 
+  ylab("Amount of wine sold")+
+  xlab("Type of music")+
+ theme_economist()+ scale_fill_economist()
+
+#
+# When plotting a nominal variable, it is better to indicate if it is increasing or decreasing
+# Het is beter als je een nominale variabele plot, om die stijgend/dalend te noteren
+ggplot(mutate(music_wine, Music = fct_infreq(Music)))+
+  geom_bar(aes(x = Music))+
+  ylab("Amount of wine sold")+
+  xlab("Type of music")+
+  theme_economist()+ scale_fill_economist()
+
+ggplot(mutate(music_wine, Wine = fct_infreq(Wine))) + geom_bar(aes(x = Wine))+
+ theme_economist()+ scale_fill_economist()
+```
+
+It is also interesting to see the variable for each category. We will use a **stacked bar chart** or a **clustered bar chart** for this, and plot them next to eachother. The researcher can then pick the graph that best represents the data (although they both plot the same results).
+```{r }
+# First, we order the data
+agg_ord <- mutate(agg,
+                  Music = reorder(Music, -n, sum),
+                  Wine = reorder(Wine, -n, sum))
+p1 <- ggplot(agg_ord) +
+      geom_col(aes(x = Music, y = n, fill = Wine))+
+      ylab("Amount of wine sold")+
+      xlab("Type of music")+
+  theme_economist()+ scale_fill_economist()
+
+p2 <- ggplot(agg_ord) +
+      geom_col(aes(x = Music, y = n, fill = Wine), position = "dodge")+
+      ylab("Amount of wine sold")+
+      xlab("Type of music")+
+  theme_economist()+ scale_fill_economist()
+p1
+p2
+```
+
+In this case, the clustered bar chart best demonstrates that playing certain music has an influence on buying certain wine. For example, you can clearly see the increase in the purchase of French wine when playing French music because the bar has been enlarged.
+
+The graphs above have illustrated the numbers, but it is also interesting to look at the proportions. For this we will use **stacked** bar charts, where we can see in proportions how much wine has been bought per music played.
+```{r }
+ggplot(agg) +
+geom_col(aes(x = Music, y = n, fill = Wine), position = "fill")+
+  theme_economist()+ scale_fill_economist()
+
+```
+
+Finally you could also use a **balloon plot**
+```{r}
+ggballoonplot(agg_ord)+
+  ylab("Amount of wine sold")+
+  xlab("Type of music")+
+  theme_economist()+ scale_fill_economist()
+```
+
+Although this graph looks nice and "cool" it is not very clear: the dispersion of the values is too small to clearly show the differences, so this graph is not really suitable for reporting.
+
+As a bonus, we will look at the *waffle* package, which can also generate an interesting graph shape, although maybe better suited for commercials?
+ 
+TODO
+
+## Calculating the statistics
+
+In a $\chi^2$ test the following hypotheses are used:
+
+- $H_0$ there is no significant relationship (or correlation) between the variables
+- $H_1$ there is a significant correlation between the variables
+
+We will now calculate the expected results, assuming that $H_0$ is true. That is the absolute frequency that you would expect in this cell if you assume that there is no correlation between the variables at all. The expected can be calculated as follows:
+\[ e = \frac{\text{rijtotaal} \times \text{kolomtotaal}}{n} \]
+
+```{r}
+n <- sum(observed)                         # total of full table
+expected <- outer(row_sums, col_sums) / n  # expected values
+expected
+```
+Finally, we will calculate the value of de $\chi^2$ manually.
+This corresponds to the equation:
+
+\[ \chi^2 = \sum_i \frac{(o_i -e_i)^2}{e}\]
+
+```{r}
+chisq <- sum((observed - expected)^2 / expected)
+chisq
+```
+We will also calculate Cramér's V:
+
+\[ V = \sqrt{\frac{\chi^2}{n \times (k-1)}}\] with
+- $n$ the number of observations (sample size)
+- $k$ the smallest value of the number of columns and the number of rows in the table.
+```{r}
+k <- min(nrow(observed), ncol(observed))
+cramers_v <- sqrt(chisq / ((k - 1) * n))
+cramers_v
+```
+
+The previous results illustrate **how** we can calculate the required statistics, but we still have to use them in a test.
+Let's conduct it in full.
+
+## Conducting the test
+
+#### Determine hypotheses
+- $H_0$ er is geen significante samenhang tussen de variabelen
+- $H_1$ er is een significant samenhang tussen de variabelen
+
+#### Determine significance level
+```{r }
+observed <- table(music_wine$Music, music_wine$Wine)
+a <- 0.05
+```
+#### Calculate value of test statistic
+```{r }
+# We already did this in a previous step
+chisq
+```
+#### Calculate number of degrees of freedom
+```{r}
+k <- (nrow(observed)-1) * (ncol(observed)-1)
+k
+```
+#### Determine critical value
+```{r }
+g <- qchisq(1-a,k)
+g
+```
+#### Determine the p-value
+```{r }
+p <- pchisq(chisq,k,lower.tail = FALSE )
+p
+```
+#### Formulate conclusion
+```{r }
+if(p < a){
+  print("We can reject H_0")
+}else{
+  print("We cannot reject H_0")
+}
+
+# or
+
+if(chisq > g){
+  print("We can reject H_0")
+}else{
+  print("We cannot reject H_0")
+}
+```
+
+We find that there is a significance correlation between playing a certain type of music and buying a certain type of wine.
+
+In R, we could also do the same test using the **vcd** package:
+```{r }
+library(vcd)
+model1 <- assocstats(observed)
+# Or
+model2 <- chisq.test(observed)
+
+model1 
+model2
+model2$expected
+model2$p.value
+```
+
+
+
+
