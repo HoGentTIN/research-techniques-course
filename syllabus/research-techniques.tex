@@ -22,6 +22,9 @@
     \pgfmathparse{1/(#2*sqrt(2*pi))*exp(-((x-#1)^2)/(2*#2^2))}%
 }
 
+%% Align table columns on decimal marker
+\usepackage[output-decimal-marker={,}]{siunitx} 
+
 %% Title
 \title{Research Techniques}
 \author{Dr. Jens Buysse, Wim {De Bruyn}, Pieter-Jan Maenhaut , Bert {Van Vreckem}}

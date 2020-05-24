@@ -479,16 +479,16 @@ Based on this $\pi_{i}$ we can determine the expected frequency $e$ and follow t
 
 \begin{table}
   \centering
-  \begin{tabular}{@{}lrrrrrrr@{}}
-  	\toprule
-  	$i$                   &     0 &      1 &      2 &      3 &      4 &     5 &  Tot. \\
-  	\midrule
-  	$o_i$                 &    58 &    149 &    305 &    303 &    162 &    45 &  1022 \\
-  	$\pi_i$               &  0.03 &   0.15 &   0.31 &   0.31 &   0.15 & 0.031 &     1 \\
-  	$e_i$                 & 31.68 & 159.43 & 318.86 & 318.86 & 159.43 & 31.68 &       \\
-  	$\frac{(o-e)^{2}}{e}$ & 21.86 &   0.68 &   0.60 &   0.78 &   0.04 &  5.59 & 29.57 \\
-  	$r_i$                 &  4.74 &  -0.89 &  -0.93 & -1.071 &   0.22 &  2.40 &       \\
-  	\bottomrule
+  \begin{tabular}{lSSSSSSS}
+    \toprule
+    $i$                   & 0      & 1      & 2      & 3      & 4     & 5     & Totaal \\
+    \midrule
+    $o_i$                 & 58     & 149    & 305    & 303    & 162   & 45    & 1022   \\
+    $\pi_i$               & 0,031  & 0,156  & 0,313  & 0,313  & 0,156 & 0,031 & 1      \\
+    $e_i$                 & 31,9   & 159,7  & 319,4  & 319,4  & 159,7 & 31,9  & 1022   \\
+    $\frac{(o-e)^{2}}{e}$ & 21,268 & 0,715  & 0,647  & 0,840  & 0,033 & 5,343 & 28,846 \\
+    $r_i$                 & 4,686  & -0,921 & -0,970 & -1,105 & 0,199 & 2,348 &        \\
+    \bottomrule
   \end{tabular}
   \caption{Calculations for the case of families with 5 children. $i$ is the number of boys in the family, $o_i$ the observed number of families in the sample with $i$ boys. $\pi_i$ is the expected probability that a family of 5 children has $i$ boys and $e_i$ the expected frequency. Below, the calculation of $\chi^2$ is shown and finally the standardized residuals $r_i$.}
   \label{tab:5-children-calculations}
@@ -503,7 +503,7 @@ Based on this $\pi_{i}$ we can determine the expected frequency $e$ and follow t
   \end{itemize}
   \item \textbf{Determine $\alpha$ and $n$} : $\alpha = 0.01$ and $n = 1022$.
   \item \textbf{Value of the test statistic in the sample}:
-  \[ \chi^{2} = \sum_{i=1}^{n} \frac{(o_{i} - e_{i})^{2}}{e_{i}} = 29.5766 \]
+  \[ \chi^{2} = \sum_{i=1}^{n} \frac{(o_{i} - e_{i})^{2}}{e_{i}} \approx 28,846 \]
   \item \textbf{Calculate and plot critical area}:  the critical value is 15.0863. Our test statistic is inside the critical area, so we reject $H_{0}$. 
 \end{enumerate}
 
