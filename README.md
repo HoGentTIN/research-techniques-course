@@ -1,6 +1,6 @@
 # Research Techniques
 
-This repository contains all the course material for Research Techniques. Most of the content is pretty recently translated into English. It will most probably contain several spelling errors and grammatical mistakes. Feel free to suggest any improvements or even better; update your clone and create a *pull request*. If you offer a substantial contribution, we will mention you in the aknowledgments.
+This repository contains all the course material for Research Techniques. Most of the content is pretty recently translated into English. It will most probably contain several spelling errors and grammatical mistakes. Feel free to suggest any improvements or even better; update your clone and create a _pull request_. If you offer a substantial contribution, we will mention you in the aknowledgments.
 
 ## Software Installation
 
@@ -22,7 +22,7 @@ choco install r.project
 choco install r.studio
 ```
 
-Alternatively you can install the software in a *traditional* way, by downloading the packages from the web sites concerned:
+Alternatively you can install the software in a _traditional_ way, by downloading the packages from the web sites concerned:
 
 - Git: <https://git-scm.com/download/win>
 - MikTeX: <https://miktex.org/download>
@@ -34,7 +34,7 @@ Alternatively you can install the software in a *traditional* way, by downloadin
 
 ### MacOS X
 
-Install the software in the *traditional* way:
+Install the software in the _traditional_ way:
 
 - Git: <https://git-scm.com/download/mac>
 - MacTeX: <https://www.tug.org/mactex/mactex-download.html>
@@ -44,7 +44,7 @@ Install the software in the *traditional* way:
 - Rstudio: <https://www.rstudio.com/products/rstudio/download/#download>
 
 Or use the homebrew package manager (<https://brew.sh/>).  
-***Warning:*** *this is not yet tested, feedback is welcome!*
+**_Warning:_** _this is not yet tested, feedback is welcome!_
 
 ```
 brew install git
@@ -101,15 +101,15 @@ git config --global user.email pieter.stevens.u12345@student.hogent.be
 git config --global push.default simple
 ```
 
-Create an [SSH key](https://help.github.com/articles/connecting-to-github-with-ssh/) to simplify the synchronization with GitHub. Otherwise you will need to type your password for every *push* or *pull*.
+Create an [SSH key](https://help.github.com/articles/connecting-to-github-with-ssh/) to simplify the synchronization with GitHub. Otherwise you will need to type your password for every _push_ or _pull_.
 
 ```
 ssh-keygen
 ```
 
-Follow the instructions on your command line terminal. If you are asked for a *pass phrase*, just press ENTER. In the users home directory (eg. `c:\Users\Bert` on Windows, `/Users/bert` on Mac, `/home/bert` on Linux) you'll now find a directory `.ssh/` with the files: `id_rsa` (your private key) and `id_rsa.pub` (your public key). Copy the entire content of `id_rsa.pub` (obtained by `cat id_rsa.pub`) to your clipboard. Go to your [GitHub Settings](https://github.com/settings/profile) and choose [SSH and GPG keys](https://github.com/settings/keys) at the left side. Click on the green button "New SSH Key" at the upper right corner and paste your public key in the "Key" field and confirm.
+Follow the instructions on your command line terminal. If you are asked for a _pass phrase_, just press ENTER. In the users home directory (eg. `c:\Users\Bert` on Windows, `/Users/bert` on Mac, `/home/bert` on Linux) you'll now find a directory `.ssh/` with the files: `id_rsa` (your private key) and `id_rsa.pub` (your public key). Copy the entire content of `id_rsa.pub` (obtained by `cat id_rsa.pub`) to your clipboard. Go to your [GitHub Settings](https://github.com/settings/profile) and choose [SSH and GPG keys](https://github.com/settings/keys) at the left side. Click on the green button "New SSH Key" at the upper right corner and paste your public key in the "Key" field and confirm.
 
-Now you can test if you can *clone* the content of this repository to your local computer. In *Git Bash* (Windows) or just plain *Bash* (Linux/Mac), go to the directory where you (are planning to) have all your Git projects and type:
+Now you can test if you can _clone_ the content of this repository to your local computer. In _Git Bash_ (Windows) or just plain _Bash_ (Linux/Mac), go to the directory where you (are planning to) have all your Git projects and type:
 
 ```
 git clone git@github.com:HoGentTIN/research-techniques-course.git
@@ -119,22 +119,22 @@ This should create a subdirectory `research-techniques-course/`. Make sure to do
 
 ### Configuring TeXStudio
 
-Check the following settings via *Options > Configure TeXstudio*
+Check the following settings via _Options > Configure TeXstudio_
 
 - Build
-    - Default Compiler: `pdflatex`
-    - Default Bibliography tool: `biber`
+  - Default Compiler: `XeLaTeX`
+  - Default Bibliography tool: `biber`
 - Editor:
-    - Indentation mode: *Indent and Unindent Automatically*
-    - Replace Indentation Tab by Spaces: *Enable check mark*
-    - Replace Tab in Text by spaces: *Enable check mark*
-    - Replace Double Quotes: *English Quotes: ``''*
+  - Indentation mode: _Indent and Unindent Automatically_
+  - Replace Indentation Tab by Spaces: _Enable check mark_
+  - Replace Tab in Text by spaces: _Enable check mark_
+  - Replace Double Quotes: _English Quotes: ``''_
 
-To test TeXStudio, open `syllabus/research-techniques.tex` and choose *Tools > Build & View* to compile the syllabus into a PDF file. This can take some time, without any animation on the screen... So, be patient.
+To test TeXStudio, open `syllabus/research-techniques.tex` and choose _Tools > Build & View_ to compile the syllabus into a PDF file. This can take some time, without any animation on the screen... So, be patient.
 
-If this is the first time you compile a TeX file, it might be necessary to install some additional packages. MiKTeX will show a popup to ask for your permission to install these packages automatically. 
+If this is the first time you compile a TeX file, it might be necessary to install some additional packages. MiKTeX will show a popup to ask for your permission to install these packages automatically.
 
-If there are any errors during compilation, you will get the error messages in the *Log* tab. Always mention the **exact error message** when asking for help. The easiest is to go to the *Log File* tab (after selecting the *Log* tab) and copy the entire content.
+If there are any errors during compilation, you will get the error messages in the _Log_ tab. Always mention the **exact error message** when asking for help. The easiest is to go to the _Log File_ tab (after selecting the _Log_ tab) and copy the entire content.
 
 ### JabRef
 
@@ -142,8 +142,8 @@ If there are any errors during compilation, you will get the error messages in t
 
 After starting JabRef and opening a Bib file (eg. syllabus/biblio.bib) double check if you are in the **BibLaTeX** mode, and **not** in the **BibTeX** mode. This is necessary to be compatible with the data base of the syllabus and the LaTeX Template for the Bachlor's thesis.
 
-- Choose *File > Switch to BibLaTeX mode* if necessary.
-- Under *Preferences* choose for *File* and specify a directory name under *Main file directory* where you will keep all PDFs from scientific papers and articles. It is recommended to download all sources into that directory. If you rename these files using the *BibTeX key*, you will be able to easily open the articles from within Jabref. (*BibTeX keys* typically consist of the first author and the year of publication; eg. Knuth1998.pdf.)
+- Choose _File > Switch to BibLaTeX mode_ if necessary.
+- Under _Preferences_ choose for _File_ and specify a directory name under _Main file directory_ where you will keep all PDFs from scientific papers and articles. It is recommended to download all sources into that directory. If you rename these files using the _BibTeX key_, you will be able to easily open the articles from within Jabref. (_BibTeX keys_ typically consist of the first author and the year of publication; eg. Knuth1998.pdf.)
 
 ### LaTeX on the command line (legacy)
 
