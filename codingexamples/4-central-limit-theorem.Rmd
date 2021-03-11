@@ -7,7 +7,7 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-library(ggplot2)
+library(tidyverse)
 ```
 
 ## The normal distribution
@@ -37,8 +37,8 @@ ggplot(data = data.frame(x = c(-4, 4)), mapping = aes(x)) +
 We can also use this approach for a generic normal distribution. As example, we use $X \sim Nor(\mu = 5, \sigma = 1.5)$. All "intersting" points on the Gauss curve are located a maximum of 4 times the standard deviation on the left or right of the mean. We will calculate the X-values this way. The `dnorm` function can be used with a custom mean and standard deviation. 
 
 ```{r}
-m <- 5000    # mean
-s <- 165     # Standard deviation
+m <- 5    # mean
+s <- 1.5     # Standard deviation
 
 ggplot(data = data.frame(x = c(m-4*s, m+4*s)), mapping = aes(x)) +
   stat_function(fun = dnorm, n = 201, args = list(mean = m, sd = s)) +
@@ -69,17 +69,17 @@ We can also plot a histogram with *densities*. In this case, the *area* of a sin
 ```{r}
 # Generate 10000 random numbers with a normal distribution:
 n <- 10000
-observations <- rnorm(n, m, s)
+observaties <- tibble(reactie = rnorm(n, m, s))
 
 # First plot the observations on the x-axis
-ggplot(mapping = aes(x = observations)) +
+ggplot(data = observaties, mapping = aes(x = reactie)) +
   # Plot a histogram of the relative frequencies of the observations
   # ..density.. is a variable that is automatically calculated based on the observations
-  geom_histogram(mapping = aes(y = ..density..), bins = 30) +
+  geom_histogram(bins = 20, mapping = aes(y = ..density..)) +
   # Finally plot the function `dnorm` (so the Gauu-curve for the normal distribution)
   # with mean `m` and standard deviation `s`
-  stat_function(fun = dnorm, args = list(mean = m, sd = s),
-                colour = "red")
+  stat_function(fun = dnorm, n = n, args = list(mean = m, sd = s),
+                color = "red")
 ```
 
 ## Probability distribution in the normal distribution
@@ -110,28 +110,33 @@ The `pnorm` function can only be used to calculate the *left* tail probability $
 Graphical representation of this situation:
 
 ```{r}
-# Select the area left of x
-xvals <- seq(from = m-4*s,
-             to = m+4*s,
-             length.out = 201)
-i <- xvals <= x
+# X values in interval that is in our interest
+xvals <- seq(from = m-4*s, to = m+4*s, length.out = 201)
+# What values are in the interval left of X?
+i <- xvals > x
+# Theoretical density for these x-values
+dist <- dnorm(xvals, mean = m, sd = s)
+dx <- dnorm(x, mean = m, sd = s)
 
-ggplot(mapping = aes(x = xvals)) +
-  # Fill the area left of x and below the Gauss-curve in green.
-  geom_area(mapping = aes(x = xvals[i], y = dnorm(xvals[i], m, s)), 
-            color = "black", fill = "lightgreen") +
-  # Plot the Gauss curve
-  stat_function(fun = dnorm, args = list(mean = m, sd = s)) +
+ggplot() +
+  # Show the area on the right of x and below the Gauss curve in green
+  geom_polygon(mapping = aes(
+    x = c(x, x,  xvals[i]),
+    y = c(0, dx, dist[i])
+  ), color = "black", fill = "lightgreen") +
+  # Draw the theoretical density function (Gauss curve)
+  geom_line(aes(xvals, dist)) +
+  
   # Indicate the mean as a red vertical line
   geom_vline(xintercept = m, color = "red") +
   # Adjust the titles of the x- and y-axis
-  xlab("x") + ylab("density") +
+  xlab("reaction speed") + ylab("probability density") +
   # Add text to the plot
-  annotate("text", x = x, y = .02, label = x) +
-  annotate("text", x = m+.1, y = .02, label = m, color = "red")
+  annotate("text", x = x, y = -.01, label = x) +
+  annotate("text", x = m+.1, y = -.01, label = m, color = "red")
 ```
 
-The left tail probability $P(X < 6.5)$ is the green area on this plot.
+The right tail probability $P(X > 6.5)$ is the green area on this plot.
 
 ### Other examples of calculating probabilities:
 
@@ -203,14 +208,14 @@ However, we can construct a confidence interval using the so-called Student $t$ 
 
 The smaller the number of degrees of freedom, the flatter the curve and the wider the confidence intervals obtained. This models the greater uncertainty we get because of the small sample size. The larger $n$, the closer the curve will be to that of the normal distribution.
 
-The plot belows illustrated the probability distribution of the Student $t$ distributino for a different number of degrees of freedom:
+The plot below illustrated the probability distribution of the Student $t$ distributino for a different number of degrees of freedom:
 
 ```{r}
 # Determine the x-values for which we want to plot the density function
-x <- seq(-4, 4, length=200)
+intvl <- tibble(x = seq(-4, 4, length=200))
 
 # Determine the range of x-values for the plot
-ggplot(mapping = aes(x = x)) +
+ggplot(data = intvl ,mapping = aes(x = x)) +
   # Plot the Student-t distribution using 1, 3, 8 and 30 degrees of freedom
   stat_function(fun = dt, args = list(df = 1), color ="red") +
   stat_function(fun = dt, args = list(df = 3), color ="orange") +
