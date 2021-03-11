@@ -3,6 +3,11 @@ title: "Exercise 4.9"
 output: html_document
 ---
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
 Lately, a canned goods manufacturer received complaints about the net contents of their carrot and peas cans.
 According to the label, the can should contain 1 liter.  
 To verify these complaints, the QA department draws a random sample of 40 cans and checks the contents. 

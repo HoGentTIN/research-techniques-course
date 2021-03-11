@@ -32,7 +32,7 @@ sn <- s / sqrt(n)
 
 > Describe the shape of the probability distribution of the sample mean. Does this depend on the sample size?
 
-\[ M \sim Nor(\mu = 20, \sigma = 16/\sqrt{64}))$ \]
+\[ M \sim Nor(\mu = 20, \sigma = 16/\sqrt{64})) \]
 
 ```{r}
 ggplot(data = data.frame(x = c(m-4*sn, m+4*sn)), mapping = aes(x)) +

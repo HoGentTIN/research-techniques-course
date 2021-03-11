@@ -60,24 +60,24 @@ We can also illustrate this by plotting graphs:
 ```{r }
 plotNormal <- function(x,m,s){
   # Area left of x
-xvals <- seq(from = m-4*s,
-             to = m+4*s,
-             length.out = 201)
-i <- xvals >= x
-
-ggplot(mapping = aes(x = xvals)) +
-  # Show the area left of x and below the Gauss-curve in green
-  geom_area(mapping = aes(x = xvals[i], y = dnorm(xvals[i], m, s)), 
-            color = "black", fill = "cornflowerblue") +
-  # Plot the Gauss-curve
-  stat_function(fun = dnorm, args = list(mean = m, sd = s)) +
-  # Draw the mean using a red vertical line
-  geom_vline(xintercept = m, color = "red") +
-  # Adjust the axis labels
-  xlab("x") + ylab("densiteit") +
-  # Add text to the plot
-  annotate("text", x = x, y = .02, label = x) +
-  annotate("text", x = m+.1, y = .02, label = m, color = "red")
+  xvals <- seq(from = m-4*s,
+               to = m+4*s,
+               length.out = 201)
+  i <- xvals >= x
+  
+  ggplot() +
+    # Toon het gebied links van x en onder de Gauss-curve in het groen
+    geom_area(mapping = aes(x = xvals[i], y = dnorm(xvals[i], m, s)), 
+              color = "black", fill = "cornflowerblue") +
+    # Plot de Gauss-curve
+    stat_function(fun = dnorm, args = list(mean = m, sd = s)) +
+    # Toon het gemiddelde als een rode verticale lijn
+    geom_vline(xintercept = m, color = "red") +
+    # Pas de titels van de assen aan
+    xlab("x") + ylab("densiteit") +
+    # Voeg tekst toe aan de plot
+    annotate("text", x = x, y = .02, label = x) +
+    annotate("text", x = m+.1, y = .02, label = m, color = "red")
 }
 
 plotNormal(score_wouter,m_wouter,s_wouter)
