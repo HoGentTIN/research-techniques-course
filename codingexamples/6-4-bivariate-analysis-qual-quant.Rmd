@@ -5,13 +5,15 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
 ```
 
 ## The $t$-test for two independent samples
 
 The $t$-test can also be used to compare two samples. First we illustrate the case of *independent* samples that are taken individually.
 
-A clinical study investigates whether a new drug has a reduced reaction speed as a side effect (Lindquist, g.d.). Six participants were given the drug (intervention group) and six others a placebo (control group). Next their response time to a stimulus was measured (in ms). We want to determine whether there are significant differences between the intervention and control groups.
+A clinical study investigates whether a new drug has a reduced reaction speed as a side effect (Lindquist, g.d.). 
+Six participants were given the drug (intervention group) and six others a placebo (control group). Next their response time to a stimulus was measured (in ms). We want to determine whether there are significant differences between the intervention and control groups.
 
 - Control group: 91, 87, 99, 77, 88, 91
 - Intervention group: 101, 110, 103, 93, 99, 104
@@ -38,11 +40,11 @@ The $p$-value is very small, even for a significance level of 99% you would be a
 
 ## The $t$-test for paired samples
 
-Om this variante of the $t$-test, each element of the sample is measured two times, one time before and one time after a certain intervention. The goal is to find out if the intervention had a significant effect on the measurement.
+In this variant of the $t$-test, each element of the sample is measured two times, one time before and one time after a certain intervention. The goal is to find out if the intervention had a significant effect on the measurement.
 
 A study examined whether cars that run on petrol with additives have a lower consumption. Ten cars were first refueled with either regular petrol or petrol with additives (determined by flipping a coin), after which the consumption was measured (expressed in miles per gallon). The cars were then refueled with the other type of petrol and consumption was again measured.
 
-We use a paired $t$-test to determine whether cars run significantly more efficiently when using petrol with additives.
+We use a paired $t$-test to determine whether cars are significantly more efficient when using petrol with additives.
 
 ```{r}
 regular   <- c(16,20,21,22,23,22,27,25,27,28)
@@ -107,11 +109,17 @@ Let's first visualise the results:
 
 ```{r}
 # Boxplot
-boxplot(scores$score ~ scores$method, horizontal = TRUE)
+ggplot(data = scores, mapping = aes(x = method, y = score, color = method)) +
+  geom_boxplot() +
+  coord_flip()
 
 # Clustered bar chart (histogram)
-frequencies <- table(scores$score, scores$method)
-barplot(t(frequencies), beside = TRUE, legend = TRUE)
+ggplot(data = scores) +
+  geom_bar(mapping = aes(x = score, fill = method), position = "dodge")
+
+# Density plot
+ggplot(data = scores) +
+  geom_density(mapping = aes(x = score, color = method))
 ```
 
 Performing a $t$-test yields the following result:
@@ -145,11 +153,17 @@ group_B <- scores2$score[scores2$group == 'B']
 
 ```{r}
 # Boxplot
-boxplot(scores2$score ~ scores2$group, horizontal = TRUE)
+ggplot(data = scores2) +
+  geom_boxplot(mapping = aes(fill = group, y = score)) +
+  coord_flip()
 
 # Clustered bar chart (histogram)
-frequencies <- table(scores2$score, scores2$group)
-barplot(t(frequencies), beside = TRUE, legend = TRUE)
+ggplot(data = scores2) +
+  geom_bar(mapping = aes(fill = group, x = score), position = "dodge")
+
+# Density plot
+ggplot(data = scores2) +
+  geom_density(mapping = aes(color = group, x = score))
 ```
 
 ```{r}

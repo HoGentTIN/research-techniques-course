@@ -73,19 +73,25 @@ ggplot(data = mpg, mapping = aes(x = drv)) +
 
 Typically, the bars are plotted horizontally (`coord_flip()`). This way, relationships between the different categories in the dependent variable can be clearly seen. What this graph does not illustrate, however, are the proportions within the independent variable.
 
-
 ## Mosaic plot
 
 A mosaic plot is a graphical representation of a frequency table in which the area of each tile is proportional to the frequency in the corresponding cell of the table.
 
+The code below only uses the `ggplot2` library, but the code quickly becomes complex. You cannot draw a mosaic diagram directly from the raw data, but first you have to do a number of calculations, including calculating the percentages in the crosstab.
+
+In the image below we show a mosaic plot for the variables `drv` (drive type, independent variable) and `fl` (fuel type) of the dataset `mpg`. 
+
 ```{r}
 my_mpg <- mpg %>%
-  group_by(drv, fl) %>%
-  summarise(count = n()) %>%
-  mutate(drv.count = sum(count),
-         prop = count / sum(count)) %>%
+  group_by(drv, fl) %>%                 # Group according to the two selected variables
+  summarise(count = n()) %>%            # Count all frequencies
+  mutate(drv.count = sum(count),        # Calculate column totals
+         prop = count / sum(count)) %>% # Calculate percentages
   ungroup()
 
+# Plot of the table:
+# x = independent variable
+# fill = dependent variable
 ggplot(data = my_mpg, mapping = aes(x = drv, y = prop, 
                                     fill = fl, width = drv.count)) +
   geom_bar(stat = "identity", position = "fill") +
@@ -143,35 +149,38 @@ One way to show the dispersion is by using so-called *error bars*. These provide
 - the standard error on the mean ($s/\sqrt{n}$)
 - a confidence interval (e.g. 95%)
 
-As there are several possible interpretations that can be given to the error bars, it is important to provide sufficient explanation in the caption of the graph about what exactly is shown.
-
-In order to draw the graph easily, we first calculate the necessary values. We create a new table containing the mean, standard deviation, standard error and the size of the 95% confidence interval. We will only use the standard deviation in the graph, but you can experiment with the other values yourself.
-
-```{r}
-mpg_summary <- mpg2 %>%
-  group_by(trans_type) %>%
-  summarise(hwy_mean = mean(hwy),       # mean
-            hwy_sd = sd(hwy),           # standard deviation
-            hwy_se = sd(hwy)/sqrt(n()), # standard error
-            # 95% confidence interval using t-score (because σ is unknown):
-            hwy_ci_95 = qt(1-.05/2, df = n() - 1) * sd(hwy)/sqrt(n()))
-mpg_summary
-```
+As there are several possible interpretations that can be given to the error bars, it is important to provide sufficient explanation in the caption of the graph about what exactly is shown! A bar chart with error bars assumes that the variable has a normal distribution. If this is not the case, these types of graphs will give a distorted picture of the situation. You have this especially in case of outliers, a skewed distribution or observations that are simply not normally distributed ...
 
 The following graph shows the standard deviation:
 
 ```{r}
-ggplot(data = mpg_summary, mapping = aes(x = trans_type, y = hwy_mean, 
-                                         fill = trans_type)) +
-  geom_bar(stat = "identity") +
-  geom_errorbar(mapping = aes(ymin = hwy_mean - hwy_sd, 
-                              ymax = hwy_mean + hwy_sd),
+ggplot(data = mpg2, mapping = aes(x = trans_type, y = hwy, 
+                                 fill = trans_type)) +
+  geom_bar(stat = "summary", fun = "mean") +
+  geom_errorbar(stat = "summary", fun.data = "mean_sdl", fun.args = list(mult=1),
                 width = .3)
 ```
 
-If we only look at the means for both groups, cars with manual transmission are more economical. The error bars qualify this statement: there seems to be quite some overlap between the distributions of both categories...
+If we only look at the averages for both groups, cars with manual transmission are more economical. The error bars qualify this statement: there seems to be quite some overlap between the distributions of both categories...
 
-A bar chart with error bars assumes that the variable has a normal distribution. If this is not the case, this type of graph will give a distorted picture of the situation. This is especially true in case of outliers, a skewed distribution or observations that are simply not normally distributed...
+You can also use the other values for the error bars by changing the parameter `fun.data`: 
+
+| `fun.data`       | Description                  | Remarks                 |
+| :---             | :---                         | :---                    |
+| `mean_sdl`       | 1x standard deviation        | `fun.args=list(mult=1)` |
+| `mean_sdl`       | 2x standard deviation        |                         |
+| `mean_se`        | standard error               |                         |
+| `mean_cl_normal` | 95% confidence interval      |                         |
+
+You can try this out yourself in the code below: 
+
+```{r}
+ggplot(data = mpg2, mapping = aes(x = trans_type, y = hwy, 
+                                 fill = trans_type)) +
+  geom_bar(stat = "summary", fun = "mean") +
+  geom_errorbar(stat = "summary", fun.data = "mean_cl_normal",
+                width = .3)
+```
 
 ## Grouped boxplot
 
